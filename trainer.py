@@ -56,7 +56,10 @@ def load_data_and_train(resnet50):
     print('train & val data loaded')
 
     # Train only the fc layer
-    epochs = 5
+    epochs =150
+    patience=10
+    no_improvement_counter=0
+    best_train_loss=float('inf')
     resnet50.train()
     for epoch in range(epochs):
         running_loss = 0.0
@@ -89,7 +92,14 @@ def load_data_and_train(resnet50):
         scheduler.step(avg_val_loss)
 
         print(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}")
-
+        if avg_train_loss < best_train_loss:
+            best_train_loss = avg_train_loss
+            no_improvement_counter=0
+        else:
+            no_improvement_counter+=1
+        if no_improvement_counter>=patience:
+            print(f"early stopping after {patience} epochs with no improvement.")
+            break
     # Save trained model
     _save_model(resnet50)
     print("Training complete!")
