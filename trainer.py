@@ -23,15 +23,15 @@ def load_model():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     resnet50.to(device)
     print('model to deivce')
+    return resnet50
     
-def load_data_and_train():
+def load_data_and_train(resnet50):
 
     # Define loss and optimizer
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(resnet50.fc.parameters(), lr=0.001)
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=2, verbose=True)
-
-
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # Load CIFAR-10 dataset
     transform = transforms.Compose([
         transforms.Resize((224, 224)),  # Resize for ResNet-50
@@ -56,7 +56,10 @@ def load_data_and_train():
     print('train & val data loaded')
 
     # Train only the fc layer
-    epochs = 5
+    epochs =150
+    patience=10
+    no_improvement_counter=0
+    best_train_loss=float('inf')
     resnet50.train()
     for epoch in range(epochs):
         running_loss = 0.0
@@ -89,17 +92,27 @@ def load_data_and_train():
         scheduler.step(avg_val_loss)
 
         print(f"Epoch [{epoch+1}/{epochs}], Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}")
-
+        if avg_train_loss < best_train_loss:
+            best_train_loss = avg_train_loss
+            no_improvement_counter=0
+        else:
+            no_improvement_counter+=1
+        if no_improvement_counter>=patience:
+            print(f"early stopping after {patience} epochs with no improvement.")
+            break
     # Save trained model
     _save_model(resnet50)
     print("Training complete!")
 
 
 
-def test():
+def test(resnet50):
+    transform = transforms.Compose([
+        transforms.Resize((224, 224)),  # Resize for ResNet-50
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])])
     test_dataset = datasets.CIFAR10(root='./data', train=False, transform=transform, download=True)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=16, shuffle=False)
-
     # Perform inference on CIFAR-10 with PoT quantized weights
     correct = 0
     total = 0
@@ -152,6 +165,6 @@ def _save_model(model):
 
 
 if __name__=="__main__":
-    load_model()
-    load_data_and_train()
-    test()
+    model=load_model()
+    load_data_and_train(model)
+    test(model)
