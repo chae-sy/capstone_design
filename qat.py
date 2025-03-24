@@ -31,7 +31,7 @@ class ResNet50Quantized(nn.Module):
 
 # Hyperparameters
 batch_size = 32
-epochs = 30
+epochs = 100
 learning_rate = 0.01
 
 # Load CIFAR-10 dataset
