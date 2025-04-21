@@ -3,7 +3,7 @@ module SPRNN_Top
 (
     input   wire                clk,
     input   wire                rst_n; 
-)
+);
 
 
     mem_A       u_mem_A
