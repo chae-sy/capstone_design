@@ -1,5 +1,5 @@
-//controller
-module controller
+//top
+module SPRNN_Top
 (
     input   wire                clk,
     input   wire                rst_n; 
