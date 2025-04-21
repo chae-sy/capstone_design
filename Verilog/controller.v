@@ -36,6 +36,11 @@ module controller
         .clk                        (clk),
         .rst_n                      (rst_n),
     );
+    controller  u_controller
+    (
+        .clk                        (clk),
+        .rst_n                      (rst_n),
+    );
 
 
 endmodule
