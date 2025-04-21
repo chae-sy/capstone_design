@@ -16,12 +16,12 @@ module SPRNN_Top
         .clk                        (clk),
         .rst_n                      (rst_n),
     );
-    in_buff     u_in_buff
+    in_buf      u_in_buf
     (
         .clk                        (clk),
         .rst_n                      (rst_n),
     );
-    out_buff    u_out_buff
+    out_buf     u_out_buf
     (
         .clk                        (clk),
         .rst_n                      (rst_n),
