@@ -1,5 +1,7 @@
-from prep_data import SubpixelDataset, remap_and_convolve, get_hvs_kernels
+from dataset import SubpixelDataset, remap_and_convolve, get_hvs_kernels
 from model import SPRNN
+import torch
+import torch.nn.functional as F
 
 def compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb):
     Crb, Cg = get_hvs_kernels()

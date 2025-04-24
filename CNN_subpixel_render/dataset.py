@@ -1,5 +1,6 @@
 from torch.utils.data import Dataset
 import torch
+import torch.nn.functional as F
 
 class SubpixelDataset(Dataset):
     def __init__(self, image_list):
@@ -54,3 +55,19 @@ def get_hvs_kernels():
     ], dtype=torch.float32)
 
     return Crb, Cg
+
+def generate_pixel_masks(H, W):
+    Pr = torch.zeros(1, H, W)
+    Pg = torch.zeros(1, H, W)
+    Pb = torch.zeros(1, H, W)
+
+    for i in range(H):
+        for j in range(W):
+            if (i % 4 == 1 and j % 4 == 1) or (i % 4 == 3 and j % 4 == 3):
+                Pr[0, i, j] = 1
+            if i % 2 == 0 and j % 2 == 0:
+                Pg[0, i, j] = 1
+            if (i % 4 == 1 and j % 4 == 3) or (i % 4 == 3 and j % 4 == 1):
+                Pb[0, i, j] = 1
+
+    return Pr, Pg, Pb
