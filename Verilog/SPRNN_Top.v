@@ -6,16 +6,12 @@ module SPRNN_Top
 );
 
 
-    mem_A       u_mem_A
+    mem       u_mem
     (
         .clk                        (clk),
         .rst_n                      (rst_n),
     );
-    mem_B       u_mem_B
-    (
-        .clk                        (clk),
-        .rst_n                      (rst_n),
-    );
+    
     in_buf      u_in_buf
     (
         .clk                        (clk),
