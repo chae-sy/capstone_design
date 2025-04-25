@@ -1,0 +1,10 @@
+# Reading pref.tcl
+# error: Layout::Clairvoyance can't read "map(8)": no such element in array
+# can't read "map(8)": no such element in array
+#     while executing
+# "Layout::Clairvoyance"
+# error stack: INNER
+# invokeStk1 Layout::Clairvoyance
+# CALL
+# GUIMAIN
+# OpenFile C:/Users/LG/OneDrive/8/GitHub/capstone_design/Verilog/controller.v
