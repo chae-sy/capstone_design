@@ -81,7 +81,7 @@ import torchvision.transforms.functional as TF
 import torchvision
 
 class DIV2KDataset(Dataset):
-    def __init__(self, root_dir, transform=None):
+    def __init__(self, root_dir, transform=None, img_size=256):
         """
         Args:
             root_dir (str): Path to DIV2K image folder
@@ -92,7 +92,7 @@ class DIV2KDataset(Dataset):
         self.image_files = sorted([
             f for f in os.listdir(root_dir) if f.endswith(('.png', '.jpg'))
         ])
-
+        self.img_size = img_size
     def __len__(self):
         return len(self.image_files)
 
@@ -104,8 +104,6 @@ class DIV2KDataset(Dataset):
             img = self.transform(img)
         else:
             img = transforms.ToTensor()(img)
-
-        return img
-
-
-
+        #print(img.shape)
+        Pr, Pg, Pb = generate_pixel_masks(self.img_size, self.img_size)
+        return img[0:1], img[1:2], img[2:3], Pr, Pg, Pb

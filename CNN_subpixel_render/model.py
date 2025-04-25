@@ -49,6 +49,10 @@ class SPRNN(nn.Module):
         self.shared_block = SPRNNBlock()
 
     def forward(self, Ir, Ig, Ib, Pr, Pg, Pb):
+        # align the dimension to torch.cat
+        if Ir.dim() == 3: Ir = Ir.unsqueeze(1)
+        if Ig.dim() == 3: Ig = Ig.unsqueeze(1)
+        if Ib.dim() == 3: Ib = Ib.unsqueeze(1)
         # Concatenate input image with pixel layout mask for each color
         Dr = self.shared_block(torch.cat([Ir, Pr], dim=1), 'R')
         Dg = self.shared_block(torch.cat([Ig, Pg], dim=1), 'G')
