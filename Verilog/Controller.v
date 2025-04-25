@@ -11,7 +11,7 @@ module Controller#(
     input               clk,
 
     input               weight_done,
-    input               FE_done,.
+    input               FE_done,
 
     //Weight Memory
     output  reg         [WMEM_BIT_LEN-1:0] wmem_addr_o;
