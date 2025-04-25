@@ -6,7 +6,7 @@ import torch.nn.functional as F
 # Shared CNN block for RGB channels
 # -----------------------------
 class SPRNNBlock(nn.Module):
-    def __init__(self, in_channels=2, mid_channels=256, kernel_size=3):
+    def __init__(self, in_channels=2, mid_channels=16, kernel_size=3):
         super(SPRNNBlock, self).__init__()
         padding = kernel_size // 2
 
