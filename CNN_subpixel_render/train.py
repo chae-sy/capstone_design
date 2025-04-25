@@ -2,6 +2,7 @@ from dataset import SubpixelDataset, remap_and_convolve, get_hvs_kernels
 from model import SPRNN
 import torch
 import torch.nn.functional as F
+from tqdm import tqdm
 
 def compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb):
     Crb, Cg = get_hvs_kernels()
@@ -26,21 +27,30 @@ def train_model(model, train_loader, val_loader, epochs=30, device='cuda'):
 
     for epoch in range(epochs):
         model.train()
-        running_loss = 0
-        for Ir, Ig, Ib, Pr, Pg, Pb in train_loader:
+        running_loss = 0.0
+        print("Train dataset size:", len(train_loader.dataset))
+        print("Train loader length (number of batches):", len(train_loader))
+        loop = tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}", leave=False)
+        for Ir, Ig, Ib, Pr, Pg, Pb in loop:
             Ir, Ig, Ib = Ir.to(device), Ig.to(device), Ib.to(device)
             Pr, Pg, Pb = Pr.to(device), Pg.to(device), Pb.to(device)
 
             optimizer.zero_grad()
             Dr, Dg, Db = model(Ir, Ig, Ib, Pr, Pg, Pb)
+
+            # print("Dr shape:", Dr.shape)
+            # print("Ir shape:", Ir.shape)
+            # print("Pr shape:", Pr.shape)
             loss = compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb)
             loss.backward()
             optimizer.step()
+
             running_loss += loss.item()
+            loop.set_postfix(loss=loss.item())
 
         scheduler.step()
         print(f"Epoch {epoch+1} | Train Loss: {running_loss / len(train_loader):.4f}")
-        
+
         # Validation loss (optional)
         if val_loader is not None:
             validate_model(model, val_loader, device)
@@ -48,15 +58,84 @@ def train_model(model, train_loader, val_loader, epochs=30, device='cuda'):
 def validate_model(model, val_loader, device='cuda'):
     model.eval()
     total_loss = 0
+    total_psnr = 0
+    total_ssim = 0
+    count = 0
+
     with torch.no_grad():
         for Ir, Ig, Ib, Pr, Pg, Pb in val_loader:
             Ir, Ig, Ib = Ir.to(device), Ig.to(device), Ib.to(device)
             Pr, Pg, Pb = Pr.to(device), Pg.to(device), Pb.to(device)
 
+            # Model prediction
             Dr, Dg, Db = model(Ir, Ig, Ib, Pr, Pg, Pb)
+
+            # Compute loss
             loss = compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb)
             total_loss += loss.item()
+
+            # Compute PSNR/SSIM per sample
+            Irgb_gt = merge_rgb(Ir, Ig, Ib)   # (B, 3, H, W)
+            Irgb_pred = merge_rgb(Dr, Dg, Db)
+
+            gt_imgs = tensor_to_numpy(Irgb_gt)
+            pred_imgs = tensor_to_numpy(Irgb_pred)
+
+            for gt, pred in zip(gt_imgs, pred_imgs):
+                psnr = peak_signal_noise_ratio(gt, pred, data_range=1.0)
+                ssim = structural_similarity(gt, pred, multichannel=True, data_range=1.0)
+                total_psnr += psnr
+                total_ssim += ssim
+                count += 1
+
     print(f"Validation Loss: {total_loss / len(val_loader):.4f}")
+    print(f"Average PSNR: {total_psnr / count:.2f} dB")
+    print(f"Average SSIM: {total_ssim / count:.4f}")
 
 
-    
+import numpy as np
+from skimage.metrics import peak_signal_noise_ratio, structural_similarity
+import torch
+
+def calculate_metrics(gt_img, pred_img):
+    # Tensor → NumPy
+    if isinstance(gt_img, torch.Tensor):
+        gt_img = gt_img.detach().cpu().clamp(0, 1).permute(1, 2, 0).numpy()
+    if isinstance(pred_img, torch.Tensor):
+        pred_img = pred_img.detach().cpu().clamp(0, 1).permute(1, 2, 0).numpy()
+
+    # 스케일 자동 보정 (0~1 → 0~255)
+    if gt_img.max() <= 1.0:
+        gt_img = (gt_img * 255).astype(np.uint8)
+        pred_img = (pred_img * 255).astype(np.uint8)
+    else:
+        gt_img = gt_img.astype(np.uint8)
+        pred_img = pred_img.astype(np.uint8)
+
+    # 사이즈 맞추기
+    if gt_img.shape != pred_img.shape:
+        pred_img = cv2.resize(pred_img, (gt_img.shape[1], gt_img.shape[0]), interpolation=cv2.INTER_AREA)
+
+    # PSNR, SSIM
+    psnr = peak_signal_noise_ratio(gt_img, pred_img, data_range=255)
+    ssim = structural_similarity(gt_img, pred_img, channel_axis=-1, data_range=255)
+
+    return psnr, ssim
+
+
+import torch
+import numpy as np
+from skimage.metrics import peak_signal_noise_ratio, structural_similarity
+
+def merge_rgb(R, G, B):
+    # R, G, B are (B, 1, H, W), merge into (B, 3, H, W)
+    return torch.cat([R, G, B], dim=1)
+
+def tensor_to_numpy(img_tensor):
+    # (B, 3, H, W) -> list of numpy images (H, W, 3)
+    img_tensor = img_tensor.detach().cpu().clamp(0, 1)
+    return [img.permute(1, 2, 0).numpy() for img in img_tensor]
+
+
+
+

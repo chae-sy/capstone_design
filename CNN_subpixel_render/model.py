@@ -6,7 +6,7 @@ import torch.nn.functional as F
 # Shared CNN block for RGB channels
 # -----------------------------
 class SPRNNBlock(nn.Module):
-    def __init__(self, in_channels=2, mid_channels=256, kernel_size=3):
+    def __init__(self, in_channels=2, mid_channels=16, kernel_size=3):
         super(SPRNNBlock, self).__init__()
         padding = kernel_size // 2
 
@@ -49,6 +49,10 @@ class SPRNN(nn.Module):
         self.shared_block = SPRNNBlock()
 
     def forward(self, Ir, Ig, Ib, Pr, Pg, Pb):
+        # align the dimension to torch.cat
+        if Ir.dim() == 3: Ir = Ir.unsqueeze(1)
+        if Ig.dim() == 3: Ig = Ig.unsqueeze(1)
+        if Ib.dim() == 3: Ib = Ib.unsqueeze(1)
         # Concatenate input image with pixel layout mask for each color
         Dr = self.shared_block(torch.cat([Ir, Pr], dim=1), 'R')
         Dg = self.shared_block(torch.cat([Ig, Pg], dim=1), 'G')

@@ -71,67 +71,39 @@ def generate_pixel_masks(H, W):
                 Pb[0, i, j] = 1
 
     return Pr, Pg, Pb
-from torch.utils.data import Dataset
-from torchvision import transforms
-from PIL import Image
+
 import os
+import random
+from PIL import Image
+import torch
+from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms.functional as TF
+import torchvision
 
 class DIV2KDataset(Dataset):
-    def __init__(self, hr_dir, transform=None):
+    def __init__(self, root_dir, transform=None, img_size=256):
         """
         Args:
-            hr_dir (string): Directory with high-resolution images.
-            transform (callable, optional): Optional transform to be applied on an image.
+            root_dir (str): Path to DIV2K image folder
+            transform (callable, optional): A torchvision-style transform pipeline
         """
-        self.hr_dir = hr_dir
+        self.root_dir = root_dir
         self.transform = transform
-        self.image_filenames = [f for f in os.listdir(hr_dir) if f.endswith('.png')]
-
+        self.image_files = sorted([
+            f for f in os.listdir(root_dir) if f.endswith(('.png', '.jpg'))
+        ])
+        self.img_size = img_size
     def __len__(self):
-        return len(self.image_filenames)
+        return len(self.image_files)
 
     def __getitem__(self, idx):
-        img_name = os.path.join(self.hr_dir, self.image_filenames[idx])
-        image = Image.open(img_name).convert('RGB')
-        
+        img_path = os.path.join(self.root_dir, self.image_files[idx])
+        img = Image.open(img_path).convert("RGB")
+
         if self.transform:
-            image = self.transform(image)
-        
-        # Generate pixel arrangement maps Pr, Pg, Pb
-        Pr, Pg, Pb = generate_pixel_masks(image.size[1], image.size[0])
-        
-        # Split image into Ir, Ig, Ib
-        Ir, Ig, Ib = image.split()
-        
-        return Ir, Ig, Ib, Pr, Pg, Pb
-
-class SPADataset(Dataset):
-    def __init__(self, spa_dir, transform=None):
-        """
-        Args:
-            spa_dir (string): Directory with SPA images.
-            transform (callable, optional): Optional transform to be applied on an image.
-        """
-        self.spa_dir = spa_dir
-        self.transform = transform
-        self.image_filenames = [f for f in os.listdir(spa_dir) if f.endswith('.png')]
-
-    def __len__(self):
-        return len(self.image_filenames)
-
-    def __getitem__(self, idx):
-        img_name = os.path.join(self.spa_dir, self.image_filenames[idx])
-        image = Image.open(img_name).convert('RGB')
-        
-        if self.transform:
-            image = self.transform(image)
-        
-        # Generate pixel arrangement maps Pr, Pg, Pb
-        Pr, Pg, Pb = generate_pixel_masks(image.size[1], image.size[0])
-        
-        # Split image into Ir, Ig, Ib
-        Ir, Ig, Ib = image.split()
-        
-        return Ir, Ig, Ib, Pr, Pg, Pb
-
-
+            img = self.transform(img)
+        else:
+            img = transforms.ToTensor()(img)
+        #print(img.shape)
+        Pr, Pg, Pb = generate_pixel_masks(self.img_size, self.img_size)
+        return img[0:1], img[1:2], img[2:3], Pr, Pg, Pb
