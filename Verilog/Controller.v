@@ -249,7 +249,7 @@ module Controller#(
             else begin
                 memA_wenb       = 0;
             end
-            else if (state != S_Layer5) begin
+            if (state != S_Layer5) begin
                 relu_en         = 1;
             end
         end
@@ -272,6 +272,9 @@ end
     assign    memB_wenb_o     = memB_wenb;
     assign    memB_cenb_o     = memB_cenb;
         
+    assign    in_buf_en_o     = in_buf_en;
+    assign    in_buf_sel_o    = in_buf_sel;
+    assign    in_buf_rst_o    = in_buf_rst;
     assign    wei_buff_en_o   = wei_buff_en;
     assign    pe_en_o         = pe_en;
     assign    pe_rst_o        = pe_rst;
