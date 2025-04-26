@@ -28,7 +28,7 @@ module tb_in_buf;
         clk = 0; rst = 1; wren = 0; rden = 0;
         #10 rst = 0;
         
-        // Write 동작 : (0,0,0) 위치에 8'hAA 저장장
+        // Write 동작 : (0,0,0) 위치에 8'hAA 저장
         wren = 1;
         wr_data = 8'hAA;
         wr_row = 0; wr_col = 0; wr_chn = 0;
@@ -47,9 +47,8 @@ module tb_in_buf;
 
     // icarus verilog용 덤프파일 설정
     initial begin
-        $dumpfile("input_buffer_tb.vcd");
+        $dumpfile("tb_in_buf.vcd");
         $dumpvars(0, uut);
-        $dumpvars(1, uut.rd_patch);
     end
 
 
