@@ -39,7 +39,7 @@ module tb_w_buf;
     end
 
     initial begin
-        $dumpfile("weight_buffer_tb.vcd");
+        $dumpfile("tb_w_buf.vcd");
         $dumpvars(0, uut);
     end
 

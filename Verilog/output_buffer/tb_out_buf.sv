@@ -44,7 +44,7 @@ module tb_out_buf;
     end
 
     initial begin
-        $dumpfile("output_buffer_tb.vcd");
+        $dumpfile("tb_out_buf.vcd");
         $dumpvars(0, uut);
     end
 
