@@ -13,10 +13,10 @@ module tb_maxpool_2x4_16ch;
   reg                         rstb;
   reg                         valid_in;
   // Input feature‐map stream (signed DATA_WIDTH bits × CH channels)
-  reg  signed [DATA_WIDTH-1:0] in_data [0:CH-1];
+  reg  signed [DATA_WIDTH*CH-1:0] in_data;
   // Outputs from DUT
   wire                        valid_out;
-  wire signed [DATA_WIDTH-1:0] out_data [0:CH-1];
+  wire signed [DATA_WIDTH*CH-1:0] out_data;
 
   // Instantiate the Device Under Test
   maxpool_2x4_16ch #(
@@ -60,7 +60,7 @@ module tb_maxpool_2x4_16ch;
       for (col = 0; col < W_IN; col = col + 1) begin
         // Example pattern: each channel gets (row*W_IN + col) + channel_index
         for (c = 0; c < CH; c = c + 1)
-          in_data[c] = (row * W_IN + col) + c;
+          in_data[c*DATA_WIDTH +: DATA_WIDTH] = (row * W_IN + col) + c;
         valid_in = 1;
         #10;
       end
@@ -83,11 +83,9 @@ module tb_maxpool_2x4_16ch;
       $write("%0t      %b        %b    ", $time, valid_in, valid_out);
       // print all 16 channels
       for (c = 0; c < CH; c = c + 1) begin
-        $write("%0d%s", out_data[c], (c==CH-1) ? "\n" : ",");
+        $write("%0d%s", out_data[c*DATA_WIDTH +: DATA_WIDTH], (c==CH-1) ? "\n" : ",");
       end
     end
   end
 
 endmodule
-
-testbench
