@@ -47,7 +47,7 @@ module tb_in_buf;
 
     // icarus verilog용 덤프파일 설정
     initial begin
-        $dumpfile("input_buffer_tb.vcd");
+        $dumpfile("tb_in_buf.vcd");
         $dumpvars(0, uut);
     end
 
