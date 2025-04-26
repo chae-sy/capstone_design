@@ -9,15 +9,19 @@ module Controller#(
 )(
     input               rst_n,
     input               clk,
-
-    input               weight_done,
-    input               FE_done,
+    input               initial_SRAMw_done,
+    input               initial_weight_done,
+    input               data_map_done,
+    input               layer_done,
+    //input               FE_done,
+    //input               ReLU_done,
+    //input               maxpool_done,
 
     //Weight Memory
-    output  wire        [WMEM_BIT_LEN-1:0] wmem_addr_o;
+    output  wire        [WMEM_BIT_LEN-1:0] wmem_addr_o,
     output  wire        wmem_wenb_o,
     output  wire        wmem_enb_o,
-    /*//Data Memory
+    /*Data Memory
     output  reg         [IM_BIT_LEN-1:0] mem_addr_o,
     output  reg         mem_wenb_o,
     output  reg         mem_enb_o,*/
@@ -29,6 +33,11 @@ module Controller#(
     output  wire [MB_BIT_LEN-1:0] memB_addr_o,
     output  wire        memB_wenb_o,
     output  wire        memB_cenb_o,
+
+    //Input Buffer
+    output  wire [31:0] in_buf_en_o,
+    output  wire        in_buf_sel_o,
+    output  wire        in_buf_rst_o,
 
     //Weight Buffer
     output  wire        wei_buff_en_o,
@@ -49,18 +58,21 @@ module Controller#(
 
     //output  reg     comp_start_o,
     //output reg rf_sel_o,
-    output  reg [2:0]   layer_state,
-    output  wire        done_o
+    output  wire [2:0]  layer_state,
+    output  wire        done_o,
+    output  wire        layer_done_o,
+    output  reg         data_map_enb
 );
 
     //FSM state
-    localparam      S_IDLE      = 3'd0,
-                    S_SRAM_W    = 3'd1,
-                    S_Layer1    = 3'd2,
-                    S_Layer2    = 3'd3,
-                    S_Layer3    = 3'd4,
-                    S_Layer4    = 3'd5,  
-                    S_Layer5    = 3'd6;
+    localparam      S_IDLE          = 3'd0,
+                    S_SRAM_W        = 3'd1,
+                    S_Layer1        = 3'd2,
+                    S_Layer2        = 3'd3,
+                    S_Layer3        = 3'd4,
+                    S_Layer4        = 3'd5,  
+                    S_Layer5        = 3'd6,
+                    S_data_mapping  = 3'd7;
 
     reg     [2:0]           state,      state_n;
     reg     [2:0]           layer_num,  layer_num_n;
@@ -85,29 +97,34 @@ module Controller#(
 
     // Layer Wire
     //wire    [MEM_BIT_LEN-1:0]   dmem_addr;
-    wire    [MA_BIT_LEN-1:0]    memA_addr;
-    wire    [MB_BIT_LEN-1:0]    memB_addr;
-    wire    [WMEM_BIT_LEN-1:0]  wmem_addr;
+    reg    [MA_BIT_LEN-1:0]    memA_addr;
+    reg    [MB_BIT_LEN-1:0]    memB_addr;
+    reg    [WMEM_BIT_LEN-1:0]  wmem_addr;
     /*wire                        dmem_enb;
     wire                        dmem_wenb;*/
-    wire                        memA_cenb;
-    wire                        memA_wenb;
-    wire                        memB_cenb;
-    wire                        memB_wenb;
-    wire                        wmem_enb;
-    wire                        wmem_wenb;
-    wire                        pe_rst;
-    wire                        pe_en;
-    wire                        wei_buff_en;
-    wire                        out_buf_rst;
-    wire    [31:0]              out_buf_en;
-    wire                        out_buf_sel;
-    wire                        relu_en;
-    wire                        done;
-    wire                        layer_done_o;
+    reg                        memA_cenb;
+    reg                        memA_wenb;
+    reg                        memB_cenb;
+    reg                        memB_wenb;
+    reg                        wmem_enb;
+    reg                        wmem_wenb;
+    reg                        pe_rst;
+    reg                        pe_en;
+    reg                        wei_buff_en;
+    reg                        in_buf_en;
+    reg                        in_buf_rst;
+    reg                        in_buf_sel;
+    reg                        out_buf_rst;
+    reg    [31:0]              out_buf_en;
+    reg                        out_buf_sel;
+    reg                        relu_en;
+    reg                        pool_sel;
     
-    wire    [31:0]              line_cnt;
-    wire    [2:0]               layer_num;
+    reg                        done;
+    //reg                        layer_done;
+    
+    reg    [31:0]              line_cnt;
+
 
 
 
@@ -123,52 +140,125 @@ module Controller#(
     end
 
     always @(*) begin
-        state_n             = state;
-        layer_num_n         = layer_num;
-
+        state_n                         = state;
+        layer_num_n                     = layer_num;
+        data_map_enb                    = 1;
         case(state)
             S_IDLE: begin
-                state_n             = S_Layer1;
-                layer_num_n         = 3'd1;
+                state_n                 = S_SRAM_W;
+                layer_num_n             = 3'd0;
             end
             S_SRAM_W: begin
-
+                if(initial_SRAMw_done & initial_weight_done) begin
+                    state_n             = S_Layer1;
+                    layer_num_n         = 3'd1;
+                end
             end
             S_Layer1: begin
-                if(layer_done_o) begin
+                if(layer_done) begin
                     state_n             = S_Layer2;
                     layer_num_n         = 3'd2;
                 end
             end
             S_Layer2: begin
-                if(layer_done_o) begin
+                if(layer_done) begin
                     state_n             = S_Layer3;
                     layer_num_n         = 3'd3;
                 end
             end
             S_Layer3: begin
-                if(layer_done_o) begin
+                if(layer_done) begin
                     state_n             = S_Layer4;
                     layer_num_n         = 3'd4;
                 end
             end
             S_Layer4: begin
-                if(layer_done_o) begin
+                if(layer_done) begin
                     state_n             = S_Layer5;
                     layer_num_n         = 3'd5;
                 end
             end
             S_Layer5: begin
-                if(layer_done_o) begin
-                    state_n             = S_IDLE;
+                if(layer_done) begin
+                    state_n             = S_data_mapping;
                     layer_num_n         = 3'd0;
-                    done                = 1'b1;
                 end
+            end
+            S_data_mapping: begin
+                data_map_enb            = 0;
+                if(data_map_done) begin
+                    state_n             = S_IDLE;
+                end
+
             end
 
         endcase
 
     end
+
+    always @(*) begin
+    // Default value
+    wmem_addr           = 0;
+    memA_addr           = 0;
+    memB_addr           = 0;
+    
+    wmem_wenb           = 1;
+    wmem_enb            = 1;
+    
+    memA_wenb           = 1;
+    memA_cenb           = 1;
+    memB_wenb           = 1;
+    memB_cenb           = 1;
+
+    wei_buff_en         = 0;
+    in_buf_en           = 0;
+    in_buf_rst          = 0;
+    in_buf_sel          = 0;
+    pe_en               = 0;
+    pe_rst              = 0;
+    relu_en             = 0;
+    out_buf_en          = 0;
+    out_buf_sel         = 0;
+    out_buf_rst         = 0;
+    pool_sel            = 0;
+    done                = 0;
+    
+    case (state)
+        S_IDLE: begin
+
+        end
+        S_SRAM_W: begin
+            wmem_enb            = 0;
+            wmem_wenb           = 0;
+            memA_cenb           = 0;
+            memA_wenb           = 0;
+        end
+        S_Layer1, S_Layer2, S_Layer3, S_Layer4, S_Layer5: begin
+            memA_cenb           = 0;
+            memB_cenb           = 0;
+            pe_en               = 1;
+            wei_buff_en         = 1;
+            in_buf_en           = 1;
+            out_buf_en          = 1;
+            if ((state == S_Layer1) | (state == S_Layer3) | (state == S_Layer5) ) begin
+                memB_wenb       = 0;
+                if (state == S_Layer3) begin
+                    pool_sel    = 1;
+                end
+            end
+            else begin
+                memA_wenb       = 0;
+            end
+            if (state != S_Layer5) begin
+                relu_en         = 1;
+            end
+        end
+        S_data_mapping: begin
+            memB_cenb           = 0;
+            data_map_enb        = 0;
+        end
+    endcase
+end
 
     //state output
     assign    wmem_addr_o     = wmem_addr;
@@ -182,6 +272,9 @@ module Controller#(
     assign    memB_wenb_o     = memB_wenb;
     assign    memB_cenb_o     = memB_cenb;
         
+    assign    in_buf_en_o     = in_buf_en;
+    assign    in_buf_sel_o    = in_buf_sel;
+    assign    in_buf_rst_o    = in_buf_rst;
     assign    wei_buff_en_o   = wei_buff_en;
     assign    pe_en_o         = pe_en;
     assign    pe_rst_o        = pe_rst;
@@ -189,10 +282,11 @@ module Controller#(
     assign    out_buf_en_o    = out_buf_en;
     assign    out_buf_sel_o   = out_buf_sel;
     assign    out_buf_rst_o   = out_buf_rst;
+    assign    layer_done_o    = layer_done;
     assign    pool_sel_o      = pool_sel;
 
     assign    layer_state     = state;
-    assign    done_o          = done;
+    assign    done_o          = (state == S_Layer5) && (layer_done_o);
     /*always @ (*) begin
         wmem_addr_o     = 0;
         wmem_wenb_o     = 1;

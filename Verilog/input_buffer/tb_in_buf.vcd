@@ -1,0 +1,92 @@
+$date
+	Sat Apr 26 21:28:58 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_in_buf $end
+$scope module uut $end
+$var wire 1 ! clk $end
+$var wire 1 " rden $end
+$var wire 1 # rst $end
+$var wire 7 $ start_col [6:0] $end
+$var wire 7 % start_row [6:0] $end
+$var wire 4 & wr_chn [3:0] $end
+$var wire 7 ' wr_col [6:0] $end
+$var wire 8 ( wr_data [7:0] $end
+$var wire 7 ) wr_row [6:0] $end
+$var wire 1 * wren $end
+$var integer 32 + c [31:0] $end
+$var integer 32 , i [31:0] $end
+$var integer 32 - j [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx -
+bx ,
+bx +
+0*
+bx )
+bx (
+bx '
+bx &
+bx %
+bx $
+1#
+0"
+0!
+$end
+#5000
+1!
+#10000
+0!
+b0 &
+b0 '
+b0 )
+b10101010 (
+1*
+0#
+#15000
+1!
+#20000
+0!
+1"
+b0 $
+b0 %
+0*
+#25000
+b10000 +
+b101 -
+b11 ,
+1!
+#30000
+0!
+0"
+#35000
+1!
+#40000
+0!
+#45000
+1!
+#50000
+0!
+#55000
+1!
+#60000
+0!
+#65000
+1!
+#70000
+0!
+#75000
+1!
+#80000
+0!
