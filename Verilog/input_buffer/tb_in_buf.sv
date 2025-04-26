@@ -25,7 +25,7 @@ module tb_in_buf;
     always #5 clk = ~clk;
 
     initial begin
-        clk = 0; rst = 1; wr_en = 0; rd_en = 0;
+        clk = 0; rst = 1; wren = 0; rden = 0;
         #10 rst = 0;
         
         // Write 동작 : (0,0,0) 위치에 8'hAA 저장장
