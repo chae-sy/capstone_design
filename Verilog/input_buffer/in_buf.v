@@ -1,4 +1,4 @@
-module input_buffer (
+module in_buf (
     input clk,
     input rst,
 

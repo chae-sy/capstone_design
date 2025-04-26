@@ -1,4 +1,4 @@
-module output_buffer (
+module out_buf (
     input clk,
     input rst,
 

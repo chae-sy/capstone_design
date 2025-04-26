@@ -1,4 +1,4 @@
-module weight_buffer (
+module w_buf (
     input clk,
     input rst,
     input wren, // write enable 신호
