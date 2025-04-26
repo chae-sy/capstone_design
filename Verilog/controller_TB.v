@@ -26,6 +26,9 @@ module Controller_tb;
     wire [MB_BIT_LEN-1:0] memB_addr_o;
     wire memB_wenb_o;
     wire memB_cenb_o;
+    wire in_buf_en_o;
+    wire in_buf_sel_o;
+    wire in_buf_rst_o;
     wire wei_buff_en_o;
     wire pe_en_o;
     wire pe_rst_o;
@@ -61,6 +64,9 @@ module Controller_tb;
         .memB_addr_o(memB_addr_o),
         .memB_wenb_o(memB_wenb_o),
         .memB_cenb_o(memB_cenb_o),
+        .in_buf_en_o(in_buf_en_o),
+        .in_buf_sel_o(in_buf_sel_o),
+        .in_buf_rst_o(in_buf_rst_o),
         .wei_buff_en_o(wei_buff_en_o),
         .pe_en_o(pe_en_o),
         .pe_rst_o(pe_rst_o),

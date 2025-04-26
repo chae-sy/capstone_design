@@ -34,6 +34,11 @@ module Controller#(
     output  wire        memB_wenb_o,
     output  wire        memB_cenb_o,
 
+    //Input Buffer
+    output  wire [31:0] in_buf_en_o,
+    output  wire        in_buf_sel_o,
+    output  wire        in_buf_rst_o,
+
     //Weight Buffer
     output  wire        wei_buff_en_o,
     
@@ -53,7 +58,7 @@ module Controller#(
 
     //output  reg     comp_start_o,
     //output reg rf_sel_o,
-    output  wire [2:0]   layer_state,
+    output  wire [2:0]  layer_state,
     output  wire        done_o,
     output  wire        layer_done_o,
     output  reg         data_map_enb
@@ -106,6 +111,9 @@ module Controller#(
     reg                        pe_rst;
     reg                        pe_en;
     reg                        wei_buff_en;
+    reg                        in_buf_en;
+    reg                        in_buf_rst;
+    reg                        in_buf_sel;
     reg                        out_buf_rst;
     reg    [31:0]              out_buf_en;
     reg                        out_buf_sel;
@@ -187,53 +195,67 @@ module Controller#(
         endcase
 
     end
-    always @(*) begin
-    // Default 값
-    wmem_addr = 0;
-    memA_addr = 0;
-    memB_addr = 0;
-    
-    wmem_wenb = 0;
-    wmem_enb = 0;
-    
-    memA_wenb = 0;
-    memA_cenb = 1;
-    memB_wenb = 0;
-    memB_cenb = 1;
 
-    wei_buff_en = 0;
-    pe_en = 0;
-    pe_rst = 0;
-    relu_en = 0;
-    out_buf_en = 0;
-    out_buf_sel = 0;
-    out_buf_rst = 0;
-    pool_sel = 0;
-    done = 0;
+    always @(*) begin
+    // Default value
+    wmem_addr           = 0;
+    memA_addr           = 0;
+    memB_addr           = 0;
+    
+    wmem_wenb           = 1;
+    wmem_enb            = 1;
+    
+    memA_wenb           = 1;
+    memA_cenb           = 1;
+    memB_wenb           = 1;
+    memB_cenb           = 1;
+
+    wei_buff_en         = 0;
+    in_buf_en           = 0;
+    in_buf_rst          = 0;
+    in_buf_sel          = 0;
+    pe_en               = 0;
+    pe_rst              = 0;
+    relu_en             = 0;
+    out_buf_en          = 0;
+    out_buf_sel         = 0;
+    out_buf_rst         = 0;
+    pool_sel            = 0;
+    done                = 0;
     
     case (state)
         S_IDLE: begin
-            // 기본 유지
+
         end
         S_SRAM_W: begin
-            wmem_enb = 1;
-            wmem_wenb = 1;
-            memA_cenb = 0;
-            memA_wenb = 1;
+            wmem_enb            = 0;
+            wmem_wenb           = 0;
+            memA_cenb           = 0;
+            memA_wenb           = 0;
         end
         S_Layer1, S_Layer2, S_Layer3, S_Layer4, S_Layer5: begin
-            memA_cenb = 0;
-            memB_cenb = 0;
-            pe_en = 1;
-            wei_buff_en = 1;
-            relu_en = 1;
-            out_buf_en = 32'hFFFFFFFF;
-            if (state == S_Layer3)
-                pool_sel = 1;
+            memA_cenb           = 0;
+            memB_cenb           = 0;
+            pe_en               = 1;
+            wei_buff_en         = 1;
+            in_buf_en           = 1;
+            out_buf_en          = 1;
+            if ((state == S_Layer1) | (state == S_Layer3) | (state == S_Layer5) ) begin
+                memB_wenb       = 0;
+                if (state == S_Layer3) begin
+                    pool_sel    = 1;
+                end
+            end
+            else begin
+                memA_wenb       = 0;
+            end
+            else if (state != S_Layer5) begin
+                relu_en         = 1;
+            end
         end
         S_data_mapping: begin
-            memB_cenb = 0;
-            data_map_enb = 0;
+            memB_cenb           = 0;
+            data_map_enb        = 0;
         end
     endcase
 end
