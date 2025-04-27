@@ -5,6 +5,9 @@ import torch.nn.functional as F
 from tqdm import tqdm
 import numpy as np
 from skimage.metrics import peak_signal_noise_ratio, structural_similarity
+import torch.optim as optim
+import os
+from torch.cuda.amp import autocast, GradScaler
 
 def compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb):
     Crb, Cg = get_hvs_kernels()
@@ -19,43 +22,59 @@ def compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb):
     loss = F.mse_loss(V, I)
     return loss
 
-from torch.utils.data import DataLoader
-import torch.optim as optim
-
-def train_model(model, train_loader, val_loader, epochs=30, device='cuda'):
+def train_model(model, train_loader, val_loader, epochs=30, device='cuda', save_loss_path='train_losses.pt', save_val_loss_path='val_losses.pt'):
     model = model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.3)
+    scaler = GradScaler()
+
+    train_losses = []
+    val_losses = []
 
     for epoch in range(epochs):
+        # if hasattr(train_loader.sampler, "set_epoch"):
+        #     train_loader.sampler.set_epoch(epoch)
+
         model.train()
         running_loss = 0.0
-        print("Train dataset size:", len(train_loader.dataset))
-        print("Train loader length (number of batches):", len(train_loader))
-        loop = tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}", leave=False)
-        for Ir, Ig, Ib, Pr, Pg, Pb in loop:
+        
+        # ✅ tqdm으로 깔끔하게 학습 Progress 표시
+        pbar = tqdm(train_loader, desc=f"Epoch [{epoch+1}/{epochs}]", leave=True, ncols=100)
+        
+        for Ir, Ig, Ib, Pr, Pg, Pb in pbar:
             Ir, Ig, Ib = Ir.to(device), Ig.to(device), Ib.to(device)
             Pr, Pg, Pb = Pr.to(device), Pg.to(device), Pb.to(device)
 
             optimizer.zero_grad()
-            Dr, Dg, Db = model(Ir, Ig, Ib, Pr, Pg, Pb)
+            with autocast():
+                Dr, Dg, Db = model(Ir, Ig, Ib, Pr, Pg, Pb)
 
-            # print("Dr shape:", Dr.shape)
-            # print("Ir shape:", Ir.shape)
-            # print("Pr shape:", Pr.shape)
             loss = compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb)
-            loss.backward()
-            optimizer.step()
-
+            scaler.scale(loss).backward()   # <-- loss.backward() 대신
+            scaler.step(optimizer)          # <-- optimizer.step() 대신
+            scaler.update()                 # <-- scaler 업데이트
             running_loss += loss.item()
-            loop.set_postfix(loss=loss.item())
+
+            # ✅ tqdm bar에 현재 loss 표시
+            pbar.set_postfix(loss=loss.item())
 
         scheduler.step()
-        print(f"Epoch {epoch+1} | Train Loss: {running_loss / len(train_loader):.4f}")
 
-        # Validation loss (optional)
+        epoch_loss = running_loss / len(train_loader)
+        train_losses.append(epoch_loss)
+        print(f"[Epoch {epoch+1}] Train Loss: {epoch_loss:.4f}")
+
+        # Validation
         if val_loader is not None:
-            validate_model(model, val_loader, device)
+            val_loss = validate_model(model, val_loader, device)
+            val_losses.append(val_loss)
+
+    # ✅ 학습 끝나고 train/val loss 저장
+    os.makedirs(os.path.dirname(save_loss_path), exist_ok=True)
+    torch.save(train_losses, save_loss_path)
+    torch.save(val_losses, save_val_loss_path)
+    print(f"✅ Train/Val losses saved to {save_loss_path} / {save_val_loss_path}")
+
 
 
 
