@@ -47,7 +47,7 @@ if __name__ == "__main__":
     print(f"Using device: {device}")
 
     # Settings
-    b_size = 4800
+    b_size = 128
     num_epochs = 30
     image_size = 100
     num_w = 16
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     div2k_test_dir = 'data/DIV2K_test_HR'
 
     # Initialize datasets   
-    train_dataset = DIV2KDataset(root_dir=div2k_train_dir, img_size=image_size, transform=transform)
+    train_dataset = DIV2KDataset(root_dir=div2k_train_dir, img_size=image_size, transform=transforms.ToTensor())
     valid_dataset = DIV2KDataset(root_dir=div2k_valid_dir, img_size=image_size, transform=transform)  # You can change this to no augmentation if needed
     eval_dataset = DIV2KDataset(root_dir=div2k_test_dir, img_size=image_size, transform=transforms.ToTensor())  # Just normalization
 
