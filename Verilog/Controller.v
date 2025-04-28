@@ -245,12 +245,18 @@ module Controller#(
                 if (state == S_Layer3) begin
                     pool_sel    = 1;
                 end
+                else begin
+                    pool_sel    = 0;
+                end
             end
             else begin
                 memA_wenb       = 0;
             end
             if (state != S_Layer5) begin
                 relu_en         = 1;
+            end
+            else begin
+                relu_en         = 0;
             end
         end
         S_data_mapping: begin
