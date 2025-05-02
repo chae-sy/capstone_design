@@ -6,7 +6,7 @@ from train import train_model, evaluate_model
 from dataset import SubpixelDataset, DIV2KDataset
 import torchvision.transforms as transforms
 import random
-
+import time
 # def generate_fake_image_tensor(H, W):
 #     return torch.rand(1, H, W)
 
@@ -34,7 +34,7 @@ def save_model(model):
 if __name__ == "__main__":
     # Settings
     b_size = 1
-    num_epochs = 30
+    num_epochs = 100
     image_size = 100
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -46,6 +46,10 @@ if __name__ == "__main__":
         transforms.ToTensor(),
     ])
 
+    eval_transform = transforms.Compose([
+        transforms.RandomCrop((image_size, image_size)),
+        transforms.ToTensor()
+        ])
     # Paths to datasets
     div2k_train_dir = 'data/DIV2K_train_HR'
     div2k_valid_dir = 'data/DIV2K_valid_HR'
@@ -54,7 +58,7 @@ if __name__ == "__main__":
     # Initialize datasets   
     train_dataset = DIV2KDataset(root_dir=div2k_train_dir, img_size=image_size, transform=transform)
     valid_dataset = DIV2KDataset(root_dir=div2k_valid_dir, img_size=image_size, transform=transform)  # You can change this to no augmentation if needed
-    eval_dataset = DIV2KDataset(root_dir=div2k_test_dir, img_size=image_size, transform=transforms.ToTensor())  # Just normalization
+    eval_dataset = DIV2KDataset(root_dir=div2k_test_dir, img_size=image_size, transform=eval_transform)  # Just normalization
 
     # Initialize dataloaders
     train_loader = DataLoader(SubpixelDataset(train_dataset), batch_size=b_size, shuffle=True, num_workers=4, pin_memory=True)
