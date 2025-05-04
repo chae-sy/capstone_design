@@ -128,7 +128,7 @@ module Controller#(
 
 
 
-    always @(posedge clk or negedge rst_n) begin
+    always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state           <= S_IDLE;   
             layer_num       <= 3'b0;
@@ -139,7 +139,7 @@ module Controller#(
         end
     end
 
-    always @(*) begin
+    always_comb @(*) begin
         state_n                         = state;
         layer_num_n                     = layer_num;
         data_map_enb                    = 1;
@@ -196,7 +196,7 @@ module Controller#(
 
     end
 
-    always @(*) begin
+    always_comb @(*) begin
     // Default value
     wmem_addr           = 0;
     memA_addr           = 0;
