@@ -64,17 +64,35 @@ logic [7:0]  PE_result_n;
 1. input, output port 정리
 2. addr 계산
 3. 신호 사이즈 맞추기
+4. 문제점: buffer read/write 동시에 일어남 (posedge -> read, negaedge -> write ...)
+아니면 data forwarding 방법
+
+<buffer 안에 들어가야함.>
+always_ff @(posedge clk) begin
+  if (wr_en && rd_en && (wr_addr == rd_addr)) begin
+    rd_data_reg <= wr_data;           // forwarding
+  end
+  else if (rd_en) begin
+    rd_data_reg <= mem[rd_addr];      // 일반 읽기
+  end
+
+  if (wr_en)
+    mem[wr_addr] <= wr_data;          // 쓰기
+end
+
+assign rd_data = rd_data_reg;
+
 */
 //////////////////////////////
-
 
 // 1. mem data fetch (mem -> input_buffer, weight_buffer)
 always_ff @( posedge clk ) begin
     if (!rst_n) begin
-      
+        
     end else begin
-       
+
     end
+    
 end
 
 always_comb @(*) begin
@@ -82,15 +100,18 @@ always_comb @(*) begin
         if ((layer_num == 2) | (layer_num == 4)) begin
             // cal addr -> row, col, channel
             memB_addr_n = memB_addr_n + 1;
+            input_wrdata = memB_data;
         end
         else begin
             memA_addr_n = memA_addr_n + 1;
+            input_wrdata = memA_data;
         end
 
         wmem_addr_n = wmem_addr + 1;
     end
-
+    
 end
+
 /* mem
 module SRAM_W32_A64 (  // Data Storage
 	
@@ -133,23 +154,26 @@ module w_buf (
     output reg [7:0] rd_weight [0:2][0:2][0:15] // 읽어낸 3x3x16 weight 데이터
 );*/
 
-// 2. fetch (input/weight_buffer -> PE_array)
+// 2. compute (input/weight_buffer -> PE_array)
+
 always_ff @( posedge clk ) begin
     if (!rst_n) begin
-        input_data <= 0;
-        weight_data <= 0;
+        PE_result <= 0;
     end else begin
-        input_data <= input_data_n;
-        weight_data <= weight_data_n;
+        
+        PE_result <= PE_result_n;
     end
     
 end
 
 always_comb @(*) begin
+    start_row = 0;
+    start_col = 0;
     
-    input_data_n = rd_patch;
-    weight_data_n = rd_weight;
+    
+    PE_result_n = result_out;
 end
+
 
 
 /* PE_array
@@ -162,51 +186,7 @@ module systolic_array_4x4 (
     output [15:0] result_out [0:3][0:3] // Result from each PE
 );*/
 
-// 3. compute (PE_array -> ReLU, bias, maxpool)
-always_ff @( posedge clk ) begin
-    if (!rst_n) begin
-        PE_result <= 0;
-    end else begin
-        PE_result <= PE_result_n;
-    end
-    
-end
-
-always_comb @(*) begin
-    PE_result_n = result_out;
-end
-
-
-/* reLU
-module relu_stream_with_last #(
-  parameter DATA_WIDTH = 8,
-  parameter CH         = 16
-)(
-  input  wire                         clk,
-  input  wire                         rstb,
-  // hand­shake + 프레임 경계 표시
-  input  wire                         valid_in,
-  input  wire                         last_in,
-  input  wire signed [DATA_WIDTH-1:0] in_data [0:CH-1],
-
-  output reg                          valid_out,
-  output reg                          last_out,
-  output reg signed [DATA_WIDTH-1:0]  out_data[0:CH-1]
-);
-*/
-/* maxpool
-module maxPooling(
-    input clk,
-	input [7:0] input1,
-	input [7:0] input2,
-	input [7:0] input3,
-	input [7:0] input4,
-	input enable,
-    output reg signed [7:0] output1,
-	output reg maxPoolingDone
-    );*/
-
-// 4. activate ( -> output_buffer)
+// 3. activate (PE_array -> ReLU, bias, maxpool)
 
 // 1, 2, 3, 4 ReLU exist
 always_ff @( posedge clk ) begin
@@ -226,7 +206,24 @@ always_comb @(*) begin
         ReLU_result_n = 0;
     end
 end
+/* reLU
+module relu_stream_with_last #(
+  parameter DATA_WIDTH = 8,
+  parameter CH         = 16
+)(
+  input  wire                         clk,
+  input  wire                         rstb,
+  // hand­shake + 프레임 경계 표시
+  input  wire                         valid_in,
+  input  wire                         last_in,
+  input  wire signed [DATA_WIDTH-1:0] in_data [0:CH-1],
 
+  output reg                          valid_out,
+  output reg                          last_out,
+  output reg signed [DATA_WIDTH-1:0]  out_data[0:CH-1]
+);
+*/
+// 3.1
 // 3 maxpool exist
 always_ff @( posedge clk ) begin
     if (!rst_n) begin
@@ -246,17 +243,29 @@ always_comb @(*) begin
     end
 end
 
-always_ff @(posedge clk) begin
-    final_output_data <= selected_result;
-end
 
-always_comb begin
+always_comb @(*) begin
     case (layer_num)
-        3: selected_result = maxpool_result;
-        5: selected_result = PE_result;
-        default: selected_result = ReLU_result;
+        3: out_buf_wrdata = maxpool_result;
+        5: out_buf_wrdata = PE_result;
+        default: out_buf_wrdata = ReLU_result;
     endcase
 end
+
+
+/* maxpool
+module maxPooling(
+    input clk,
+	input [7:0] input1,
+	input [7:0] input2,
+	input [7:0] input3,
+	input [7:0] input4,
+	input enable,
+    output reg signed [7:0] output1,
+	output reg maxPoolingDone
+    );*/
+
+
 
 /* out buffer
 module out_buf (
@@ -278,7 +287,8 @@ module out_buf (
     output reg [7:0] rd_data // 읽은 데이터 출력
 );*/
 
-// 5. write back (out_buff -> mem)
+
+// 4. write back (out_buff -> mem)
 
 always_ff @( posedge clk ) begin
     if (!rst_n) begin
