@@ -34,7 +34,7 @@ def save_model(model):
 if __name__ == "__main__":
     # Settings
     b_size = 1
-    num_epochs = 100
+    num_epochs = 60
     image_size = 100
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -51,7 +51,7 @@ if __name__ == "__main__":
         transforms.ToTensor()
         ])
     # Paths to datasets
-    div2k_train_dir = 'data/DIV2K_train_HR'
+    div2k_train_dir = 'data/DIV2K_train_HR_augmented'
     div2k_valid_dir = 'data/DIV2K_valid_HR'
     div2k_test_dir = 'data/DIV2K_test_HR'
 
