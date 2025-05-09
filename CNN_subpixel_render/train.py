@@ -19,19 +19,35 @@ def compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb):
     loss = F.mse_loss(V, I)
     return loss
 
-from torch.utils.data import DataLoader
+import math
 import torch.optim as optim
 
-def train_model(model, train_loader, val_loader, epochs=30, device='cuda'):
+def train_model(model, train_loader, val_loader=None, epochs=30, device='cuda'):
     model = model.to(device)
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.3)
+    
+    # --- warmup + cosine scheduler 정의 ---
+    warmup_epochs = 5
+    def lr_lambda(current_epoch):
+        if current_epoch < warmup_epochs:
+            # 선형 증가: (1 / warmup_epochs) → (warmup_epochs / warmup_epochs)
+            return float(current_epoch + 1) / float(warmup_epochs)
+        else:
+            # 코사인 애널링: 1→0 사이를 cosine 곡선으로 변화
+            progress = float(current_epoch - warmup_epochs) / float(epochs - warmup_epochs)
+            return 0.5 * (1.0 + math.cos(math.pi * progress))
+    
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
+    # -----------------------------------------
 
     for epoch in range(epochs):
         model.train()
         running_loss = 0.0
-        print("Train dataset size:", len(train_loader.dataset))
-        print("Train loader length (number of batches):", len(train_loader))
+
+        # (옵션) 현재 LR 출력
+        current_lr = optimizer.param_groups[0]['lr']
+        print(f"Epoch {epoch+1}/{epochs} — LR: {current_lr:.2e}")
+        
         loop = tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}", leave=False)
         for Ir, Ig, Ib, Pr, Pg, Pb in loop:
             Ir, Ig, Ib = Ir.to(device), Ig.to(device), Ib.to(device)
@@ -39,21 +55,20 @@ def train_model(model, train_loader, val_loader, epochs=30, device='cuda'):
 
             optimizer.zero_grad()
             Dr, Dg, Db = model(Ir, Ig, Ib, Pr, Pg, Pb)
-
-            # print("Dr shape:", Dr.shape)
-            # print("Ir shape:", Ir.shape)
-            # print("Pr shape:", Pr.shape)
             loss = compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb)
             loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # 그래디언트 클리핑
             optimizer.step()
 
             running_loss += loss.item()
             loop.set_postfix(loss=loss.item())
 
+        # 스케줄러 스텝 (epoch 단위)
         scheduler.step()
-        print(f"Epoch {epoch+1} | Train Loss: {running_loss / len(train_loader):.4f}")
 
-        # Validation loss (optional)
+        avg_train_loss = running_loss / len(train_loader)
+        print(f"Epoch {epoch+1} | Train Loss: {avg_train_loss:.4f}")
+
         if val_loader is not None:
             validate_model(model, val_loader, device)
 
