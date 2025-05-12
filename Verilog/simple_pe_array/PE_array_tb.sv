@@ -1,17 +1,33 @@
 `timescale 1ns / 1ps
 
-module systolic_array_4x4_tb;
+module tb_systolic_array;
+    // parameters match DUT
+    localparam ARRAY_WIDTH   = 3;
+    localparam ARRAY_HEIGHT  = 3;
+    localparam DATA_WIDTH    = 8;
+    localparam COLOR_WIDTH   = 3;
 
-    // Clock & control
-    logic clk, rst, enable;
+    // clock and reset
+    reg clk;
+    reg rst;
+    reg enable;
 
-    // Array inputs & outputs
-    logic [7:0] data_in   [0:3];
-    logic [7:0] weight_in [0:3];
-    logic [15:0] result_out [0:3][0:3];
+    // DUT inputs
+    reg [DATA_WIDTH-1:0] data_in    [0:ARRAY_HEIGHT-1][0:COLOR_WIDTH-1];
+    reg [DATA_WIDTH-1:0] weight_in  [0:ARRAY_WIDTH-1];
 
-    // Instantiate DUT
-    systolic_array_4x4 dut (
+    // DUT outputs
+    wire [2*DATA_WIDTH-1:0] result_out [0:COLOR_WIDTH-1];
+
+    integer i, j, k;
+
+    // DUT instantiation
+    systolic_array #(
+        .ARRAY_WIDTH(ARRAY_WIDTH),
+        .ARRAY_HEIGHT(ARRAY_HEIGHT),
+        .DATA_WIDTH(DATA_WIDTH),
+        .COLOR_WIDTH(COLOR_WIDTH)
+    ) dut (
         .clk(clk),
         .rst(rst),
         .enable(enable),
@@ -20,47 +36,56 @@ module systolic_array_4x4_tb;
         .result_out(result_out)
     );
 
-    // Clock generation
-    always #5 clk = ~clk;
-
+    // clock generation
     initial begin
-        // Init
         clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    // stimulus
+    initial begin
+        // initialize signals
         rst = 1;
         enable = 0;
+        for (j = 0; j < ARRAY_HEIGHT; j = j + 1)
+            for (k = 0; k < COLOR_WIDTH; k = k + 1)
+                data_in[j][k] = 0;
+        for (i = 0; i < ARRAY_WIDTH; i = i + 1)
+            weight_in[i] = 0;
 
-        // Clear inputs
-        foreach (data_in[i])   data_in[i] = 0;
-        foreach (weight_in[i]) weight_in[i] = 0;
-
-        // Reset pulse
-        #12;
+        // hold reset
+        #20;
         rst = 0;
+        #10;
+        rst = 1;
+        #10;
 
-        // Provide test inputs
-        data_in[0] = 8'd1;
-        data_in[1] = 8'd2;
-        data_in[2] = 8'd3;
-        data_in[3] = 8'd4;
+        // apply weights
+        // example: weights = {1,2,3}
+        weight_in[0] = 1;
+        weight_in[1] = 2;
+        weight_in[2] = 3;
 
-        weight_in[0] = 8'd5;
-        weight_in[1] = 8'd6;
-        weight_in[2] = 8'd7;
-        weight_in[3] = 8'd8;
-
+        // apply data waves on rows
         enable = 1;
-
-        // Run for a few cycles
-        #100;
-
-        // Display results
-        $display("===== Systolic Array Output =====");
-        for (int i = 0; i < 4; i++) begin
-            for (int j = 0; j < 4; j++) begin
-                $display("result_out[%0d][%0d] = %0d", i, j, result_out[i][j]);
+        // for each row, send a cycle of color values
+        for (j = 0; j < ARRAY_HEIGHT; j = j + 1) begin
+            for (k = 0; k < COLOR_WIDTH; k = k + 1) begin
+                data_in[j][k] = j*10 + k + 1;  // simple numeric pattern
             end
+            #10; // wait one clock cycle
         end
 
+        // wait for pipeline to flush
+        #((ARRAY_WIDTH + ARRAY_HEIGHT) * 10);
+
+        // display results
+        $display("Results:\n");
+        for (k = 0; k < COLOR_WIDTH; k = k + 1) begin
+            $display("Lane %0d: result_out = %0d", k, result_out[k]);
+        end
+
+        #20;
         $finish;
     end
 
