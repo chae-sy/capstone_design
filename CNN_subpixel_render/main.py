@@ -34,9 +34,10 @@ def save_model(model):
 if __name__ == "__main__":
     # Settings
     b_size = 1
-    num_epochs = 60
+    num_epochs = 100
     image_size = 100
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+    torch.backends.cudnn.benchmark=True
 
     transform = transforms.Compose([
         transforms.RandomCrop((image_size, image_size)),  # Crop to 256x256 patches
@@ -61,7 +62,7 @@ if __name__ == "__main__":
     eval_dataset = DIV2KDataset(root_dir=div2k_test_dir, img_size=image_size, transform=eval_transform)  # Just normalization
 
     # Initialize dataloaders
-    train_loader = DataLoader(SubpixelDataset(train_dataset), batch_size=b_size, shuffle=True, num_workers=4, pin_memory=True)
+    train_loader = DataLoader(SubpixelDataset(train_dataset), batch_size=b_size, shuffle=True, num_workers=4, pin_memory=True, prefetch_factor = 2, persistent_workers=True)
     valid_loader = DataLoader(SubpixelDataset(valid_dataset), batch_size=b_size, shuffle=False, num_workers=4, pin_memory=True)
     eval_loader = DataLoader(SubpixelDataset(eval_dataset), batch_size=b_size, shuffle=False, num_workers=4, pin_memory=True)
 

@@ -43,6 +43,7 @@ def train_model(model, train_loader, val_loader=None, epochs=30, device='cuda'):
     for epoch in range(epochs):
         model.train()
         running_loss = 0.0
+        grad_norms = []
 
         # (옵션) 현재 LR 출력
         current_lr = optimizer.param_groups[0]['lr']
@@ -50,13 +51,22 @@ def train_model(model, train_loader, val_loader=None, epochs=30, device='cuda'):
         
         loop = tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}", leave=False)
         for Ir, Ig, Ib, Pr, Pg, Pb in loop:
-            Ir, Ig, Ib = Ir.to(device), Ig.to(device), Ib.to(device)
-            Pr, Pg, Pb = Pr.to(device), Pg.to(device), Pb.to(device)
+            Ir, Ig, Ib = Ir.to(device, non_blocking=True), Ig.to(device, non_blocking=True), Ib.to(device, non_blocking=True)
+            Pr, Pg, Pb = Pr.to(device, non_blocking=True), Pg.to(device, non_blocking=True), Pb.to(device, non_blocking=True)
 
             optimizer.zero_grad()
             Dr, Dg, Db = model(Ir, Ig, Ib, Pr, Pg, Pb)
             loss = compute_loss(Ir, Ig, Ib, Dr, Dg, Db, Pr, Pg, Pb)
             loss.backward()
+		# --- 그래디언트 노름 계산 ---
+            total_norm = 0.0
+            for p in model.parameters():
+                if p.grad is not None:
+                    param_norm = p.grad.data.norm(2)
+                    total_norm += param_norm.item() ** 2
+            total_norm = total_norm ** 0.5
+            grad_norms.append(total_norm)
+            # --------------------------------
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # 그래디언트 클리핑
             optimizer.step()
 
@@ -67,7 +77,8 @@ def train_model(model, train_loader, val_loader=None, epochs=30, device='cuda'):
         scheduler.step()
 
         avg_train_loss = running_loss / len(train_loader)
-        print(f"Epoch {epoch+1} | Train Loss: {avg_train_loss:.4f}")
+        avg_grad_norm = sum(grad_norms) / len(grad_norms)
+        print(f"Epoch {epoch+1} | Train Loss: {avg_train_loss:.4f} | Avg Grad Norm: {avg_grad_norm:.2f}")
 
         if val_loader is not None:
             validate_model(model, val_loader, device)
