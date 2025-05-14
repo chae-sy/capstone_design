@@ -1,8 +1,7 @@
 `timescale 1ns/1ps
 
 module maxpool#(
-    parameter DATA_WIDTH = 8,
-    parameter DATA_num  = 8
+    parameter DATA_WIDTH = 8
 )(
     input  wire                        clk,
     input  wire                        rst_n,
