@@ -22,8 +22,7 @@ module maxpool_tb;
 
     // Instantiate the DUT
     maxpool #(
-        .DATA_WIDTH(DATA_WIDTH),
-        .DATA_num(DATA_num)
+        .DATA_WIDTH(DATA_WIDTH)
     ) dut (
         .clk(clk),
         .rst_n(rst_n),
