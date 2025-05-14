@@ -1,114 +1,106 @@
 `timescale 1ns/1ps
 
-module maxpool_2x4_16ch_circular #(
+module maxpool#(
     parameter DATA_WIDTH = 8,
-    parameter H_IN       = 100,
-    parameter W_IN       = 100,
-    parameter CH         = 16
+    parameter DATA_num  = 8
 )(
     input  wire                        clk,
-    input  wire                        rstb,
-    input  wire                        valid_in,
-    input  wire signed [DATA_WIDTH-1:0] in_data [0:CH-1],
-    output reg                         valid_out,
-    output reg signed [DATA_WIDTH-1:0] out_data [0:CH-1]
+    input  wire                        rst_n,
+    input  wire                        maxpool_en,
+    input  wire [1:0]                  color, // r=0 (4x2), g=1 (4x1), b=2 (4x2)
+    input  wire signed [DATA_WIDTH-1:0] in_data,
+    output wire                         maxpool_done_o,
+    output wire signed [DATA_WIDTH-1:0] out_data_o
 );
 
-    reg signed [DATA_WIDTH-1:0] linebuf0 [0:CH-1][0:7];
-    reg signed [DATA_WIDTH-1:0] linebuf1 [0:CH-1][0:7];
+    // initial max value (min value) (-128 for signed 8-bit)
+    localparam signed [DATA_WIDTH-1:0] INIT_MAX = -128;
+    reg signed [DATA_WIDTH-1:0] out_data;
+    reg signed [DATA_WIDTH-1:0] max_val, max_val_n;
+    reg signed [1:0] maxpool_done, maxpool_done_n;
 
-    reg row_select;
-    reg [6:0] row_cnt;
-    reg [6:0] col_cnt;
+    reg signed [DATA_WIDTH-1:0] linebuf_rb [0:7];
+    reg signed [DATA_WIDTH-1:0] linebuf_g [0:3];
 
-    reg [2:0] write_ptr;
-    integer c;
+    // pointer
+    reg [3:0] wr_ptr, wr_ptr_n;
+    reg [3:0] cnt, cnt_n;
 
-    function signed [DATA_WIDTH-1:0] max4;
-        input signed [DATA_WIDTH-1:0] a, b, c, d;
-        reg   signed [DATA_WIDTH-1:0] m;
-        begin
-            m = a;
-            if (b > m) m = b;
-            if (c > m) m = c;
-            if (d > m) m = d;
-            max4 = m;
-        end
-    endfunction
 
-    always @(posedge clk or negedge rstb) begin
-        if (!rstb) begin
-            row_cnt    <= 0;
-            col_cnt    <= 0;
-            row_select <= 0;
-            write_ptr  <= 0;
-            valid_out  <= 0;
-        end else if (valid_in) begin
-
-            // 스트림 위치 업데이트
-            if (col_cnt == W_IN-1) begin
-                col_cnt <= 0;
-                row_cnt <= (row_cnt == H_IN-1) ? 0 : row_cnt + 1;
-                row_select <= ~row_select;
-            end else begin
-                col_cnt <= col_cnt + 1;
-            end
-
-            // write_ptr 업데이트
-            write_ptr <= write_ptr + 1;
-
-            // 현재 row buffer에 입력 저장
-            for (c = 0; c < CH; c = c+1) begin
-                if (row_select == 0)
-                    linebuf0[c][write_ptr] <= in_data[c];
-                else
-                    linebuf1[c][write_ptr] <= in_data[c];
-            end
-
-            // pooling 타이밍 체크
-            if (col_cnt[1:0] == 2'b11 && row_cnt[1:0] == 2'b11) begin
-                valid_out <= 1;
-
-                for (c = 0; c < CH; c = c+1) begin
-                    reg signed [DATA_WIDTH-1:0] a0, a1, a2, a3;
-                    reg signed [DATA_WIDTH-1:0] b0, b1, b2, b3;
-                    wire [2:0] idx0 = (write_ptr - 3) & 3'b111;
-                    wire [2:0] idx1 = (write_ptr - 2) & 3'b111;
-                    wire [2:0] idx2 = (write_ptr - 1) & 3'b111;
-                    wire [2:0] idx3 = (write_ptr    ) & 3'b111;
-
-                    if (row_select == 0) begin
-                        a0 = linebuf0[c][idx0];
-                        a1 = linebuf0[c][idx1];
-                        a2 = linebuf0[c][idx2];
-                        a3 = linebuf0[c][idx3];
-
-                        b0 = linebuf1[c][idx0];
-                        b1 = linebuf1[c][idx1];
-                        b2 = linebuf1[c][idx2];
-                        b3 = linebuf1[c][idx3];
-                    end else begin
-                        a0 = linebuf1[c][idx0];
-                        a1 = linebuf1[c][idx1];
-                        a2 = linebuf1[c][idx2];
-                        a3 = linebuf1[c][idx3];
-
-                        b0 = linebuf0[c][idx0];
-                        b1 = linebuf0[c][idx1];
-                        b2 = linebuf0[c][idx2];
-                        b3 = linebuf0[c][idx3];
-                    end
-
-                    out_data[c] <= max4( max4(a0,a1,a2,a3),
-                                         max4(b0,b1,b2,b3),
-                                         0, 0 );
-                end
-            end else begin
-                valid_out <= 0;
-            end
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            wr_ptr       <= 0;
+            cnt          <= 0;
+            maxpool_done <= 0;
+            max_val      <= INIT_MAX;
         end else begin
-            valid_out <= 0;
+            wr_ptr       <= wr_ptr_n;
+            cnt          <= cnt_n;
+            maxpool_done <= maxpool_done_n;
+            max_val      <= max_val_n;
         end
     end
+
+ 
+    always_comb begin
+        wr_ptr_n     = wr_ptr;
+        cnt_n        = cnt;
+        maxpool_done_n  = 0;
+        max_val_n =  max_val;
+        
+        if (maxpool_en) begin
+            if ( color == 'b1) begin // green: (4x1) maxpool
+                linebuf_g[wr_ptr] = in_data;
+                wr_ptr_n = wr_ptr + 1;
+                cnt_n = cnt + 1;
+                if (linebuf_g[wr_ptr] > max_val) begin
+                    max_val_n = linebuf_g[wr_ptr];
+                end
+                else begin
+                    max_val_n = max_val;
+                end
+                if (cnt == 3) begin
+                    out_data = max_val_n;
+                    maxpool_done_n  = 1;
+                    wr_ptr_n = 0;
+                    cnt_n = 0;
+                    max_val_n = INIT_MAX;
+                    for (int i = 0; i < 4; i = i + 1) begin
+                        linebuf_g[i] = INIT_MAX;
+                    end
+                end
+                else begin
+                    maxpool_done_n  = 0;
+                end
+            end
+            else begin // red & blue: (4x2) maxpool
+                linebuf_rb[wr_ptr] = in_data;
+                wr_ptr_n = wr_ptr + 1;
+                cnt_n = cnt + 1;
+                if (linebuf_rb[wr_ptr] > max_val) begin
+                    max_val_n = linebuf_rb[wr_ptr];
+                end
+                else begin
+                    max_val_n = max_val;
+                end
+                if (cnt == 7) begin
+                    out_data = max_val_n;
+                    maxpool_done_n  = 1;
+                    wr_ptr_n = 0;
+                    cnt_n = 0;
+                    max_val_n = INIT_MAX;
+                    for (int i = 0; i < 4; i = i + 1) begin
+                        linebuf_rb[i] = INIT_MAX;
+                    end
+                end
+                else begin
+                    maxpool_done_n  = 0;
+                end
+            end
+        end
+    end
+    
+    assign maxpool_done_o = maxpool_done;
+    assign out_data_o = out_data;
 
 endmodule
