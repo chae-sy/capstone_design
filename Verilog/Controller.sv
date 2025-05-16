@@ -150,6 +150,9 @@ module Controller#(
             end
             S_SRAM_W: begin
                 if(initial_SRAMw_done & initial_weight_done) begin
+                    data_num_n          = 'd10404; // cov1 102*102
+                    channel             = 'd2;
+                    weight_num_n        = 'd16;
                     state_n             = S_Layer1;
                     layer_num_n         = 3'd1;
                 end
