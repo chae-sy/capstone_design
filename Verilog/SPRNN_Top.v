@@ -11,7 +11,14 @@ module SPRNN_Top
         .clk                        (clk),
         .rst_n                      (rst_n),
     );
-    
+    SRAM_W32_A64 u_memA(  // Data Storage
+    	.CLK                        (clk),
+    	input		CEB,
+    	input		WEB,
+    	input	[5:0]	A,
+    	input	[31:0]	D,
+    	output	[31:0]	Q
+    );
     in_buf      u_in_buf
     (
         .clk                        (clk),
