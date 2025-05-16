@@ -143,6 +143,9 @@ module Controller#(
         state_n                         = state;
         layer_num_n                     = layer_num;
         data_map_enb                    = 1;
+        data_num_n                      = 'd10000; //
+        channel                         = 'd16;
+        weight_num_n                    = 'd16;
         case(state)
             S_IDLE: begin
                 state_n                 = S_SRAM_W;
@@ -159,30 +162,45 @@ module Controller#(
             end
             S_Layer1: begin
                 if(layer_done) begin
+                    data_num_n          = 'd10404; // cov2 102*102
+                    channel             = 'd16;
+                    weight_num_n        = 'd16;
                     state_n             = S_Layer2;
                     layer_num_n         = 3'd2;
                 end
             end
             S_Layer2: begin
                 if(layer_done) begin
+                    data_num_n          = 'd10404; // cov3 102*102
+                    channel             = 'd16;
+                    weight_num_n        = 'd16;
                     state_n             = S_Layer3;
                     layer_num_n         = 3'd3;
                 end
             end
             S_Layer3: begin
                 if(layer_done) begin
+                    data_num_n          = 'd10404; // cov4 102*102
+                    channel             = 'd16;
+                    weight_num_n        = 'd16;
                     state_n             = S_Layer4;
                     layer_num_n         = 3'd4;
                 end
             end
             S_Layer4: begin
                 if(layer_done) begin
+                    data_num_n          = 'd10404; // cov5 102*102
+                    channel             = 'd16;
+                    weight_num_n        = 'd1;
                     state_n             = S_Layer5;
                     layer_num_n         = 3'd5;
                 end
             end
             S_Layer5: begin
                 if(layer_done) begin
+                    data_num_n          = 'd10404; // cov1 102*102
+                    channel             = 'd2;
+                    weight_num_n        = 'd16;
                     state_n             = S_data_mapping;
                     layer_num_n         = 3'd0;
                 end
