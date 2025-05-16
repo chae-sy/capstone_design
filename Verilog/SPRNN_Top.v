@@ -11,13 +11,31 @@ module SPRNN_Top
         .clk                        (clk),
         .rst_n                      (rst_n),
     );
-    SRAM_W32_A64 u_memA(  // Data Storage
+    SRAM_W32_A64 u_memA(  // Data Storage A
     	.CLK                        (clk),
-    	input		CEB,
-    	input		WEB,
-    	input	[5:0]	A,
-    	input	[31:0]	D,
-    	output	[31:0]	Q
+        .CEB                        (),
+        .WEB                        (),
+        .A                          (),
+    	.D                          (),
+    	.Q                          (),
+    );
+    
+    SRAM_W32_A64 u_memB(  // Data Storage B
+    	.CLK                        (clk),
+        .CEB                        (),
+        .WEB                        (),
+        .A                          (),
+    	.D                          (),
+    	.Q                          (),
+    );
+    
+    SRAM_W32_A64 u_memW(  // Data Storage weight
+    	.CLK                        (clk),
+        .CEB                        (),
+        .WEB                        (),
+        .A                          (),
+    	.D                          (),
+    	.Q                          (),
     );
     in_buf      u_in_buf
     (
