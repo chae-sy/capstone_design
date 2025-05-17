@@ -1,23 +1,41 @@
-module SRAM_W32_A64 (  // Data Storage
-	
-	input		CLK,
+`timescale 1ns / 1ps
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+//
+// + Progect : COMPASS
+// + DATE    : 2024/7/11/Thu
+// + IP      : BufferPump
+//
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+module memory_w_v0   // Data Storage
+#(
+    parameter addr_width = 10,
+    parameter data_width = 128,
+    parameter wr_delay = 8
+)
+(	input		CLK,
 	input		CEB,
 	input		WEB,
-	input	[5:0]	A,
-	input	[31:0]	D,
-	output	[31:0]	Q
+	input	[addr_width-1:0]	A,
+	input	[data_width-1:0]	D,
+	output	[data_width-1:0]	Q
 );
 
-	reg	[31:0] mem [1919:0];   // originally 32768 entries for 15bit address
-	reg	[31:0] mem_d;
+    reg	[data_width-1:0] mem_W [251:0];
+	reg	[data_width-1:0] mem_d;
+	reg	[addr_width-1:0] temp_A;
 	
-	always @ (*) begin
-		if((!CEB)&(!WEB))	mem[A] = D;	//write
-	end	
-
 	always @ (posedge CLK) begin
-		if((!CEB)&(WEB))	mem_d <= mem[A];//read
-		else			mem_d <= 'hx;	//read
+	   temp_A = A;
+	   if( (!CEB)&(!WEB) ) begin
+	       	mem_W[temp_A] = D;	//write
+	   end
+	   else if( (!CEB)&(WEB) ) begin
+            mem_d <= mem_W[temp_A]; //read
+	   end
+	   else	begin
+	       mem_d <= 'hx;	//read
+	   end
 	end	
 
 	assign 	Q = mem_d;	
