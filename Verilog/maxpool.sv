@@ -1,7 +1,9 @@
 `timescale 1ns/1ps
 
 module maxpool#(
-    parameter DATA_WIDTH = 8
+    parameter DATA_WIDTH = 8,
+    parameter LINEBUF_RED_BLUE_SIZE = 8,
+    parameter LINEBUF_GREEN_SIZE = 4
 )(
     input  wire                        clk,
     input  wire                        rst_n,
@@ -15,11 +17,11 @@ module maxpool#(
     // initial max value (min value) (-128 for signed 8-bit)
     localparam signed [DATA_WIDTH-1:0] INIT_MAX = -128;
     reg signed [DATA_WIDTH-1:0] out_data;
-    reg signed [DATA_WIDTH-1:0] max_val, max_val_n;
-    reg signed [1:0] maxpool_done, maxpool_done_n;
+    reg signed [DATA_WIDTH-1:0] max_val, max_val_n; //max value, next max value
+    reg signed [1:0] maxpool_done, maxpool_done_n; //maxpool done, next maxpool done
 
-    reg signed [DATA_WIDTH-1:0] linebuf_rb [0:7];
-    reg signed [DATA_WIDTH-1:0] linebuf_g [0:3];
+    reg signed [DATA_WIDTH-1:0] linebuf_rb [0:LINEBUF_GREEN_SIZE-1];
+    reg signed [DATA_WIDTH-1:0] linebuf_g [0:LINEBUF_GREEN_SIZE-1];
 
     // pointer
     reg [3:0] wr_ptr, wr_ptr_n;
@@ -58,8 +60,9 @@ module maxpool#(
                 else begin
                     max_val_n = max_val;
                 end
-                if (cnt == 3) begin
+                if (cnt == LINEBUF_GREEN_SIZE-1) begin // maxpool done
                     out_data = max_val_n;
+                    // reset everything
                     maxpool_done_n  = 1;
                     wr_ptr_n = 0;
                     cnt_n = 0;
@@ -82,7 +85,7 @@ module maxpool#(
                 else begin
                     max_val_n = max_val;
                 end
-                if (cnt == 7) begin
+                if (cnt == LINEBUF_RED_BLUE_SIZE-1) begin
                     out_data = max_val_n;
                     maxpool_done_n  = 1;
                     wr_ptr_n = 0;

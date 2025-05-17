@@ -2,7 +2,9 @@
 
 module maxpool#(
     parameter DATA_WIDTH = 8,
-    parameter CHANNELS = 16
+    parameter CHANNELS = 16,
+    parameter LINEBUF_RED_BLUE_SIZE = 8,
+    parameter LINEBUF_GREEN_SIZE = 4
 )(
     input  wire                         clk,
     input  wire                         rst_n,
@@ -18,8 +20,8 @@ module maxpool#(
     reg signed [DATA_WIDTH-1:0] max_val [0:CHANNELS-1];
     reg signed [DATA_WIDTH-1:0] max_val_n [0:CHANNELS-1];
 
-    reg signed [DATA_WIDTH-1:0] linebuf_rb [0:CHANNELS-1][0:7];
-    reg signed [DATA_WIDTH-1:0] linebuf_g  [0:CHANNELS-1][0:3];
+    reg signed [DATA_WIDTH-1:0] linebuf_rb [0:CHANNELS-1][0:LINEBUF_RED_BLUE_SIZE-1];
+    reg signed [DATA_WIDTH-1:0] linebuf_g  [0:CHANNELS-1][0:LINEBUF_GREEN_SIZE-1];
 
     reg [3:0] wr_ptr [0:CHANNELS-1];
     reg [3:0] wr_ptr_n [0:CHANNELS-1];
@@ -78,7 +80,7 @@ module maxpool#(
                     if (linebuf_g[ch][wr_ptr[ch]] > max_val[ch])
                         max_val_n[ch] = linebuf_g[ch][wr_ptr[ch]];
                     
-                    if (cnt[ch] == 3) begin
+                    if (cnt[ch] == LINEBUF_GREEN_SIZE-1) begin
                         out_data[ch] = max_val_n[ch];
                         max_val_n[ch] = INIT_MAX;
                         wr_ptr_n[ch] = 0;
@@ -94,7 +96,7 @@ module maxpool#(
                     if (linebuf_rb[ch][wr_ptr[ch]] > max_val[ch])
                         max_val_n[ch] = linebuf_rb[ch][wr_ptr[ch]];
 
-                    if (cnt[ch] == 7) begin
+                    if (cnt[ch] == LINEBUF_RED_BLUE_SIZE-1) begin
                         out_data[ch] = max_val_n[ch];
                         max_val_n[ch] = INIT_MAX;
                         wr_ptr_n[ch] = 0;
