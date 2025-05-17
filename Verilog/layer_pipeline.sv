@@ -84,33 +84,145 @@ assign rd_data = rd_data_reg;
 
 */
 //////////////////////////////
+localparam      INPUT_HORIZ         = 5;
+localparam      INPUT_VERT          = 3;
+localparam      WEIGHT_HORIZ        = 3;
+localparam      WEIGHT_VERT         = 3;
+localparam      STRIDE_HORIZ        = 3;
+localparam      STRIDE_VERT         = 3;
+localparam      INPUT_BIT_LEN       = 8;
+localparam      WEIGHT_BIT_LEN      = 8;
+localparam      NEXT_WEIGHT_VERT    = 16;
+controller 
+if(layer_done) begin
+    data_num_n          = 'd10404; // cov2 102*102
+    channel             = 'd16;
+    weight_num_n        = 'd16;
+    state_n             = S_Layer2;
+    layer_num_n         = 3'd2;
+end
 
-// 1. mem data fetch (mem -> input_buffer, weight_buffer)
-always_ff @( posedge clk ) begin
-    if (!rst_n) begin
-        
+// 1. mem data fetch (fetch)
+always_ff @( posedge clk or negedge rst_n) begin
+    if (!rst_n && layer_start) begin
+        mem_rd_addr <= 'b0;
+        wmem_addr <= 'b0;
+        cnt1 <= data_num;
+        state <= FIRST;
+        num1 <= 0;
+        num_w <= weight_num;
+        stage2_en <= 0;
     end else begin
-
+        mem_rd_addr <= mem_rd_addr_n;
+        wmem_addr <= wmem_addr_n;
+        cnt1 <= cnt1_n;
+        state <= state_n;
+        num1 <= num1_n;
+        num_w <= num_w;
+        stage2_en <= stage2_en_n;
     end
     
 end
-
+//channel 동시, (input data 전체) * weight 16개
 always_comb @(*) begin
-    if (layer_en) begin
-        if ((layer_num == 2) | (layer_num == 4)) begin
-            // cal addr -> row, col, channel
-            memB_addr_n = memB_addr_n + 1;
-            input_wrdata = memB_data;
-        end
-        else begin
-            memA_addr_n = memA_addr_n + 1;
-            input_wrdata = memA_data;
-        end
+    mem_rd_addr_n = mem_rd_addr;
+    wmem_addr_n = wmem_addr; 
+    cnt1_n = cnt1; 
+    state_n = state;
+    num1_n = num1;
+    stage1_in_valid = 'b0;
+    stage1_weight_valid = 'b0;
+    stage1_done = 0;
+    stage2_en_n = stage2_en;
 
-        wmem_addr_n = wmem_addr + 1;
-    end
-    
+    mem_rd_cenb         = 1;
+    mem_rd_wenb         = 1;
+    wei_buff_wren         = 0;
+    in_buf_wren           = 0;
+    case(state)
+        FIRST: begin
+            stage2_en_n = 'b0;
+            // input data 처리
+            if (num_w != 0) begin // weight 개수
+                if (cnt1 != 0) begin // 한 conv 진행할 때 전체 data 수
+                    mem_rd_cenb = 0;
+                    mem_rd_addr_n = mem_rd_addr + 1;
+                    cnt1_n = cnt1 - 1;
+                    num1_n = num1 + 1;
+                    stage1_in_valid = 'b1;
+                    in_buf_wren           = 1;
+                    if (num1 >= 'd9) begin
+                        wei_buff_wren         = 0;
+                    end
+                    else begin
+                        wmem_addr_n = wmem_addr + 1;
+                        wei_buff_wren         = 1;
+                        stage1_weight_valid = 'b1;
+                    end
+                    if (num1 == 'd14) begin // 몇 cycle 후인지에 따라 그 다음 단계 진행
+                        stage2_en_n = 'b1;
+                        state_n = ELSE;
+                        num1_n = 0;
+                    end
+                    
+                end
+            end
+            else begin
+                stage1_done = 1;
+            end
+        end
+        ELSE: begin
+            stage2_en_n = 'b0;
+            if (cnt1 != 0) begin // 한 conv 진행할 때 전체 data 수
+                mem_rd_cenb = 0;
+                mem_rd_addr_n = mem_rd_addr + 1;
+                cnt1_n = cnt1 - 1;
+                num1_n = num1 + 1;
+                in_buf_wren     = 1;
+                stage1_in_valid = 'b1;
+                if (num1 == 'd4) begin // 몇 cycle 후인지에 따라 그 다음 단계 진행
+                    stage2_en_n = 'b1;
+                    num1_n = 0;
+                end
+            end
+            else begin // 전체 data 다 하면
+                state_n = FIRST;
+                cnt1_n = 0;
+                num1_n = 0;
+                num_w_n = num_w - 1;
+                wmem_addr_n = 0; 
+            end
+        end
+    endcase
 end
+always_ff @(posedge clk) begin
+    if (stage1_in_valid) begin
+        stage2_in_input <= stage1_in_output;
+    end
+    if (stage1_weight_valid) begin
+        stage2_weight_input <= stage1_weight_output;
+    end
+end
+    // if ((layer_num == 2) | (layer_num == 4)) begin
+    //     // cal addr -> row, col, channel
+    //     for ( int i = 0; i < WEIGHT_HORIZ*WEIGHT_VERT; i = i+1 ) begin // 3X3
+    //         for ( int j = 0; j < channel; j = j+1) begin // 3x3xchannel 
+    //             mem_rd_addr_n = i;
+    //             mem_rd_ch_n = j;
+                
+    //         end
+    //     end
+    //     for ( int i = 0; i < INPUT_VERT; i = i+1 ) begin // 3
+    //         for ( int j = 0; j < INPUT_HORIZ; j = j+1) begin // 5
+    //             for ( int k = 0; k < channel; k = k+1) begin // channel
+    //                 mem_rd_addr_n = i*j;
+    //                 mem_rd_ch_n = j;
+    //             end
+    //         end
+    //     end
+    //end
+   
+
 
 /* mem
 module SRAM_W32_A64 (  // Data Storage
@@ -119,6 +231,7 @@ module SRAM_W32_A64 (  // Data Storage
 	input		CEB,
 	input		WEB,
 	input	[5:0]	A,
+    input   [4:0]   ch,
 	input	[31:0]	D,
 	output	[31:0]	Q
 );*/ 
@@ -154,58 +267,62 @@ module w_buf (
     output reg [7:0] rd_weight [0:2][0:2][0:15] // 읽어낸 3x3x16 weight 데이터
 );*/
 
-// 2. compute (input/weight_buffer -> PE_array)
+// 2. compute (PE_array )
 
-always_ff @( posedge clk ) begin
-    if (!rst_n) begin
-        PE_result <= 0;
+
+always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n | layer_start) begin
+        stage3_in_input <= 0;
+        stage3_en <= 0;
+        stage2_done <= 0;
     end else begin
-        
-        PE_result <= PE_result_n;
+        if (stage2_valid) begin
+            stage3_in_input <= stage2_in_output;
+        end
+        stage3_en <= stage3_en_n;
     end
-    
+    if (PE_done) stage2_done <= stage1_done;
 end
-
 always_comb @(*) begin
-    start_row = 0;
-    start_col = 0;
-    
-    
-    PE_result_n = result_out;
+    pe_en       = 0;
+    stage2_valid = 0;
+    wei_buff_rden         = 0;
+    in_buf_rden           = 0;
+    cnt2_n = cnt2;
+    stage3_en_n = stage3_en;
+    if (stage2_en) begin
+        wei_buff_rden         = 1;
+        in_buf_rden           = 1;
+        pe_en   = 1;
+        pe_data_in = rd_patch[];
+        pe_weight_in = rd_weight;
+        cnt2_n = cnt2 + 1;
+        if (PE_done) begin
+            stage2_valid = 1;
+            stage3_en_n = 1;
+            cnt2_n = 0;
+        end
+        else begin
+            stage3_en_n = 0;
+        end
+    end
 end
 
 
-
-/* PE_array
-module systolic_array_4x4 (
-    input clk,
-    input rst,
-    input [7:0] data_in [0:3],   // Inputs to the first column (one per row)
-    input [7:0] weight_in [0:3], // Inputs to the first row (one per column)
-    input enable,
-    output [15:0] result_out [0:3][0:3] // Result from each PE
+/*
+module systolic_array #(
+    parameter ARRAY_WIDTH  = 3,
+    parameter ARRAY_HEIGHT = 3,
+    parameter DATA_WIDTH   = 8,
+    parameter COLOR_WIDTH  = 3
+)(
+    input  wire                             clk,
+    input  wire                             rstb,
+    input  wire                             enable,
+    input  wire [DATA_WIDTH-1:0]            data_in    [0:ARRAY_HEIGHT-1][0:COLOR_WIDTH-1],
+    input  wire [DATA_WIDTH-1:0]            weight_in  [0:ARRAY_WIDTH-1],
+    output wire [2*DATA_WIDTH-1:0]          result_out [0:COLOR_WIDTH-1]
 );*/
-
-// 3. activate (PE_array -> ReLU, bias, maxpool)
-
-// 1, 2, 3, 4 ReLU exist
-always_ff @( posedge clk ) begin
-    if (!rst_n) begin
-        ReLU_result <= 0;
-    end else begin
-        ReLU_result <= ReLU_result_n;
-    end
-    
-end
-
-always_comb @(*) begin
-    if (layer_num != 5) begin
-        ReLU_result_n = out_data;
-    end
-    else begin
-        ReLU_result_n = 0;
-    end
-end
 /* reLU
 module relu_stream_with_last #(
   parameter DATA_WIDTH = 8,
@@ -223,50 +340,118 @@ module relu_stream_with_last #(
   output reg signed [DATA_WIDTH-1:0]  out_data[0:CH-1]
 );
 */
-// 3.1
-// 3 maxpool exist
-always_ff @( posedge clk ) begin
-    if (!rst_n) begin
-        maxpool_result <= 0;
+// 3. activate (ReLU, bias)
+
+//1, 2, 3, 4 ReLU exist
+
+always_ff @( posedge clk or negedge rst_n) begin
+    if (!rst_n | layer_start) begin
+        stage4_in_input <= 0;
+        stage4_en <= 0;
+        stage4_done <= 0;
     end else begin
-        maxpool_result <= maxpool_result_n;
+        case (layer_num)
+            1, 2, 3, 4: begin
+                if (stage3_valid) begin
+                    stage4_in_input <= stage3_in_output;
+                end
+                if (relu_done) stage3_done <= stage2_done;
+            end
+            default: begin
+               
+            end
+        endcase
+        stage4_en <= stage4_en_n;
     end
-
+    
 end
 
 always_comb @(*) begin
-    if (layer_num == 3) begin
-        maxpool_result_n = output1;
-    end
-    else begin
-        maxpool_result_n = 0;
-    end
-end
-
-
-always_comb @(*) begin
+    relu_en   = 0;
+    stage3_valid = 0;
+    stage4_en_n = stage4_en;
     case (layer_num)
-        3: out_buf_wrdata = maxpool_result;
-        5: out_buf_wrdata = PE_result;
-        default: out_buf_wrdata = ReLU_result;
+        1, 2, 3, 4: begin
+            if (stage3_en) begin
+                relu_en   = 1;
+                stage3_valid = 1;
+                if (relu_done) begin
+                    stage4_en_n = 1;
+                end
+                else begin
+                    stage4_en_n = 0;
+                end
+            end
+        end
+        default: begin
+            stage3_valid = 0;
+            stage4_en_n = 0;
+        end
     endcase
 end
+// 4. maxpool exist
 
+always_ff @( posedge clk or negedge rst_n) begin
+    if (!rst_n | layer_start) begin
+        stage5_in_input <= 0;
+        stage5_en <= 0;
+        stage5_done <= 0;
+    end else begin
+        case (layer_num)
+            3: begin
+                if (stage4_valid) begin
+                    stage5_in_input <= stage4_in_output;
+                end
+                if (maxpool_done) stage4_done <= stage3_done;
+            end
+            default: begin
+               
+            end
+        endcase
+        stage5_en <= stage5_en_n;
+    end
+    
+end
 
-/* maxpool
-module maxPooling(
-    input clk,
-	input [7:0] input1,
-	input [7:0] input2,
-	input [7:0] input3,
-	input [7:0] input4,
-	input enable,
-    output reg signed [7:0] output1,
-	output reg maxPoolingDone
-    );*/
-
-
-
+always_comb @(*) begin
+    maxpool_en   = 0;
+    stage4_valid = 0;
+    stage5_en_n = stage5_en;
+    case (layer_num)
+        3: begin
+            if (stage4_en) begin
+                maxpool_en   = 1;
+                stage4_valid = 1;
+                if (relu_done) begin
+                    stage5_en_n = 1;
+                end
+                else begin
+                    stage5_en_n = 0;
+                end
+            end
+        end
+        default: begin
+            stage4_valid = 0;
+            stage5_en_n = 0;
+        end
+    endcase
+end
+/*
+module maxpool#(
+    parameter DATA_WIDTH = 8,
+    parameter CHANNELS = 16,
+    parameter LINEBUF_RED_BLUE_SIZE = 8,
+    parameter LINEBUF_GREEN_SIZE = 4
+)(
+    input  wire                         clk,
+    input  wire                         rst_n,
+    input  wire                         maxpool_en,
+    input  wire [1:0]                   color, // r=0 (4x2), g=1 (4x1), b=2 (4x2)
+    input  wire signed [DATA_WIDTH-1:0] in_data   [0:CHANNELS-1],
+    output wire                         maxpool_done_o,
+    output wire signed [DATA_WIDTH-1:0] out_data_o[0:CHANNELS-1]
+);
+*/
 /* out buffer
 module out_buf (
     input clk,
@@ -288,26 +473,47 @@ module out_buf (
 );*/
 
 
-// 4. write back (out_buff -> mem)
+// 5. write back (out_buff -> mem)
 
-always_ff @( posedge clk ) begin
-    if (!rst_n) begin
-        PE_result <= 0;
+always_ff @( posedge clk or negedge rst_n) begin
+    if (!rst_n | layer_start) begin
+        mem_wr_addr <= 'b0;
+
     end else begin
-        PE_result <= PE_result_n;
+        mem_wr_addr <= mem_wr_addr_n;
     end
 end
 
 always_comb @(*) begin
-    
-    if ((layer_num == 2) | (layer_num == 4)) begin
-        // cal addr -> row, col, channel
-        // data
-        memA_addr_n = memA_addr_n + 1;
-    end
-    else begin
-        memB_addr_n = memB_addr_n + 1;
-    end
+    mem_wr_cenb = 1;
+    mem_wr_wenb = 1;
+    mem_wr_addr_n = mem_wr_addr;
+    case (layer_num)
+        3: begin
+            if (stage5_en) begin // if channel 당 따로 memory 존재한다면 병렬처리로 인해 output buffer필요없을듯
+                mem_wr_cenb = 0;
+                mem_wr_wenb = 0;
+                mem_wr_addr_n = mem_wr_addr + 1;
+                output = stage5_in_input;
+            end
+        end
+        5: begin
+            if (stage3_en) begin // if channel 당 따로 memory 존재한다면 병렬처리로 인해 output buffer필요없을듯
+                mem_wr_cenb = 0;
+                mem_wr_wenb = 0;
+                mem_wr_addr_n = mem_wr_addr + 1;
+                output = stage3_in_input;
+            end
+        end
+        default: begin 
+            if (stage4_en) begin // if channel 당 따로 memory 존재한다면 병렬처리로 인해 output buffer필요없을듯
+                mem_wr_cenb = 0;
+                mem_wr_wenb = 0;
+                mem_wr_addr_n = mem_wr_addr + 1;
+                output = stage4_in_input;
+            end
+        end
+    endcase
 
 end
 /* mem
