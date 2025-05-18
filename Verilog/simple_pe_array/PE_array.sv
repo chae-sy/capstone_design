@@ -7,11 +7,12 @@ module systolic_array #(
     parameter COLOR_WIDTH  = 3
 )(
     input  wire                             clk,
-    input  wire                             rstb,
-    input  wire                             enable,
+    input  wire                             rst_n,
+    input  wire                             pe_en,
     input  wire [DATA_WIDTH-1:0]            data_in    [0:ARRAY_HEIGHT-1][0:COLOR_WIDTH-1],
     input  wire [DATA_WIDTH-1:0]            weight_in  [0:ARRAY_WIDTH-1],
     output wire [2*DATA_WIDTH-1:0]          result_out [0:COLOR_WIDTH-1]
+    output wire                             pe_done
 );
 
     // Stage 1 registers: shifted data and PE outputs
@@ -26,13 +27,13 @@ module systolic_array #(
 
     integer rr, cc, ll;
     // Stage 1: data shift and PE compute
-    always @(posedge clk or negedge rstb) begin
-        if (!rstb) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
             for (rr = 0; rr < ARRAY_HEIGHT; rr = rr + 1)
                 for (cc = 0; cc < ARRAY_WIDTH; cc = cc + 1)
                     for (ll = 0; ll < COLOR_WIDTH; ll = ll + 1)
                         data_reg[rr][cc][ll] <= {DATA_WIDTH{1'b0}}; //reset
-        end else if (enable) begin
+        end else if (pe_en) begin
             for (rr = 0; rr < ARRAY_HEIGHT; rr = rr + 1) begin
                 // shift right
                 for (cc = ARRAY_WIDTH-1; cc > 0; cc = cc - 1)
@@ -53,8 +54,8 @@ module systolic_array #(
                 for (k = 0; k < COLOR_WIDTH; k = k + 1) begin : LANES
                     PE_with_clock_gating #(.DATA_WIDTH(DATA_WIDTH)) pe_inst (
                         .clk    (clk),
-                        .enable (enable),
-                        .rstb   (rstb),
+                        .pe_en (pe_en),
+                        .rst_n   (rst_n),
                         .data_in(data_reg[j][i][k]),
                         .weight (weight_in[i]),
                         .result (pe_out_stage1[j][i][k])
@@ -65,12 +66,12 @@ module systolic_array #(
     endgenerate
 
     // Stage 2: width reduction pipeline register
-    always @(posedge clk or negedge rstb) begin
-        if (!rstb) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
             for (rr = 0; rr < ARRAY_HEIGHT; rr = rr + 1)
                 for (ll = 0; ll < COLOR_WIDTH; ll = ll + 1)
                     sum_w_stage2[rr][ll] <= {2*DATA_WIDTH{1'b0}};
-        end else if (enable) begin
+        end else if (pe_en) begin
             for (rr = 0; rr < ARRAY_HEIGHT; rr = rr + 1) begin
                 for (ll = 0; ll < COLOR_WIDTH; ll = ll + 1) begin
                     sum_w_stage2[rr][ll] <= pe_out_stage1[rr][0][ll]
@@ -82,11 +83,11 @@ module systolic_array #(
     end
 
     // Stage 3: height reduction pipeline register
-    always @(posedge clk or negedge rstb) begin
-        if (!rstb) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
             for (ll = 0; ll < COLOR_WIDTH; ll = ll + 1)
                 result_reg_stage3[ll] <= {2*DATA_WIDTH{1'b0}};
-        end else if (enable) begin
+        end else if (pe_en) begin
             for (ll = 0; ll < COLOR_WIDTH; ll = ll + 1) begin
                 result_reg_stage3[ll] <= sum_w_stage2[0][ll]
                                        + sum_w_stage2[1][ll]

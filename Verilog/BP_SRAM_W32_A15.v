@@ -9,8 +9,8 @@
 
 module memory_w_v0   // Data Storage
 #(
-    parameter addr_width = 10,
-    parameter data_width = 128,
+    parameter addr_width = 10, // 2^10 = 1024 addresses
+    parameter data_width = 128, // 8bit * 16 words
     parameter wr_delay = 8
 )
 (	input		CLK,

@@ -1,100 +1,65 @@
 `timescale 1ns/1ps
 
-module tb_relu_stream_with_last;
+module tb_bias_relu;
+  // DUT 파라미터(기본값 그대로 사용)
+  parameter NUM_ACCUMULATE   = 9;
+  parameter WIDTH_BITWIDTH   = 8;
+  // WIDTH_IN_DATA = 16 + $clog2(9) = 20
+  parameter WIDTH_IN_DATA    = WIDTH_BITWIDTH * 2 + $clog2(NUM_ACCUMULATE);
+  parameter WIDTH_BIAS       = 32;
+  parameter WIDTH_OUT_DATA   = 8;
 
-  // Parameters must match the DUT
-  localparam DATA_WIDTH = 8;
-  localparam CH         = 16;
+  // 입력/출력 신호 선언
+  reg                   relu_on;
+  reg       [2:0]       layer_state;
+  reg signed [WIDTH_IN_DATA-1:0] data_in;
+  reg signed [WIDTH_BIAS-1:0]    bias;
+  wire      [WIDTH_OUT_DATA-1:0] data_out;
 
-  // Clock & reset
-  reg                         clk;
-  reg                         rstb;
-  // Handshake signals
-  reg                         valid_in;
-  reg                         last_in;
-  // Input data stream
-  reg signed [DATA_WIDTH-1:0] in_data [0:CH-1];
-  // Output from DUT
-  wire                        valid_out;
-  wire                        last_out;
-  wire signed [DATA_WIDTH-1:0] out_data [0:CH-1];
-
-  // Instantiate the DUT
-  relu_stream_with_last #(
-    .DATA_WIDTH(DATA_WIDTH),
-    .CH        (CH)
+  // DUT 인스턴스
+  bias_relu #(
+    .NUM_ACCUMULATE(NUM_ACCUMULATE),
+    .WIDTH_BITWIDTH(WIDTH_BITWIDTH),
+    .WIDTH_IN_DATA (WIDTH_IN_DATA),
+    .WIDTH_BIAS    (WIDTH_BIAS),
+    .WIDTH_OUT_DATA(WIDTH_OUT_DATA)
   ) dut (
-    .clk       (clk),
-    .rstb      (rstb),
-    .valid_in  (valid_in),
-    .last_in   (last_in),
-    .in_data   (in_data),
-    .valid_out (valid_out),
-    .last_out  (last_out),
-    .out_data  (out_data)
+    .relu_on     (relu_on),
+    .layer_state (layer_state),
+    .data_in     (data_in),
+    .bias        (bias),
+    .data_out    (data_out)
   );
 
-  // Clock generation: 100 MHz
+  // 파형 덤프 (GTKWave 등으로 확인할 때)
+  
+
+  // 시간, 레이어, ReLU 모드, 입력, 출력 모니터링
   initial begin
-    clk = 0;
-    forever #5 clk = ~clk;
+    $display("time ns | layer | ReLU |    data_in    | data_out");
+    $monitor("%8t |  %b   |   %b  | %11d |   %3d",
+             $time, layer_state, relu_on, data_in, data_out);
   end
 
-  integer i, idx;
-
-  // Apply reset, then drive test vectors
+  // 테스트 시퀀스
   initial begin
-    // Initialize
-    rstb     = 0;
-    valid_in = 0;
-    last_in  = 0;
-    for (i = 0; i < CH; i = i + 1)
-      in_data[i] = 0;
+    bias = 10;  // bias는 현재 사용되지 않으므로 0으로 고정
 
-    // Hold reset low for 20 ns
-    #20 rstb = 1;
-
-    // short pause
-    #10;
-
-    // Send 10 words of data as one "frame"
-    for (idx = 0; idx < 10; idx = idx + 1) begin
-      valid_in = 1;
-      last_in  = (idx == 9);  // assert last on final word
-      // Create a pattern: even channels negative, odd channels positive
-      for (i = 0; i < CH; i = i + 1) begin
-        if (i % 2 == 0)
-          in_data[i] = -i;       // negative value
-        else
-          in_data[i] =  i;       // positive value
-      end
-      #10;
-    end
-
-    // Deassert valid & last
-    valid_in = 0;
-    last_in  = 0;
-
-    // Wait a bit and finish
-    #50;
-    $finish;
-  end
-
-  // Monitor outputs
-  initial begin
-    $display("=== Testbench: relu_stream_with_last ===");
-    $display("time | valid_in last_in | valid_out last_out | out_data[0] ... out_data[15]");
-  end
-
-  always @(posedge clk) begin
-    if (valid_out) begin
-      $write("%4t |    %b       %b   |     %b        %b   | ",
-              $time, valid_in, last_in, valid_out, last_out);
-      // Print all channels
-      for (i = 0; i < CH; i = i + 1) begin
-        $write("%4d%s", out_data[i], (i == CH-1) ? "\n" : ",");
+    // 레이어별로, ReLU on/off 로 3가지 입력 조합을 시험
+    foreach_test: for (integer ls = 1; ls <= 5; ls = ls + 1) begin
+      layer_state = ls;
+      // ReLU 모드
+      for (integer r = 0; r <= 1; r = r + 1) begin
+        relu_on = r;
+        // 대표 입력값 3가지
+        data_in = 0;         #10;  // zero
+        data_in = 20'sd15;   #10;  // 작은 양수
+        data_in = -20'sd15;  #10;  // 작은 음수
+        // (원한다면 더 큰/작은 값도 추가 테스트)
       end
     end
+
+    #10 $finish;
   end
 
 endmodule
