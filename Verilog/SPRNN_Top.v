@@ -42,7 +42,7 @@ module SPRNN_Top#(
     	.Q(memW_dout)
     );
     
-    register_file u_mem_bias(
+    register_file_single u_mem_bias(
     .clk(clk),
     .rst_n(rst_n),
     .wen(wen_bias),

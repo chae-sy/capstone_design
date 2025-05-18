@@ -4,7 +4,7 @@ module maxpool_16chnl#(
     parameter DATA_WIDTH = 8,
     parameter CHANNELS = 16,
     parameter LINEBUF_RED_BLUE_SIZE = 8,
-    parameter LINEBUF_GREEN_SIZE = 4,
+    parameter LINEBUF_GREEN_SIZE = 4
 )(
     input  wire                         clk,
     input  wire                         rst_n,
