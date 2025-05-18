@@ -13,8 +13,7 @@
 
 module f_buffer_v1 #(
     parameter WIDTH_FSRAM_WL = 128,
-    parameter WIDTH_F_DATA    = 8,
-    parameter WIDTH_W_DATA    = 8,
+    parameter DATA_WIDTH    = 8,
     parameter NUM_CHNL          = 16,
     parameter SIZE_BUFFER_H   = 3, 
     parameter SIZE_BUFFER_W   = 4,
@@ -32,22 +31,22 @@ module f_buffer_v1 #(
     input                                 pad_en, // padding enable
     // pack f_data ports into an array
     input  [WIDTH_FSRAM_WL-1:0]           f_data_in, // from SRAM
-    output reg [WIDTH_F_DATA*NUM_CHNL-1:0]  f_buffer_out
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  f_buffer_out
 );
 
     // buffer storage: [row][pe]
-    reg [WIDTH_F_DATA-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1][0:NUM_CHNL-1];
+    reg [DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1][0:NUM_CHNL-1];
     reg [5:0] counter;
     integer i, k, r;
 
-    // 8ÎπÑÌä∏ÏßúÎ¶¨ 16Í∞ú ÏöîÏÜå Î∞∞Ïó¥ ÏÑ†Ïñ∏ (SystemVerilog Ïä§ÌÉÄÏùº)
-    wire [WIDTH_F_DATA-1:0] f_data [0:NUM_CHNL-1];
+    // 8ÎπÑÌä∏ÏßúÎ¶¨ 16Í∞? ?öî?Üå Î∞∞Ïó¥ ?Ñ†?ñ∏ (SystemVerilog ?ä§???ùº)
+    wire [DATA_WIDTH-1:0] f_data [0:NUM_CHNL-1];
 
-    genvar i;
+    genvar a;
     generate
-    for (i = 0; i < 16; i = i + 1) begin
-        // data_in[8*i +: 8] ÏùÄ data_in[8*i +7 : 8*i] ÏôÄ ÎèôÏùº
-        assign f_data[i] = f_data_in[8*i +: 8];
+    for (a = 0; a < 16; a = a + 1) begin
+        // data_in[8*i +: 8] ?? data_in[8*i +7 : 8*i] ?? ?èô?ùº
+        assign f_data[a] = f_data_in[8*a +: 8];
     end
     endgenerate
 
@@ -58,7 +57,7 @@ module f_buffer_v1 #(
             for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
                 for (i = 0; i < NUM_CHNL; i = i + 1) begin
                     for (k = 0; k < SIZE_BUFFER_W; k = k + 1) begin
-                        buffer_data[r][k][i] <= {WIDTH_F_DATA{1'b0}};
+                        buffer_data[r][k][i] <= {DATA_WIDTH{1'b0}};
                     end
                 end
             end
@@ -70,7 +69,7 @@ module f_buffer_v1 #(
                 counter <= 0;
                 f_buffer_out <= 0;
             end else begin
-                // load new features into the specified row
+                // load new features into the pointer-specified row, column
                 if (buffer_load_f) begin
                     for (i = 0; i < NUM_CHNL; i = i + 1) begin
                         buffer_data[buffer_ptr_h_f][buffer_ptr_w_f][i] <= f_data[i];
@@ -93,13 +92,13 @@ module f_buffer_v1 #(
                     end
                     if (counter < SIZE_BUFFER_H-1) begin
                         for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[counter][SIZE_BUFFER_W-1][i] <= f_data[i];
+                            buffer_data[counter][SIZE_BUFFER_W-1][i] <= f_data[i]; //loading new data 
                         end
                         counter <= counter + 1;
                      end else begin
                       // counter == SIZE_BUFFER_H-1
                       for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[SIZE_BUFFER_H-1][SIZE_BUFFER_W-1][i] <= f_data[i];
+                            buffer_data[SIZE_BUFFER_H-1][SIZE_BUFFER_W-1][i] <= f_data[i]; //loading new data
                         end
                         counter <= 0;
                     end
@@ -108,7 +107,7 @@ module f_buffer_v1 #(
                 if (pad_en) begin // pad 3*1*16
                    for (k = 0; k < SIZE_BUFFER_H; k = k + 1) begin
                         for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[k][buffer_ptr_w_f][i] <= {WIDTH_F_DATA{1'b0}};
+                            buffer_data[k][buffer_ptr_w_f][i] <= {DATA_WIDTH{1'b0}};
                         end
                     end
                 end
@@ -120,14 +119,14 @@ module f_buffer_v1 #(
                             if (counter < SIZE_KERNEL_W*SIZE_KERNEL_H-1) begin
                                 // broadcast one tapped value to all PEs
                                 for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                                    f_buffer_out[(i+1)*WIDTH_F_DATA-1 -: WIDTH_F_DATA] 
+                                    f_buffer_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
                                     <= buffer_data[counter % SIZE_KERNEL_H][counter / SIZE_KERNEL_H][i];
                                 end
                                 counter <= counter + 1;
                             end else begin
                             // counter = SIZE_KERNEL_H * SIZE_KERNEL_H -1
                             for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                                 f_buffer_out[(i+1)*WIDTH_F_DATA-1 -: WIDTH_F_DATA] 
+                                 f_buffer_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
                                     <= buffer_data[(SIZE_KERNEL_W*SIZE_KERNEL_H-1) % SIZE_KERNEL_H]
                                         [(SIZE_KERNEL_W*SIZE_KERNEL_H-1) / SIZE_KERNEL_H]
                                         [i];
@@ -143,14 +142,14 @@ module f_buffer_v1 #(
                         if (counter < SIZE_BUFFER_W-1) begin
                             for (i = 0; i < NUM_CHNL; i = i + 1) begin
                             // broadcast the same tap to all PEs:
-                            f_buffer_out[(i+1)*WIDTH_F_DATA-1 -: WIDTH_F_DATA] 
+                            f_buffer_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
                                 <= buffer_data[0][counter][/* pick your channel, e.g. 0 */0];
                             end
                             counter <= counter + 1;
                         end else begin
                             // last tap at counter == W-1, then wrap
                             for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            f_buffer_out[(i+1)*WIDTH_F_DATA-1 -: WIDTH_F_DATA] 
+                            f_buffer_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
                                 <= buffer_data[0][SIZE_BUFFER_W-1][/* same channel */0];
                             end
                             counter <= 0;

@@ -1,16 +1,16 @@
 `timescale 1ns/1ps
 
-module maxpool#(
+module maxpool_16chnl#(
     parameter DATA_WIDTH = 8,
     parameter CHANNELS = 16,
     parameter LINEBUF_RED_BLUE_SIZE = 8,
-    parameter LINEBUF_GREEN_SIZE = 4
+    parameter LINEBUF_GREEN_SIZE = 4,
 )(
     input  wire                         clk,
     input  wire                         rst_n,
     input  wire                         maxpool_en,
     input  wire [1:0]                   color, // r=0 (4x2), g=1 (4x1), b=2 (4x2)
-    input  wire signed [DATA_WIDTH-1:0] in_data   [0:CHANNELS-1],
+    input  wire signed [CHANNELS*DATA_WIDTH-1:0] in_data_flat, //flatten
     output wire                         maxpool_done_o,
     output wire signed [DATA_WIDTH-1:0] out_data_o[0:CHANNELS-1]
 );
@@ -33,6 +33,14 @@ module maxpool#(
     reg maxpool_done_n;
     reg signed [DATA_WIDTH-1:0] out_data [0:CHANNELS-1];
     reg meaningless;
+
+  genvar a;
+generate
+  for (a = 0; a < CHANNELS; a = a + 1) begin : UNFLATTEN_PE_OUT
+    // flat 버스에서 a번째 슬라이스를 꺼내어 pe_out[a]에 할당
+    assign in_data[a] = in_data_flat[ a*2*WIDTH_IN_DATA +: 2*WIDTH_IN_DATA ];
+  end
+endgenerate
 
     integer ch, i;
 
