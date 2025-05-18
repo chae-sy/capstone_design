@@ -127,21 +127,7 @@ module SPRNN_Top#(
     
 );
 
-    wire b_data =rdata_bias; //b_buffer input
-    wire [DATA_WIDTH*NUM_CHNL-1:0] b_buffer_out; //b_buffer output
-    w_buffer_v1 u_bias_buf
-    ( 
-    .clk(clk),
-    .rst_n(rst_n),
-    .buffer_mode(buffer_mode_b),
-    .buffer_load_w(buffer_load_b),
-    .buffer_ptr_h_w(buffer_ptr_h_b),
-    .buffer_ptr_w_w(buffer_ptr_w_b),
-    .buffer_start(buffer_start_b),
-    .w_data(b_data),
-    .w_buffer_out(b_buffer_out)
-    
-);
+
     wire valid_in[NUM_CHNL-1:0] ;
     wire valid_out[NUM_CHNL-1:0];
     wire [2*DATA_WIDTH-1:0] pe_out [0:NUM_CHNL-1];
@@ -172,11 +158,12 @@ module SPRNN_Top#(
         );
     end
     endgenerate
-    
+
+
     // 1) flat 벡터 선언: NUM_CHNL 개의 2*DATA_WIDTH 비트를 연속으로
 wire [NUM_CHNL*2*DATA_WIDTH-1:0] pe_out_flat;
 
-// 2) unpacked 배열→packed 벡터 매핑
+// 2) unpacked →packed 벡터 매핑
 genvar chnl;
 generate
   for (chnl = 0; chnl < NUM_CHNL; chnl = chnl + 1) begin : FLATTEN_PE_OUT
@@ -184,13 +171,20 @@ generate
     assign pe_out_flat[ chnl*2*DATA_WIDTH +: 2*DATA_WIDTH ] = pe_out[chnl];
   end
 endgenerate
-    
+        
+ adder_tree16_2stage u_adder_tree (
+ .clk(clk),
+ .rst_n(rst_n),
+ .in_bus(pe_out_flat),
+ .sum_out(ad_tr_out)  
+ );
+ 
     bias_relu_16chnl        u_bias_relu
     (
         .relu_on(relu_on),
         .layer_state(layer_state),
-        .data_in_flat(pe_out_flat),
-        .bias(b_buffer_out),
+        .data_in_flat(ad_tr_out),
+        .bias(rdata_bias),
         .data_out(relu_out)
     );
     
