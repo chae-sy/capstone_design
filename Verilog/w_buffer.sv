@@ -22,7 +22,7 @@ module w_buffer_v1
 )
 (
     input                              clk,
-    input                              rstb,
+    input                              rst_n,
     input       [4:0]                  buffer_mode,
     input                              buffer_load_w,
     input       [3:0]                  buffer_loc_w,
@@ -37,8 +37,8 @@ module w_buffer_v1
     integer i, j;
 
     // Sequential logic
-    always @(posedge clk or negedge rstb) begin
-        if (!rstb) begin
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
             counter <= 0;
             // reset all buffer_data entries
             for (i = 0; i < SIZE_KERNEL_H*SIZE_KERNEL_W; i = i + 1) begin
