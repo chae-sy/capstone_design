@@ -39,13 +39,13 @@ module f_buffer_v1 #(
     reg [5:0] counter;
     integer i, k, r;
 
-    // 8ë¹„íŠ¸ì§œë¦¬ 16ê°? ?š”?†Œ ë°°ì—´ ?„ ?–¸ (SystemVerilog ?Š¤???¼)
+    // 8é®ê¾ªë“ƒï§ì’•â” 16åª›ï¿½ ï¿½ìŠ‚ï¿½ëƒ¼ è«›ê³—ë¿´ ï¿½ê½‘ï¿½ë¼µ (SystemVerilog ï¿½ë’ªï¿½ï¿½ï¿½ì”ª)
     wire [DATA_WIDTH-1:0] f_data [0:NUM_CHNL-1];
 
     genvar a;
     generate
     for (a = 0; a < 16; a = a + 1) begin
-        // data_in[8*i +: 8] ?? data_in[8*i +7 : 8*i] ?? ?™?¼
+        // data_in[8*i +: 8] ï¿½ï¿½ data_in[8*i +7 : 8*i] ï¿½ï¿½ ï¿½ë£ï¿½ì”ª
         assign f_data[a] = f_data_in[8*a +: 8];
     end
     endgenerate

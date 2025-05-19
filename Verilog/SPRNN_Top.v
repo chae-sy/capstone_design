@@ -160,14 +160,11 @@ module SPRNN_Top#(
     endgenerate
 
 
-    // 1) flat 벡터 선언: NUM_CHNL 개의 2*DATA_WIDTH 비트를 연속으로
 wire [NUM_CHNL*2*DATA_WIDTH-1:0] pe_out_flat;
 
-// 2) unpacked →packed 벡터 매핑
 genvar chnl;
 generate
   for (chnl = 0; chnl < NUM_CHNL; chnl = chnl + 1) begin : FLATTEN_PE_OUT
-    // ch번째 element를 flat 버스의 해당 비트 슬라이스에 할당
     assign pe_out_flat[ chnl*2*DATA_WIDTH +: 2*DATA_WIDTH ] = pe_out[chnl];
   end
 endgenerate
