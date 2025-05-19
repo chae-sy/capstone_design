@@ -57,14 +57,19 @@ module SPRNN_Top#(
     // we need register file for bias
     // since biases are 32bit (!= weight, input 8bits)
     // and their amount is small, we don't need SRAM
-
+    wire is_A;
+    wire buffer_in_data = is_A ? memA_dout : memB_dout;
+    
     wire [4:0] buffer_mode_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
     wire buffer_load_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
+    
     wire [$clog2(SIZE_BUFFER_H)-1:0] buffer_ptr_h_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
     wire [$clog2(SIZE_BUFFER_W)-1:0] buffer_ptr_w_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
+    
     wire buffer_start_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
     wire shift_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
     wire pad_en_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
+    
     wire [DATA_WIDTH*NUM_CHNL-1:0]  f_buffer_out_red ;
     wire [DATA_WIDTH*NUM_CHNL-1:0] f_buffer_out_green;
     wire [DATA_WIDTH*NUM_CHNL-1:0] f_buffer_out_blue;
@@ -134,8 +139,6 @@ module SPRNN_Top#(
 
     wire valid_in[NUM_CHNL-1:0] ;
     wire valid_out[NUM_CHNL-1:0];
-    wire [2*DATA_WIDTH-1:0] pe_out [0:NUM_CHNL-1][0:NUM_COLOR-1];
-
      // PE array 
     genvar ch;
     generate
