@@ -28,7 +28,7 @@ module f_buffer_v1 #(
     input        [$clog2(SIZE_BUFFER_W)-1:0] buffer_ptr_w_f, // pointer for width
     input                                 buffer_start, // output start
     input                                 shift,
-    input                                 pad_en, // padding enable
+    //input                                 pad_en, // padding enable
     // pack f_data ports into an array
     input  [WIDTH_FSRAM_WL-1:0]           f_data_in, // from SRAM
     output reg [DATA_WIDTH*NUM_CHNL-1:0]  f_buffer_out
@@ -104,13 +104,13 @@ module f_buffer_v1 #(
                     end
                 end
                 
-                if (pad_en) begin // pad 3*1*16
-                   for (k = 0; k < SIZE_BUFFER_H; k = k + 1) begin
-                        for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[k][buffer_ptr_w_f][i] <= {DATA_WIDTH{1'b0}};
-                        end
-                    end
-                end
+                //if (pad_en) begin // pad 3*1*16
+                //   for (k = 0; k < SIZE_BUFFER_H; k = k + 1) begin
+                //        for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                //            buffer_data[k][buffer_ptr_w_f][i] <= {DATA_WIDTH{1'b0}};
+                //        end
+                //    end
+                //end
                 // output based on mode
                 if (buffer_start) begin
                     case (buffer_mode)

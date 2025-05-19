@@ -4,7 +4,10 @@ module SPRNN_Top#(
     parameter NUM_COLOR = 3,
     parameter NUM_CHNL = 16,
     parameter SIZE_BUFFER_H   = 3, 
-    parameter SIZE_BUFFER_W   = 4
+    parameter SIZE_BUFFER_W   = 4,
+    parameter AD_TR_NUM_INPUTS = 16,
+    parameter AD_TR_SUM_WIDTH = DATA_WIDTH + $clog2(AD_TR_NUM_INPUTS),
+    parameter BIAS_WIDTH =32
     
 )(
     input   wire                clk,
@@ -46,9 +49,10 @@ module SPRNN_Top#(
     .clk(clk),
     .rst_n(rst_n),
     .wen(wen_bias),
-    .addr(addr_bias),
-    .wdata(wdata_bias),
-    .rdata(rdata_bias)
+    .addr(write_addr_bias),
+    .wdata(write_data_bias),
+    .addr_flat(read_addr_bias),
+    .rdata_flat(read_data_bias)
     );
     // we need register file for bias
     // since biases are 32bit (!= weight, input 8bits)
@@ -130,7 +134,7 @@ module SPRNN_Top#(
 
     wire valid_in[NUM_CHNL-1:0] ;
     wire valid_out[NUM_CHNL-1:0];
-    wire [2*DATA_WIDTH-1:0] pe_out [0:NUM_CHNL-1];
+    wire [2*DATA_WIDTH-1:0] pe_out [0:NUM_CHNL-1][0:NUM_COLOR-1];
 
      // PE array 
     genvar ch;
@@ -154,35 +158,51 @@ module SPRNN_Top#(
       .weight_in (  w_buffer_out[ ch*DATA_WIDTH +: DATA_WIDTH ]   ),
       .valid_in  ( valid_in [ch]),
       .valid_out ( valid_out[ch]  ),
-      .result_out( pe_out[ch] )
+      .result_out_flat( pe_out_flat[
+                         ch*NUM_COLOR*2*DATA_WIDTH +: NUM_COLOR*2*DATA_WIDTH
+                       ] )
         );
     end
     endgenerate
 
-
-wire [NUM_CHNL*2*DATA_WIDTH-1:0] pe_out_flat;
-
-genvar chnl;
-generate
-  for (chnl = 0; chnl < NUM_CHNL; chnl = chnl + 1) begin : FLATTEN_PE_OUT
-    assign pe_out_flat[ chnl*2*DATA_WIDTH +: 2*DATA_WIDTH ] = pe_out[chnl];
-  end
-endgenerate
         
- adder_tree16_2stage u_adder_tree (
+ adder_tree_nlane_flat u_adder_tree (
  .clk(clk),
  .rst_n(rst_n),
- .in_bus(pe_out_flat),
- .sum_out(ad_tr_out)  
+ .in_flat(pe_out_flat),
+ .sum_flat(ad_tr_out_flat)  
  );
+ wire [NUM_COLOR*AD_TR_SUM_WIDTH-1:0] ad_tr_out_flat; 
+ wire [NUM_COLOR*BIAS_WIDTH-1:0] read_data_bias;
+ wire [DATA_WIDTH-1:0] relu_out_R;
+ wire [DATA_WIDTH-1:0] relu_out_G;
+ wire [DATA_WIDTH-1:0] relu_out_B;
  
-    bias_relu_16chnl        u_bias_relu
+    bias_relu      u_bias_relu_R
     (
         .relu_on(relu_on),
         .layer_state(layer_state),
-        .data_in_flat(ad_tr_out),
-        .bias(rdata_bias),
-        .data_out(relu_out)
+        .data_in_flat(ad_tr_out_flat[0*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
+        .bias(read_data_bias[0*BIAS_WIDTH +: BIAS_WIDTH]),
+        .data_out(relu_out_R)
+    );
+    
+    bias_relu      u_bias_relu_G
+    (
+        .relu_on(relu_on),
+        .layer_state(layer_state),
+        .data_in_flat(ad_tr_out_flat[1*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
+        .bias(read_data_bias[1*BIAS_WIDTH +: BIAS_WIDTH]),
+        .data_out(relu_out_G)
+    );
+    
+    bias_relu      u_bias_relu_B
+    (
+        .relu_on(relu_on),
+        .layer_state(layer_state),
+        .data_in_flat(ad_tr_out_flat[2*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
+        .bias(read_data_bias[2*BIAS_WIDTH +: BIAS_WIDTH]),
+        .data_out(relu_out_B)
     );
     
     maxpool_16chnl u_maxpool (
@@ -197,28 +217,13 @@ endgenerate
     ); 
     
     
-    out_buf     u_out_buf
+    o_buffer_v1     u_out_buf
     (
         .clk                        (clk),
         .rst_n                      (rst_n)
     );
     
-    
-    controller  u_controller
-    (
-        .clk                        (clk),
-        .rst_n                      (rst_n),
-        .buffer_mode_f              (buffer_mode_f),
-        .buffer_load_f              (buffer_load_f),
-        .buffer_ptr_h_f             (buffer_ptr_h_f),
-        .buffer_ptr_w_f             (buffer_ptr_w_f),
-        .buffer_start               (buffer_start_f),
-        .shift                      (shift_f),
-        .pad_en                     (pad_en_f),
-        .valid_in                   (valid_in),
-
-
-    );
+   
 
 
 endmodule

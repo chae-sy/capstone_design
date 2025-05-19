@@ -1,70 +1,65 @@
 `timescale 1ns / 1ps
+
 module mac_pipeline_superscalar #(
-    parameter DATA_WIDTH   = 8,    // data, weight í­
-    parameter CHANNEL_NUM  = 16,   // íŒŒì´í”„ë¼ì¸ ìŠ¤í…Œì´ì§€ ìˆ˜ = ëˆ„ì‚°í•  ì±„ë„ ìˆ˜
-    parameter LANE_NUM     = 3     // superscalar lane ìˆ˜ (ì˜ˆ: R/G/B)
+    parameter DATA_WIDTH   = 8,    // data, weight ?­
+    parameter NUM_STAGE    = 9,   // ?ŒŒ?´?”„?¼?¸ ?Š¤?…Œ?´ì§? ?ˆ˜ = ?ˆ„?‚°?•  ì±„ë„ ?ˆ˜
+    parameter LANE_NUM     = 3     // superscalar lane ?ˆ˜ (?˜ˆ: R/G/B)
 )(
     input  wire                       clk,
     input  wire                       rst_n,
+    // ë§? ?‚¬?´?´ ?•˜?‚˜?”© ?“¤?–´?˜¤?Š” data/weight ?Œ
     input  wire                       valid_in,
-    // superscalar data ì…ë ¥: data_in[0]=R, [1]=G, [2]=B
+    // superscalar data ?…? ¥: data_in[0]=R, [1]=G, [2]=B
     input  wire [DATA_WIDTH-1:0]      data_in   [0:LANE_NUM-1],
-    // weightì€ laneë§ˆë‹¤ ë™ì¼í•˜ê²Œ ê³µìœ 
+    // weight?? laneë§ˆë‹¤ ?™?¼?•˜ê²? ê³µìœ 
     input  wire [DATA_WIDTH-1:0]      weight_in,
+    // MAC ?™„ë£? ?‹œ ?•œ ?‚¬?´?´ ?”œ? ˆ?´?œ valid + ê²°ê³¼ ì¶œë ¥
     output reg                        valid_out,
-    // superscalar ê²°ê³¼ ì¶œë ¥
-    output reg [2*DATA_WIDTH-1:0]     result_out[0:LANE_NUM-1]
+    output reg [LANE_NUM*2*DATA_WIDTH-1:0] result_out_flat
 );
 
-    // íŒŒì´í”„ë¼ì¸ ë ˆì§€ìŠ¤í„°: [stage][lane]
-    reg [2*DATA_WIDTH-1:0] pipe      [0:CHANNEL_NUM-1][0:LANE_NUM-1];
-    reg                    val_pipe  [0:CHANNEL_NUM-1][0:LANE_NUM-1];
-
+    // ?ŒŒ?´?”„?¼?¸ ? ˆì§??Š¤?„°: [stage][lane]
+    reg [2*DATA_WIDTH-1:0] pipe      [0:NUM_STAGE-1][0:LANE_NUM-1];
+    reg                    val_pipe  [0:NUM_STAGE-1];
     integer stage, lane;
+
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             valid_out <= 1'b0;
-            for (stage = 0; stage < CHANNEL_NUM; stage = stage + 1) begin
+            // ?ŒŒ?´?”„?¼?¸ ë°? valid ?‹ ?˜¸ ì´ˆê¸°?™”
+            for (stage = 0; stage < NUM_STAGE; stage = stage + 1) begin
+                val_pipe[stage] <= 1'b0;
                 for (lane = 0; lane < LANE_NUM; lane = lane + 1) begin
-                    pipe[stage][lane]     <= {2*DATA_WIDTH{1'b0}};
-                    val_pipe[stage][lane] <= 1'b0;
+                    pipe[stage][lane] <= {2*DATA_WIDTH{1'b0}};
                 end
             end
         end else begin
-            // Stage 0: ê° lane ë³„ ì²« ê³±ì…ˆ
+            // Stage 0: ?…? ¥ valid ?‹ ?˜¸ ê·¸ë?ë¡? ë°?ê¸?, ê³±ì…ˆ ?ˆ˜?–‰
+            val_pipe[0] <= valid_in;
             for (lane = 0; lane < LANE_NUM; lane = lane + 1) begin
-                if (valid_in) begin
-                    pipe[0][lane]     <= data_in[lane] * weight_in;
-                    val_pipe[0][lane] <= 1'b1;
-                end else begin
-                    pipe[0][lane]     <= {2*DATA_WIDTH{1'b0}};
-                    val_pipe[0][lane] <= 1'b0;
-                end
+                if (valid_in)
+                    pipe[0][lane] <= data_in[lane] * weight_in;
+                else
+                    pipe[0][lane] <= {2*DATA_WIDTH{1'b0}};
             end
 
-            // Stage k>0: ì´ì „ stage ëˆ„ì‚° + ìƒˆë¡œìš´ ê³±ì…ˆ
-            for (stage = 1; stage < CHANNEL_NUM; stage = stage + 1) begin
+            // Stage k>0: ?´? „ valid ?‹ ?˜¸ ë°?ê¸?, ?´? „ ê°? + ?ƒˆë¡œìš´ ê³±ì…ˆ ?ˆ„?‚°
+            for (stage = 1; stage < NUM_STAGE; stage = stage + 1) begin
+                val_pipe[stage] <= val_pipe[stage-1];
                 for (lane = 0; lane < LANE_NUM; lane = lane + 1) begin
-                    if (val_pipe[stage-1][lane]) begin
-                        pipe[stage][lane]     <= pipe[stage-1][lane] 
-                                              + (data_in[lane] * weight_in);
-                        val_pipe[stage][lane] <= 1'b1;
-                    end else begin
-                        pipe[stage][lane]     <= {2*DATA_WIDTH{1'b0}};
-                        val_pipe[stage][lane] <= 1'b0;
-                    end
+                    if (val_pipe[stage-1])
+                        pipe[stage][lane] <= pipe[stage-1][lane] + (data_in[lane] * weight_in);
+                    else
+                        pipe[stage][lane] <= {2*DATA_WIDTH{1'b0}};
                 end
             end
 
-            // Output Register: ë§ˆì§€ë§‰ ìŠ¤í…Œì´ì§€ ê²°ê³¼
-            valid_out <= &{val_pipe[CHANNEL_NUM-1][0],
-                           val_pipe[CHANNEL_NUM-1][1],
-                           val_pipe[CHANNEL_NUM-1][2]}; 
-            // ëª¨ë“  laneì´ ìœ íš¨í•  ë•Œë§Œ valid_out ìƒìŠ¹
-
-            for (lane = 0; lane < LANE_NUM; lane = lane + 1) begin
-                result_out[lane] <= pipe[CHANNEL_NUM-1][lane];
-            end
+            // Output register: ë§ˆì?ë§? ?Š¤?…Œ?´ì§??˜ valid?? ê²°ê³¼
+            valid_out <= val_pipe[NUM_STAGE-1];
+            for (lane = 0; lane < LANE_NUM; lane = lane + 1)
+                result_out_flat[
+        lane*2*DATA_WIDTH +: 2*DATA_WIDTH
+      ] <= pipe[NUM_STAGE-1][lane];
         end
     end
 

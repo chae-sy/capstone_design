@@ -1,63 +1,79 @@
 `timescale 1ns / 1ps
-module adder_tree16_2stage #(
-    parameter DATA_WIDTH  = 8,
-    parameter NUM_INPUTS  = 16,                      // number of inputs (channels)
-    parameter SUM_WIDTH   = DATA_WIDTH + $clog2(NUM_INPUTS)  // bits needed for sum of NUM_INPUTS full-scale values
+module adder_tree_nlane_flat #(
+  parameter DATA_WIDTH = 20,
+  parameter NUM_INPUTS = 16,  // per lane
+  parameter NUM_LANE   = 3,   // number of parallel lanes = NUM_COLOR
+  parameter SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS)
 )(
-    input  wire                          clk,
-    input  wire                          rst_n,
-    // Flattened input bus: NUM_INPUTS of DATA_WIDTH bits
-    input  wire [DATA_WIDTH*NUM_INPUTS-1:0] in_flat,
-    // Registered output: SUM_WIDTH bits
-    output reg  [SUM_WIDTH-1:0]          sum_out
+  input  wire                            clk,
+  input  wire                            rst_n,
+  // [NUM_LANE*NUM_INPUTS*DATA_WIDTH - 1 : 0]
+  input  wire [NUM_LANE*NUM_INPUTS*DATA_WIDTH-1:0] in_flat,
+  // now fully flat output: [NUM_LANE*SUM_WIDTH - 1 : 0]
+  output reg  [NUM_LANE*SUM_WIDTH-1:0]   sum_out_flat
 );
 
-    // Stage 1: group inputs in sets of 4
-    localparam ST1_WIDTH    = DATA_WIDTH + 2;          // max sum of 4 values fits in DATA_WIDTH+2 bits
-    localparam GROUP_SIZE   = 4;
-    localparam NUM_GROUPS   = NUM_INPUTS / GROUP_SIZE; // should equal 4 for 16 inputs
+  // Stage1 parameters
+  localparam GROUP_SIZE = 4;
+  localparam NUM_GROUPS = NUM_INPUTS / GROUP_SIZE;
+  localparam ST1_WIDTH  = DATA_WIDTH + $clog2(GROUP_SIZE);
 
-    // Registers to hold stage1 partial sums
-    reg [ST1_WIDTH-1:0] stage1_reg [0:NUM_GROUPS-1];
+  // Stage1: combinational partial sums [lane][group]
+  wire [ST1_WIDTH-1:0] stage1_comb [0:NUM_LANE-1][0:NUM_GROUPS-1];
+  // Stage1 registers
+  reg  [ST1_WIDTH-1:0] stage1_reg  [0:NUM_LANE-1][0:NUM_GROUPS-1];
 
-    // Combinational partial sums for stage1
-    wire [ST1_WIDTH-1:0] stage1_comb [0:NUM_GROUPS-1];
-    genvar gi;
-    generate
-      for (gi = 0; gi < NUM_GROUPS; gi = gi + 1) begin : GEN_STAGE1
-        assign stage1_comb[gi] = in_flat[(gi*GROUP_SIZE + 0)*DATA_WIDTH +: DATA_WIDTH]
-                              + in_flat[(gi*GROUP_SIZE + 1)*DATA_WIDTH +: DATA_WIDTH]
-                              + in_flat[(gi*GROUP_SIZE + 2)*DATA_WIDTH +: DATA_WIDTH]
-                              + in_flat[(gi*GROUP_SIZE + 3)*DATA_WIDTH +: DATA_WIDTH];
-      end
-    endgenerate
-
-    integer i;
-    // Stage 1 registering
-    always @(posedge clk or negedge rst_n) begin
-      if (!rst_n) begin
-        for (i = 0; i < NUM_GROUPS; i = i + 1)
-          stage1_reg[i] <= {ST1_WIDTH{1'b0}};
-      end else begin
-        for (i = 0; i < NUM_GROUPS; i = i + 1)
-          stage1_reg[i] <= stage1_comb[i];
+  genvar lane, grp;
+  generate
+    for (lane = 0; lane < NUM_LANE; lane = lane + 1) begin : GEN_LANE
+      for (grp = 0; grp < NUM_GROUPS; grp = grp + 1) begin : GEN_STAGE1
+        assign stage1_comb[lane][grp] =
+             in_flat[(lane*NUM_INPUTS + grp*GROUP_SIZE + 0)*DATA_WIDTH +: DATA_WIDTH]
+           + in_flat[(lane*NUM_INPUTS + grp*GROUP_SIZE + 1)*DATA_WIDTH +: DATA_WIDTH]
+           + in_flat[(lane*NUM_INPUTS + grp*GROUP_SIZE + 2)*DATA_WIDTH +: DATA_WIDTH]
+           + in_flat[(lane*NUM_INPUTS + grp*GROUP_SIZE + 3)*DATA_WIDTH +: DATA_WIDTH];
       end
     end
+  endgenerate
 
-    // Stage 2: sum all partial results
-    wire [SUM_WIDTH-1:0] stage2_comb;
-    assign stage2_comb = {SUM_WIDTH{1'b0}}
-                         + stage1_reg[0]
-                         + stage1_reg[1]
-                         + stage1_reg[2]
-                         + stage1_reg[3];
-
-    // Stage 2 registering
-    always @(posedge clk or negedge rst_n) begin
-      if (!rst_n)
-        sum_out <= {SUM_WIDTH{1'b0}};
-      else
-        sum_out <= stage2_comb;
+  integer i, j;
+  // Stage1 register
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      for (i = 0; i < NUM_LANE; i = i + 1)
+        for (j = 0; j < NUM_GROUPS; j = j + 1)
+          stage1_reg[i][j] <= {ST1_WIDTH{1'b0}};
+    end else begin
+      for (i = 0; i < NUM_LANE; i = i + 1)
+        for (j = 0; j < NUM_GROUPS; j = j + 1)
+          stage1_reg[i][j] <= stage1_comb[i][j];
     end
+  end
+
+  // Stage2: sum each lane's groups
+  wire [SUM_WIDTH-1:0] stage2_comb [0:NUM_LANE-1];
+  generate
+    for (lane = 0; lane < NUM_LANE; lane = lane + 1) begin : GEN_STAGE2
+      assign stage2_comb[lane] =
+           {{(SUM_WIDTH-ST1_WIDTH){1'b0}}}
+         + stage1_reg[lane][0]
+         + stage1_reg[lane][1]
+         + stage1_reg[lane][2]
+         + stage1_reg[lane][3];
+    end
+  endgenerate
+
+  // Stage2 register ¡æ flat output
+  always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      sum_out_flat <= {(NUM_LANE*SUM_WIDTH){1'b0}};
+    end else begin
+      for (i = 0; i < NUM_LANE; i = i + 1) begin
+        sum_out_flat[
+          i*SUM_WIDTH +: SUM_WIDTH
+        ] <= stage2_comb[i];
+      end
+    end
+  end
 
 endmodule
