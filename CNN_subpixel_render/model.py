@@ -12,8 +12,11 @@ class SPRNNBlock(nn.Module):
 
         # High-resolution conv layers
         self.conv1 = nn.Conv2d(in_channels, mid_channels, kernel_size, padding=padding)
+        self.bn1 = nn.BatchNorm2d(mid_channels)
         self.conv2 = nn.Conv2d(mid_channels, mid_channels, kernel_size, padding=padding)
+        self.bn2 = nn.BatchNorm2d(mid_channels)
         self.conv3 = nn.Conv2d(mid_channels, mid_channels, kernel_size, padding=padding)
+        self.bn3 = nn.BatchNorm2d(mid_channels)
 
         # MaxPool - stride varies based on color
         self.maxpool_g = nn.MaxPool2d(kernel_size=2, stride=2)
@@ -21,23 +24,25 @@ class SPRNNBlock(nn.Module):
 
         # Low-resolution conv layers
         self.conv4 = nn.Conv2d(mid_channels, mid_channels, kernel_size, padding=padding)
+        self.bn4 = nn.BatchNorm2d(mid_channels)
         self.conv5 = nn.Conv2d(mid_channels, 1, kernel_size, padding=padding)
-
+        self.bn5 = nn.BatchNorm2d(1)
         self.relu = nn.ReLU()
 
     def forward(self, x, color):
-        x = self.relu(self.conv1(x))
-        x = self.relu(self.conv2(x))
-        x = self.relu(self.conv3(x))
+        x = self.relu(self.bn1(self.conv1(x)))
+        x = self.relu(self.bn2(self.conv2(x)))
+        x = self.relu(self.bn3(self.conv3(x)))
 
         if color == 'G':
             x = self.maxpool_g(x)
         else:
             x = self.maxpool_rb(x)
 
-        x = self.relu(self.conv4(x))
-        x = self.conv5(x)
+        x = self.relu(self.bn4(self.conv4(x)))
+        x = self.bn5(self.conv5(x))
         return x
+
 
 
 # -----------------------------

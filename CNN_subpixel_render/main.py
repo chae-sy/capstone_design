@@ -34,15 +34,13 @@ def save_model(model):
 if __name__ == "__main__":
     # Settings
     b_size = 1
-    num_epochs = 100
+    num_epochs = 10
     image_size = 100
     device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
     torch.backends.cudnn.benchmark=True
 
     transform = transforms.Compose([
         transforms.RandomCrop((image_size, image_size)),  # Crop to 256x256 patches
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomVerticalFlip(),
         transforms.Lambda(lambda img: transforms.functional.rotate(img, angle=random.choice([0, 90, 180, 270]))),
         transforms.ToTensor(),
     ])
@@ -73,7 +71,7 @@ if __name__ == "__main__":
     train_model(model, train_loader, valid_loader, epochs=num_epochs, device=device)
 
     # Evaluate
-    evaluate_model(model, eval_loader)
+    evaluate_model(model, eval_loader, device=device)
 
     # Save model
     save_model(model)
