@@ -76,6 +76,7 @@ module Controller#(
 
     reg     [2:0]           state,      state_n;
     reg     [2:0]           layer_num,  layer_num_n;
+    reg                     layer_start,  layer_start_n;
 
     // Weight layer parameter
     localparam              WEI_BIT      = 8; 
@@ -132,20 +133,26 @@ module Controller#(
         if (!rst_n) begin
             state           <= S_IDLE;   
             layer_num       <= 3'b0;
+            layer_start     <= 1'b0;
+            data_num        <= 'd10404;
+            weight_num      <= 'd16
         end
         else begin
             state           <= state_n;
             layer_num       <= layer_num_n;
+            layer_start     <= layer_start_n;
+            data_num        <= data_num_n;
+            weight_num      <= weight_num_n;
         end
     end
 
     always_comb @(*) begin
         state_n                         = state;
         layer_num_n                     = layer_num;
-        data_map_enb                    = 1;
-        data_num_n                      = 'd10000; //
+        data_num_n                      = 'd10404; //
         channel                         = 'd16;
         weight_num_n                    = 'd16;
+        layer_start_n                   = 1'b0;
         case(state)
             S_IDLE: begin
                 state_n                 = S_SRAM_W;
@@ -156,6 +163,7 @@ module Controller#(
                     data_num_n          = 'd10404; // cov1 102*102
                     channel             = 'd2;
                     weight_num_n        = 'd16;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer1;
                     layer_num_n         = 3'd1;
                 end
@@ -165,6 +173,7 @@ module Controller#(
                     data_num_n          = 'd10404; // cov2 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd16;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer2;
                     layer_num_n         = 3'd2;
                 end
@@ -174,6 +183,7 @@ module Controller#(
                     data_num_n          = 'd10404; // cov3 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd16;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer3;
                     layer_num_n         = 3'd3;
                 end
@@ -183,6 +193,7 @@ module Controller#(
                     data_num_n          = 'd10404; // cov4 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd16;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer4;
                     layer_num_n         = 3'd4;
                 end
@@ -192,6 +203,7 @@ module Controller#(
                     data_num_n          = 'd10404; // cov5 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer5;
                     layer_num_n         = 3'd5;
                 end
@@ -201,16 +213,10 @@ module Controller#(
                     data_num_n          = 'd10404; // cov1 102*102
                     channel             = 'd2;
                     weight_num_n        = 'd16;
-                    state_n             = S_data_mapping;
+                    layer_start_n       = 1'b1;
+                    state_n             = S_IDLE;
                     layer_num_n         = 3'd0;
                 end
-            end
-            S_data_mapping: begin
-                data_map_enb            = 0;
-                if(data_map_done) begin
-                    state_n             = S_IDLE;
-                end
-
             end
 
         endcase

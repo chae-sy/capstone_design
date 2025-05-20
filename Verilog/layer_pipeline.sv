@@ -93,7 +93,8 @@ localparam      STRIDE_VERT         = 3;
 localparam      INPUT_BIT_LEN       = 8;
 localparam      WEIGHT_BIT_LEN      = 8;
 localparam      NEXT_WEIGHT_VERT    = 16;
-controller 
+
+/*controller
 if(layer_done) begin
     data_num_n          = 'd10404; // cov2 102*102
     channel             = 'd16;
@@ -101,13 +102,14 @@ if(layer_done) begin
     state_n             = S_Layer2;
     layer_num_n         = 3'd2;
 end
-
+*/
 // 1. mem data fetch (fetch)
 always_ff @( posedge clk or negedge rst_n) begin
     if (!rst_n && layer_start) begin
         mem_rd_addr <= 'b0;
         wmem_addr <= 'b0;
-        cnt1 <= data_num;
+        cnt1_row <= 'd0;
+        cnt1_column <= 'd0;
         state <= FIRST;
         num1 <= 0;
         num_w <= weight_num;
@@ -115,7 +117,8 @@ always_ff @( posedge clk or negedge rst_n) begin
     end else begin
         mem_rd_addr <= mem_rd_addr_n;
         wmem_addr <= wmem_addr_n;
-        cnt1 <= cnt1_n;
+        cnt1_row <= cnt1_row_n;
+        cnt1_column <= cnt1_column_n;
         state <= state_n;
         num1 <= num1_n;
         num_w <= num_w;
@@ -127,7 +130,8 @@ end
 always_comb @(*) begin
     mem_rd_addr_n = mem_rd_addr;
     wmem_addr_n = wmem_addr; 
-    cnt1_n = cnt1; 
+    cnt1_row_n = cnt1_row;
+    cnt1_column_n = cnt1_column;
     state_n = state;
     num1_n = num1;
     stage1_in_valid = 'b0;
@@ -146,25 +150,38 @@ always_comb @(*) begin
             if (num_w != 0) begin // weight 개수
                 if (cnt1 != 0) begin // 한 conv 진행할 때 전체 data 수
                     mem_rd_cenb = 0;
-                    mem_rd_addr_n = mem_rd_addr + 1;
-                    cnt1_n = cnt1 - 1;
                     num1_n = num1 + 1;
                     stage1_in_valid = 'b1;
-                    in_buf_wren           = 1;
+                    in_buf_wren           = 1; 
+
+                    if (num1 == 'd8) begin // green
+                        mem_rd_addr_n = (((layer_num == 1)|(layer_num == 2)|(layer_num == 3)) ? 'd10302 : 'd5202) + 'd102 * cnt1_column;
+                    end
+                    else if (num1 == 'd17) begin// blue
+                        mem_rd_addr_n = (((layer_num == 1)|(layer_num == 2)|(layer_num == 3)) ? 'd20604 : 'd10404) + 'd102 * cnt1_column;
+                    end
+                    else if (num1 == 'd26) begin // 맨 마지막. 27개 불러옴.
+                        stage2_en_n = 'b1;
+                        mem_rd_addr_n = cnt1_column * 102 + 3;
+                        cnt1_row_n = cnt1_row + 1;
+                        state_n = ELSE;
+                        num1_n = 0;
+                    end
+                    else if ((num1 % 3) == 'd2) begin // 줄 바꾸기
+                        mem_rd_addr_n = mem_rd_addr + 100;
+                    end
+                    else begin
+                        mem_rd_addr_n = mem_rd_addr + 1;
+                    end
+
                     if (num1 >= 'd9) begin
-                        wei_buff_wren         = 0;
+                        wei_buff_wren = 0;
                     end
                     else begin
                         wmem_addr_n = wmem_addr + 1;
                         wei_buff_wren         = 1;
                         stage1_weight_valid = 'b1;
-                    end
-                    if (num1 == 'd14) begin // 몇 cycle 후인지에 따라 그 다음 단계 진행
-                        stage2_en_n = 'b1;
-                        state_n = ELSE;
-                        num1_n = 0;
-                    end
-                    
+                    end                    
                 end
             end
             else begin
@@ -172,29 +189,121 @@ always_comb @(*) begin
             end
         end
         ELSE: begin
-            stage2_en_n = 'b0;
-            if (cnt1 != 0) begin // 한 conv 진행할 때 전체 data 수
-                mem_rd_cenb = 0;
-                mem_rd_addr_n = mem_rd_addr + 1;
-                cnt1_n = cnt1 - 1;
-                num1_n = num1 + 1;
-                in_buf_wren     = 1;
-                stage1_in_valid = 'b1;
-                if (num1 == 'd4) begin // 몇 cycle 후인지에 따라 그 다음 단계 진행
-                    stage2_en_n = 'b1;
-                    num1_n = 0;
+            case (layer_num)
+                1, 2, 3: begin
+                    stage2_en_n = 'b0;
+                    if (cnt1_column <= 'd99) begin
+                        if (cnt1_row != 99) begin // 한 줄 개수 세기 (99 = 마지막)
+                            mem_rd_cenb = 0;
+                        
+                            if (num1 == 'd2) begin // green
+                                mem_rd_addr_n = 'd10302 + 'd102 * cnt1_column + cnt1_row + 2;
+                            end
+                            else if (num1 == 'd5) begin// blue
+                                mem_rd_addr_n = 'd20604 + 'd102 * cnt1_column + cnt1_row + 2;
+                            end
+                            else if (num1 == 'd8) begin // 다음 row로 이동
+                                mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
+                                stage2_en_n = 'b1;
+                                cnt1_row_n = cnt1_row + 1;
+                                num1_n = 0;
+                            end
+                            else begin
+                                mem_rd_addr_n = mem_rd_addr + 102;
+                            end
+                            num1_n = num1 + 1;
+                        end
+                        else begin // 한 줄 마지막번째 cnt1_column ++
+                            state_n = FIRST;
+                            if (cnt1_column == 'd99) begin // 완전 맨 마지막 (new weight 불러오기)
+                                num_w_n = num_w - 1;
+                                wmem_addr_n = 0;
+                                cnt1_column_n = 0;
+                            end
+                            else begin
+                                cnt1_column_n = cnt1_column + 1;
+                            end
+                            cnt1_row_n = 0;
+                            num1_n = 0;
+                        end
+                        
+                        in_buf_wren     = 1;
+                        stage1_in_valid = 'b1;
+                    end
+                    
                 end
-            end
-            else begin // 전체 data 다 하면
-                state_n = FIRST;
-                cnt1_n = 0;
-                num1_n = 0;
-                num_w_n = num_w - 1;
-                wmem_addr_n = 0; 
-            end
+                4, 5: begin // R, B <-> G size different
+                    stage2_en_n = 'b0;
+                    if (cnt1_column <= 'd49) begin
+                        in_buf_wren     = 1;
+                        stage1_in_valid = 'b1;
+                        if (cnt1_row <= 'd24) begin // 한 줄 개수 세기 (R, G, B 다 해당)
+                            mem_rd_cenb = 0;
+                            num1_n = num1 + 1;
+                            if (num1 == 'd2) begin // green
+                                mem_rd_addr_n = 'd5202 + 'd102 * cnt1_column + cnt1_row + 2;
+                            end
+                            else if (num1 == 'd5) begin// blue
+                                mem_rd_addr_n = 'd10404 + 'd102 * cnt1_column + cnt1_row + 2;
+                            end
+                            else if (num1 == 'd8) begin // 다음 row로 이동
+                                stage2_en_n = 'b1;
+                                cnt1_row_n = cnt1_row + 1;
+                                if (cnt1_row == 'd24) begin // 이후 row는 Green만 계산
+                                    mem_rd_addr_n = 'd5202 + cnt1_column * 102 + cnt1_row + 3;
+                                end
+                                else begin
+                                    mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
+                                end
+                                num1_n = 0;
+                            end
+                            else begin
+                                mem_rd_addr_n = mem_rd_addr + 102;
+                            end
+                        end
+                        else if (cnt1_row < 'd49) begin // Green만
+                            if ((num1 > 'd2) | (num1 <= 'd8)) begin // 다음 row로 이동 준비
+                                mem_rd_addr_n = mem_rd_addr;
+                                in_buf_wren     = 0;
+                                stage1_in_valid = 'b0;
+                            end
+                            else begin
+                                mem_rd_addr_n = mem_rd_addr + 102;
+                            end
+                            
+                            if (num1 == 'd2) begin
+                                mem_rd_addr_n = 'd5202 + cnt1_column * 102 + cnt1_row + 3;
+                            end
+                            else if (num1 == 'd8) begin // 다음 row로 이동 ( PE 시간이랑 맞추기 위해 )
+                                stage2_en_n = 'b1;
+                                cnt1_row_n = cnt1_row + 1;
+                                num1_n = 0;
+                            end
+                            else begin
+                                num1_n = num1 + 1;
+                            end                            
+                        end
+                        else begin // 한 줄 마지막번째 cnt1_column ++
+                            state_n = FIRST;
+                            if (cnt1_column == 'd49) begin // 완전 맨 마지막 (new weight 불러오기)
+                                num_w_n = num_w - 1;
+                                wmem_addr_n = 0;
+                                cnt1_column_n = 0;
+                            end
+                            else begin
+                                cnt1_column_n = cnt1_column + 1;
+                            end
+                            cnt1_row_n = 0;
+                            num1_n = 0;
+                        end
+                    end
+                end
+            endcase
+           
         end
     endcase
 end
+
 always_ff @(posedge clk) begin
     if (stage1_in_valid) begin
         stage2_in_input <= stage1_in_output;
@@ -203,69 +312,7 @@ always_ff @(posedge clk) begin
         stage2_weight_input <= stage1_weight_output;
     end
 end
-    // if ((layer_num == 2) | (layer_num == 4)) begin
-    //     // cal addr -> row, col, channel
-    //     for ( int i = 0; i < WEIGHT_HORIZ*WEIGHT_VERT; i = i+1 ) begin // 3X3
-    //         for ( int j = 0; j < channel; j = j+1) begin // 3x3xchannel 
-    //             mem_rd_addr_n = i;
-    //             mem_rd_ch_n = j;
-                
-    //         end
-    //     end
-    //     for ( int i = 0; i < INPUT_VERT; i = i+1 ) begin // 3
-    //         for ( int j = 0; j < INPUT_HORIZ; j = j+1) begin // 5
-    //             for ( int k = 0; k < channel; k = k+1) begin // channel
-    //                 mem_rd_addr_n = i*j;
-    //                 mem_rd_ch_n = j;
-    //             end
-    //         end
-    //     end
-    //end
-   
-
-
-/* mem
-module SRAM_W32_A64 (  // Data Storage
-	
-	input		CLK,
-	input		CEB,
-	input		WEB,
-	input	[5:0]	A,
-    input   [4:0]   ch,
-	input	[31:0]	D,
-	output	[31:0]	Q
-);*/ 
-/* input_buffer
-module in_buf (
-    input clk,
-    input rst,
-
-    // write interface
-    input wren, // write enable (1일때 wr_data 저장)
-    input [7:0] wr_data, // mem에서 Q 랑 연결
-    input [6:0] wr_row,   // up to 127 controller에서 나온 신호
-    input [6:0] wr_col,   // up to 127 controller에서 나온 신호
-    input [3:0] wr_chn,   // 0~15 controller에서 나온 신호
-
-    // read interface
-    input [6:0] start_row,
-    input [6:0] start_col,
-    input rden, // read enable (1일때 데이터 읽어옴)
-    output reg [7:0] rd_patch [0:2][0:4][0:15]  // 3x5x16 patch
-);*/
-/* weight buffer
-module w_buf (
-    input clk,
-    input rst,
-    input wren, // write enable 신호
-    input [7:0] wr_data, // 메모리에서 가져온 weight 데이터 (8비트) // mem에서 Q 랑 연결
-    input [4:0] wr_row,  // 쓰기용 행 주소 (0~2) controller에서 나온 신호
-    input [4:0] wr_col,  // 쓰기용 열 주소 (0~2) controller에서 나온 신호
-    input [3:0] wr_chn,  // 쓰기용 채널 번호 (0~15) controller에서 나온 신호
-
-    input rden, // read enable 신호
-    output reg [7:0] rd_weight [0:2][0:2][0:15] // 읽어낸 3x3x16 weight 데이터
-);*/
+  
 
 // 2. compute (PE_array )
 
@@ -308,38 +355,6 @@ always_comb @(*) begin
     end
 end
 
-
-/*
-module systolic_array #(
-    parameter ARRAY_WIDTH  = 3,
-    parameter ARRAY_HEIGHT = 3,
-    parameter DATA_WIDTH   = 8,
-    parameter COLOR_WIDTH  = 3
-)(
-    input  wire                             clk,
-    input  wire                             rstb,
-    input  wire                             enable,
-    input  wire [DATA_WIDTH-1:0]            data_in    [0:ARRAY_HEIGHT-1][0:COLOR_WIDTH-1],
-    input  wire [DATA_WIDTH-1:0]            weight_in  [0:ARRAY_WIDTH-1],
-    output wire [2*DATA_WIDTH-1:0]          result_out [0:COLOR_WIDTH-1]
-);*/
-/* reLU
-module relu_stream_with_last #(
-  parameter DATA_WIDTH = 8,
-  parameter CH         = 16
-)(
-  input  wire                         clk,
-  input  wire                         rstb,
-  // hand­shake + 프레임 경계 표시
-  input  wire                         valid_in,
-  input  wire                         last_in,
-  input  wire signed [DATA_WIDTH-1:0] in_data [0:CH-1],
-
-  output reg                          valid_out,
-  output reg                          last_out,
-  output reg signed [DATA_WIDTH-1:0]  out_data[0:CH-1]
-);
-*/
 // 3. activate (ReLU, bias)
 
 //1, 2, 3, 4 ReLU exist
@@ -436,41 +451,6 @@ always_comb @(*) begin
         end
     endcase
 end
-/*
-module maxpool#(
-    parameter DATA_WIDTH = 8,
-    parameter CHANNELS = 16,
-    parameter LINEBUF_RED_BLUE_SIZE = 8,
-    parameter LINEBUF_GREEN_SIZE = 4
-)(
-    input  wire                         clk,
-    input  wire                         rst_n,
-    input  wire                         maxpool_en,
-    input  wire [1:0]                   color, // r=0 (4x2), g=1 (4x1), b=2 (4x2)
-    input  wire signed [DATA_WIDTH-1:0] in_data   [0:CHANNELS-1],
-    output wire                         maxpool_done_o,
-    output wire signed [DATA_WIDTH-1:0] out_data_o[0:CHANNELS-1]
-);
-*/
-/* out buffer
-module out_buf (
-    input clk,
-    input rst,
-
-    // write interface
-    input wren, // write enable
-    input [7:0] wr_data, // 저장할 데이터
-    input [6:0] wr_row,  // 저장할 행 번호 (0~127)
-    input [6:0] wr_col,  // 저장할 열 번호 (0~127)
-    input [3:0] wr_chn,  // 저장할 채널 번호 (0~15)
-
-    // read interface
-    input rden, // read enable
-    input [6:0] rd_row,  // 읽을 행 번호
-    input [6:0] rd_col,  // 읽을 열 번호
-    input [3:0] rd_chn,  // 읽을 채널 번호
-    output reg [7:0] rd_data // 읽은 데이터 출력
-);*/
 
 
 // 5. write back (out_buff -> mem)
@@ -516,14 +496,5 @@ always_comb @(*) begin
     endcase
 
 end
-/* mem
-module SRAM_W32_A64 (  // Data Storage
-	
-	input		CLK,
-	input		CEB,
-	input		WEB,
-	input	[5:0]	A,
-	input	[31:0]	D,
-	output	[31:0]	Q
-);*/
+
 endmodule
