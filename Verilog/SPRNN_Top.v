@@ -16,6 +16,7 @@ module SPRNN_Top#(
     output   wire                fin
 );
 
+    // 컨트롤 로직도 추가
 
 
     memory_w_v0 u_memA(  // Data Storage A
@@ -36,6 +37,8 @@ module SPRNN_Top#(
     	.Q(memB_dout)
     );        
         
+    // layer num에 따라 addr_rd가 A, B 인지 addr_wr가 B, A인지 하는 코드 작성 필요
+
     memory_w_v0 u_memW(  // Data Storage weight
         .CLK(memW_clk),
         .CEB(memW_ceb),
@@ -74,6 +77,8 @@ module SPRNN_Top#(
     wire [DATA_WIDTH*NUM_CHNL-1:0] f_buffer_out_green;
     wire [DATA_WIDTH*NUM_CHNL-1:0] f_buffer_out_blue;
 
+
+    //버퍼 2차원으로 만들어줘야함. 그리고 shift 신호 받지말고 알아서 안에서 count 세서 shift하는 걸로로
     f_buffer_v1      u_in_buf_red
     (
         .clk(clk),
@@ -207,7 +212,7 @@ module SPRNN_Top#(
         .bias(read_data_bias[2*BIAS_WIDTH +: BIAS_WIDTH]),
         .data_out(relu_out_B)
     );
-    
+     // maxpool 색깔별로 만들기, 16채널 버전 말고
     maxpool_16chnl u_maxpool (
     .clk(clk),
     .rst_n(rst_n),
