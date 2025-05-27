@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 CNN_subpixel_render/data/
+Verification/DIV2K_test_HR
 # C extensions
 *.so
 
