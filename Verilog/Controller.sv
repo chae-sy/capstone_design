@@ -201,6 +201,7 @@ module Controller#(
         
         .layer_num          (layer_num),
         .weight_num         (weight_num),
+        .channel            (channel),
         .layer_start        (layer_start),
         .layer_done_o       (layer_done)
     );
