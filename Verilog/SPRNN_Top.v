@@ -249,41 +249,41 @@ module SPRNN_Top#(
     );
 
     // (memory -> buffer) => PE array 여기도 수정해야함
-    always_ff @(posedge clk) begin
-        if (stage1_in_valid) begin
-            stage2_in_input <= stage1_in_output;
-        end
-        if (stage1_weight_valid) begin
-            stage2_weight_input <= stage1_weight_output;
-        end
-    end 
+    // always_ff @(posedge clk) begin
+    //     if (pe_en_o) begin
+    //         stage2_in_input <= stage1_in_output;
+    //     end
+    //     if (pe_en_o) begin
+    //         stage2_weight_input <= stage1_weight_output;
+    //     end
+    // end 
 
     wire valid_in[NUM_CHNL-1:0] ;
     wire valid_out[NUM_CHNL-1:0];
      // PE array 
     genvar ch;
     generate
-    for (ch = 0; ch < NUM_CHNL; ch = ch + 1) begin : GEN_PE
-    
-        wire [DATA_WIDTH-1:0] rgb_lane [0:NUM_COLOR-1];
+        for (ch = 0; ch < NUM_CHNL; ch = ch + 1) begin : GEN_PE
+        
+            wire [DATA_WIDTH-1:0] rgb_lane [0:NUM_COLOR-1];
 
-        assign rgb_lane[0] = stage2_in_input  [ch*DATA_WIDTH +: DATA_WIDTH];
-        assign rgb_lane[1] = f_buffer_out_green[ch*DATA_WIDTH +: DATA_WIDTH];
-        assign rgb_lane[2] = f_buffer_out_blue [ch*DATA_WIDTH +: DATA_WIDTH];
-            
-        mac_pipeline_superscalar #(
-            .DATA_WIDTH (DATA_WIDTH),
-            .LANE_NUM   (NUM_COLOR)
-        ) u_PE_array (
-            .clk            (clk),
-            .rst_n          (rst_n),
-            .data_in        (rgb_lane [ch]),     
-            .weight_in      (stage2_weight_input[ch*DATA_WIDTH +: DATA_WIDTH]),
-            .valid_in       (valid_in [ch]),
-            .valid_out      (valid_out[ch]),
-            .result_out_flat(pe_out_flat[ch*NUM_COLOR*2*DATA_WIDTH +: NUM_COLOR*2*DATA_WIDTH])
-        );
-    end
+            assign rgb_lane[0] = stage2_in_input  [ch*DATA_WIDTH +: DATA_WIDTH];
+            assign rgb_lane[1] = f_buffer_out_green[ch*DATA_WIDTH +: DATA_WIDTH];
+            assign rgb_lane[2] = f_buffer_out_blue [ch*DATA_WIDTH +: DATA_WIDTH];
+                
+            mac_pipeline_superscalar #(
+                .DATA_WIDTH (DATA_WIDTH),
+                .LANE_NUM   (NUM_COLOR)
+            ) u_PE_array (
+                .clk            (clk),
+                .rst_n          (rst_n),
+                .data_in        (rgb_lane [ch]),     
+                .weight_in      (stage2_weight_input[ch*DATA_WIDTH +: DATA_WIDTH]),
+                .valid_in       (valid_in [ch]),
+                .valid_out      (valid_out[ch]),
+                .result_out_flat(pe_out_flat[ch*NUM_COLOR*2*DATA_WIDTH +: NUM_COLOR*2*DATA_WIDTH])
+            );
+        end
     endgenerate
 
         
@@ -409,7 +409,7 @@ module SPRNN_Top#(
         case(layer_num)
             3: begin 
                 if (stage5_en) begin 
-                    out_data = stage5_in_input;               
+                    out_data = stage4_output;               
                 end
                 else begin
                     out_data = 0; // padding
@@ -417,12 +417,12 @@ module SPRNN_Top#(
             end
             5: begin
                 if (stage3_en) begin 
-                    out_data = stage3_in_input;
+                    out_data = stage2_output;
                 end
             end
             default: begin 
                 if (stage4_en) begin 
-                    out_data = stage4_in_input;
+                    out_data = stage3_output;
                 end
             end
         endcase
