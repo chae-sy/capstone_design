@@ -22,17 +22,21 @@ module layer_pipeline(
     output  wire        wei_buff_rden_o,
     
     // input buffer
-    output  wire        in_buf_wren_o,
+    output  wire [1:0]  in_buf_wren_o,
     output  wire        in_buf_rden_o,
     output  wire        in_buf_sel_o,
     
     // output buffer
-    output  wire        out_buf_wren_o,
+    output  wire [1:0]  out_buf_wren_o,
     output  wire        out_buf_rden_o,
     
     //PE array
     output  wire        pe_en_o,
     input   wire        pe_done_i,
+    
+    //add tree
+    output  wire        addtree_en_o,
+    input   wire        addtree_done_i,
 
     // ReLU
     output  wire        relu_en_o,
@@ -89,16 +93,19 @@ assign rd_data = rd_data_reg;
     reg                     row_last, row_last_n,
                             final_data, final_data_n;
     reg     [1:0]           stage2_state, stage2_state_n;
+    reg     [1:0]           stage3_state, stage3_state_n;
     
     reg                     mem_rd_cenb, mem_rd_wenb,
                             wmem_cenb, wmem_wenb,
                             mem_wr_cenb, mem_wr_wenb;
                             
-    reg                     in_buf_wren, in_buf_rden,
-                            wei_buff_wren, wei_buff_rden,
+    reg     [1:0]           in_buf_wren, in_buf_rden,
                             out_buf_wren, out_buf_rden; 
     
+    reg                     wei_buff_wren, wei_buff_rden,
+    
     reg                     pe_en,
+                            addtree_en,
                             relu_en,
                             maxpool_en;                   
     
@@ -106,12 +113,13 @@ assign rd_data = rd_data_reg;
     reg                     stage3_en, stage3_en_n;
     reg                     stage4_en, stage4_en_n;
     reg                     stage5_en, stage5_en_n;
-    
-    reg                     stage1_in_valid,
-                            stage1_weight_valid,
-                            stage2_valid,
-                            stage3_valid,
-                            stage4_valid;
+    reg                     stage6_en, stage6_en_n;
+
+    // reg                     stage1_in_valid,
+    //                         stage1_weight_valid,
+    //                         stage2_valid,
+    //                         stage3_valid,
+    //                         stage4_valid;
     
     reg                     stage1_in_output,
                             stage1_weight_output,
@@ -122,13 +130,16 @@ assign rd_data = rd_data_reg;
                             stage3_output, 
                             stage4_input,      
                             stage4_output,
-                            stage5_input;
+                            stage5_input,
+                            stage5_output,
+                            stage6_input;
                                               
     reg                     stage1_done,
                             stage2_done,
                             stage3_done,
                             stage4_done,
-                            stage5_done;
+                            stage5_done,
+                            stage6_done;
                                              
     reg     [15:0]          mem_wr_addr, mem_wr_addr_n;
     reg     [15:0]          mem_wr_pad_addr, mem_wr_pad_addr_n;
@@ -231,11 +242,7 @@ assign rd_data = rd_data_reg;
                         wmem_cenb            = 0;
                         wmem_addr_n = wmem_addr + 1;
                         wei_buff_wren         = 1;
-                    end 
-                    if ((num1 >= 'd17) & (num1 <= 'd26)) begin
-                        stage1_in_valid = 'b1;
-                        stage1_weight_valid = 'b1;
-                    end                   
+                    end                 
     
                 end
                 else begin
@@ -248,7 +255,6 @@ assign rd_data = rd_data_reg;
                     wmem_cenb            = 0;
                     wmem_addr_n = wmem_addr + 1;
                     wei_buff_wren         = 1;
-                    stage1_weight_valid = 'b1;
                     num1_n = num1 + 1;
                     if (num1 == 'd8) begin
                         num_w_n = num_w - 1;
@@ -284,7 +290,6 @@ assign rd_data = rd_data_reg;
                                 wmem_cenb = 0;
                                 wmem_addr_n = wmem_addr + 1;
                                 wei_buff_wren         = 1;
-                                stage1_weight_valid = 'b1;
                                 num1_n = num1 + 1;
 
                                 if (num1 == 'd2) begin // red -> green
@@ -315,7 +320,6 @@ assign rd_data = rd_data_reg;
                                 end
 
                                 in_buf_wren     = 1;
-                                stage1_in_valid = 'b1;
                             end
                         end
                         
@@ -324,7 +328,6 @@ assign rd_data = rd_data_reg;
                         stage2_en_n = 'b0;
                         if (cnt1_column <= 'd49) begin
                             in_buf_wren     = 1;
-                            stage1_in_valid = 'b1;
                             if (cnt1_row <= 'd24) begin // 한 줄 개수 세기 (R, G, B 다 해당)
                                 mem_rd_cenb = 0;
 
@@ -332,7 +335,6 @@ assign rd_data = rd_data_reg;
                                 wmem_cenb = 0;
                                 wmem_addr_n = wmem_addr + 1;
                                 wei_buff_wren         = 1;
-                                stage1_weight_valid = 'b1;
                                 num1_n = num1 + 1;
 
                                 if (num1 == 'd2) begin // red -> green
@@ -366,13 +368,11 @@ assign rd_data = rd_data_reg;
                                 wmem_cenb = 0;
                                 wmem_addr_n = wmem_addr + 1;
                                 wei_buff_wren         = 1;
-                                stage1_weight_valid = 'b1;
                                 num1_n = num1 + 1;
                                 if ((num1 > 'd2) | (num1 <= 'd8)) begin // 다음 row로 이동 준비
                                     mem_rd_addr_n = mem_rd_addr;
                                     in_buf_wren     = 0;
                                     mem_rd_cenb = 1;
-                                    stage1_in_valid = 'b0;
                                 end
                                 else begin
                                     mem_rd_addr_n = mem_rd_addr + 102;
@@ -404,7 +404,8 @@ assign rd_data = rd_data_reg;
             end
         endcase
     end
-    
+
+    /*
     always_ff @(posedge clk) begin
         if (stage1_in_valid) begin
             stage2_in_input <= stage1_in_output;
@@ -413,22 +414,9 @@ assign rd_data = rd_data_reg;
             stage2_weight_input <= stage1_weight_output;
         end
     end                        
-    
+    */
+
     // 2. compute (PE_array )
-    
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n | layer_start) begin
-            stage3_input <= 0;
-            stage3_en <= 0;
-            stage2_done <= 0;
-        end else begin
-            if (stage2_valid) begin
-                stage3_input <= stage2_output;
-            end
-            stage3_en <= stage3_en_n;
-        end
-        if (pe_done_i) stage2_done <= stage1_done;
-    end
 
     always_comb begin
         pe_en = 0;
@@ -465,90 +453,73 @@ assign rd_data = rd_data_reg;
             end
         endcase
     end
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            stage3_input <= 0;
+            stage3_en <= 0;
+            stage2_done <= 0;
+        end else begin
+            if (stage2_valid) begin
+                stage3_input <= stage2_output;
+            end
+            stage3_en <= stage3_en_n;
+        end
+        if (pe_done_i) stage2_done <= stage1_done;
+    end
     
-    // 3. activate (ReLU, bias)
-    
-    //1, 2, 3, 4 ReLU exist
-    
-    always_ff @( posedge clk or negedge rst_n) begin
+    // 3. add tree
+
+    always_comb begin
+        addtree_en = 0;
+        stage4_en_n = stage4_en;
+        case(stage3_state)
+            IDLE: begin
+                if (stage3_en) begin
+                    addtree_en = 1;
+                    stage3_state_n = enable1;
+                end
+            end
+            enable1: begin
+                addtree_en = 1;
+                if (addtree_done_i) begin
+                    stage4_en_n = 1;
+                end
+                else begin
+                    stage4_en_n = 0;
+                end
+            end
+        endcase
+    end
+
+    always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
             stage4_input <= 0;
             stage4_en <= 0;
             stage3_done <= 0;
         end else begin
-            case (layer_num)
-                1, 2, 3, 4: begin
-                    if (stage3_valid) begin
-                        stage4_input <= stage3_output;
-                    end
-                    if (relu_done_i) stage3_done <= stage2_done;
-                end
-                default: begin
-                   
-                end
-            endcase
+            if (stage3_valid) begin
+                stage4_input <= stage3_output;
+            end
             stage4_en <= stage4_en_n;
         end
-        
+        if (addtree_done_i) stage3_done <= stage2_done;
     end
+    
+
+
+    // 4. activate (ReLU, bias)
+    
+    //1, 2, 3, 4 ReLU exist
     
     always_comb begin
         relu_en   = 0;
-        stage3_valid = 0;
-        stage4_en_n = stage4_en;
-        case (layer_num)
-            1, 2, 3, 4: begin
-                if (stage3_en) begin
-                    relu_en   = 1;
-                    stage3_valid = 1;
-                    if (relu_done_i) begin
-                        stage4_en_n = 1;
-                    end
-                    else begin
-                        stage4_en_n = 0;
-                    end
-                end
-            end
-            default: begin
-                stage3_valid = 0;
-                stage4_en_n = 0;
-            end
-        endcase
-    end
-    // 4. maxpool exist
-                           
-    always_ff @( posedge clk or negedge rst_n) begin
-        if (!rst_n | layer_start) begin
-            stage5_input <= 0;
-            stage5_en <= 0;
-            stage4_done <= 0;
-        end else begin
-            case (layer_num)
-                3: begin
-                    if (stage4_valid) begin
-                        stage5_input <= stage4_output;
-                    end
-                    if (maxpool_done_i) stage4_done <= stage3_done;
-                end
-                default: begin
-                   
-                end
-            endcase
-            stage5_en <= stage5_en_n;
-        end
-        
-    end
-    
-    always_comb begin
-        maxpool_en   = 0;
-        stage4_valid = 0;
         stage5_en_n = stage5_en;
         case (layer_num)
-            3: begin
+            1, 2, 3, 4: begin
                 if (stage4_en) begin
-                    maxpool_en   = 1;
-                    stage4_valid = 1;
-                    if (maxpool_done_i) begin
+                    relu_en   = 1;
+                    if (relu_done_i) begin
                         stage5_en_n = 1;
                     end
                     else begin
@@ -557,15 +528,80 @@ assign rd_data = rd_data_reg;
                 end
             end
             default: begin
-                stage4_valid = 0;
                 stage5_en_n = 0;
             end
         endcase
     end
+
+    always_ff @( posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            stage5_input <= 0;
+            stage5_en <= 0;
+            stage4_done <= 0;
+        end else begin
+            case (layer_num)
+                1, 2, 3, 4: begin
+                    if (stage4_valid) begin
+                        stage5_input <= stage4_output;
+                    end
+                    if (relu_done_i) stage4_done <= stage3_done;
+                end
+                default: begin
+                   
+                end
+            endcase
+            stage5_en <= stage5_en_n;
+        end
+    end
+
+    // 5. maxpool exist
+    
+    always_comb begin
+        maxpool_en   = 0;
+        stage5_valid = 0;
+        stage6_en_n = stage6_en;
+        case (layer_num)
+            3: begin
+                if (stage5_en) begin
+                    maxpool_en   = 1;
+                    stage5_valid = 1;
+                    if (maxpool_done_i) begin
+                        stage6_en_n = 1;
+                    end
+                    else begin
+                        stage6_en_n = 0;
+                    end
+                end
+            end
+            default: begin
+                stage5_valid = 0;
+                stage6_en_n = 0;
+            end
+        endcase
+    end
          
+    always_ff @( posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            stage6_input <= 0;
+            stage6_en <= 0;
+            stage5_done <= 0;
+        end else begin
+            case (layer_num)
+                3: begin
+                    if (stage5_valid) begin
+                        stage6_input <= stage5_output;
+                    end
+                    if (maxpool_done_i) stage5_done <= stage4_done;
+                end
+                default: begin
+                   
+                end
+            endcase
+            stage6_en <= stage6_en_n;
+        end
+    end
     
-    
-    // 5. write back (out_buff -> mem)
+    // 6. write back (out_buff -> mem)
     always_ff @( posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
             mem_wr_addr <= 'd103; // 시작부분
@@ -577,7 +613,6 @@ assign rd_data = rd_data_reg;
             num2 <= 0;
             num_w <= weight_num; // 채널 구분
             num_p <= 0;
-            stage2_en <= 0;
         end else begin
             mem_wr_addr <= mem_wr_addr_n;
             mem_wr_pad_addr <= mem_wr_pad_addr_n;
@@ -588,7 +623,6 @@ assign rd_data = rd_data_reg;
             num2 <= num2_n;
             num_w <= num_w_n;
             num_p <= num_p;
-            stage2_en <= stage2_en_n;
         end
         
     end
@@ -606,14 +640,14 @@ assign rd_data = rd_data_reg;
         num2_n = num2;
         num_w_n = num_w;
         num_p_n = num_p;
-        stage5_done = 0;
+        stage6_done = 0;
     
         out_buf_rden = 0;
         out_buf_wren = 0;
         output_mem_en = 0;
         case (output_state)
             IDLE: begin
-                if (stage3_en | stage4_en | stage5_en) begin // 연산 끝 -> output buffer에 저장
+                if (stage4_en | stage5_en | stage6_en) begin // 연산 끝 -> output buffer에 저장
                     out_buf_wren = 1;
                     if (cnt_ch == (channel-1)) begin //모든 채널 다 모이기까지 기다림
                         output_state_n = enable1;
@@ -676,22 +710,22 @@ assign rd_data = rd_data_reg;
             3: begin // padding하는게 추가됨.
                 row_num = 'd50;
                 color_num = 'd5202;
-                if (stage5_en) begin 
-                    out_data = stage5_input;               
+                if (stage6_en) begin 
+                    out_data = stage6_input;               
                 end
             end
             5: begin
                 row_num = 'd50;
                 color_num = 'd5202;
-                if (stage3_en) begin 
-                    out_data = stage3_input;
+                if (stage4_en) begin 
+                    out_data = stage4_input;
                 end
             end
             default: begin 
                 row_num = (layer_num == 4) ? 'd50 : 'd100;
                 color_num = (layer_num == 4) ? 'd5202 : 'd10302;
-                if (stage4_en) begin 
-                    out_data = stage4_input;
+                if (stage5_en) begin 
+                    out_data = stage5_input;
                 end
             end
         endcase
@@ -723,7 +757,7 @@ assign rd_data = rd_data_reg;
                 end           
             end
             else begin
-                stage5_done = 1;
+                stage6_done = 1;
             end
         end
     end
@@ -750,8 +784,9 @@ assign rd_data = rd_data_reg;
     assign     out_buf_rden_o = out_buf_rden; 
 
     assign     pe_en_o = pe_en;
+    assign     addtree_en_o = addtree_en;
     assign     relu_en_o = relu_en; 
     assign     maxpool_en_o = maxpool_en;
-    assign     layer_done_o = stage5_done;
+    assign     layer_done_o = stage6_done;
 
 endmodule
