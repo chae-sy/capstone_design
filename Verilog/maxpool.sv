@@ -18,7 +18,7 @@ module maxpool#(
     localparam signed [DATA_WIDTH-1:0] INIT_MAX = -128;
     reg signed [DATA_WIDTH-1:0] out_data;
     reg signed [DATA_WIDTH-1:0] max_val, max_val_n; //max value, next max value
-    reg signed [1:0] maxpool_done, maxpool_done_n; //maxpool done, next maxpool done
+    reg signed [1:0] maxpool_done; //maxpool done, next maxpool done
 
     reg signed [DATA_WIDTH-1:0] linebuf_rb [0:LINEBUF_GREEN_SIZE-1];
     reg signed [DATA_WIDTH-1:0] linebuf_g [0:LINEBUF_GREEN_SIZE-1];
@@ -32,12 +32,10 @@ module maxpool#(
         if (!rst_n) begin
             wr_ptr       <= 0;
             cnt          <= 0;
-            maxpool_done <= 0;
             max_val      <= INIT_MAX;
         end else begin
             wr_ptr       <= wr_ptr_n;
             cnt          <= cnt_n;
-            maxpool_done <= maxpool_done_n;
             max_val      <= max_val_n;
         end
     end
@@ -46,7 +44,7 @@ module maxpool#(
     always_comb begin
         wr_ptr_n     = wr_ptr;
         cnt_n        = cnt;
-        maxpool_done_n  = 0;
+        maxpool_done = 0;
         max_val_n =  max_val;
         
         if (maxpool_en) begin
@@ -63,7 +61,7 @@ module maxpool#(
                 if (cnt == LINEBUF_GREEN_SIZE-1) begin // maxpool done
                     out_data = max_val_n;
                     // reset everything
-                    maxpool_done_n  = 1;
+                    maxpool_done = 1;
                     wr_ptr_n = 0;
                     cnt_n = 0;
                     max_val_n = INIT_MAX;
@@ -72,7 +70,7 @@ module maxpool#(
                     end
                 end
                 else begin
-                    maxpool_done_n  = 0;
+                    maxpool_done = 0;
                 end
             end
             else begin // red & blue: (4x2) maxpool
@@ -87,7 +85,7 @@ module maxpool#(
                 end
                 if (cnt == LINEBUF_RED_BLUE_SIZE-1) begin
                     out_data = max_val_n;
-                    maxpool_done_n  = 1;
+                    maxpool_done = 1;
                     wr_ptr_n = 0;
                     cnt_n = 0;
                     max_val_n = INIT_MAX;
@@ -96,7 +94,7 @@ module maxpool#(
                     end
                 end
                 else begin
-                    maxpool_done_n  = 0;
+                    maxpool_done = 0;
                 end
             end
         end
