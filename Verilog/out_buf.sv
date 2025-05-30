@@ -18,23 +18,27 @@ module o_buffer_v1 #(
     parameter SIZE_BUFFER_H   = 3, 
     parameter SIZE_BUFFER_W   = 16,
     parameter SIZE_KERNEL_H = 3,
-    parameter SIZE_KERNEL_W = 3
+    parameter SIZE_KERNEL_W = 3,
+    parameter NUM_COLOR = 3
+    
 )(
     input                                 clk,
     input                                 rst_n,
-    input        [4:0]                   buffer_mode,
     input                                 buffer_load_o, // load feature
     input        [$clog2(SIZE_BUFFER_H)-1:0] buffer_ptr_h_o, // pointer for height
     input        [$clog2(SIZE_BUFFER_W)-1:0] buffer_ptr_w_o, // pointer for width
     input                                 buffer_start, // output start
     // pack w_data ports into an array
-    input  [WIDTH_WSRAM_WL-1:0]           o_data_in, // from SRAM
-    input                                 pad_en, // load feature
-    output reg [DATA_WIDTH*NUM_CHNL-1:0]  o_buffer_out
+    input  [WIDTH_FSRAM_WL-1:0]           o_data_in, // from SRAM
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  o_buffer_out_r,
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  o_buffer_out_g,
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  o_buffer_out_b
 );
 
     // buffer storage: [row][pe]
-    reg [DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1][0:NUM_CHNL-1];
+    reg [DATA_WIDTH-1:0] buffer_data_r [0:NUM_CHNL-1];
+    reg [DATA_WIDTH-1:0] buffer_data_g [0:NUM_CHNL-1];
+    reg [DATA_WIDTH-1:0] buffer_data_b [0:NUM_CHNL-1];
     reg [5:0] counter;
     integer i, k, r;
 
