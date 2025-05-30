@@ -20,8 +20,8 @@ module memory_w_v0   // Data Storage
 	input	[data_width-1:0]	D,
 	output	[data_width-1:0]	Q
 );
-
-    reg	[data_width-1:0] mem_W [251:0];
+	localparam num_addr = 2**addr_width;
+    reg	[data_width-1:0] mem_W [num_addr:0];
 	reg	[data_width-1:0] mem_d;
 	reg	[addr_width-1:0] temp_A;
 	
