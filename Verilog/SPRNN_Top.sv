@@ -193,10 +193,6 @@ module SPRNN_Top#(
     wire [DATA_WIDTH*NUM_CHNL-1:0] w_buffer_out; //w_buffer output
 
 
-<<<<<<< Updated upstream:Verilog/SPRNN_Top.sv
-    // input buffer( R, G, B )
-=======
-    //ë²„í¼ 2ì°¨ì›?œ¼ë¡? ë§Œë“¤?–´ì¤˜ì•¼?•¨. ê·¸ë¦¬ê³? shift ?‹ ?˜¸ ë°›ì?ë§ê³  ?•Œ?•„?„œ ?•ˆ?—?„œ count ?„¸?„œ shift?•˜?Š” ê±¸ë¡œë¡?
 >>>>>>> Stashed changes:Verilog/SPRNN_Top.v
     f_buffer_v1      u_in_buf_red
     (
@@ -303,7 +299,7 @@ module SPRNN_Top#(
     wire [DATA_WIDTH-1:0] relu_out_R;
     wire [DATA_WIDTH-1:0] relu_out_G;
     wire [DATA_WIDTH-1:0] relu_out_B;
-<<<<<<< Updated upstream:Verilog/SPRNN_Top.sv
+
 
     // (PE + add) => (1,2,3,4) relu/ (5) output buffer
     always_ff @(posedge clk or negedge rst_n) begin
@@ -311,9 +307,8 @@ module SPRNN_Top#(
             stage3_input <= stage2_output;
         end
     end
-=======
     wire [NUM_COLOR-1:0] maxpool_done;
->>>>>>> Stashed changes:Verilog/SPRNN_Top.v
+
  
     bias_relu      u_bias_relu_R
     (
