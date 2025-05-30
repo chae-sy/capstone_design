@@ -1,50 +1,45 @@
 `timescale 1ns / 1ps
-/*
- * Single-Port Register File with NUM_LANE Parallel Reads
- * - One write port (wen, addr, wdata)
- * - NUM_LANE asynchronous read ports via flat vector
- */
-module register_file_single #(
+module regfile_sync #(
     parameter DATA_WIDTH = 32,
-    parameter ADDR_WIDTH = 5,        // up to 2^ADDR_WIDTH registers
-    parameter NUM_LANE   = 4         // number of parallel read ports
+    parameter ADDR_WIDTH = 5
 )(
-    input  wire                         clk,
-    input  wire                         rst_n,
-    // write port
-    input  wire                         wen,
-    input  wire [ADDR_WIDTH-1:0]        addr,    // write address
-    input  wire [DATA_WIDTH-1:0]        wdata,   // write data
-
-    // read ports (flat vectors)
-    input  wire [NUM_LANE*ADDR_WIDTH-1:0] addr_flat,   // read addresses
-    output wire [NUM_LANE*DATA_WIDTH-1:0] rdata_flat   // read data outputs
+    input  wire                     clk,       // 클록
+    input  wire                     rst_n,     // 비동기 리셋 (low active)
+    // --- Write Port ---
+    input  wire                     we,        // write enable
+    input  wire [ADDR_WIDTH-1:0]    waddr,     // write address
+    input  wire [DATA_WIDTH-1:0]    wdata,     // write data
+    // --- Read Port ---
+    input  wire [ADDR_WIDTH-1:0]    raddr,     // read address (to be registered)
+    output wire [DATA_WIDTH-1:0]    rdata      // read data (combinational from reg'd addr)
 );
 
-    // Internal register bank
-    localparam DEPTH = (1<<ADDR_WIDTH);
-    reg [DATA_WIDTH-1:0] regs [0:DEPTH-1];
+    localparam DEPTH = (1 << ADDR_WIDTH);
+    reg [DATA_WIDTH-1:0] mem [0:DEPTH-1];
     integer i;
-
-    // Write and reset
+    // 1) 동기식 쓰기: posedge clk, we=1일 때만 non-blocking으로 저장
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            for (i = 0; i < DEPTH; i = i + 1)
-                regs[i] <= {DATA_WIDTH{1'b0}};
-        end else if (wen) begin
-            regs[addr] <= wdata;
+            // 초기화가 필요하면 여기에…
+            for (i=0; i<DEPTH; i=i+1) begin
+                mem[i] <= {DATA_WIDTH{1'b0}};
+            end
+           
+        end else if (we) begin
+            mem[waddr] <= wdata;
         end
     end
 
-    // NUM_LANE parallel asynchronous reads
-    genvar lane;
-    generate
-      for (lane = 0; lane < NUM_LANE; lane = lane + 1) begin : GEN_READ
-        // slice out this lane's address
-        wire [ADDR_WIDTH-1:0] rd_addr = addr_flat[lane*ADDR_WIDTH +: ADDR_WIDTH];
-        // assign the corresponding data slice
-        assign rdata_flat[lane*DATA_WIDTH +: DATA_WIDTH] = regs[rd_addr];
-      end
-    endgenerate
+    // 2) 읽기 주소 레지스터: posedge clk에서 캡처
+    reg [ADDR_WIDTH-1:0] raddr_reg;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            raddr_reg <= {ADDR_WIDTH{1'b0}};
+        else
+            raddr_reg <= raddr;
+    end
+
+    // 3) 같은 클럭 싸이클 내에 combinational하게 데이터 출력
+    assign rdata = mem[raddr_reg];
 
 endmodule
