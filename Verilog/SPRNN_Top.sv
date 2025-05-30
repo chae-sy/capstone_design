@@ -48,10 +48,12 @@ module SPRNN_Top#(
                             out_buf_rden_o;
 
     wire                    pe_en_o,
+                            addtree_en_o,
                             relu_en_o,
                             maxpool_en_o;
 
     wire                    pe_done_i,
+                            addtree_done_i,
                             relu_done_i,
                             maxpool_done_i;
 
@@ -103,6 +105,9 @@ module SPRNN_Top#(
         
         .pe_en_o            (pe_en_o),
         .pe_done_i          (pe_done_i),
+
+        .addtree_en_o       (addtree_en_o),
+        .addtree_done_i     (addtree_done_i),
 
         .relu_en_o          (relu_en_o),
         .relu_done_i        (relu_done_i),
@@ -159,16 +164,7 @@ module SPRNN_Top#(
     assign memB_d = ((layer_num == 2) | (layer_num == 4)) ? 0 : out_data;
  
 
-    register_file_single u_mem_bias(
-        .clk                (clk),
-        .rst_n              (rst_n),
-        .wen                (wen_bias),
-        .addr               (write_addr_bias),
-        .wdata              (write_data_bias),
-        .addr_flat          (read_addr_bias),
-        .rdata_flat         (read_data_bias)
-     );
-
+    
     // we need register file for bias
     // since biases are 32bit (!= weight, input 8bits)
     // and their amount is small, we don't need SRAM
@@ -193,16 +189,15 @@ module SPRNN_Top#(
     wire [DATA_WIDTH*NUM_CHNL-1:0] w_buffer_out; //w_buffer output
 
 
->>>>>>> Stashed changes:Verilog/SPRNN_Top.v
     f_buffer_v1      u_in_buf_red
     (
         .clk                (clk),
         .rst_n              (rst_n),
         .color_sel          (in_buf_sel_o[0]),
-        .wren               (in_buf_wren_o),
+        .wren               (in_buf_wren_o[0]),
         .data_in            (),
         .rden               (),
-        .data_out           (stage1_in_output)
+        .data_out           (stage1_in_output[0])
     );
     // 이런 느낌 
 
@@ -286,12 +281,19 @@ module SPRNN_Top#(
         end
     endgenerate
 
+    // PE => add tree
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (stage2_valid) begin // valid == done
+            stage3_input <= stage2_output;
+        end
+    end
+
         
     adder_tree_nlane_flat u_adder_tree (
         .clk                (clk),
         .rst_n              (rst_n),
         .in_flat            (pe_out_flat),
-        .sum_flat           (ad_tr_out_flat) stage2_output 
+        .sum_flat           (ad_tr_out_flat) stage3_output 
     );
     
     wire [NUM_COLOR*AD_TR_SUM_WIDTH-1:0] ad_tr_out_flat; 
@@ -303,8 +305,8 @@ module SPRNN_Top#(
 
     // (PE + add) => (1,2,3,4) relu/ (5) output buffer
     always_ff @(posedge clk or negedge rst_n) begin
-        if (stage2_valid) begin // valid == done
-            stage3_input <= stage2_output;
+        if (stage3_valid) begin // valid == done
+            stage4_input <= stage3_output;
         end
     end
     wire [NUM_COLOR-1:0] maxpool_done;
@@ -312,36 +314,36 @@ module SPRNN_Top#(
  
     bias_relu      u_bias_relu_R
     (
-        .relu_on             (relu_on),
+        .relu_on             (relu_en_o),
         .layer_state         (layer_state),
         .data_in_flat        (stage3_in_input[0*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]), stage3_input
         .bias                (read_data_bias[0*BIAS_WIDTH +: BIAS_WIDTH]),
-        .data_out            (stage3_output[0])
+        .data_out            (stage4_output[0])
     );
     
     bias_relu      u_bias_relu_G
     (
-        .relu_on             (relu_on),
+        .relu_on             (relu_en_o),
         .layer_state         (layer_state),
         .data_in_flat        (ad_tr_out_flat[1*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
         .bias                (read_data_bias[1*BIAS_WIDTH +: BIAS_WIDTH]),
-        .data_out            (stage3_output[1])
+        .data_out            (stage4_output[1])
     );
     
     bias_relu      u_bias_relu_B
     (
-        .relu_on             (relu_on),
+        .relu_on             (relu_en_o),
         .layer_state         (layer_state),
         .data_in_flat        (ad_tr_out_flat[2*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
         .bias                (read_data_bias[2*BIAS_WIDTH +: BIAS_WIDTH]),
-        .data_out            (stage3_output[2])
+        .data_out            (stage4_output[2])
     );
     // relu -> (1,2,4) output_buffer/(3) maxpool
     always_ff @( posedge clk or negedge rst_n) begin
         case (layer_num)
             1, 2, 3, 4: begin
-                if (stage3_valid) begin
-                    stage4_input <= stage3_output;
+                if (relu_done_i) begin
+                    stage5_input <= stage4_output;
                 end
             end
             default: begin
@@ -355,9 +357,9 @@ module SPRNN_Top#(
         .rst_n               (rst_n),
         .maxpool_en          (maxpool_en_o),
         .color               (0),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (stage4_input[0]),
+        .in_data             (stage5_input[0]),
         .maxpool_done_o      (maxpool_done[0]),
-        .out_data_o          (stage4_output[0])
+        .out_data_o          (stage5_output[0])
     );
     
     maxpool u_maxpool_green (
@@ -365,9 +367,9 @@ module SPRNN_Top#(
         .rst_n               (rst_n),
         .maxpool_en          (maxpool_en_o),
         .color               (1),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (stage4_input[1]),
+        .in_data             (stage5_input[1]),
         .maxpool_done_o      (maxpool_done[1]),
-        .out_data_o          (stage4_output[1])
+        .out_data_o          (stage5_output[1])
     );
 
     maxpool u_maxpool_blue (
@@ -375,22 +377,58 @@ module SPRNN_Top#(
         .rst_n               (rst_n),
         .maxpool_en          (maxpool_en_o),
         .color               (2),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (stage4_input[2]),
+        .in_data             (stage5_input[2]),
         .maxpool_done_o      (maxpool_done[2]),
-        .out_data_o          (stage4_output[2])
+        .out_data_o          (stage5_output[2])
     );
 
     assign maxpool_done_i = (maxpool_done[0] & maxpool_done[1]) & maxpool_done[2];
     
     // (3) maxpool -> output_buffer
+    // always_ff @( posedge clk or negedge rst_n) begin
+    //     case (layer_num)
+    //         3: begin
+    //             if (maxpool_done_i) begin
+    //                 stage5_input <= stage4_output;
+    //             end
+    //         end
+    //         default: begin
+    //         end
+    //     endcase
+    // end
+
+    // (1,2,4) relu/(3) maxpool/(5) PE+adder == output buffer 여기 부분 타이밍 다시 계산해야함.
     always_ff @( posedge clk or negedge rst_n) begin
-        case (layer_num)
-            3: begin
-                if (stage4_valid) begin
-                    stage5_input <= stage4_output;
+        case(layer_num)
+            3: begin 
+                for (int i=0; i < 3; i = i + 1) begin
+                    if (maxpool_done[i]) begin 
+                        out_data[i] = stage5_output[i];    
+                    end
+                    else begin
+                        out_data = 0; // padding
+                    end
                 end
             end
-            default: begin
+            5: begin
+                for (int i=0; i < 3; i = i + 1) begin
+                    if (pe_done[i]) begin 
+                        out_data[i] = stage3_output[i];    
+                    end
+                end
+                if (addtree_done) begin 
+                    out_data = stage3_output;
+                end
+            end
+            default: begin 
+                for (int i=0; i < 3; i = i + 1) begin
+                    if (relu_done[i]) begin 
+                        out_data[i] = stage4_output[i];    
+                    end
+                end
+                if (relu_done) begin 
+                    out_data = stage4_output;
+                end
             end
         endcase
     end
@@ -401,35 +439,12 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .color_sel          (out_buf_sel_o[0]),
         .wren               (out_buf_wren_o),
-        .data_in            (out_data),
+        .data_in_R          (out_data[0]),
+        .data_in_G          (out_data[1]),
+        .data_in_B          (out_data[2]),
         .rden               (out_buf_rden_o),
         .data_out           ()
     );
-
-
-    // (1,2,4) relu/(3) maxpool/(5) PE+adder == output buffer 여기 부분 타이밍 다시 계산해야함.
-    always_ff @( posedge clk or negedge rst_n) begin
-        case(layer_num)
-            3: begin 
-                if (stage5_en) begin 
-                    out_data = stage4_output;               
-                end
-                else begin
-                    out_data = 0; // padding
-                end
-            end
-            5: begin
-                if (stage3_en) begin 
-                    out_data = stage2_output;
-                end
-            end
-            default: begin 
-                if (stage4_en) begin 
-                    out_data = stage3_output;
-                end
-            end
-        endcase
-    end
 
 
 

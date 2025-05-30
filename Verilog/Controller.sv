@@ -44,6 +44,10 @@ module Controller#(
     output  wire        pe_en_o,
     input   wire        pe_done_i,
 
+    //add tree
+    output  wire        addtree_en_o,
+    input   wire        addtree_done_i,
+
     // ReLU
     output  wire        relu_en_o,
     input   wire        relu_done_i,
@@ -192,6 +196,9 @@ module Controller#(
         
         .pe_en_o            (pe_en_o),
         .pe_done_i          (pe_done_i),
+
+        .addtree_en_o       (addtree_en_o),
+        .addtree_done_i     (addtree_done_i),
 
         .relu_en_o          (relu_en_o),
         .relu_done_i        (relu_done_i),
