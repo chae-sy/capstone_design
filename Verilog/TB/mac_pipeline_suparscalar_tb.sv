@@ -69,8 +69,19 @@ module tb_mac_pipeline_superscalar;
         pe_en = 0;  // disable
 
         // Wait for pipeline to flush
-        #((NUM_STAGE+2)*10);
+        #(9*10);
 
+
+        for (i=1; i<(NUM_STAGE+1); i=i+1) begin
+            weight_in = 2;
+            data_in[0] = 2*i;
+            data_in[1] = 3*i;
+            data_in[2] = 4*i;
+            pe_en=1;
+            #10;
+        end
+        pe_en = 0;  // disable
+        #(9*10);
         $display("Simulation completed at %0t ns", $time);
         $finish;
     end

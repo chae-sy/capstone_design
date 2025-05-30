@@ -78,6 +78,9 @@ module mac_pipeline_superscalar #(
         end
       end else begin
         pe_done         <= 1'b0;
+        for (int l = 0; l < LANE_NUM; l++) begin
+          result_out_flat[l*2*DATA_WIDTH +: 2*DATA_WIDTH] <=2*DATA_WIDTH*{1'b0};
+          end
         // result_out_flat은 마지막 펄스 때 찍힌 값 그대로 보존됩니다.
       end
     end
