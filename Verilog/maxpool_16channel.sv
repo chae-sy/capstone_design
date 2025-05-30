@@ -10,9 +10,9 @@ module maxpool_16chnl#(
     input  wire                         rst_n,
     input  wire                         maxpool_en,
     input  wire [1:0]                   color, // r=0 (4x2), g=1 (4x1), b=2 (4x2)
-    input  wire signed [DATA_WIDTH-1:0] in_data   [0:CHANNELS-1],
+    input  wire signed [DATA_WIDTH*CHANNELS-1:0] in_data,
     output wire                         maxpool_done_o,
-    output wire signed [DATA_WIDTH-1:0] out_data_o[0:CHANNELS-1]
+    output wire signed [DATA_WIDTH*CHANNELS-1:0] out_data_o
 );
 
     localparam signed [DATA_WIDTH-1:0] INIT_MAX = -128;
@@ -59,7 +59,7 @@ module maxpool_16chnl#(
     always_ff @(posedge clk) begin
         if (maxpool_en) begin
             for (int ch = 0; ch < CHANNELS; ch++) begin
-                in_data_reg[ch] <= in_data[ch];
+                in_data_reg[ch] <= in_data[((ch+1)*DATA_WIDTH-1):ch*DATA_WIDTH];
             end
         end
     end
@@ -111,8 +111,8 @@ module maxpool_16chnl#(
 
     assign maxpool_done_o = maxpool_done;
     generate
-        for (genvar ch = 0; ch < CHANNELS; ch = ch + 1) begin : output_assign
-            assign out_data_o[ch] = out_data[ch];
+        for (genvar ch = 0; ch < CHANNELS; ch = ch + 1) begin
+            assign out_data_o[((ch+1)*DATA_WIDTH-1):ch*DATA_WIDTH] = out_data[ch];
         end
     endgenerate
 
