@@ -52,25 +52,6 @@ module layer_pipeline(
     input   wire        layer_start,
     output  wire        layer_done_o
 );
-/////////////////////////////
-/*
-<buffer 안에 들어가야함.>
-always_ff @(posedge clk) begin
-  if (wr_en && rd_en && (wr_addr == rd_addr)) begin
-    rd_data_reg <= wr_data;           // forwarding
-  end
-  else if (rd_en) begin
-    rd_data_reg <= mem[rd_addr];      // 일반 읽기
-  end
-
-  if (wr_en)
-    mem[wr_addr] <= wr_data;          // 쓰기
-end
-
-assign rd_data = rd_data_reg;
-
-*/
-//////////////////////////////
 
     localparam              FIRST = 0,
                             weight_change = 1,
