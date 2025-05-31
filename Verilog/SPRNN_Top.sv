@@ -102,6 +102,7 @@ module SPRNN_Top#(
         
         .out_buf_wren_o     (out_buf_wren_o),
         .out_buf_rden_o     (out_buf_rden_o),
+        .out_buf_done_i     (out_buf_done_i),
         
         .pe_en_o            (pe_en_o),
         .pe_done_i          (pe_done_i),

@@ -27,7 +27,7 @@ module output_buffer #(
     input  wire                             rden[0:2],
     input  wire [2:0]                       layer_num,
     output reg                              o_buffer_done,
-    output reg  [t_WIDTH-1:0]               data_out[0:2]
+    output reg  [t_WIDTH-1:0]               data_out
 );
 
     // buffer storage
@@ -81,13 +81,13 @@ module output_buffer #(
                 end
 
                 if (rden[0]) begin
-                    data_out[0] = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_r[DATA_WIDTH-1:0]};
+                    data_out = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_r[DATA_WIDTH-1:0]};
                 end
-                if (rden[1]) begin
-                    data_out[1] = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_g[DATA_WIDTH-1:0]};
+                else if (rden[1]) begin
+                    data_out = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_g[DATA_WIDTH-1:0]};
                 end
-                if (rden[2]) begin    
-                    data_out[2] = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_b[DATA_WIDTH-1:0]};
+                else if (rden[2]) begin    
+                    data_out = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_b[DATA_WIDTH-1:0]};
                 end
             end
             default: begin
@@ -101,13 +101,13 @@ module output_buffer #(
                     cnt_n[2] = 0;
                 end
                 if (rden[0]) begin
-                    data_out[0] = buffer_data_r;
+                    data_out = buffer_data_r;
                 end
-                if (rden[1]) begin
-                    data_out[1] = buffer_data_g;
+                else if (rden[1]) begin
+                    data_out = buffer_data_g;
                 end
-                if (rden[2]) begin
-                    data_out[2] = buffer_data_b;
+                else if (rden[2]) begin
+                    data_out = buffer_data_b;
                 end
             end
 
