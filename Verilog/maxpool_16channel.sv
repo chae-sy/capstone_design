@@ -34,7 +34,7 @@ module maxpool_16chnl#(
     reg signed [DATA_WIDTH-1:0] out_data [0:CHANNELS-1];
     reg meaningless;
 
-    integer ch, i;
+    integer i;
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -43,30 +43,30 @@ module maxpool_16chnl#(
                 cnt[ch]          <= 0;
                 max_val[ch]      <= INIT_MAX;
             end
-            maxpool_done <= 0;
         end else begin
             for (int ch = 0; ch < CHANNELS; ch = ch + 1) begin
                 wr_ptr[ch]       <= wr_ptr_n[ch];
                 cnt[ch]          <= cnt_n[ch];
                 max_val[ch]      <= max_val_n[ch];
             end
-            maxpool_done <= maxpool_done_n;
         end
     end
     
     reg signed [DATA_WIDTH-1:0] in_data_reg [0:CHANNELS-1];
     
-    always_ff @(posedge clk) begin
-        if (maxpool_en) begin
-            for (int ch = 0; ch < CHANNELS; ch++) begin
-                in_data_reg[ch] <= in_data[((ch+1)*DATA_WIDTH-1):ch*DATA_WIDTH];
+    generate
+        genvar ch;
+        for (ch = 0; ch < CHANNELS; ch = ch + 1) begin : GENBLOCK
+            always_comb begin
+                if (maxpool_en)
+                    in_data_reg[ch] = in_data[((ch+1)*DATA_WIDTH)-1 : ch*DATA_WIDTH];
             end
         end
-    end
-    
+    endgenerate
+
     always_comb begin
-        maxpool_done_n = 0;
-        for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
+        maxpool_done = 0;
+        for (int ch = 0; ch < CHANNELS; ch = ch + 1) begin
             wr_ptr_n[ch] = wr_ptr[ch];
             cnt_n[ch] = cnt[ch];
             max_val_n[ch] = max_val[ch];
@@ -75,7 +75,6 @@ module maxpool_16chnl#(
                 if (color == 2'b01) begin // green (4x1)
                     wr_ptr_n[ch] = wr_ptr[ch] + 1;
                     cnt_n[ch] = cnt[ch] + 1;
-                    
                     linebuf_g[ch][wr_ptr[ch]] = in_data_reg[ch]; 
                     if (linebuf_g[ch][wr_ptr[ch]] > max_val[ch])
                         max_val_n[ch] = linebuf_g[ch][wr_ptr[ch]];
@@ -86,7 +85,7 @@ module maxpool_16chnl#(
                         wr_ptr_n[ch] = 0;
                         cnt_n[ch] = 0;
                         for (i = 0; i < 4; i = i + 1) linebuf_g[ch][i] = INIT_MAX;
-                        maxpool_done_n = 1;
+                        maxpool_done = 1;
                     end
                 end else begin // red or blue (4x2)
                     wr_ptr_n[ch] = wr_ptr[ch] + 1;
@@ -102,7 +101,7 @@ module maxpool_16chnl#(
                         wr_ptr_n[ch] = 0;
                         cnt_n[ch] = 0;
                         for (i = 0; i < 8; i = i + 1) linebuf_rb[ch][i] = INIT_MAX;
-                        maxpool_done_n = 1;
+                        maxpool_done = 1;
                     end
                 end
             end
