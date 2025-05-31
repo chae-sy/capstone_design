@@ -37,7 +37,7 @@ module bias_relu #(
     parameter WIDTH_L6_IN_IL = 8,
     parameter WIDTH_L6_OUT_IL = 0,
     parameter WIDTH_L6_ZERO_POINT = 0,
-    parameter WIDTH_L6  _SCALE = 0.2
+    parameter WIDTH_L6_SCALE = 0.2
     
 )
 (
