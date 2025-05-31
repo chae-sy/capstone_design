@@ -1,85 +1,97 @@
 `timescale 1ns / 1ps
 
-module tb_adder_tree16_2stage;
+module tb_adder_tree_nlane_flat;
 
-  // DUT 파라미터
-  localparam DATA_WIDTH = 8;
-  localparam NUM_INPUTS = 16;
-  localparam SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS);
+  // DUT 파라미터와 동일하게 선언
+  parameter DATA_WIDTH = 20;
+  parameter NUM_INPUTS = 16;
+  parameter NUM_LANE   = 3;
+  parameter SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS);
 
-  // 클록 & 리셋
-  reg clk;
-  reg rst_n;
+  // 클럭, 리셋, 인에이블, 입력 버스, 출력 버스, 완료 펄스
+  reg                                clk;
+  reg                                rst_n;
+  reg                                adder_tree_en;
+  reg  [NUM_LANE*NUM_INPUTS*DATA_WIDTH-1:0] in_flat;
+  wire [NUM_LANE*SUM_WIDTH-1:0]             sum_out_flat;
+  wire                               adder_tree_done;
 
-  // TB 내부 배열 및 flat 버스
-  reg [DATA_WIDTH-1:0] in_array [0:NUM_INPUTS-1];
-  reg [DATA_WIDTH*NUM_INPUTS-1:0] in_flat;
-
-  // DUT 출력
-  wire [SUM_WIDTH-1:0] sum_out;
-
-  integer i, j;
-  integer exp_sum;
-
-  // DUT 인스턴스
-  adder_tree16_2stage #(
-    .DATA_WIDTH(DATA_WIDTH),
-    .NUM_INPUTS(NUM_INPUTS)
-  ) dut (
-    .clk     (clk),
-    .rst_n   (rst_n),
-    .in_flat (in_flat),
-    .sum_out (sum_out)
+  // DUT 인스턴스화
+  adder_tree_nlane_flat #(
+    .DATA_WIDTH (DATA_WIDTH),
+    .NUM_INPUTS (NUM_INPUTS),
+    .NUM_LANE   (NUM_LANE)
+  ) DUT (
+    .clk           (clk),
+    .rst_n         (rst_n),
+    .adder_tree_en (adder_tree_en),
+    .in_flat       (in_flat),
+    .sum_out_flat  (sum_out_flat),
+    .adder_tree_done (adder_tree_done)
   );
 
-  // 클록 생성 (10ns 주기)
-  initial clk = 0;
-  always #5 clk = ~clk;
-
-  // flat 패킹 태스크
-  task pack_flat;
-    for (i = 0; i < NUM_INPUTS; i = i + 1)
-      in_flat[i*DATA_WIDTH +: DATA_WIDTH] = in_array[i];
-  endtask
-
+  // =============================================================================
+  // 1) 클럭 생성 (10 ns 주기)
+  // =============================================================================
   initial begin
-    // 리셋
-    rst_n = 0;
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+
+  integer l, i, bit_idx;
+
+  // =============================================================================
+  // 2) Stimulus: 리셋, 입력값 설정, 인에이블 펄스, 완료 모니터링
+  // =============================================================================
+  initial begin
+    // 초기값
+    rst_n         = 0;
+    adder_tree_en = 0;
+    in_flat       = 0;
+
+    // 리셋 해제 시점: 20ns 후
     #20;
     rst_n = 1;
-    #10;
 
-    // 벡터 1: 0..15
-    for (i = 0; i < NUM_INPUTS; i = i + 1)
-      in_array[i] = i;
-    pack_flat();
-    #10; #10;
-    exp_sum = 0;
-    for (j = 0; j < NUM_INPUTS; j = j + 1)
-      exp_sum = exp_sum + in_array[j];
-    $display("[%0t] EXPECTED=%0d, GOT=%0d", $time, exp_sum, sum_out);
-
-    // 벡터 2: all 8
-    for (i = 0; i < NUM_INPUTS; i = i + 1)
-      in_array[i] = 8;
-    pack_flat();
-    #10; #10;
-    exp_sum = 8 * NUM_INPUTS;
-    $display("[%0t] EXPECTED=%0d, GOT=%0d", $time, exp_sum, sum_out);
-
-    // 랜덤 테스트 5회
-    repeat (5) begin
-      exp_sum = 0;
+    //-------------------------------------------------------------------------
+    // 2-1) 모든 입력값을 '1'로 채워준다.
+    //       - 각 lane(NUM_LANE)별로 NUM_INPUTS개씩, DATA_WIDTH 폭으로 1을 할당
+    //       - in_flat[(lane*NUM_INPUTS + idx)*DATA_WIDTH +: DATA_WIDTH] 형태로 슬라이스
+    //-------------------------------------------------------------------------
+    for (l = 0; l < NUM_LANE; l = l + 1) begin
       for (i = 0; i < NUM_INPUTS; i = i + 1) begin
-        in_array[i] = $random;
-        exp_sum = exp_sum + in_array[i];
+        bit_idx = (l*NUM_INPUTS + i)*DATA_WIDTH;
+        in_flat[bit_idx +: DATA_WIDTH] = 20'd1;
       end
-      pack_flat();
-      #10; #10;
-      $display("[%0t] RANDOM EXPECTED=%0d, GOT=%0d", $time, exp_sum, sum_out);
     end
 
-    #20;
+    //-------------------------------------------------------------------------
+    // 2-2) 10ns 후에 adder_tree_en을 1로 펄스 주고, 다시 10ns 뒤 0으로
+    //-------------------------------------------------------------------------
+    #10;
+    adder_tree_en = 1;
+    #10;
+    adder_tree_en = 0;
+
+    //-------------------------------------------------------------------------
+    // 2-3) adder_tree_done 신호가 올라올 때까지 대기
+    //       - done이 1이 된 이후 10ns 뒤에 결과 출력하고 시뮬레이션 종료
+    //-------------------------------------------------------------------------
+    wait (adder_tree_done == 1);
+    #10;
+    $display("===== Simulation 결과 =====");
+    $display("Time = %0t ns", $time);
+    $display("sum_out_flat = %h  (hex, 각 lane별 SUM 값)");
+    $display("----------------------------");
+    // sum_out_flat은 [lane*SUM_WIDTH +: SUM_WIDTH] 형식으로 각 lane별로 출력
+    for (l = 0; l < NUM_LANE; l = l + 1) begin
+      $display("  Lane %0d => %0d (decimal), 0x%h (hex)", 
+               l,
+               sum_out_flat[l*SUM_WIDTH +: SUM_WIDTH], 
+               sum_out_flat[l*SUM_WIDTH +: SUM_WIDTH]);
+    end
+    $display("============================");
+    #10;
     $finish;
   end
 
