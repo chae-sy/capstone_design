@@ -59,7 +59,7 @@ module SPRNN_Top#(
 
     wire                    channel;
 
-    wire    [8:0]           wmem_addr,
+    wire    [8:0]           wmem_addr;
     wire    [15:0]          memA_addr;
 
     wire    [127:0]         wmem_din,
@@ -168,6 +168,15 @@ module SPRNN_Top#(
     // we need register file for bias
     // since biases are 32bit (!= weight, input 8bits)
     // and their amount is small, we don't need SRAM
+    register_file_single u_mem_bias(
+    .clk(clk),
+    .rst_n(rst_n),
+    .wen(wen_bias),
+    .addr(write_addr_bias),
+    .wdata(write_data_bias),
+    .addr_flat(read_addr_bias),
+    .rdata_flat(read_data_bias)
+    );
     wire is_A;
     wire buffer_in_data = is_A ? memA_dout : memB_dout;
     
