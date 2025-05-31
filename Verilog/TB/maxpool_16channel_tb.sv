@@ -103,8 +103,8 @@ module maxpool_tb;
         end
         disable_input(); check_output("RED");
 
-        // Test 2: GREEN 4x1
-        $display("\n[TEST 2] GREEN 4x1 (4 inputs per channel)");
+        // Test 2: GREEN 2x2
+        $display("\n[TEST 2] GREEN 2x2 (4 inputs per channel)");
         color = 2'b01;
         for (int ch = 0; ch < CHANNELS; ch++) expected_max[ch] = -128;
         for (int row = 0; row < 4; row++) begin
@@ -147,8 +147,8 @@ module maxpool_tb;
             disable_input(); check_output($sformatf("RED repeat #%0d", iter+1));
         end
 
-        // Test 5: GREEN 4x1 repeat
-        $display("\n[TEST 5] GREEN 4x1 repeat");
+        // Test 5: GREEN 2x2 repeat
+        $display("\n[TEST 5] GREEN 2x2 repeat");
         for (int iter = 0; iter < 2; iter++) begin
             color = 2'b01;
             for (int ch = 0; ch < CHANNELS; ch++) expected_max[ch] = -128;

@@ -9,7 +9,7 @@ module maxpool_16chnl#(
     input  wire                         clk,
     input  wire                         rst_n,
     input  wire                         maxpool_en,
-    input  wire [1:0]                   color, // r=0 (4x2), g=1 (4x1), b=2 (4x2)
+    input  wire [1:0]                   color, // r=0 (4x2), g=1 (2x2), b=2 (4x2)
     input  wire signed [DATA_WIDTH*CHANNELS-1:0] in_data,
     output wire                         maxpool_done_o,
     output wire signed [DATA_WIDTH*CHANNELS-1:0] out_data_o
@@ -30,9 +30,7 @@ module maxpool_16chnl#(
     reg [3:0] cnt_n [0:CHANNELS-1];
 
     reg maxpool_done;
-    reg maxpool_done_n;
     reg signed [DATA_WIDTH-1:0] out_data [0:CHANNELS-1];
-    reg meaningless;
 
     integer i;
 
@@ -72,7 +70,7 @@ module maxpool_16chnl#(
             max_val_n[ch] = max_val[ch];
         
             if (maxpool_en) begin
-                if (color == 2'b01) begin // green (4x1)
+                if (color == 2'b01) begin // green (2x2)
                     wr_ptr_n[ch] = wr_ptr[ch] + 1;
                     cnt_n[ch] = cnt[ch] + 1;
                     linebuf_g[ch][wr_ptr[ch]] = in_data_reg[ch]; 
