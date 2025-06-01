@@ -186,7 +186,7 @@ module SPRNN_Top#(
 
     /////////////////////// buffer //////////////////////////
 
-    f_buffer_v1      u_in_buf_red
+    f_buffer      u_in_buf_red
     (
         .clk                (clk),
         .rst_n              (rst_n),
@@ -198,7 +198,7 @@ module SPRNN_Top#(
         .f_buffer_done      (in_buf_done[0])
     );
 
-    f_buffer_v1      u_in_buf_green
+    f_buffer      u_in_buf_green
     (
         .clk                (clk),
         .rst_n              (rst_n),
@@ -210,7 +210,7 @@ module SPRNN_Top#(
         .f_buffer_done      (in_buf_done[1])
     );
 
-    f_buffer_v1      u_in_buf_blue
+    f_buffer      u_in_buf_blue
     (
         .clk                (clk),
         .rst_n              (rst_n),
@@ -222,7 +222,7 @@ module SPRNN_Top#(
         .f_buffer_done      (in_buf_done[2])
     );
 
-    w_buffer_v1 u_w_buf
+    w_buffer u_w_buf
     ( 
         .clk                (clk),
         .rst_n              (rst_n),
@@ -261,7 +261,7 @@ module SPRNN_Top#(
                 .data_in        (rgb_lane),     
                 .weight_in      (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
                 .pe_done        (pe_done[ch]),
-                .result_out_flat(stage2_output[ch]) // r, g, b ?�� ?��?��, ?�� 채널
+                .result_out_flat(stage2_output[ch]) // r, g, b
             );
         end
     endgenerate
@@ -367,7 +367,8 @@ module SPRNN_Top#(
         .waddr              (write_addr_bias),
         .wdata              (write_data_bias),
         .raddr              (read_addr_bias),
-        .rdata              (read_data_bias)
+        .rdata              (read_data_bias),
+        .layer_num          (layer_num)
     );
 
     bias_relu      u_bias_relu_R

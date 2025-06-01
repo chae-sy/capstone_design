@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module w_buffer_v1_tb;
+module w_buffer_tb;
 
     //================================================================
     // 1) 파라미터 (f_buffer_v1 모듈과 동일하게 맞춰야 함)
@@ -27,7 +27,7 @@ module w_buffer_v1_tb;
     //================================================================
     // 3) DUT 인스턴스화
     //================================================================
-    w_buffer_v1 #(
+    w_buffer #(
         .WIDTH_FSRAM_WL  (WIDTH_FSRAM_WL),
         .DATA_WIDTH      (DATA_WIDTH),
         .NUM_CHNL        (NUM_CHNL),
@@ -67,15 +67,15 @@ module w_buffer_v1_tb;
         data_in     = {WIDTH_FSRAM_WL{1'b0}};
         #20;                // 2클럭 대기 (20ns)
         rst_n       = 1'b1; // 리셋 해제
-
+        #5;
         // (2) 초기 로딩(initial load)
         // wren = 1, 9 사이클 동안 sample_data를 채워넣음
         wren        = 1'b1;
         for (idx = 0; idx < SIZE_KERNEL_H*SIZE_KERNEL_W; idx = idx + 1) begin
             // 각 사이클마다 채울 16채널 샘플 데이터를 준비 (예: idx 값 반복)
             // sample_data[a] = idx + a  (임의 패턴)
-            integer a;
-            for (a = 0; a < NUM_CHNL; a = a + 1) begin
+             @(posedge clk);
+            for (int a = 0; a < NUM_CHNL; a = a + 1) begin
                 sample_data[a] = idx + a;
             end
             // 16채널을 128bit로 패킹
@@ -87,7 +87,6 @@ module w_buffer_v1_tb;
             };
 
             // 매 클럭마다 데이터 입력
-            @(posedge clk);
             // w_buffer_done이 1로 올라오는 시점을 관찰
             if (w_buffer_done) begin
                 $display("[%0t] Initial load done at idx=%0d", $time, idx);
@@ -114,9 +113,9 @@ module w_buffer_v1_tb;
         wren=1'b1;
         for (idx = 0; idx < SIZE_KERNEL_H*SIZE_KERNEL_W; idx = idx + 1) begin
             // 각 사이클마다 채울 16채널 샘플 데이터를 준비 (예: idx 값 반복)
-            // sample_data[a] = idx + a  (임의 패턴)
-            integer a;
-            for (a = 0; a < NUM_CHNL; a = a + 1) begin
+            // sample_data[a] = idx + a  (임의 패턴) 
+            @(posedge clk);
+            for (int a = 0; a < NUM_CHNL; a = a + 1) begin
                 sample_data[a] = 100+ idx + a;
             end
             // 16채널을 128bit로 패킹
@@ -128,7 +127,7 @@ module w_buffer_v1_tb;
             };
 
             // 매 클럭마다 데이터 입력
-            @(posedge clk);
+           
             // w_buffer_done이 1로 올라오는 시점을 관찰
             if (w_buffer_done) begin
                 $display("[%0t] Initial load done at idx=%0d", $time, idx);
