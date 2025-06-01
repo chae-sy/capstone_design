@@ -5,109 +5,138 @@
 //
 // Create Date: 2025/05/18
 // Design Name: 
-// Module Name: w_buffer_v1 (simplified with for-loops)
-//
+// Module Name: w_buffer_v1 (fixed & cleaned)
+// 
 // Description: 
-//   Refactored INPUT_BUFFER (formerly f_buffer_v0) using loops and packed arrays
+//   INPUT_BUFFER (w_buffer_v0) 을 루프와 3차원 배열로 리팩토링한 버전.
+//   ? 초기 로딩 (3×3 데이터): is_initial=1 일 때 9 사이클 동안 데이터를 채운 뒤 w_buffer_done=1
+//   ? 이후 로딩 (shift + 3개 데이터): is_initial=0 이면 왼쪽으로 shift 후 마지막 열에 3개 행(row) 씩 데이터 로드
+//   ? rden=1 이면, 3×3 데이터(tap)를 순차적으로 data_out 으로 출력 (각 채널마다 DATA_WIDTH)
 //////////////////////////////////////////////////////////////////////////////////
 
 module w_buffer_v1 #(
-    parameter WIDTH_WSRAM_WL = 128,
-    parameter DATA_WIDTH    = 8,
-    parameter NUM_CHNL          = 16,
-    parameter SIZE_BUFFER_H   = 3, 
-    parameter SIZE_BUFFER_W   = 3,
-    parameter SIZE_KERNEL_H = 3,
-    parameter SIZE_KERNEL_W = 3
+    parameter WIDTH_FSRAM_WL  = 128,   // SRAM에서 한 번에 읽어오는 비트 폭 (예: 8bit×16채널=128)
+    parameter DATA_WIDTH      = 8,     // 한 채널당 데이터 폭
+    parameter NUM_CHNL        = 16,    // 채널 수
+    parameter SIZE_BUFFER_H   = 3,     // 버퍼 세로 크기 (행 개수)
+    parameter SIZE_BUFFER_W   = 3,     // 버퍼 가로 크기 (열 개수)
+    parameter SIZE_KERNEL_H   = 3,     // 커널 세로 크기 (예: 3)
+    parameter SIZE_KERNEL_W   = 3      // 커널 가로 크기 (예: 3)
 )(
     input                                 clk,
     input                                 rst_n,
-    input                                 buffer_load_w, // load feature
-    input        [$clog2(SIZE_BUFFER_H)-1:0] buffer_ptr_h_w, // pointer for height
-    input        [$clog2(SIZE_BUFFER_W)-1:0] buffer_ptr_w_w, // pointer for width
-    input                                 buffer_start, // output start
-    // pack w_data ports into an array
-    input  [WIDTH_WSRAM_WL-1:0]           w_data_in, // from SRAM
-    output reg [DATA_WIDTH*NUM_CHNL-1:0]  w_buffer_out
+    input                                 wren,           // 외부에서 feature 로드 허용
+    input                                 rden,           // 데이터 출력 허용
+    input  [WIDTH_FSRAM_WL-1:0]           data_in,        // SRAM 에서 읽어온 128bit
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (출력) 각 채널별로 8bit씩 묶음
+    output reg                            w_buffer_done   // 리턴: 초기 또는 후속 로드/출력이 끝났음을 알림
 );
 
-    // buffer storage: [row][pe]
+    //================================================================
+    // 1) 내부 버퍼: 3D 배열 선언 (SIZE_BUFFER_H × SIZE_BUFFER_W × NUM_CHNL)
+    //    → buffer_data[row][col][channel]
+    //================================================================
     reg [DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1][0:NUM_CHNL-1];
-    reg [5:0] counter;
-    integer i, k, r;
 
-    // 8bit * 16 chnl = 128bit -> to array
-    wire [DATA_WIDTH-1:0] w_data [0:NUM_CHNL-1];
+    //================================================================
+    // 2) 읽기/쓰기 카운터: 초기 로딩, 후속 로딩, 출력 시 각각 따로 관리
+    //    load_cnt : initial=1이면 0~8 (3×3), is_initial=0 이면 0~(SIZE_BUFFER_H-1)
+    //    out_cnt  : 0~(SIZE_KERNEL_H*SIZE_KERNEL_W-1) 동안 tap 출력
+    //================================================================
+    reg [5:0] load_cnt;  // 최대 9 또는 3 까지 카운팅(6비트면 충분)
+    reg [5:0] out_cnt;   // 최대 9까지 카운팅
 
+    //================================================================
+    // 3) data_in 을 NUM_CHNL × DATA_WIDTH 로 분리하기 위한 wire 배열
+    //    (예: 128bit → 16채널 × 8bit)
+    //================================================================
+    wire [DATA_WIDTH-1:0] f_data [0:NUM_CHNL-1];
     genvar a;
     generate
-    for (a = 0; a < 16; a = a + 1) begin
-        assign w_data[a] = w_data_in[8*a +: 8];
-    end
+        for (a = 0; a < NUM_CHNL; a = a + 1) begin : GEN_UNPACK
+            assign f_data[a] = data_in[DATA_WIDTH*a +: DATA_WIDTH];
+        end
     endgenerate
 
+    // 정수 반복문용 변수
+    integer i, r, c;
 
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            // reset all buffer_data elements
-            for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
+    //================================================================
+    // 4) 메인 always 블록: 리셋, 쓰기(wren), 읽기(rden) 순으로 분기
+    //================================================================
+ always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        // ─── 1) RESET ────────────────────────────────────────────
+        for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
+            for (c = 0; c < SIZE_BUFFER_W; c = c + 1) begin
                 for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                    for (k = 0; k < SIZE_BUFFER_W; k = k + 1) begin
-                        buffer_data[r][k][i] <= {DATA_WIDTH{1'b0}};
-                    end
+                    buffer_data[r][c][i] <= {DATA_WIDTH{1'b0}};
                 end
             end
-            counter <= 0;
-            w_buffer_out <= 0;
+        end
+        load_cnt       <= 0;
+        out_cnt        <= 0;
+        data_out       <= {DATA_WIDTH*NUM_CHNL{1'b0}};
+        w_buffer_done  <= 1'b0;
+
+    end else begin
+        // ─── 2) 기본: 매 사이클 done 신호는 0에서 시작 ──────────
+        w_buffer_done <= 1'b0;
+
+        // ─── 3) 쓰기 로직 (wren) ─────────────────────────────────
+        if (wren) begin
+            // 읽기 카운터는 쓰기 시 리셋하지 않는다 (동시 동작 허용)
+            // → out_cnt, data_out은 읽기 로직에서 따로 처리
+
+                // 초기 로드 모드: 3×3 윈도우를 채운다
+                if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
+                    // buffer_data[row][col][i] <= f_data[i];
+                    for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                        buffer_data[ load_cnt / SIZE_KERNEL_W ]
+                                    [ load_cnt % SIZE_KERNEL_W ]
+                                    [ i ] <= f_data[i];
+                    end
+                    load_cnt <= load_cnt + 1;
+                end
+                if (load_cnt == (SIZE_KERNEL_H * SIZE_KERNEL_W - 1)) begin
+                    w_buffer_done <= 1'b1;
+                    load_cnt       <= 0;
+                end
 
         end else begin
-            
-                // load new features into the pointer-specified row, column
-                if (buffer_load_w) begin
-                    for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                        buffer_data[buffer_ptr_h_w][buffer_ptr_w_w][i] <= w_data[i];
-                    end
-                end
-              
-                    if (counter < SIZE_BUFFER_H-1) begin
-                        for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[counter][SIZE_BUFFER_W-1][i] <= w_data[i]; //loading new data 
-                        end
-                        counter <= counter + 1;
-                     end else begin
-                      // counter == SIZE_BUFFER_H-1
-                      for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[SIZE_BUFFER_H-1][SIZE_BUFFER_W-1][i] <= w_data[i]; //loading new data
-                        end
-                        counter <= 0;
-                    end
-                end
-                
-              
-                // output based on mode
-                if (buffer_start) begin
-                            // example for 3x3 head
-                            if (counter < SIZE_KERNEL_W*SIZE_KERNEL_H-1) begin
-                                // broadcast one tapped value to all PEs
-                                for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                                    w_buffer_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
-                                    <= buffer_data[counter % SIZE_KERNEL_H][counter / SIZE_KERNEL_H][i];
-                                end
-                                counter <= counter + 1;
-                            end else begin
-                            // counter = SIZE_KERNEL_H * SIZE_KERNEL_H -1
-                            for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                                 w_buffer_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
-                                    <= buffer_data[(SIZE_KERNEL_W*SIZE_KERNEL_H-1) % SIZE_KERNEL_H]
-                                        [(SIZE_KERNEL_W*SIZE_KERNEL_H-1) / SIZE_KERNEL_H]
-                                        [i];
-                            end
-                                counter <= 0;
-                                      
-                                
-                            end //102
-                        end // 92
+            // wren이 0이면, 쓰기 카운터를 0으로 유지
+            load_cnt <= 0;
+        end
 
-                      
-      
+
+        // ─── 4) 읽기 로직 (rden) ─────────────────────────────────
+        if (rden) begin
+
+            if (out_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
+                // buffer_data[row][col][i] → data_out
+                for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                    data_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] <=
+                        buffer_data[ out_cnt / SIZE_KERNEL_W ]
+                                    [ out_cnt % SIZE_KERNEL_W ]
+                                    [ i ];
+                end
+            end
+
+            if (out_cnt == (SIZE_KERNEL_H * SIZE_KERNEL_W - 1)) begin
+                w_buffer_done <= 1'b1;
+                out_cnt       <= 0;
+            end else begin
+                out_cnt <= out_cnt + 1;
+            end
+
+        end else begin
+            // rden이 0이면, 읽기 카운터와 출력값은 초기화
+            out_cnt  <= 0;
+            data_out <= {DATA_WIDTH*NUM_CHNL{1'b0}};
+        end
+
+    end
+end
+
+
 endmodule
