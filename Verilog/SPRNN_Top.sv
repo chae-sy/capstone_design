@@ -224,15 +224,13 @@ module SPRNN_Top#(
 
     w_buffer_v1 u_w_buf
     ( 
-        .clk(clk),
-        .rst_n(rst_n),
-        .buffer_mode(buffer_mode_w),
-        .buffer_load_w(buffer_load_w),
-        .buffer_ptr_h_w(buffer_ptr_h_w),
-        .buffer_ptr_w_w(buffer_ptr_w_w),
-        .buffer_start(buffer_start_w),
-        .w_data(w_data),
-        .w_buffer_out(w_buffer_out)
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .wren               (wei_buf_wren_o),
+        .rden               (wei_buf_rden_o),
+        .data_in            (wmem_qout),
+        .data_out           (stage1_in_output),
+        .w_buffer_done      (w_buf_done)
     );
     
     //(memory -> buffer) => PE array 
@@ -246,7 +244,7 @@ module SPRNN_Top#(
     /////////////////////// PE array //////////////////////////
     
     genvar ch;
-    generate // 16 번 불러옴.
+    generate // 16 �? 불러?��.
         for (ch = 0; ch < NUM_CHNL; ch = ch + 1) begin : GEN_PE
 
             assign rgb_lane[0] = stage2_in_input[0][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
@@ -263,7 +261,7 @@ module SPRNN_Top#(
                 .data_in        (rgb_lane),     
                 .weight_in      (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
                 .pe_done        (pe_done[ch]),
-                .result_out_flat(stage2_output[ch]) // r, g, b 다 포함, 한 채널
+                .result_out_flat(stage2_output[ch]) // r, g, b ?�� ?��?��, ?�� 채널
             );
         end
     endgenerate
@@ -277,10 +275,13 @@ module SPRNN_Top#(
                    pe_done[8] & pe_done[9] & pe_done[10] & pe_done[11] &
                    pe_done[12] & pe_done[13] & pe_done[14] & pe_done[15];
 
+    integer i;
     // PE => add tree
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            stage3_input <= 0;
+            for (i=0; i < NUM_COLOR; i=i+1) begin
+            stage3_input[i] <= {20*NUM_CHNL{1'b0}};
+            end
         end
         else if (pe_done_i) begin // valid == done
             stage3_input[0] <= {stage2_output[15][0], stage2_output[14][0], stage2_output[13][0], stage2_output[12][0],
@@ -343,7 +344,9 @@ module SPRNN_Top#(
     // add tree => (1,2,3,5,6) relu
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            stage4_input <= 0;
+            for (i=0; i < NUM_COLOR; i=i+1) begin
+            stage4_input[i] <= {24{1'b0}};
+            end
         end
         else if (addtree_done_i) begin // valid == done
             stage4_input <= stage3_output;
@@ -357,7 +360,7 @@ module SPRNN_Top#(
 
     /////////////////////// relu & bias //////////////////////////
 
-    register_file_single u_mem_bias(
+    regfile_sync u_mem_bias(
         .clk                (clk),
         .rst_n              (rst_n),
         .we                 (wen_bias),
@@ -441,7 +444,7 @@ module SPRNN_Top#(
         .data_in_b          (stage5_input[2]),
         .rden               (out_buf_rden_o),
         .layer_num          (layer_num),
-        .o_buffer_done      (out_buf_done_i)
+        .o_buffer_done      (out_buf_done_i),
         .data_out           (data_out)
     );
 
