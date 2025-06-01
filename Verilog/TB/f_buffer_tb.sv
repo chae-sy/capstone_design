@@ -111,9 +111,10 @@ module f_buffer_v1_tb;
             $display("[%0t] Read-out [%0d]: data_out = %h, f_buffer_done = %b", 
                       $time, idx, data_out, f_buffer_done);
         end
+        rden = 1'b0;
         // 출력을 마친 뒤
         @(posedge clk);
-        rden = 1'b0;
+        
 
         // (4) 후속 로딩(shift + load) 테스트
         // → is_initial=0, wren=1 상태에서 열 기준으로 shift 후 3개 데이터 로드
@@ -137,10 +138,10 @@ module f_buffer_v1_tb;
                 $display("[%0t] Shift+load done at idx=%0d", $time, idx);
             end
         end
-
+        wren = 1'b0;
         // 후속 로딩 종료 후 한 클럭 더 유지
         @(posedge clk);
-        wren = 1'b0;
+        
 
         // (5) 후속 3×3 출력(read-out) 테스트
         rden = 1'b1;
@@ -149,9 +150,35 @@ module f_buffer_v1_tb;
             $display("[%0t] Post-shift Read-out [%0d]: data_out = %h, f_buffer_done = %b", 
                       $time, idx, data_out, f_buffer_done);
         end
-        @(posedge clk);
         rden = 1'b0;
-
+        @(posedge clk);
+        // (5-2) rden, wden 동시에 해보기
+        rden = 1'b1;
+        wren=1'b1;
+        for (idx = 0; idx < SIZE_KERNEL_H*SIZE_KERNEL_W; idx = idx + 1) begin
+            if (idx < SIZE_BUFFER_H) begin
+            // sample_data를 다르게 준비 (예: 200 + idx + a)
+            integer a;
+            for (a = 0; a < NUM_CHNL; a = a + 1) begin
+                sample_data[a] = 200 + idx + a;
+            end
+            data_in = { 
+                sample_data[15], sample_data[14], sample_data[13], sample_data[12],
+                sample_data[11], sample_data[10], sample_data[9],  sample_data[8],
+                sample_data[7],  sample_data[6],  sample_data[5],  sample_data[4],
+                sample_data[3],  sample_data[2],  sample_data[1],  sample_data[0]
+            };
+            end
+            if (idx == SIZE_BUFFER_H) begin
+            wren=1'b0;
+            end
+            @(posedge clk);
+            if (f_buffer_done) begin
+                $display("[%0t] Shift+load done at idx=%0d", $time, idx);
+            end
+        end
+        rden=1'b0;
+        wren=1'b0;
         // (6) 시뮬레이션 종료
         #20;
         $display("[%0t] Testbench finished.", $time);

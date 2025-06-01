@@ -9,9 +9,9 @@
 // 
 // Description: 
 //   INPUT_BUFFER (f_buffer_v0) 을 루프와 3차원 배열로 리팩토링한 버전.
-//   • 초기 로딩 (3×3 데이터): is_initial=1 일 때 9 사이클 동안 데이터를 채운 뒤 f_buffer_done=1
-//   • 이후 로딩 (shift + 3개 데이터): is_initial=0 이면 왼쪽으로 shift 후 마지막 열에 3개 행(row) 씩 데이터 로드
-//   • rden=1 이면, 3×3 데이터(tap)를 순차적으로 data_out 으로 출력 (각 채널마다 DATA_WIDTH)
+//   ? 초기 로딩 (3×3 데이터): is_initial=1 일 때 9 사이클 동안 데이터를 채운 뒤 f_buffer_done=1
+//   ? 이후 로딩 (shift + 3개 데이터): is_initial=0 이면 왼쪽으로 shift 후 마지막 열에 3개 행(row) 씩 데이터 로드
+//   ? rden=1 이면, 3×3 데이터(tap)를 순차적으로 data_out 으로 출력 (각 채널마다 DATA_WIDTH)
 //////////////////////////////////////////////////////////////////////////////////
 
 module f_buffer_v1 #(
@@ -65,122 +65,114 @@ module f_buffer_v1 #(
     //================================================================
     // 4) 메인 always 블록: 리셋, 쓰기(wren), 읽기(rden) 순으로 분기
     //================================================================
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            // ─── 4.1) RESET 섹션 ─────────────────────────────────────────
-            // buffer_data 전부 0으로 초기화
-            for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
-                for (c = 0; c < SIZE_BUFFER_W; c = c + 1) begin
-                    for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                        buffer_data[r][c][i] <= {DATA_WIDTH{1'b0}};
-                    end
+ always @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+        // ─── 1) RESET ────────────────────────────────────────────
+        for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
+            for (c = 0; c < SIZE_BUFFER_W; c = c + 1) begin
+                for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                    buffer_data[r][c][i] <= {DATA_WIDTH{1'b0}};
                 end
             end
-            load_cnt       <= 0;
-            out_cnt        <= 0;
-            data_out       <= {DATA_WIDTH*NUM_CHNL{1'b0}};
-            f_buffer_done  <= 1'b0;
+        end
+        load_cnt       <= 0;
+        out_cnt        <= 0;
+        data_out       <= {DATA_WIDTH*NUM_CHNL{1'b0}};
+        f_buffer_done  <= 1'b0;
 
-        end else begin
-            // ─── 4.2) 기본값: 매 클럭마다 완료 신호 끄기 (동작 끝날 때만 1로 올림) ───
-            f_buffer_done <= 1'b0;
+    end else begin
+        // ─── 2) 기본: 매 사이클 done 신호는 0에서 시작 ──────────
+        f_buffer_done <= 1'b0;
 
-            // ─── 4.3) 쓰기 동작 (wren=1) ─────────────────────────────────────────
-            if (wren) begin
-                // 출력 카운터는 쓰기 시점에 항상 0으로 리셋
-                out_cnt <= 0;
+        // ─── 3) 쓰기 로직 (wren) ─────────────────────────────────
+        if (wren) begin
+            // 읽기 카운터는 쓰기 시 리셋하지 않는다 (동시 동작 허용)
+            // → out_cnt, data_out은 읽기 로직에서 따로 처리
 
-                // ----- ① 초기 로딩 (is_initial=1) → 3×3 데이터 채우기 -----
-                if (is_initial) begin
-                    // load_cnt 가 0..8 (총 9) 일 때만 데이터를 채움
-                    if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
-                        // 행(row) = load_cnt / SIZE_KERNEL_W
-                        // 열(col) = load_cnt % SIZE_KERNEL_W
-                        for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[ load_cnt / SIZE_KERNEL_W ]
-                                        [ load_cnt % SIZE_KERNEL_W ]
-                                        [ i ] <= f_data[i];
-                        end
-
-                        // 마지막 카운트가 채워질 때 f_buffer_done=1
-                        if (load_cnt == (SIZE_KERNEL_H * SIZE_KERNEL_W - 1)) begin
-                            f_buffer_done <= 1'b1;
-                        end
-
-                        // 카운터 증가
-                        load_cnt <= load_cnt + 1;
+            if (is_initial) begin
+                // 초기 로드 모드: 3×3 윈도우를 채운다
+                if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
+                    // buffer_data[row][col][i] <= f_data[i];
+                    for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                        buffer_data[ load_cnt / SIZE_KERNEL_W ]
+                                    [ load_cnt % SIZE_KERNEL_W ]
+                                    [ i ] <= f_data[i];
                     end
+                    load_cnt <= load_cnt + 1;
+                end
+                if (load_cnt == (SIZE_KERNEL_H * SIZE_KERNEL_W - 1)) begin
+                    f_buffer_done <= 1'b1;
+                    load_cnt       <= 0;
+                end
 
-                end else begin
-                    // ----- ② 후속 로딩 (is_initial=0) → 왼쪽(열)으로 shift + 마지막 열에 SIZE_BUFFER_H개 삽입 -----
-                    // load_cnt==0 이면 한 번만 shift 를 수행
-                    if (load_cnt == 0) begin
-                        // 모든 행(r)에 대해, col=0~(SIZE_BUFFER_W-2) ← col=1~(SIZE_BUFFER_W-1) 복사
-                        for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
-                            for (c = 0; c < SIZE_BUFFER_W-1; c = c + 1) begin
-                                for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                                    buffer_data[r][c][i] <= buffer_data[r][c+1][i];
-                                end
+            end else begin
+                // 후속 로드 모드: 왼쪽으로 shift + 마지막 열에 한 행씩 삽입
+                if (load_cnt == 0) begin
+                    // 한 사이클에 한 번만 shift 수행
+                    for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
+                        for (c = 0; c < SIZE_BUFFER_W-1; c = c + 1) begin
+                            for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                                buffer_data[r][c][i] <= buffer_data[r][c+1][i];
                             end
                         end
                     end
-
-                    // load_cnt 가 0..(SIZE_BUFFER_H-1) 동안 마지막 열(col=SIZE_BUFFER_W-1)에 새 데이터 삽입
-                    if (load_cnt < SIZE_BUFFER_H) begin
-                        for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                            buffer_data[ load_cnt ]
-                                        [ SIZE_BUFFER_W-1 ]
-                                        [ i ] <= f_data[i];
-                        end
-
-                        // 마지막 행이 채워질 때 f_buffer_done=1
-                        if (load_cnt == (SIZE_BUFFER_H - 1)) begin
-                            f_buffer_done <= 1'b1;
-                        end
-
-                        // 카운터 증가
-                        load_cnt <= load_cnt + 1;
-                    end else begin
-                        // SIZE_BUFFER_H 만큼 다 채운 뒤에는 카운터만 0으로 리셋 (다음 wren 에 대비)
-                        load_cnt <= 0;
-                    end
                 end
 
-            // ─── 4.4) 읽기 동작 (rden=1) ─────────────────────────────────────────
-            end else if (rden) begin
-                // 쓰기 카운터는 읽기 시 리셋
-                load_cnt <= 0;
-
-                // out_cnt 가 0..(3×3-1) 동안 순차적으로 tap 값 뽑기
-                if (out_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
-                    // 예를 들어 3×3 윈도우 (SIZE_KERNEL_H=3, SIZE_KERNEL_W=3)
-                    // 행(row)   = out_cnt / SIZE_KERNEL_W
-                    // 열(col)   = out_cnt % SIZE_KERNEL_W
+                if (load_cnt < SIZE_BUFFER_H) begin
+                    // 마지막 열(col=SIZE_BUFFER_W-1)에 새 데이터 삽입
                     for (i = 0; i < NUM_CHNL; i = i + 1) begin
-                        data_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] 
-                            <= buffer_data[ out_cnt / SIZE_KERNEL_W ]
-                                          [ out_cnt % SIZE_KERNEL_W ]
-                                          [ i ];
-                    end
-
-                    // 마지막 카운트가 출력될 때 f_buffer_done=1
-                    if (out_cnt == (SIZE_KERNEL_H * SIZE_KERNEL_W - 1)) begin
-                        f_buffer_done <= 1'b1;
-                        out_cnt      <= 0;
-                    end else begin
-                        // 아직 다 뽑아내지 않았으면 카운터만 증가
-                        out_cnt <= out_cnt + 1;
+                        buffer_data[ load_cnt ]
+                                    [ SIZE_BUFFER_W-1 ]
+                                    [ i ] <= f_data[i];
                     end
                 end
-
-            // ─── 4.5) wren=0 & rden=0 → 버퍼 유지, 출력은 0 ──────────────────────────
-            end else begin
-                load_cnt  <= 0;
-                out_cnt   <= 0;
-                data_out  <= {DATA_WIDTH*NUM_CHNL{1'b0}};
+                if (load_cnt == (SIZE_BUFFER_H - 1)) begin
+                    // SIZE_BUFFER_H개 삽입이 끝나면 완료
+                    f_buffer_done <= 1'b1;
+                    load_cnt       <= 0;
+                end else begin
+                    load_cnt <= load_cnt + 1;
+                end
             end
 
-        end // rst_n else
-    end // always
+        end else begin
+            // wren이 0이면, 쓰기 카운터를 0으로 유지
+            load_cnt <= 0;
+        end
+
+
+        // ─── 4) 읽기 로직 (rden) ─────────────────────────────────
+        if (rden) begin
+            // 쓰기 시 load_cnt가 영향을 안 받도록 이미 분리함
+
+            if (out_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
+                // buffer_data[row][col][i] → data_out
+                for (i = 0; i < NUM_CHNL; i = i + 1) begin
+                    data_out[(i+1)*DATA_WIDTH-1 -: DATA_WIDTH] <=
+                        buffer_data[ out_cnt / SIZE_KERNEL_W ]
+                                    [ out_cnt % SIZE_KERNEL_W ]
+                                    [ i ];
+                end
+            end
+
+            if (out_cnt == (SIZE_KERNEL_H * SIZE_KERNEL_W - 1)) begin
+                f_buffer_done <= 1'b1;
+                out_cnt       <= 0;
+            end else begin
+                out_cnt <= out_cnt + 1;
+            end
+
+        end else begin
+            // rden이 0이면, 읽기 카운터와 출력값은 초기화
+            out_cnt  <= 0;
+            data_out <= {DATA_WIDTH*NUM_CHNL{1'b0}};
+        end
+
+        // ─── 5) wren=0, rden=0 일 때도 해야 할 별도 동작 없다 ───
+        // (이미 load_cnt와 out_cnt가 각각 reset 블록에서 처리됨)
+
+    end
+end
+
 
 endmodule
