@@ -197,7 +197,7 @@ module layer_pipeline #(
 
         maxpool_en = 0;
         is_initial = 1'b0;
-        
+
         for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
             in_buf_wren[i] = 0;
         end
@@ -592,7 +592,7 @@ module layer_pipeline #(
                 end
             end
             enable1: begin
-                addtree_en = 1;
+                addtree_en = 0;
                 if (addtree_done_i) begin
                     stage4_en_n = 1;
                 end

@@ -302,7 +302,7 @@ module SPRNN_Top#(
 
     /////////////////////// adder tree ////////////////////////// 
 
-    adder_tree_nlane_flat u_adder_tree_r (
+    adder_tree u_adder_tree_r (
         .clk                (clk),
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
@@ -311,7 +311,7 @@ module SPRNN_Top#(
         .adder_tree_done    (addtree_done[0])
     );
 
-    adder_tree_nlane_flat u_adder_tree_g (
+    adder_tree u_adder_tree_g (
         .clk                (clk),
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
@@ -320,7 +320,7 @@ module SPRNN_Top#(
         .adder_tree_done    (addtree_done[1])
     );
 
-    adder_tree_nlane_flat u_adder_tree_b (
+    adder_tree u_adder_tree_b (
         .clk                (clk),
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
