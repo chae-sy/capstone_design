@@ -5,7 +5,8 @@ module Controller#(
     parameter           MA_BIT_LEN = $clog2(480000),
     parameter           MB_BIT_LEN = $clog2(480000),
     parameter           WMEM_BIT_LEN = $clog2(2304),
-    parameter           NUM_CHANNEL = 16
+    parameter           NUM_CHANNEL = 16,
+    parameter           NUM_COLOR = 3
 )(
     input               clk,
     input               rst_n,
@@ -32,13 +33,13 @@ module Controller#(
     output  wire        wei_buff_rden_o,
     
     // input buffer
-    output  wire        in_buf_wren_o,
-    output  wire        in_buf_rden_o,
-    output  wire        in_buf_sel_o,
+    output  wire        in_buf_wren_o[0:NUM_COLOR-1],
+    output  wire        in_buf_rden_o[0:NUM_COLOR-1],
+    output  wire        is_initial,
     
     // output buffer
-    output  wire        out_buf_wren_o,
-    output  wire        out_buf_rden_o,
+    output  wire        out_buf_wren_o[0:NUM_COLOR-1],
+    output  wire        out_buf_rden_o[0:NUM_COLOR-1],
     
     //PE array
     output  wire        pe_en_o,
@@ -55,22 +56,25 @@ module Controller#(
     //maxpool
     output  wire        maxpool_en_o,
     input   wire        maxpool_done_i,
+    output  wire        color_o,
 
     output  reg [4:0]   channel, //input 채널 개수
-    output  wire        total_done_o // 최종 끝
+    output  wire        total_done_o, // 최종 끝
+    output  wire[2:0]   layer_num
     
 );
 
     //FSM state
-    localparam      S_IDLE          = 3'd0,
-                    S_SRAM_W        = 3'd1,
-                    S_Layer1        = 3'd2,
-                    S_Layer2        = 3'd3,
-                    S_Layer3        = 3'd4,
-                    S_Layer4        = 3'd5,  
-                    S_Layer5        = 3'd6;
+    localparam      S_IDLE          = 4'd0,
+                    S_SRAM_W        = 4'd1,
+                    S_Layer1        = 4'd2,
+                    S_Layer2        = 4'd3,
+                    S_Layer3        = 4'd4,
+                    S_Layer4        = 4'd5,  
+                    S_Layer5        = 4'd6,
+                    S_Layer6        = 4'd7;
 
-    reg     [2:0]           state,      state_n;
+    reg     [3:0]           state,      state_n;
     reg     [2:0]           layer_num,  layer_num_n;
     reg                     layer_start,  layer_start_n;
     reg     [15:0]          data_num,  data_num_n;
@@ -81,14 +85,12 @@ module Controller#(
             state           <= S_IDLE;   
             layer_num       <= 3'b0;
             layer_start     <= 1'b0;
-            data_num        <= 'd10404;
             weight_num      <= 'd16;
         end
         else begin
             state           <= state_n;
             layer_num       <= layer_num_n;
             layer_start     <= layer_start_n;
-            data_num        <= data_num_n;
             weight_num      <= weight_num_n;
         end
     end
@@ -96,7 +98,6 @@ module Controller#(
     always_comb begin
         state_n                         = state;
         layer_num_n                     = layer_num;
-        data_num_n                      = 'd10404; // 안쓰긴함
         channel                         = 'd16; 
         weight_num_n                    = 'd16;
         layer_start_n                   = 1'b0;
@@ -107,7 +108,6 @@ module Controller#(
             end
             S_SRAM_W: begin
                 if(initial_SRAMw_done & initial_weight_done) begin
-                    data_num_n          = 'd10404; // cov1 102*102
                     channel             = 'd2;
                     weight_num_n        = 'd16;
                     layer_start_n       = 1'b1;
@@ -117,7 +117,6 @@ module Controller#(
             end
             S_Layer1: begin
                 if(layer_done) begin
-                    data_num_n          = 'd10404; // cov2 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd16;
                     layer_start_n       = 1'b1;
@@ -127,7 +126,6 @@ module Controller#(
             end
             S_Layer2: begin
                 if(layer_done) begin
-                    data_num_n          = 'd10404; // cov3 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd16;
                     layer_start_n       = 1'b1;
@@ -137,7 +135,6 @@ module Controller#(
             end
             S_Layer3: begin
                 if(layer_done) begin
-                    data_num_n          = 'd10404; // cov4 102*102
                     channel             = 'd16;
                     weight_num_n        = 'd16;
                     layer_start_n       = 1'b1;
@@ -147,9 +144,8 @@ module Controller#(
             end
             S_Layer4: begin
                 if(layer_done) begin
-                    data_num_n          = 'd10404; // cov5 102*102
                     channel             = 'd16;
-                    weight_num_n        = 'd1;
+                    weight_num_n        = 'd16;
                     layer_start_n       = 1'b1;
                     state_n             = S_Layer5;
                     layer_num_n         = 3'd5;
@@ -157,7 +153,15 @@ module Controller#(
             end
             S_Layer5: begin
                 if(layer_done) begin
-                    data_num_n          = 'd10404; // cov1 102*102
+                    channel             = 'd16;
+                    weight_num_n        = 'd1;
+                    layer_start_n       = 1'b1;
+                    state_n             = S_Layer6;
+                    layer_num_n         = 3'd6;
+                end
+            end
+            S_Layer6: begin
+                if(layer_done) begin
                     channel             = 'd2;
                     weight_num_n        = 'd16;
                     layer_start_n       = 1'b1;
@@ -187,12 +191,13 @@ module Controller#(
         .wei_buff_wren_o    (wei_buff_wren_o),
         .wei_buff_rden_o    (wei_buff_rden_o),
         
-        .in_buf_wren_o      (in_buf_wren_o),
-        .in_buf_rden_o      (in_buf_rden_o),
-        .in_buf_sel_o       (in_buf_sel_o),
+        .in_buf_wren_o      (in_buf_wren_o[0:NUM_COLOR-1]),
+        .in_buf_rden_o      (in_buf_rden_o[0:NUM_COLOR-1]),
+        .is_initial         (is_initial),
         
-        .out_buf_wren_o     (out_buf_wren_o),
-        .out_buf_rden_o     (out_buf_rden_o),
+        .out_buf_wren_o     (out_buf_wren_o[0:NUM_COLOR-1]),
+        .out_buf_rden_o     (out_buf_rden_o[0:NUM_COLOR-1]),
+        .out_buf_done_i     (out_buf_done_i),
         
         .pe_en_o            (pe_en_o),
         .pe_done_i          (pe_done_i),
@@ -205,6 +210,7 @@ module Controller#(
 
         .maxpool_en_o       (maxpool_en_o),
         .maxpool_done_i     (maxpool_done_i),
+        .color_o            (color_o),
         
         .layer_num          (layer_num),
         .weight_num         (weight_num),
@@ -213,7 +219,7 @@ module Controller#(
         .layer_done_o       (layer_done)
     );
 
-    assign total_done_o = (state == S_Layer5) & layer_done;
+    assign total_done_o = (state == S_Layer6) & layer_done;
 
 //     always_comb @(*) begin
 //     // Default value

@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module maxpool_16chnl#(
+module maxpool_16ch#(
     parameter DATA_WIDTH = 8,
     parameter CHANNELS = 16,
     parameter LINEBUF_RED_BLUE_SIZE = 8,
