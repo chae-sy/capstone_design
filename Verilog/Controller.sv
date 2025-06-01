@@ -35,6 +35,7 @@ module Controller#(
     // input buffer
     output  wire        in_buf_wren_o[0:NUM_COLOR-1],
     output  wire        in_buf_rden_o[0:NUM_COLOR-1],
+    output  wire        is_initial,
     
     // output buffer
     output  wire        out_buf_wren_o[0:NUM_COLOR-1],
@@ -55,6 +56,7 @@ module Controller#(
     //maxpool
     output  wire        maxpool_en_o,
     input   wire        maxpool_done_i,
+    output  wire        color_o,
 
     output  reg [4:0]   channel, //input 채널 개수
     output  wire        total_done_o, // 최종 끝
@@ -191,6 +193,7 @@ module Controller#(
         
         .in_buf_wren_o      (in_buf_wren_o[0:NUM_COLOR-1]),
         .in_buf_rden_o      (in_buf_rden_o[0:NUM_COLOR-1]),
+        .is_initial         (is_initial),
         
         .out_buf_wren_o     (out_buf_wren_o[0:NUM_COLOR-1]),
         .out_buf_rden_o     (out_buf_rden_o[0:NUM_COLOR-1]),
@@ -207,6 +210,7 @@ module Controller#(
 
         .maxpool_en_o       (maxpool_en_o),
         .maxpool_done_i     (maxpool_done_i),
+        .color_o            (color_o),
         
         .layer_num          (layer_num),
         .weight_num         (weight_num),

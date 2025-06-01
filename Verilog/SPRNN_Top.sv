@@ -3,8 +3,6 @@ module SPRNN_Top#(
     parameter DATA_WIDTH = 8,
     parameter NUM_COLOR = 3,
     parameter NUM_CHNL = 16,
-    parameter SIZE_BUFFER_H   = 3, 
-    parameter SIZE_BUFFER_W   = 4,
     parameter AD_TR_NUM_INPUTS = 16,
     parameter AD_TR_SUM_WIDTH = DATA_WIDTH + $clog2(AD_TR_NUM_INPUTS),
     parameter BIAS_WIDTH =32
@@ -41,16 +39,17 @@ module SPRNN_Top#(
 
     wire                    wei_buff_wren_o,
                             wei_buff_rden_o,
-                            in_buf_wren_o,
-                            in_buf_rden_o,
-                            in_buf_sel_o,
-                            out_buf_wren_o,
-                            out_buf_rden_o;
+                            in_buf_wren_o[0:NUM_COLOR-1],
+                            in_buf_rden_o[0:NUM_COLOR-1],
+                            is_initial,
+                            out_buf_wren_o[0:NUM_COLOR-1],
+                            out_buf_rden_o[0:NUM_COLOR-1];
 
     wire                    pe_en_o,
                             addtree_en_o,
                             relu_en_o,
-                            maxpool_en_o;
+                            maxpool_en_o,
+                            color_o;
 
     wire                    pe_done_i,
                             addtree_done_i,
@@ -58,6 +57,7 @@ module SPRNN_Top#(
                             maxpool_done_i;
 
     wire                    channel;
+    wire    [2:0]           layer_num;
 
     wire    [8:0]           wmem_addr;
     wire    [15:0]          memA_addr;
@@ -98,7 +98,7 @@ module SPRNN_Top#(
         
         .in_buf_wren_o      (in_buf_wren_o),
         .in_buf_rden_o      (in_buf_rden_o),
-        .in_buf_sel_o       (in_buf_sel_o),
+        .is_initial         (is_initial),
         
         .out_buf_wren_o     (out_buf_wren_o),
         .out_buf_rden_o     (out_buf_rden_o),
@@ -115,13 +115,16 @@ module SPRNN_Top#(
 
         .maxpool_en_o       (maxpool_en_o),
         .maxpool_done_i     (maxpool_done_i),
+        .color_o            (color_o),
         
         .channel            (channel),
-        .total_done_o       (total_done_o)
+        .total_done_o       (total_done_o),
+        .layer_num          (layer_num)
     );
 
 
-    // memory
+    /////////////////////// memory //////////////////////////
+
     memory_w_v0 u_memW(  // Data Storage weight
         .CLK                (wmem_clk),
         .CEB                (wmem_cenb),
@@ -161,83 +164,62 @@ module SPRNN_Top#(
     assign memA_din = (initial_SRAMw_done & start) ? memA_d : (start ? memA_d_i : 0);
     assign memB_din = memB_d;
 
-    assign memA_d = ((layer_num == 2) | (layer_num == 4)) ? out_data : 0;
-    assign memB_d = ((layer_num == 2) | (layer_num == 4)) ? 0 : out_data;
+    //(4) maxpool -> memory //maxpool_output
+    //(1,2,3,5,6) output buffer -> memory // data_out
+    assign memA_d = (is_A_rd) ? 0 : ((layer_num == 4) ? maxpool_output : data_out);
+    assign memB_d = (is_A_rd) ? ((layer_num == 4) ? maxpool_output : data_out): 0;
  
+  
+    wire is_A_rd;
+    wire [DATA_WIDTH*NUM_CHNL-1:0] buf_in_data;
 
+    assign is_A_rd = ((layer_num == 1)|(layer_num == 3)|(layer_num == 5)) ? 1'b1 : 1'b0;
+    assign buf_in_data = is_A_rd ? memA_qout : memB_qout;
     
-    // we need register file for bias
-    // since biases are 32bit (!= weight, input 8bits)
-    // and their amount is small, we don't need SRAM
-    register_file_single u_mem_bias(
-    .clk(clk),
-    .rst_n(rst_n),
-    .wen(wen_bias),
-    .addr(write_addr_bias),
-    .wdata(write_data_bias),
-    .addr_flat(read_addr_bias),
-    .rdata_flat(read_data_bias)
-    );
-    wire is_A;
-    wire buffer_in_data = is_A ? memA_dout : memB_dout;
     
-    wire [4:0] buffer_mode_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    wire buffer_load_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    
-    wire [$clog2(SIZE_BUFFER_H)-1:0] buffer_ptr_h_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    wire [$clog2(SIZE_BUFFER_W)-1:0] buffer_ptr_w_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    
-    wire buffer_start_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    wire shift_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    wire pad_en_f[NUM_COLOR-1:0];  // R = 0, G = 1, B = 2
-    
-    wire [DATA_WIDTH*NUM_CHNL-1:0]  f_buffer_out_red ;
-    wire [DATA_WIDTH*NUM_CHNL-1:0] f_buffer_out_green;
-    wire [DATA_WIDTH*NUM_CHNL-1:0] f_buffer_out_blue;
-        
-    wire w_data = memW_dout; //w_buffer input
-    wire [DATA_WIDTH*NUM_CHNL-1:0] w_buffer_out; //w_buffer output
+    wire [DATA_WIDTH*NUM_CHNL-1:0]  stage1_in_output[0:NUM_COLOR-1],
+                                    stage1_weight_output;
+    reg  [DATA_WIDTH*NUM_CHNL-1:0]  stage2_in_input[0:NUM_COLOR-1],
+                                    stage2_weight_input;
+    wire in_buf_done[0:NUM_CHNL-1];
 
+
+    /////////////////////// buffer //////////////////////////
 
     f_buffer_v1      u_in_buf_red
     (
         .clk                (clk),
         .rst_n              (rst_n),
-        .color_sel          (in_buf_sel_o[0]),
+        .is_initial         (is_initial),
         .wren               (in_buf_wren_o[0]),
-        .data_in            (),
-        .rden               (),
-        .data_out           (stage1_in_output[0])
+        .rden               (in_buf_rden_o[0]),
+        .data_in            (buf_in_data),
+        .data_out           (stage1_in_output[0]),
+        .f_buffer_done      (in_buf_done[0])
     );
-    // 이런 느낌 
 
-     f_buffer_v1     u_in_buf_green
+    f_buffer_v1      u_in_buf_green
     (
-        .clk(clk),
-        .rst_n(rst_n),
-        .buffer_mode(buffer_mode_f[1]),
-        .buffer_load_f(buffer_load_f[1]),
-        .buffer_ptr_h_f(buffer_ptr_h_f[1]),
-        .buffer_ptr_w_f(buffer_ptr_w_f[1]),
-        .buffer_start(buffer_start_f[1]),
-        .shift(shift_f[1]),
-        .pad_en(pad_en_f[1]),
-        .f_data_in(buffer_in_data),
-        .f_buffer_out(f_buffer_out_green)
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .is_initial         (is_initial),
+        .wren               (in_buf_wren_o[1]),
+        .rden               (in_buf_rden_o[1]),
+        .data_in            (buf_in_data),
+        .data_out           (stage1_in_output[1]),
+        .f_buffer_done      (in_buf_done[1])
     );
-     f_buffer_v1     u_in_buf_blue
+
+    f_buffer_v1      u_in_buf_blue
     (
-        .clk(clk),
-        .rst_n(rst_n),
-        .buffer_mode(buffer_mode_f[2]),
-        .buffer_load_f(buffer_load_f[2]),
-        .buffer_ptr_h_f(buffer_ptr_h_f[2]),
-        .buffer_ptr_w_f(buffer_ptr_w_f[2]),
-        .buffer_start(buffer_start_f[2]),
-        .shift(shift_f[2]),
-        .pad_en(pad_en_f[2]),
-        .f_data_in(buffer_in_data),
-        .f_buffer_out(f_buffer_out_blue)
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .is_initial         (is_initial),
+        .wren               (in_buf_wren_o[2]),
+        .rden               (in_buf_rden_o[2]),
+        .data_in            (buf_in_data),
+        .data_out           (stage1_in_output[2]),
+        .f_buffer_done      (in_buf_done[2])
     );
 
     w_buffer_v1 u_w_buf
@@ -252,29 +234,24 @@ module SPRNN_Top#(
         .w_data(w_data),
         .w_buffer_out(w_buffer_out)
     );
+    
+    //(memory -> buffer) => PE array 
+    always_comb begin
+        stage2_in_input = stage1_in_output;
+        stage2_weight_input = stage1_weight_output;
+    end 
+    
+    wire [DATA_WIDTH-1:0]       rgb_lane[0:NUM_COLOR-1];
 
-    // (memory -> buffer) => PE array 여기도 수정해야함
-    // always_ff @(posedge clk) begin
-    //     if (pe_en_o) begin
-    //         stage2_in_input <= stage1_in_output;
-    //     end
-    //     if (pe_en_o) begin
-    //         stage2_weight_input <= stage1_weight_output;
-    //     end
-    // end 
-
-    wire valid_in[NUM_CHNL-1:0] ;
-    wire valid_out[NUM_CHNL-1:0];
-     // PE array 
+    /////////////////////// PE array //////////////////////////
+    
     genvar ch;
-    generate
+    generate // 16 번 불러옴.
         for (ch = 0; ch < NUM_CHNL; ch = ch + 1) begin : GEN_PE
-        
-            wire [DATA_WIDTH-1:0] rgb_lane [0:NUM_COLOR-1];
 
-            assign rgb_lane[0] = stage2_in_input  [ch*DATA_WIDTH +: DATA_WIDTH];
-            assign rgb_lane[1] = f_buffer_out_green[ch*DATA_WIDTH +: DATA_WIDTH];
-            assign rgb_lane[2] = f_buffer_out_blue [ch*DATA_WIDTH +: DATA_WIDTH];
+            assign rgb_lane[0] = stage2_in_input[0][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
+            assign rgb_lane[1] = stage2_in_input[1][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
+            assign rgb_lane[2] = stage2_in_input[2][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
                 
             mac_pipeline_superscalar #(
                 .DATA_WIDTH (DATA_WIDTH),
@@ -282,178 +259,190 @@ module SPRNN_Top#(
             ) u_PE_array (
                 .clk            (clk),
                 .rst_n          (rst_n),
-                .data_in        (rgb_lane [ch]),     
-                .weight_in      (stage2_weight_input[ch*DATA_WIDTH +: DATA_WIDTH]),
-                .valid_in       (valid_in [ch]),
-                .valid_out      (valid_out[ch]),
-                .result_out_flat(pe_out_flat[ch*NUM_COLOR*2*DATA_WIDTH +: NUM_COLOR*2*DATA_WIDTH])
+                .pe_en          (pe_en_o),
+                .data_in        (rgb_lane),     
+                .weight_in      (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
+                .pe_done        (pe_done[ch]),
+                .result_out_flat(stage2_output[ch]) // r, g, b 다 포함, 한 채널
             );
         end
     endgenerate
+    
+    wire [19:0]             stage2_output[0:NUM_CHNL-1][0:NUM_COLOR-1];
+    reg  [20*NUM_CHNL-1:0]  stage3_input[0:NUM_COLOR-1];
+
+    wire pe_done[0:15];
+    assign pe_done_i = pe_done[0] & pe_done[1] & pe_done[2] & pe_done[3] &
+                   pe_done[4] & pe_done[5] & pe_done[6] & pe_done[7] &
+                   pe_done[8] & pe_done[9] & pe_done[10] & pe_done[11] &
+                   pe_done[12] & pe_done[13] & pe_done[14] & pe_done[15];
 
     // PE => add tree
     always_ff @(posedge clk or negedge rst_n) begin
-        if (stage2_valid) begin // valid == done
-            stage3_input <= stage2_output;
+        if (!rst_n) begin
+            stage3_input <= 0;
+        end
+        else if (pe_done_i) begin // valid == done
+            stage3_input[0] <= {stage2_output[15][0], stage2_output[14][0], stage2_output[13][0], stage2_output[12][0],
+                                stage2_output[11][0], stage2_output[10][0], stage2_output[9][0], stage2_output[8][0],
+                                stage2_output[7][0], stage2_output[6][0], stage2_output[5][0], stage2_output[4][0],
+                                stage2_output[3][0], stage2_output[2][0], stage2_output[1][0], stage2_output[0][0]};
+                                
+            stage3_input[1] <= {stage2_output[15][1], stage2_output[14][1], stage2_output[13][1], stage2_output[12][1],
+                                stage2_output[11][1], stage2_output[10][1], stage2_output[9][1], stage2_output[8][1],
+                                stage2_output[7][1], stage2_output[6][1], stage2_output[5][1], stage2_output[4][1],
+                                stage2_output[3][1], stage2_output[2][1], stage2_output[1][1], stage2_output[0][1]};
+                                
+            stage3_input[2] <= {stage2_output[15][2], stage2_output[14][2], stage2_output[13][2], stage2_output[12][2],
+                                stage2_output[11][2], stage2_output[10][2], stage2_output[9][2], stage2_output[8][2],
+                                stage2_output[7][2], stage2_output[6][2], stage2_output[5][2], stage2_output[4][2],
+                                stage2_output[3][2], stage2_output[2][2], stage2_output[1][2], stage2_output[0][2]};
         end
     end
 
-        
-    adder_tree_nlane_flat u_adder_tree (
+    /////////////////////// adder tree ////////////////////////// 
+
+    adder_tree_nlane_flat u_adder_tree_r (
         .clk                (clk),
         .rst_n              (rst_n),
-        .in_flat            (pe_out_flat),
-        .sum_flat           (ad_tr_out_flat) stage3_output 
+        .adder_tree_en      (addtree_en_o),
+        .in_flat            (stage3_input[0]),
+        .sum_out_flat       (stage3_output[0]),
+        .adder_tree_done    (addtree_done[0])
     );
-    
-    wire [NUM_COLOR*AD_TR_SUM_WIDTH-1:0] ad_tr_out_flat; 
+
+    adder_tree_nlane_flat u_adder_tree_g (
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .adder_tree_en      (addtree_en_o),
+        .in_flat            (stage3_input[1]),
+        .sum_out_flat       (stage3_output[1]),
+        .adder_tree_done    (addtree_done[1])
+    );
+
+    adder_tree_nlane_flat u_adder_tree_b (
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .adder_tree_en      (addtree_en_o),
+        .in_flat            (stage3_input[2]),
+        .sum_out_flat       (stage3_output[2]), 
+        .adder_tree_done    (addtree_done[2])
+    );
+
+    wire addtree_done[0:NUM_COLOR-1];
+    assign addtree_done_i = addtree_done[0] & addtree_done[1] & addtree_done[2];
+
+    wire [23:0] stage3_output[0:NUM_COLOR-1],
+                stage4_input[0:NUM_COLOR-1];
+    wire [DATA_WIDTH-1:0] stage4_output[0:NUM_COLOR-1];
+
     wire [NUM_COLOR*BIAS_WIDTH-1:0] read_data_bias;
-    wire [DATA_WIDTH-1:0] relu_out_R;
-    wire [DATA_WIDTH-1:0] relu_out_G;
-    wire [DATA_WIDTH-1:0] relu_out_B;
 
 
-    // (PE + add) => (1,2,3,4) relu/ (5) output buffer
+
+    // add tree => (1,2,3,5,6) relu
     always_ff @(posedge clk or negedge rst_n) begin
-        if (stage3_valid) begin // valid == done
+        if (!rst_n) begin
+            stage4_input <= 0;
+        end
+        else if (addtree_done_i) begin // valid == done
             stage4_input <= stage3_output;
         end
     end
-    wire [NUM_COLOR-1:0] maxpool_done;
+    
 
- 
+    // we need register file for bias
+    // since biases are 32bit (!= weight, input 8bits)
+    // and their amount is small, we don't need SRAM
+
+    /////////////////////// relu & bias //////////////////////////
+
+    register_file_single u_mem_bias(
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .we                 (wen_bias),
+        .waddr              (write_addr_bias),
+        .wdata              (write_data_bias),
+        .raddr              (read_addr_bias),
+        .rdata              (read_data_bias)
+    );
+
     bias_relu      u_bias_relu_R
     (
-        .relu_on             (relu_en_o),
-        .layer_state         (layer_state),
-        .data_in_flat        (stage3_in_input[0*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]), stage3_input
+        .relu_en             (relu_en_o),
+        .relu_done           (relu_done[0]),
+        .layer_state         (layer_num),
+        .data_in             (stage4_input[0]),
         .bias                (read_data_bias[0*BIAS_WIDTH +: BIAS_WIDTH]),
         .data_out            (stage4_output[0])
     );
     
     bias_relu      u_bias_relu_G
     (
-        .relu_on             (relu_en_o),
-        .layer_state         (layer_state),
-        .data_in_flat        (ad_tr_out_flat[1*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
+        .relu_en             (relu_en_o),
+        .relu_done           (relu_done[1]),
+        .layer_state         (layer_num),
+        .data_in             (stage4_input[1]),
         .bias                (read_data_bias[1*BIAS_WIDTH +: BIAS_WIDTH]),
         .data_out            (stage4_output[1])
     );
     
     bias_relu      u_bias_relu_B
     (
-        .relu_on             (relu_en_o),
-        .layer_state         (layer_state),
-        .data_in_flat        (ad_tr_out_flat[2*AD_TR_SUM_WIDTH +: AD_TR_SUM_WIDTH]),
+        .relu_en             (relu_en_o),
+        .relu_done           (relu_done[2]),
+        .layer_state         (layer_num),
+        .data_in             (stage4_input[2]),
         .bias                (read_data_bias[2*BIAS_WIDTH +: BIAS_WIDTH]),
         .data_out            (stage4_output[2])
     );
-    // relu -> (1,2,4) output_buffer/(3) maxpool
-    always_ff @( posedge clk or negedge rst_n) begin
+
+    // (1,2,3,5,6) relu ->  output_buffer
+    always_comb begin
         case (layer_num)
-            1, 2, 3, 4: begin
+            1,2,3,5,6: begin
                 if (relu_done_i) begin
-                    stage5_input <= stage4_output;
-                end
-            end
-            default: begin
-                
-            end
-        endcase
-    end
-
-    maxpool u_maxpool_red (
-        .clk                 (clk),
-        .rst_n               (rst_n),
-        .maxpool_en          (maxpool_en_o),
-        .color               (0),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (stage5_input[0]),
-        .maxpool_done_o      (maxpool_done[0]),
-        .out_data_o          (stage5_output[0])
-    );
-    
-    maxpool u_maxpool_green (
-        .clk                 (clk),
-        .rst_n               (rst_n),
-        .maxpool_en          (maxpool_en_o),
-        .color               (1),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (stage5_input[1]),
-        .maxpool_done_o      (maxpool_done[1]),
-        .out_data_o          (stage5_output[1])
-    );
-
-    maxpool u_maxpool_blue (
-        .clk                 (clk),
-        .rst_n               (rst_n),
-        .maxpool_en          (maxpool_en_o),
-        .color               (2),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (stage5_input[2]),
-        .maxpool_done_o      (maxpool_done[2]),
-        .out_data_o          (stage5_output[2])
-    );
-
-    assign maxpool_done_i = (maxpool_done[0] & maxpool_done[1]) & maxpool_done[2];
-    
-    // (3) maxpool -> output_buffer
-    // always_ff @( posedge clk or negedge rst_n) begin
-    //     case (layer_num)
-    //         3: begin
-    //             if (maxpool_done_i) begin
-    //                 stage5_input <= stage4_output;
-    //             end
-    //         end
-    //         default: begin
-    //         end
-    //     endcase
-    // end
-
-    // (1,2,4) relu/(3) maxpool/(5) PE+adder == output buffer 여기 부분 타이밍 다시 계산해야함.
-    always_ff @( posedge clk or negedge rst_n) begin
-        case(layer_num)
-            3: begin 
-                for (int i=0; i < 3; i = i + 1) begin
-                    if (maxpool_done[i]) begin 
-                        out_data[i] = stage5_output[i];    
-                    end
-                    else begin
-                        out_data = 0; // padding
-                    end
-                end
-            end
-            5: begin
-                for (int i=0; i < 3; i = i + 1) begin
-                    if (pe_done[i]) begin 
-                        out_data[i] = stage3_output[i];    
-                    end
-                end
-                if (addtree_done) begin 
-                    out_data = stage3_output;
-                end
-            end
-            default: begin 
-                for (int i=0; i < 3; i = i + 1) begin
-                    if (relu_done[i]) begin 
-                        out_data[i] = stage4_output[i];    
-                    end
-                end
-                if (relu_done) begin 
-                    out_data = stage4_output;
+                    stage5_input = stage4_output;
                 end
             end
         endcase
     end
+     wire [DATA_WIDTH-1:0] stage5_input[0:NUM_COLOR-1];
 
-    o_buffer_v1     u_out_buf
+    wire relu_done[0:NUM_COLOR-1];
+    assign relu_done_i = (relu_done[0] & relu_done[1]) & relu_done[2];
+
+
+    /////////////////////// maxpool //////////////////////////
+
+    maxpool_16ch u_maxpool(
+        .clk                 (clk),
+        .rst_n               (rst_n),
+        .maxpool_en          (maxpool_en_o),
+        .color               (color_o),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
+        .in_data             (memA_qout),
+        .maxpool_done_o      (maxpool_done_i),
+        .out_data_o          (maxpool_output)
+    );
+    
+    wire [DATA_WIDTH-1:0] maxpool_output;
+    wire [DATA_WIDTH-1:0] data_out;
+
+
+    /////////////////////// output buffer //////////////////////////
+
+    output_buffer     u_out_buf
     (
         .clk                (clk),
         .rst_n              (rst_n),
-        .color_sel          (out_buf_sel_o[0]),
         .wren               (out_buf_wren_o),
-        .data_in_R          (out_data[0]),
-        .data_in_G          (out_data[1]),
-        .data_in_B          (out_data[2]),
+        .data_in_r          (stage5_input[0]),
+        .data_in_g          (stage5_input[1]),
+        .data_in_b          (stage5_input[2]),
         .rden               (out_buf_rden_o),
-        .data_out           ()
+        .layer_num          (layer_num),
+        .o_buffer_done      (out_buf_done_i)
+        .data_out           (data_out)
     );
 
 

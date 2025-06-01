@@ -26,6 +26,7 @@ module layer_pipeline #(
     // input buffer
     output  wire        in_buf_wren_o[0:NUM_COLOR-1],
     output  wire        in_buf_rden_o[0:NUM_COLOR-1],
+    output  reg         is_initial,
     
     // output buffer
     output  wire        out_buf_wren_o[0:NUM_COLOR-1],
@@ -47,6 +48,7 @@ module layer_pipeline #(
     //maxpool
     output  wire        maxpool_en_o,
     input   wire        maxpool_done_i,
+    output  wire        color_o,
     
     input   wire [2:0]  layer_num,
     input   wire [5:0]  weight_num,
@@ -96,7 +98,7 @@ module layer_pipeline #(
     reg                     pe_en,
                             addtree_en,
                             relu_en,
-                            maxpool_en;                   
+                            maxpool_en[0:NUM_COLOR-1];                   
     
     reg                     stage2_en, stage2_en_n;
     reg                     stage3_en, stage3_en_n;
@@ -194,6 +196,8 @@ module layer_pipeline #(
         wei_buff_wren         = 0;
 
         maxpool_en = 0;
+        is_initial = 1'b0;
+        
         for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
             in_buf_wren[i] = 0;
         end
@@ -297,6 +301,7 @@ module layer_pipeline #(
                 case(state)
                     FIRST: begin // 처음 input_data:27개, weight:9개 불러오기
                         stage2_en_n = 'b0;
+                        is_initial = 1'b1;
                         // input data 처리
                         if (num_w != 0) begin // weight 개수
             
@@ -928,5 +933,6 @@ module layer_pipeline #(
     assign     relu_en_o = relu_en; 
     assign     maxpool_en_o = maxpool_en;
     assign     layer_done_o = stage5_done;
+    assign     color_o = color;
 
 endmodule
