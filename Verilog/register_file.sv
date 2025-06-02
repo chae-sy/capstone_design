@@ -5,7 +5,7 @@ module regfile_sync #(
     parameter NUM_WORD            = 16,                        // 워드 개수
     parameter LAYER_1_NUM_WORD    = 2,                         // layer_num == 1일 때만 사용할 워드 개수
     parameter DATA_WIDTH          = NUM_WORD * BITWIDTH,       // 전체 메모리 폭
-    parameter ADDR_WIDTH          = 4                          // 2^4 = 16 개의 워드
+    parameter ADDR_WIDTH          = 3                          // 
 )(
     input  wire                     clk,        // 클록
     input  wire                     rst_n,      // 비동기 리셋 (low active)

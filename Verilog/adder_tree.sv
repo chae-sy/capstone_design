@@ -1,15 +1,15 @@
 `timescale 1ns / 1ps
 module adder_tree #(
   parameter DATA_WIDTH = 20,
-  parameter NUM_INPUTS = 16,  
+  parameter NUM_INPUTS = 16,  // 단일 lane의 입력 개수
   parameter SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS)
 )(
   input  wire                        clk,
   input  wire                        rst_n,
-  input  wire                        adder_tree_en,     
-  input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      
-  output reg  [SUM_WIDTH-1:0]             sum_out,      
-  output reg                             adder_tree_done 
+  input  wire                        adder_tree_en,     // 연산 시작 인에이블
+  input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      // 단일 lane 입력
+  output reg  [SUM_WIDTH-1:0]             sum_out,      // 단일 lane 출력
+  output reg                             adder_tree_done // 연산 완료 펄스
 );
 
   // Stage1 parameters

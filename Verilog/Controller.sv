@@ -11,7 +11,7 @@ module Controller#(
     input   wire        initial_weight_done,
 
     //Weight Memory
-    output  wire [8:0]  wmem_addr_o,
+    output  wire [9:0]  wmem_addr_o,
     output  wire        wmem_wenb_o,
     output  wire        wmem_cenb_o,
 
@@ -36,6 +36,7 @@ module Controller#(
     // output buffer
     output  wire        out_buf_wren_o[0:NUM_COLOR-1],
     output  wire        out_buf_rden_o[0:NUM_COLOR-1],
+    output  wire        out_buf_done_i,
     
     //PE array
     output  wire        pe_en_o,
@@ -52,9 +53,8 @@ module Controller#(
     //maxpool
     output  wire        maxpool_en_o,
     input   wire        maxpool_done_i,
-    output  wire        color_o,
+    output  wire [1:0]  color_o,
 
-    output  reg  [4:0]  channel, //input 채널 개수
     output  wire        total_done_o, // 최종 끝
     output  wire [2:0]  layer_num_o
     
@@ -75,18 +75,17 @@ module Controller#(
     reg                     layer_start,  layer_start_n;
     reg     [15:0]          data_num,  data_num_n;
     reg     [8:0]           weight_num,  weight_num_n;
+    reg     [4:0]           channel;
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state           <= S_IDLE;   
             layer_num       <= 3'b0;
-            layer_start     <= 1'b0;
             weight_num      <= 'd16;
         end
         else begin
             state           <= state_n;
             layer_num       <= layer_num_n;
-            layer_start     <= layer_start_n;
             weight_num      <= weight_num_n;
         end
     end
@@ -96,7 +95,7 @@ module Controller#(
         layer_num_n                     = layer_num;
         channel                         = 'd16; 
         weight_num_n                    = 'd16;
-        layer_start_n                   = 1'b0;
+        layer_start                     = 1'b0;
         case(state)
             S_IDLE: begin
                 state_n                 = S_SRAM_W;
@@ -106,7 +105,7 @@ module Controller#(
                 if(initial_SRAMw_done & initial_weight_done) begin
                     channel             = 'd2;
                     weight_num_n        = 'd16;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_Layer1;
                     layer_num_n         = 3'd1;
                 end
@@ -115,7 +114,7 @@ module Controller#(
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_Layer2;
                     layer_num_n         = 3'd2;
                 end
@@ -124,7 +123,7 @@ module Controller#(
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_Layer3;
                     layer_num_n         = 3'd3;
                 end
@@ -133,7 +132,7 @@ module Controller#(
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_Layer4;
                     layer_num_n         = 3'd4;
                 end
@@ -142,7 +141,7 @@ module Controller#(
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_Layer5;
                     layer_num_n         = 3'd5;
                 end
@@ -151,7 +150,7 @@ module Controller#(
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd1;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_Layer6;
                     layer_num_n         = 3'd6;
                 end
@@ -160,7 +159,7 @@ module Controller#(
                 if(layer_done) begin
                     channel             = 'd2;
                     weight_num_n        = 'd16;
-                    layer_start_n       = 1'b1;
+                    layer_start         = 1'b1;
                     state_n             = S_IDLE;
                     layer_num_n         = 3'd0;
                 end

@@ -6,7 +6,7 @@ module layer_pipeline #(
     input               rst_n,
 
     //Weight Memory
-    output  wire [8:0]  wmem_addr_o,
+    output  wire [9:0]  wmem_addr_o,
     output  wire        wmem_wenb_o,
     output  wire        wmem_cenb_o,
 
@@ -48,10 +48,10 @@ module layer_pipeline #(
     //maxpool
     output  wire        maxpool_en_o,
     input   wire        maxpool_done_i,
-    output  wire        color_o,
+    output  wire [1:0]  color_o,
     
     input   wire [2:0]  layer_num,
-    input   wire [5:0]  weight_num,
+    input   wire [8:0]  weight_num,
     input   wire [4:0]  channel,
     input   wire        layer_start,
     output  wire        layer_done_o
@@ -71,12 +71,13 @@ module layer_pipeline #(
                             blue = 2;
 
     reg     [15:0]          mem_rd_addr, mem_rd_addr_n;
-    reg     [15:0]          wmem_addr, wmem_addr_n;
+    reg     [9:0]           wmem_addr, wmem_addr_n;
     reg     [7:0]           cnt1_row, cnt1_row_n;
     reg     [7:0]           cnt1_column, cnt1_column_n;
     reg     [1:0]           state, state_n;
     reg     [7:0]           num1, num1_n;
     reg     [7:0]           num_w, num_w_n;
+    reg     [7:0]           num_w2, num_w2_n;
     reg     [1:0]           cnt2, cnt2_n;
     reg     [4:0]           cnt_ch, cnt_ch_n;
     reg                     row_last, row_last_n,
@@ -135,9 +136,9 @@ module layer_pipeline #(
     reg     [7:0]           num2, num2_n;
     reg     [7:0]           num_p, num_p_n;
     reg     [127:0]         out_data;
-    reg                     output_mem_en,
-                            row_num,
-                            color_num;
+    reg                     output_mem_en;
+    reg     [6:0]           row_num;
+    reg     [13:0]          color_num;
     reg     [15:0]          start_point; 
     reg     [15:0]          start_weight;                            
     
@@ -382,14 +383,14 @@ module layer_pipeline #(
                                 stage2_en_n = 'b1;
                             end
                             if (num_w_n == 0) begin // 모든 weight 다 불러옴. addr 초기화 & input/weight 둘 다 불러오는 state로 이동
-                                num_w = weight_num;
+                                num_w_n = weight_num;
                                 num1_n = 0;
                                 wmem_addr_n = start_weight;
                                 if (row_last) begin
                                     state_n = FIRST;
                                     row_last_n = 0;
                                     if (final_data) begin // 데이터 불러오기 끝
-                                        num_w = 0;
+                                        num_w_n = 0;
                                         final_data_n = 0;
                                     end
                                 end
@@ -448,7 +449,7 @@ module layer_pipeline #(
                                 end
                                 
                             end
-                            4, 5: begin // R, B <-> G size different
+                            5, 6: begin // R, B <-> G size different
                                 stage2_en_n = 'b0;
                                 if (cnt1_column <= 'd24) begin
                                     if (cnt1_row <= 'd49) begin // 한 줄 개수 세기 (R, G, B 다 해당)
@@ -550,8 +551,10 @@ module layer_pipeline #(
         end
         cnt2_n = cnt2;
         stage3_en_n = stage3_en;
+        stage2_state_n = stage2_state;
         case(stage2_state)
             IDLE: begin
+                stage3_en_n = 0;
                 if (stage2_en) begin
                     wei_buff_rden = 1;
                     for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
@@ -585,10 +588,12 @@ module layer_pipeline #(
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
+            stage2_state <= IDLE;
             stage3_en <= 0;
             stage2_done <= 0;
         end else begin
             stage3_en <= stage3_en_n;
+            stage2_state <= stage2_state_n;
         end
         if (pe_done_i) stage2_done <= stage1_done;
     end
@@ -598,8 +603,10 @@ module layer_pipeline #(
     always_comb begin
         addtree_en = 0;
         stage4_en_n = stage4_en;
+        stage3_state_n = stage3_state;
         case(stage3_state)
             IDLE: begin
+                stage4_en_n = 0;
                 if (stage3_en) begin
                     addtree_en = 1;
                     stage3_state_n = enable1;
@@ -609,6 +616,7 @@ module layer_pipeline #(
                 addtree_en = 0;
                 if (addtree_done_i) begin
                     stage4_en_n = 1;
+                    stage3_state_n = IDLE;
                 end
                 else begin
                     stage4_en_n = 0;
@@ -621,8 +629,10 @@ module layer_pipeline #(
         if (!rst_n | layer_start) begin
             stage4_en <= 0;
             stage3_done <= 0;
+            stage3_state <= IDLE;
         end else begin
             stage4_en <= stage4_en_n;
+            stage3_state <= stage3_state_n;
         end
         if (addtree_done_i) stage3_done <= stage2_done;
     end
@@ -646,6 +656,10 @@ module layer_pipeline #(
                     else begin
                         stage5_en_n = 0;
                     end
+                end
+                else begin
+                    relu_en = 0;
+                    stage5_en_n = 0;
                 end
             end
             default: begin
@@ -690,7 +704,7 @@ module layer_pipeline #(
             cnt_ch <= 'd0;
             output_state <= IDLE;
             num2 <= 0;
-            num_w <= weight_num; // 채널 구분
+            num_w2 <= weight_num; // 채널 구분
             num_p <= 0;
             color_wb <= red;
         end else begin
@@ -701,7 +715,7 @@ module layer_pipeline #(
             cnt_ch <= cnt_ch_n;
             output_state <= output_state_n;
             num2 <= num2_n;
-            num_w <= num_w_n;
+            num_w2 <= num_w2_n;
             num_p <= num_p;
             color_wb <= color_wb_n;
         end
@@ -719,7 +733,7 @@ module layer_pipeline #(
         cnt_ch_n = cnt_ch;
         output_state_n = output_state;
         num2_n = num2;
-        num_w_n = num_w;
+        num_w2_n = num_w2;
         num_p_n = num_p;
         stage5_done = 0;
         color_wb_n = color_wb;
@@ -743,7 +757,7 @@ module layer_pipeline #(
                                         cnt2_column_n = cnt2_column + 1;
                                         mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1;
                                         if (cnt2_column == 24) begin // 마지막 column & row
-                                            color_n = green;
+                                            color_wb_n = green;
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd103 + 'd2652;
                                         end
@@ -764,7 +778,7 @@ module layer_pipeline #(
                                         cnt2_column_n = cnt2_column + 1;
                                         mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1;
                                         if (cnt2_column == 49) begin // 마지막 column & row
-                                            color_n = green;
+                                            color_wb_n = green;
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd103 + 'd7854;
                                         end
@@ -785,7 +799,6 @@ module layer_pipeline #(
                                         cnt2_column_n = cnt2_column + 1;
                                         mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1;
                                         if (cnt2_column == 24) begin // 마지막 column & row
-                                            color_n = green;
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd103 + 'd2652;
                                             stage5_done = 1;
@@ -907,7 +920,7 @@ module layer_pipeline #(
    
     assign     wmem_addr_o = wmem_addr;
     assign     wmem_wenb_o = wmem_wenb;
-    assign     wmem_wenb_o = wmem_wenb;
+    assign     wmem_cenb_o = wmem_cenb;
     
     assign     memA_addr_o = ((layer_num == 2) | (layer_num == 4) | (layer_num == 6)) ? mem_wr_addr : mem_rd_addr;
     assign     memA_wenb_o = ((layer_num == 2) | (layer_num == 4) | (layer_num == 6)) ? mem_wr_wenb : mem_rd_wenb;

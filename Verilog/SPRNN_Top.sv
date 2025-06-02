@@ -11,20 +11,21 @@ module SPRNN_Top#(
     input   wire            clk,
     input   wire            rst_n,
     input   wire            start,
-    input   wire            memA_addr_i,
-    input   wire            wmem_addr_i,
+    input   wire  [15:0]    memA_addr_i,
+    input   wire  [15:0]    memB_addr_i,
+    input   wire  [9:0]     wmem_addr_i,
     input   wire  [127:0]   memA_d_i,
+    input   wire  [127:0]   memB_d_i,
     input   wire  [127:0]   wmem_d_i,
     input   wire            wren_bias_i,
     input   wire  [2:0]     write_addr_bias_i,
     input   wire  [511:0]   write_data_bias_i,
     input   wire            initial_SRAMw_done,
     input   wire            initial_weight_done,   
-    output  wire            fin,
     output  reg             total_done_o  
 );
 
-    wire    [8:0]           wmem_addr_o;
+    wire    [9:0]           wmem_addr_o;
     wire    [15:0]          memA_addr_o;
     wire    [15:0]          memB_addr_o;
 
@@ -38,7 +39,9 @@ module SPRNN_Top#(
     wire                    wmem_wenb,
                             wmem_cenb,
                             memA_wenb,
-                            memA_cenb;
+                            memA_cenb,
+                            memB_wenb,
+                            memB_cenb;
 
     wire                    wei_buff_wren_o,
                             wei_buff_rden_o,
@@ -51,8 +54,8 @@ module SPRNN_Top#(
     wire                    pe_en_o,
                             addtree_en_o,
                             relu_en_o,
-                            maxpool_en_o,
-                            color_o;
+                            maxpool_en_o;
+    wire [1:0]              color_o;
 
     wire                    pe_done_i,
                             addtree_done_i,
@@ -62,9 +65,10 @@ module SPRNN_Top#(
     wire                    channel;
     wire    [2:0]           layer_num;
 
-    wire    [8:0]           wmem_addr;
+    wire    [9:0]           wmem_addr;
     wire    [15:0]          memA_addr;
-
+    wire    [15:0]          memB_addr;
+    
     wire    [127:0]         wmem_din,
                             memA_din,
                             memB_din,
@@ -101,8 +105,8 @@ module SPRNN_Top#(
     reg                             rden_bias;
     wire [BIAS_WIDTH-1:0]           read_data_bias;
     
-    wire [DATA_WIDTH-1:0]           maxpool_output;
-    wire [DATA_WIDTH-1:0]           data_out;
+    wire [DATA_WIDTH*NUM_CHNL-1:0]  maxpool_output;
+    wire [DATA_WIDTH*NUM_CHNL-1:0]  data_out;
     
     // Controller
     Controller  u_controller(
@@ -148,7 +152,6 @@ module SPRNN_Top#(
         .maxpool_done_i     (maxpool_done_i),
         .color_o            (color_o),
         
-        .channel            (channel),
         .total_done_o       (total_done_o),
         .layer_num_o        (layer_num)
     );
@@ -156,7 +159,11 @@ module SPRNN_Top#(
 
     /////////////////////// memory //////////////////////////
 
-    memory_w_v0 u_memW(  // Data Storage weight
+    memory_w_v0 #(
+    .addr_width (10), 
+    .data_width (128),
+    .wr_delay (8)
+   )   u_memW(  // Data Storage weight
         .CLK                (clk),
         .CEB                (wmem_cenb),
         .WEB                (wmem_wenb),
@@ -176,9 +183,9 @@ module SPRNN_Top#(
     
     memory_w_v0 u_memB(  // Data Storage B
         .CLK                (clk),
-        .CEB                (memB_cenb_o),
-        .WEB                (memB_wenb_o),
-        .A                  (memB_addr_o),
+        .CEB                (memB_cenb),
+        .WEB                (memB_wenb),
+        .A                  (memB_addr),
     	.D                  (memB_din),
     	.Q                  (memB_qout)
     );        
@@ -187,13 +194,16 @@ module SPRNN_Top#(
     assign wmem_wenb = (initial_weight_done & start) ? wmem_wenb_o : (start ? 1 : 0);
     assign memA_cenb = (initial_SRAMw_done & start) ? memA_cenb_o : (start ? 1 : 0);
     assign memA_wenb = (initial_SRAMw_done & start) ? memA_wenb_o : (start ? 1 : 0);
+    assign memB_cenb = (initial_SRAMw_done & start) ? memB_cenb_o : (start ? 1 : 0);
+    assign memB_wenb = (initial_SRAMw_done & start) ? memB_wenb_o : (start ? 1 : 0);
 
     assign wmem_addr = (initial_weight_done & start) ? wmem_addr_o : (start ? wmem_addr_i : 0);
-    assign memA_addr = (initial_SRAMw_done & start) ? memA_addr_o : (start ? memA_addr_i : 0);    
+    assign memA_addr = (initial_SRAMw_done & start) ? memA_addr_o : (start ? memA_addr_i : 0);
+    assign memA_addr = (initial_SRAMw_done & start) ? memB_addr_o : (start ? memB_addr_i : 0);       
 
     assign wmem_din = wmem_d_i;
     assign memA_din = (initial_SRAMw_done & start) ? memA_d : (start ? memA_d_i : 0);
-    assign memB_din = memB_d;
+    assign memB_din = (initial_SRAMw_done & start) ? memB_d : (start ? memB_d_i : 0);
 
     //(4) maxpool -> memory //maxpool_output
     //(1,2,3,5,6) output buffer -> memory // data_out
@@ -278,7 +288,7 @@ module SPRNN_Top#(
                 .data_in        (rgb_lane),     
                 .weight_in      (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
                 .pe_done        (pe_done[ch]),
-                .result_out_flat(stage2_output[ch]) // r, g, b
+                .result_out_flat(stage2_output[ch][0:2]) // r, g, b
             );
         end
     endgenerate
@@ -321,7 +331,7 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
         .in_flat            (stage3_input[0]),
-        .sum_out_flat       (stage3_output[0]),
+        .sum_out            (stage3_output[0]),
         .adder_tree_done    (addtree_done[0])
     );
 
@@ -330,7 +340,7 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
         .in_flat            (stage3_input[1]),
-        .sum_out_flat       (stage3_output[1]),
+        .sum_out            (stage3_output[1]),
         .adder_tree_done    (addtree_done[1])
     );
 
@@ -339,11 +349,10 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
         .in_flat            (stage3_input[2]),
-        .sum_out_flat       (stage3_output[2]), 
+        .sum_out            (stage3_output[2]), 
         .adder_tree_done    (addtree_done[2])
     );
 
-    
     assign addtree_done_i = addtree_done[0] & addtree_done[1] & addtree_done[2];
 
     // add tree => (1,2,3,5,6) relu
