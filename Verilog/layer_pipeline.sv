@@ -93,12 +93,12 @@ module layer_pipeline #(
     reg                     in_buf_wren[0:NUM_COLOR-1], in_buf_rden[0:NUM_COLOR-1],
                             out_buf_wren[0:NUM_COLOR-1], out_buf_rden[0:NUM_COLOR-1]; 
     
-    reg                     wei_buff_wren, wei_buff_rden,
+    reg                     wei_buff_wren, wei_buff_rden;
     
     reg                     pe_en,
                             addtree_en,
                             relu_en,
-                            maxpool_en[0:NUM_COLOR-1];                   
+                            maxpool_en;                   
     
     reg                     stage2_en, stage2_en_n;
     reg                     stage3_en, stage3_en_n;
@@ -138,7 +138,8 @@ module layer_pipeline #(
     reg                     output_mem_en,
                             row_num,
                             color_num;
-    reg     [15:0]          start_point;                                
+    reg     [15:0]          start_point; 
+    reg     [15:0]          start_weight;                            
     
     // 1. mem data fetch (fetch)
     always_ff @( posedge clk or negedge rst_n) begin
@@ -149,7 +150,32 @@ module layer_pipeline #(
             else begin
                 mem_rd_addr <= 'b0;
             end
-            wmem_addr <= 'b0;
+            case(layer_num)
+                1: begin
+                    wmem_addr <= 'b0; 
+                    start_weight <= 'b0;
+                end
+                2: begin
+                    wmem_addr <= 'd144; 
+                    start_weight <= 'd144;
+                end
+                3: begin
+                    wmem_addr <= 'd288; 
+                    start_weight <= 'd288;
+                end
+                5: begin
+                    wmem_addr <= 'd432; 
+                    start_weight <= 'd432;
+                end
+                6: begin 
+                    wmem_addr <= 'd576; 
+                    start_weight <= 'd576;
+                end
+                default: begin
+                    wmem_addr <= 'b0; 
+                    start_weight <= 'b0;
+                end
+            endcase
             cnt1_row <= 'd0;
             cnt1_column <= 'd0;
             state <= FIRST;
@@ -183,8 +209,6 @@ module layer_pipeline #(
         state_n = state;
         num1_n = num1;
         num_w_n = num_w;
-        stage1_in_valid = 'b0;
-        stage1_weight_valid = 'b0;
         stage1_done = 0;
         stage2_en_n = stage2_en;
         color_n = color;
@@ -360,7 +384,7 @@ module layer_pipeline #(
                             if (num_w_n == 0) begin // 모든 weight 다 불러옴. addr 초기화 & input/weight 둘 다 불러오는 state로 이동
                                 num_w = weight_num;
                                 num1_n = 0;
-                                wmem_addr_n = 0;
+                                wmem_addr_n = start_weight;
                                 if (row_last) begin
                                     state_n = FIRST;
                                     row_last_n = 0;
@@ -516,38 +540,32 @@ module layer_pipeline #(
         endcase
     end
 
-    /*
-    always_ff @(posedge clk) begin
-        if (stage1_in_valid) begin
-            stage2_in_input <= stage1_in_output;
-        end
-        if (stage1_weight_valid) begin
-            stage2_weight_input <= stage1_weight_output;
-        end
-    end                        
-    */
-
     // 2. compute (PE_array )
 
     always_comb begin
         pe_en = 0;
-        stage2_valid = 0;
         wei_buff_rden = 0;
-        in_buf_rden = 0;
+        for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+            in_buf_rden[i] = 0;
+        end
         cnt2_n = cnt2;
         stage3_en_n = stage3_en;
         case(stage2_state)
             IDLE: begin
                 if (stage2_en) begin
                     wei_buff_rden = 1;
-                    in_buf_rden = 1;
+                    for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                        in_buf_rden[i] = 1;
+                    end
                     pe_en = 1;
                     stage2_state_n = enable1;
                 end
             end
             enable1: begin
                 wei_buff_rden = 1;
-                in_buf_rden = 1;
+                for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                    in_buf_rden[i] = 1;
+                end
                 pe_en = 1;
                 if (pe_done_i) begin
                     stage3_en_n = 1;
@@ -567,13 +585,9 @@ module layer_pipeline #(
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
-            // stage3_input <= 0;
             stage3_en <= 0;
             stage2_done <= 0;
         end else begin
-            // if (stage2_valid) begin
-            //     stage3_input <= stage2_output;
-            // end
             stage3_en <= stage3_en_n;
         end
         if (pe_done_i) stage2_done <= stage1_done;
@@ -605,13 +619,9 @@ module layer_pipeline #(
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
-            // stage4_input <= 0;
             stage4_en <= 0;
             stage3_done <= 0;
         end else begin
-            // if (stage3_valid) begin
-            //     stage4_input <= stage3_output;
-            // end
             stage4_en <= stage4_en_n;
         end
         if (addtree_done_i) stage3_done <= stage2_done;
@@ -646,21 +656,9 @@ module layer_pipeline #(
 
     always_ff @( posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
-            // stage5_input <= 0;
             stage5_en <= 0;
             stage4_done <= 0;
         end else begin
-            // case (layer_num)
-            //     1, 2, 3, 4: begin
-            //         if (stage4_valid) begin
-            //             stage5_input <= stage4_output;
-            //         end
-            //         if (relu_done_i) stage4_done <= stage3_done;
-            //     end
-            //     default: begin
-                   
-            //     end
-            // endcase
             stage5_en <= stage5_en_n;
         end
     end

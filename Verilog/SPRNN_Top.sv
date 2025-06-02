@@ -15,6 +15,9 @@ module SPRNN_Top#(
     input   wire            wmem_addr_i,
     input   wire  [127:0]   memA_d_i,
     input   wire  [127:0]   wmem_d_i,
+    input   wire            wren_bias_i,
+    input   wire  [2:0]     write_addr_bias_i,
+    input   wire  [511:0]   write_data_bias_i,
     input   wire            initial_SRAMw_done,
     input   wire            initial_weight_done,   
     output  wire            fin,
@@ -72,7 +75,35 @@ module SPRNN_Top#(
     wire    [127:0]         memA_d,
                             memB_d;
     
+    wire                    is_A_rd;
+    wire [DATA_WIDTH*NUM_CHNL-1:0]  buf_in_data;
 
+    wire [DATA_WIDTH*NUM_CHNL-1:0]  stage1_in_output[0:NUM_COLOR-1],
+                                    stage1_weight_output;
+    reg  [DATA_WIDTH*NUM_CHNL-1:0]  stage2_in_input[0:NUM_COLOR-1],
+                                    stage2_weight_input;
+    wire [19:0]                     stage2_output[0:NUM_CHNL-1][0:NUM_COLOR-1];
+    reg  [20*NUM_CHNL-1:0]          stage3_input[0:NUM_COLOR-1];
+    wire [23:0]                     stage3_output[0:NUM_COLOR-1];
+    reg  [23:0]                     stage4_input[0:NUM_COLOR-1];
+    wire [DATA_WIDTH-1:0]           stage4_output[0:NUM_COLOR-1];
+    reg  [DATA_WIDTH-1:0]           stage5_input[0:NUM_COLOR-1];
+                                    
+    wire                            in_buf_done[0:NUM_CHNL-1],
+                                    w_buf_done,
+                                    addtree_done[0:NUM_COLOR-1],
+                                    relu_done[0:NUM_COLOR-1],
+                                    pe_done[0:NUM_CHNL-1];
+    
+    wire [DATA_WIDTH-1:0]           rgb_lane[0:NUM_COLOR-1];
+        
+    reg  [2:0]                      read_addr_bias;
+    reg                             rden_bias;
+    wire [BIAS_WIDTH-1:0]           read_data_bias;
+    
+    wire [DATA_WIDTH-1:0]           maxpool_output;
+    wire [DATA_WIDTH-1:0]           data_out;
+    
     // Controller
     Controller  u_controller(
         .clk                (clk),
@@ -119,14 +150,14 @@ module SPRNN_Top#(
         
         .channel            (channel),
         .total_done_o       (total_done_o),
-        .layer_num          (layer_num)
+        .layer_num_o        (layer_num)
     );
 
 
     /////////////////////// memory //////////////////////////
 
     memory_w_v0 u_memW(  // Data Storage weight
-        .CLK                (wmem_clk),
+        .CLK                (clk),
         .CEB                (wmem_cenb),
         .WEB                (wmem_wenb),
         .A                  (wmem_addr),
@@ -135,7 +166,7 @@ module SPRNN_Top#(
     );
 
     memory_w_v0 u_memA(  // Data Storage A
-    	.CLK                (memA_clk),
+    	.CLK                (clk),
         .CEB                (memA_cenb),
         .WEB                (memA_wenb),
         .A                  (memA_addr),
@@ -144,7 +175,7 @@ module SPRNN_Top#(
     );
     
     memory_w_v0 u_memB(  // Data Storage B
-        .CLK                (memB_clk),
+        .CLK                (clk),
         .CEB                (memB_cenb_o),
         .WEB                (memB_wenb_o),
         .A                  (memB_addr_o),
@@ -168,22 +199,10 @@ module SPRNN_Top#(
     //(1,2,3,5,6) output buffer -> memory // data_out
     assign memA_d = (is_A_rd) ? 0 : ((layer_num == 4) ? maxpool_output : data_out);
     assign memB_d = (is_A_rd) ? ((layer_num == 4) ? maxpool_output : data_out): 0;
- 
-  
-    wire is_A_rd;
-    wire [DATA_WIDTH*NUM_CHNL-1:0] buf_in_data;
 
     assign is_A_rd = ((layer_num == 1)|(layer_num == 3)|(layer_num == 5)) ? 1'b1 : 1'b0;
     assign buf_in_data = is_A_rd ? memA_qout : memB_qout;
     
-    
-    wire [DATA_WIDTH*NUM_CHNL-1:0]  stage1_in_output[0:NUM_COLOR-1],
-                                    stage1_weight_output;
-    reg  [DATA_WIDTH*NUM_CHNL-1:0]  stage2_in_input[0:NUM_COLOR-1],
-                                    stage2_weight_input;
-    wire in_buf_done[0:NUM_CHNL-1];
-
-
     /////////////////////// buffer //////////////////////////
 
     f_buffer      u_in_buf_red
@@ -229,7 +248,7 @@ module SPRNN_Top#(
         .wren               (wei_buf_wren_o),
         .rden               (wei_buf_rden_o),
         .data_in            (wmem_qout),
-        .data_out           (stage1_in_output),
+        .data_out           (stage1_weight_output),
         .w_buffer_done      (w_buf_done)
     );
     
@@ -239,12 +258,10 @@ module SPRNN_Top#(
         stage2_weight_input = stage1_weight_output;
     end 
     
-    wire [DATA_WIDTH-1:0]       rgb_lane[0:NUM_COLOR-1];
-
     /////////////////////// PE array //////////////////////////
     
     genvar ch;
-    generate // 16 �? 불러?��.
+    generate // 16 channel
         for (ch = 0; ch < NUM_CHNL; ch = ch + 1) begin : GEN_PE
 
             assign rgb_lane[0] = stage2_in_input[0][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
@@ -266,10 +283,6 @@ module SPRNN_Top#(
         end
     endgenerate
     
-    wire [19:0]             stage2_output[0:NUM_CHNL-1][0:NUM_COLOR-1];
-    reg  [20*NUM_CHNL-1:0]  stage3_input[0:NUM_COLOR-1];
-
-    wire pe_done[0:15];
     assign pe_done_i = pe_done[0] & pe_done[1] & pe_done[2] & pe_done[3] &
                    pe_done[4] & pe_done[5] & pe_done[6] & pe_done[7] &
                    pe_done[8] & pe_done[9] & pe_done[10] & pe_done[11] &
@@ -330,16 +343,8 @@ module SPRNN_Top#(
         .adder_tree_done    (addtree_done[2])
     );
 
-    wire addtree_done[0:NUM_COLOR-1];
+    
     assign addtree_done_i = addtree_done[0] & addtree_done[1] & addtree_done[2];
-
-    wire [23:0] stage3_output[0:NUM_COLOR-1],
-                stage4_input[0:NUM_COLOR-1];
-    wire [DATA_WIDTH-1:0] stage4_output[0:NUM_COLOR-1];
-
-    wire [NUM_COLOR*BIAS_WIDTH-1:0] read_data_bias;
-
-
 
     // add tree => (1,2,3,5,6) relu
     always_ff @(posedge clk or negedge rst_n) begin
@@ -347,26 +352,35 @@ module SPRNN_Top#(
             for (i=0; i < NUM_COLOR; i=i+1) begin
             stage4_input[i] <= {24{1'b0}};
             end
+            rden_bias <= 1'b0;
         end
         else if (addtree_done_i) begin // valid == done
             stage4_input <= stage3_output;
+            rden_bias <= 1'b1;
         end
+        else begin
+            rden_bias <= 1'b0;
+        end
+        case (layer_num)
+            1: read_addr_bias <= 0;
+            2: read_addr_bias <= 1;
+            3: read_addr_bias <= 2;
+            5: read_addr_bias <= 3;
+            6: read_addr_bias <= 4;
+            default: read_addr_bias <= 0;
+        endcase
     end
-    
-
-    // we need register file for bias
-    // since biases are 32bit (!= weight, input 8bits)
-    // and their amount is small, we don't need SRAM
 
     /////////////////////// relu & bias //////////////////////////
 
     regfile_sync u_mem_bias(
         .clk                (clk),
         .rst_n              (rst_n),
-        .we                 (wen_bias),
-        .waddr              (write_addr_bias),
-        .wdata              (write_data_bias),
+        .we                 (wren_bias_i),
+        .waddr              (write_addr_bias_i),
+        .wdata              (write_data_bias_i),
         .raddr              (read_addr_bias),
+        .rden               (rden_bias),
         .rdata              (read_data_bias),
         .layer_num          (layer_num)
     );
@@ -377,7 +391,7 @@ module SPRNN_Top#(
         .relu_done           (relu_done[0]),
         .layer_state         (layer_num),
         .data_in             (stage4_input[0]),
-        .bias                (read_data_bias[0*BIAS_WIDTH +: BIAS_WIDTH]),
+        .bias                (read_data_bias),
         .data_out            (stage4_output[0])
     );
     
@@ -387,7 +401,7 @@ module SPRNN_Top#(
         .relu_done           (relu_done[1]),
         .layer_state         (layer_num),
         .data_in             (stage4_input[1]),
-        .bias                (read_data_bias[1*BIAS_WIDTH +: BIAS_WIDTH]),
+        .bias                (read_data_bias),
         .data_out            (stage4_output[1])
     );
     
@@ -397,7 +411,7 @@ module SPRNN_Top#(
         .relu_done           (relu_done[2]),
         .layer_state         (layer_num),
         .data_in             (stage4_input[2]),
-        .bias                (read_data_bias[2*BIAS_WIDTH +: BIAS_WIDTH]),
+        .bias                (read_data_bias),
         .data_out            (stage4_output[2])
     );
 
@@ -411,9 +425,7 @@ module SPRNN_Top#(
             end
         endcase
     end
-     wire [DATA_WIDTH-1:0] stage5_input[0:NUM_COLOR-1];
 
-    wire relu_done[0:NUM_COLOR-1];
     assign relu_done_i = (relu_done[0] & relu_done[1]) & relu_done[2];
 
 
@@ -429,10 +441,6 @@ module SPRNN_Top#(
         .out_data_o          (maxpool_output)
     );
     
-    wire [DATA_WIDTH-1:0] maxpool_output;
-    wire [DATA_WIDTH-1:0] data_out;
-
-
     /////////////////////// output buffer //////////////////////////
 
     output_buffer     u_out_buf
@@ -448,9 +456,6 @@ module SPRNN_Top#(
         .o_buffer_done      (out_buf_done_i),
         .data_out           (data_out)
     );
-
-
-
 
 
 endmodule

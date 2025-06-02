@@ -112,7 +112,7 @@ module bias_relu #(
           relu_done = 1'b1;  // 연산 완료 신호
         end
 
-        3'b002: begin
+        3'd2: begin
           bias_added = data_extended + bias;
           if (bias_added[WIDTH_BIAS-1])
             data_out = WIDTH_L1_ZERO_POINT;
@@ -123,7 +123,7 @@ module bias_relu #(
           relu_done = 1'b1;
         end
 
-        3'b003: begin
+        3'd3: begin
           bias_added = data_extended + bias;
           if (bias_added[WIDTH_BIAS-1])
             data_out = WIDTH_L1_ZERO_POINT;
@@ -134,7 +134,7 @@ module bias_relu #(
           relu_done = 1'b1;
         end
 
-        3'b004: begin // maxpool 모드: bias 추가 없이 data_extended만 사용
+        3'd4: begin // maxpool 모드: bias 추가 없이 data_extended만 사용
           if (data_extended[WIDTH_BIAS-1])
             data_out = WIDTH_L1_ZERO_POINT;
           else if (data_extended > relu_q_l1)
@@ -144,7 +144,7 @@ module bias_relu #(
           relu_done = 1'b1;
         end
 
-        3'b005: begin 
+        3'd5: begin 
           bias_added = data_extended + bias;
           if (bias_added[WIDTH_BIAS-1])
             data_out = WIDTH_L1_ZERO_POINT;
@@ -155,7 +155,7 @@ module bias_relu #(
           relu_done = 1'b1;
         end
 
-        3'b006: begin // no_relu 모드: 양수/음수 그대로 양자화만 수행
+        3'd6: begin // no_relu 모드: 양수/음수 그대로 양자화만 수행
           bias_added = data_extended + bias;
           if (bias_added[WIDTH_BIAS-1]) begin // 음수
             if (bias_added < -(2**(WIDTH_OUT_DATA-1) << (WIDTH_BIAS-WIDTH_L1_IN_IL-1-WIDTH_L1_OUT_FL)))
@@ -189,6 +189,3 @@ module bias_relu #(
   end
 
 endmodule
-
-
-

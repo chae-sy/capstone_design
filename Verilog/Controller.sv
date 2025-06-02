@@ -1,18 +1,14 @@
 `timescale 1ns / 1ps
 //Controller
 module Controller#(
-    //parameter           MEM_BIT_LEN = $clog2(100),
-    parameter           MA_BIT_LEN = $clog2(480000),
-    parameter           MB_BIT_LEN = $clog2(480000),
-    parameter           WMEM_BIT_LEN = $clog2(2304),
     parameter           NUM_CHANNEL = 16,
     parameter           NUM_COLOR = 3
 )(
-    input               clk,
-    input               rst_n,
+    input   wire        clk,
+    input   wire        rst_n,
     
-    input               initial_SRAMw_done,
-    input               initial_weight_done,
+    input   wire        initial_SRAMw_done,
+    input   wire        initial_weight_done,
 
     //Weight Memory
     output  wire [8:0]  wmem_addr_o,
@@ -58,9 +54,9 @@ module Controller#(
     input   wire        maxpool_done_i,
     output  wire        color_o,
 
-    output  reg [4:0]   channel, //input 채널 개수
+    output  reg  [4:0]  channel, //input 채널 개수
     output  wire        total_done_o, // 최종 끝
-    output  wire[2:0]   layer_num
+    output  wire [2:0]  layer_num_o
     
 );
 
@@ -218,78 +214,7 @@ module Controller#(
         .layer_start        (layer_start),
         .layer_done_o       (layer_done)
     );
-
+    assign layer_num_o = layer_num;
     assign total_done_o = (state == S_Layer6) & layer_done;
-
-//     always_comb @(*) begin
-//     // Default value
-//     wmem_addr           = 0;
-//     memA_addr           = 0;
-//     memB_addr           = 0;
-    
-//     wmem_wenb           = 1;
-//     wmem_enb            = 1;
-    
-//     memA_wenb           = 1;
-//     memA_cenb           = 1;
-//     memB_wenb           = 1;
-//     memB_cenb           = 1;
-
-//     wei_buff_en         = 0;
-//     in_buf_en           = 0;
-//     in_buf_rst          = 0;
-//     in_buf_sel          = 0;
-//     pe_en               = 0;
-//     pe_rst              = 0;
-//     relu_en             = 0;
-//     out_buf_en          = 0;
-//     out_buf_sel         = 0;
-//     out_buf_rst         = 0;
-//     pool_sel            = 0;
-//     done                = 0;
-    
-//     case (state)
-//         S_IDLE: begin
-
-//         end
-//         S_SRAM_W: begin
-//             wmem_enb            = 0;
-//             wmem_wenb           = 0;
-//             memA_cenb           = 0;
-//             memA_wenb           = 0;
-//         end
-//         S_Layer1, S_Layer2, S_Layer3, S_Layer4, S_Layer5: begin
-//             memA_cenb           = 0;
-//             memB_cenb           = 0;
-//             pe_en               = 1;
-//             wei_buff_en         = 1;
-//             in_buf_en           = 1;
-//             out_buf_en          = 1;
-//             if ((state == S_Layer1) | (state == S_Layer3) | (state == S_Layer5) ) begin
-//                 memB_wenb       = 0;
-//                 if (state == S_Layer3) begin
-//                     pool_sel    = 1;
-//                 end
-//                 else begin
-//                     pool_sel    = 0;
-//                 end
-//             end
-//             else begin
-//                 memA_wenb       = 0;
-//             end
-//             if (state != S_Layer5) begin
-//                 relu_en         = 1;
-//             end
-//             else begin
-//                 relu_en         = 0;
-//             end
-//         end
-//         S_data_mapping: begin
-//             memB_cenb           = 0;
-//             data_map_enb        = 0;
-//         end
-//     endcase
-// end
-
 
 endmodule
