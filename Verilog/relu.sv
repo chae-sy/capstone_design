@@ -41,13 +41,12 @@ module bias_relu #(
     
 )
 (
-    input                                           relu_en,
-    output   reg                                    relu_done,
-    input   [2:0]                                   layer_state,
-    input signed [WIDTH_IN_DATA-1:0]                data_in,
-    input  signed [WIDTH_BIAS-1:0]                  bias,
-  
-    output  reg [WIDTH_OUT_DATA-1:0]                data_out
+    input   wire                                   relu_en,
+    output  reg                                    relu_done,
+    input   wire [2:0]                             layer_state,
+    input   wire  signed [WIDTH_IN_DATA-1:0]       data_in,
+    input   wire signed [WIDTH_BIAS-1:0]           bias,
+    output  reg [WIDTH_OUT_DATA-1:0]               data_out
     );
     
   

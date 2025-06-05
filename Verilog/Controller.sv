@@ -54,9 +54,11 @@ module Controller#(
     output  wire        maxpool_en_o,
     input   wire        maxpool_done_i,
     output  wire [1:0]  color_o,
-
+    
+    output  wire        layer_done_o,
     output  wire        total_done_o, // 최종 끝
-    output  wire [2:0]  layer_num_o
+    output  wire [2:0]  layer_num_o,
+    output  wire        layer_start_o
     
 );
 
@@ -82,11 +84,13 @@ module Controller#(
             state           <= S_IDLE;   
             layer_num       <= 3'b0;
             weight_num      <= 'd16;
+            layer_start     <= 1'b0;
         end
         else begin
             state           <= state_n;
             layer_num       <= layer_num_n;
             weight_num      <= weight_num_n;
+            layer_start     <= layer_start_n;
         end
     end
 
@@ -94,72 +98,79 @@ module Controller#(
         state_n                         = state;
         layer_num_n                     = layer_num;
         channel                         = 'd16; 
-        weight_num_n                    = 'd16;
-        layer_start                     = 1'b0;
+        weight_num_n                    = weight_num;
+        layer_start_n                   = layer_start;
         case(state)
             S_IDLE: begin
                 state_n                 = S_SRAM_W;
                 layer_num_n             = 3'd0;
             end
             S_SRAM_W: begin
+                layer_start_n           = 1'b0;
                 if(initial_SRAMw_done & initial_weight_done) begin
                     channel             = 'd2;
                     weight_num_n        = 'd16;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer1;
                     layer_num_n         = 3'd1;
                 end
             end
             S_Layer1: begin
+                layer_start_n           = 1'b0;
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer2;
                     layer_num_n         = 3'd2;
                 end
             end
             S_Layer2: begin
+                layer_start_n           = 1'b0;
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer3;
                     layer_num_n         = 3'd3;
                 end
             end
             S_Layer3: begin
+                layer_start_n           = 1'b0;
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer4;
                     layer_num_n         = 3'd4;
                 end
             end
             S_Layer4: begin
+                layer_start_n           = 1'b0;
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd16;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer5;
                     layer_num_n         = 3'd5;
                 end
             end
             S_Layer5: begin
+                layer_start_n           = 1'b0;
                 if(layer_done) begin
                     channel             = 'd16;
                     weight_num_n        = 'd1;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_Layer6;
                     layer_num_n         = 3'd6;
                 end
             end
             S_Layer6: begin
+                layer_start_n           = 1'b0;
                 if(layer_done) begin
-                    channel             = 'd2;
+                    channel             = 'd1;
                     weight_num_n        = 'd16;
-                    layer_start         = 1'b1;
+                    layer_start_n       = 1'b1;
                     state_n             = S_IDLE;
                     layer_num_n         = 3'd0;
                 end
@@ -188,7 +199,7 @@ module Controller#(
         
         .in_buf_wren_o      (in_buf_wren_o[0:NUM_COLOR-1]),
         .in_buf_rden_o      (in_buf_rden_o[0:NUM_COLOR-1]),
-        .is_initial         (is_initial),
+        .is_initial_o         (is_initial),
         
         .out_buf_wren_o     (out_buf_wren_o[0:NUM_COLOR-1]),
         .out_buf_rden_o     (out_buf_rden_o[0:NUM_COLOR-1]),
@@ -214,6 +225,8 @@ module Controller#(
         .layer_done_o       (layer_done)
     );
     assign layer_num_o = layer_num;
+    assign layer_done_o = layer_done;
     assign total_done_o = (state == S_Layer6) & layer_done;
+    assign layer_start_o = layer_start;
 
 endmodule

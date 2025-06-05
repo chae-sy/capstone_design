@@ -13,6 +13,7 @@ module f_buffer #(
     input  wire                                wren,         // 쓰기 enable
     input  wire                                rden,         // 읽기 enable
     input  wire [NUM_CHNL*DATA_WIDTH-1:0]      data_in,      // 한 번에 NUM_CHNL * DATA_WIDTH 입력
+    input  wire                                layer_start,
     output reg  [NUM_CHNL*DATA_WIDTH-1:0]      data_out,     // NUM_CHNL * DATA_WIDTH 출력
     output reg                                 f_buffer_done // 완료 펄스
 );
@@ -27,15 +28,14 @@ module f_buffer #(
     integer r, c;
 
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (!rst_n | layer_start) begin
             for (r = 0; r < SIZE_BUFFER_H; r = r + 1)
                 for (c = 0; c < SIZE_BUFFER_W; c = c + 1)
                     buffer_data[r][c] <= {NUM_CHNL*DATA_WIDTH{1'b0}};
             load_cnt      <= 0;
             out_cnt       <= 0;
-            data_out      <= {NUM_CHNL*DATA_WIDTH{1'b0}};
             f_buffer_done <= 1'b0;
-             write_done <= 1'b0;
+            write_done <= 1'b0;
         end else begin
             f_buffer_done <= 1'b0;
             out_cnt <= out_cnt_n;
@@ -76,6 +76,13 @@ module f_buffer #(
             end
         end
     end
+    
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
+        end
+    end
+    
     always_comb begin
         out_cnt_n = out_cnt;
         read_done = 1'b0;
