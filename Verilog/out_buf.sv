@@ -26,6 +26,7 @@ module output_buffer #(
     input  wire [DATA_WIDTH-1:0]            data_in_b,
     input  wire                             rden[0:2],
     input  wire [2:0]                       layer_num,
+    input  wire                             layer_start,
     output reg                              o_buffer_done,
     output reg  [t_WIDTH-1:0]               data_out
 );
@@ -41,10 +42,7 @@ module output_buffer #(
     reg [4:0] cnt_n[0:NUM_COLOR-1];
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            buffer_data_r <= 'b0;
-            buffer_data_g <= 'b0;
-            buffer_data_b <= 'b0;
+        if (!rst_n | layer_start) begin
             for (int i = 0; i < NUM_COLOR; i = i + 1) begin
                 cnt[i]          <= 0;
             end
@@ -55,6 +53,14 @@ module output_buffer #(
             if (wren[0]) buffer_data_r_array[cnt[0]] <= data_in_r;
             if (wren[1]) buffer_data_g_array[cnt[1]] <= data_in_g;
             if (wren[2]) buffer_data_b_array[cnt[2]] <= data_in_b;
+        end
+    end
+    
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            buffer_data_r = 'b0;
+            buffer_data_g = 'b0;
+            buffer_data_b = 'b0;
         end
     end
     

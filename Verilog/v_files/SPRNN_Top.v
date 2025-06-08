@@ -21,8 +21,7 @@ module SPRNN_Top#(
     input   wire  [2:0]     write_addr_bias_i,
     input   wire  [511:0]   write_data_bias_i,
     input   wire            initial_SRAMw_done,
-    input   wire            initial_weight_done,
-    output  reg             layer_done_o,   
+    input   wire            initial_weight_done,   
     output  reg             total_done_o  
 );
 
@@ -44,8 +43,8 @@ module SPRNN_Top#(
                             memB_wenb,
                             memB_cenb;
 
-    wire                    wei_buf_wren_o,
-                            wei_buf_rden_o,
+    wire                    wei_buff_wren_o,
+                            wei_buff_rden_o,
                             in_buf_wren_o[0:NUM_COLOR-1],
                             in_buf_rden_o[0:NUM_COLOR-1],
                             is_initial,
@@ -100,8 +99,7 @@ module SPRNN_Top#(
                                     relu_done[0:NUM_COLOR-1],
                                     pe_done[0:NUM_CHNL-1];
     
-    wire [DATA_WIDTH-1:0] rgb_lane     [0:NUM_CHNL-1][0:2]; 
-
+    wire [DATA_WIDTH-1:0]           rgb_lane[0:NUM_COLOR-1];
         
     reg  [2:0]                      read_addr_bias;
     reg                             rden_bias;
@@ -109,7 +107,6 @@ module SPRNN_Top#(
     
     wire [DATA_WIDTH*NUM_CHNL-1:0]  maxpool_output;
     wire [DATA_WIDTH*NUM_CHNL-1:0]  data_out;
-    wire                            layer_start;
     
     // Controller
     Controller  u_controller(
@@ -131,8 +128,8 @@ module SPRNN_Top#(
         .memB_wenb_o        (memB_wenb_o),
         .memB_cenb_o        (memB_cenb_o),
 
-        .wei_buff_wren_o    (wei_buf_wren_o),
-        .wei_buff_rden_o    (wei_buf_rden_o),
+        .wei_buff_wren_o    (wei_buff_wren_o),
+        .wei_buff_rden_o    (wei_buff_rden_o),
         
         .in_buf_wren_o      (in_buf_wren_o),
         .in_buf_rden_o      (in_buf_rden_o),
@@ -155,10 +152,8 @@ module SPRNN_Top#(
         .maxpool_done_i     (maxpool_done_i),
         .color_o            (color_o),
         
-        .layer_done_o       (layer_done_o),
         .total_done_o       (total_done_o),
-        .layer_num_o        (layer_num),
-        .layer_start_o      (layer_start)
+        .layer_num_o        (layer_num)
     );
 
 
@@ -195,16 +190,16 @@ module SPRNN_Top#(
     	.Q                  (memB_qout)
     );        
     
-    assign wmem_cenb = (initial_weight_done & start) ? wmem_cenb_o : (start ? 0 : 1);
-    assign wmem_wenb = (initial_weight_done & start) ? wmem_wenb_o : (start ? 0 : 1);
-    assign memA_cenb = (initial_SRAMw_done & start) ? memA_cenb_o : (start ? 0 : 1);
-    assign memA_wenb = (initial_SRAMw_done & start) ? memA_wenb_o : (start ? 0 : 1);
-    assign memB_cenb = (initial_SRAMw_done & start) ? memB_cenb_o : (start ? 0 : 1);
-    assign memB_wenb = (initial_SRAMw_done & start) ? memB_wenb_o : (start ? 0 : 1);
+    assign wmem_cenb = (initial_weight_done & start) ? wmem_cenb_o : (start ? 1 : 0);
+    assign wmem_wenb = (initial_weight_done & start) ? wmem_wenb_o : (start ? 1 : 0);
+    assign memA_cenb = (initial_SRAMw_done & start) ? memA_cenb_o : (start ? 1 : 0);
+    assign memA_wenb = (initial_SRAMw_done & start) ? memA_wenb_o : (start ? 1 : 0);
+    assign memB_cenb = (initial_SRAMw_done & start) ? memB_cenb_o : (start ? 1 : 0);
+    assign memB_wenb = (initial_SRAMw_done & start) ? memB_wenb_o : (start ? 1 : 0);
 
     assign wmem_addr = (initial_weight_done & start) ? wmem_addr_o : (start ? wmem_addr_i : 0);
     assign memA_addr = (initial_SRAMw_done & start) ? memA_addr_o : (start ? memA_addr_i : 0);
-    assign memB_addr = (initial_SRAMw_done & start) ? memB_addr_o : (start ? memB_addr_i : 0);       
+    assign memA_addr = (initial_SRAMw_done & start) ? memB_addr_o : (start ? memB_addr_i : 0);       
 
     assign wmem_din = wmem_d_i;
     assign memA_din = (initial_SRAMw_done & start) ? memA_d : (start ? memA_d_i : 0);
@@ -228,7 +223,6 @@ module SPRNN_Top#(
         .wren               (in_buf_wren_o[0]),
         .rden               (in_buf_rden_o[0]),
         .data_in            (buf_in_data),
-        .layer_start        (layer_start),
         .data_out           (stage1_in_output[0]),
         .f_buffer_done      (in_buf_done[0])
     );
@@ -241,7 +235,6 @@ module SPRNN_Top#(
         .wren               (in_buf_wren_o[1]),
         .rden               (in_buf_rden_o[1]),
         .data_in            (buf_in_data),
-        .layer_start        (layer_start),
         .data_out           (stage1_in_output[1]),
         .f_buffer_done      (in_buf_done[1])
     );
@@ -254,7 +247,6 @@ module SPRNN_Top#(
         .wren               (in_buf_wren_o[2]),
         .rden               (in_buf_rden_o[2]),
         .data_in            (buf_in_data),
-        .layer_start        (layer_start),
         .data_out           (stage1_in_output[2]),
         .f_buffer_done      (in_buf_done[2])
     );
@@ -266,7 +258,6 @@ module SPRNN_Top#(
         .wren               (wei_buf_wren_o),
         .rden               (wei_buf_rden_o),
         .data_in            (wmem_qout),
-        .layer_start        (layer_start),
         .data_out           (stage1_weight_output),
         .w_buffer_done      (w_buf_done)
     );
@@ -283,22 +274,21 @@ module SPRNN_Top#(
     generate // 16 channel
         for (ch = 0; ch < NUM_CHNL; ch = ch + 1) begin : GEN_PE
 
-            assign rgb_lane[ch][0] = stage2_in_input[0][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
-            assign rgb_lane[ch][1] = stage2_in_input[1][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
-            assign rgb_lane[ch][2] = stage2_in_input[2][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
-        
+            assign rgb_lane[0] = stage2_in_input[0][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
+            assign rgb_lane[1] = stage2_in_input[1][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
+            assign rgb_lane[2] = stage2_in_input[2][(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH];
+                
             mac_pipeline_superscalar #(
                 .DATA_WIDTH (DATA_WIDTH),
                 .LANE_NUM   (NUM_COLOR)
             ) u_PE_array (
-                .clk                (clk),
-                .rst_n              (rst_n),
-                .pe_en              (pe_en_o),
-                .data_in            (rgb_lane[ch]),     
-                .weight_in          (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
-                .layer_start        (layer_start),
-                .pe_done            (pe_done[ch]),
-                .result_out_flat    (stage2_output[ch][0:2]) // r, g, b
+                .clk            (clk),
+                .rst_n          (rst_n),
+                .pe_en          (pe_en_o),
+                .data_in        (rgb_lane),     
+                .weight_in      (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
+                .pe_done        (pe_done[ch]),
+                .result_out_flat(stage2_output[ch][0:2]) // r, g, b
             );
         end
     endgenerate
@@ -341,7 +331,6 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
         .in_flat            (stage3_input[0]),
-        .layer_start        (layer_start),
         .sum_out            (stage3_output[0]),
         .adder_tree_done    (addtree_done[0])
     );
@@ -351,7 +340,6 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
         .in_flat            (stage3_input[1]),
-        .layer_start        (layer_start),
         .sum_out            (stage3_output[1]),
         .adder_tree_done    (addtree_done[1])
     );
@@ -361,7 +349,6 @@ module SPRNN_Top#(
         .rst_n              (rst_n),
         .adder_tree_en      (addtree_en_o),
         .in_flat            (stage3_input[2]),
-        .layer_start        (layer_start),
         .sum_out            (stage3_output[2]), 
         .adder_tree_done    (addtree_done[2])
     );
@@ -458,8 +445,7 @@ module SPRNN_Top#(
         .rst_n               (rst_n),
         .maxpool_en          (maxpool_en_o),
         .color               (color_o),// r=0 (4x2), g=1 (4x1), b=2 (4x2)
-        .in_data             (memB_qout),
-        .layer_start         (layer_start),
+        .in_data             (memA_qout),
         .maxpool_done_o      (maxpool_done_i),
         .out_data_o          (maxpool_output)
     );
@@ -476,7 +462,6 @@ module SPRNN_Top#(
         .data_in_b          (stage5_input[2]),
         .rden               (out_buf_rden_o),
         .layer_num          (layer_num),
-        .layer_start        (layer_start),
         .o_buffer_done      (out_buf_done_i),
         .data_out           (data_out)
     );
