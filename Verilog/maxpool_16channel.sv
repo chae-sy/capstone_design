@@ -11,6 +11,7 @@ module maxpool_16ch#(
     input  wire                         maxpool_en,
     input  wire [1:0]                   color, // r=0 (4x2), g=1 (2x2), b=2 (4x2)
     input  wire signed [DATA_WIDTH*CHANNELS-1:0] in_data,
+    input  wire                         layer_start,
     output wire                         maxpool_done_o,
     output wire signed [DATA_WIDTH*CHANNELS-1:0] out_data_o
 );
@@ -35,7 +36,7 @@ module maxpool_16ch#(
     integer i;
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (!rst_n | layer_start) begin
             for (int ch = 0; ch < CHANNELS; ch = ch + 1) begin
                 wr_ptr[ch]       <= 0;
                 cnt[ch]          <= 0;

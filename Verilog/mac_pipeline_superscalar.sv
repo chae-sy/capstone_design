@@ -10,74 +10,50 @@ module mac_pipeline_superscalar #(
   input  logic                       pe_en,
   input  logic [DATA_WIDTH-1:0]      data_in[0:LANE_NUM-1],
   input  logic [DATA_WIDTH-1:0]      weight_in,
+  input  wire                        layer_start,
   output logic                       pe_done,
-  output logic [19:0]    result_out_flat[0:LANE_NUM-1]
+  output logic [19:0]                result_out_flat[0:LANE_NUM-1]
 );
 
-  // 1) 파이프라인 레지스터
-  logic [2*DATA_WIDTH-1:0] pipe[NUM_STAGE][LANE_NUM];
-  logic                   val_pipe [NUM_STAGE];
+  logic [19:0] pipe[NUM_STAGE][LANE_NUM];
 
-  // 2) 펄스 감지를 위한 이전 valid 상태 저장
-  logic prev_valid_stage;
+  reg [3:0] cnt, cnt_n;
 
-  // --- 메인 파이프라인: shift & accumulate ---
   always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n) begin
-      for (int s = 0; s < NUM_STAGE; s++) begin
-        val_pipe[s] <= 1'b0;
-        for (int l = 0; l < LANE_NUM; l++)
-          pipe[s][l] <= '0;
-      end
-    end else begin
-      if (pe_en) begin
-        // stage-0
-        val_pipe[0] <= 1'b1;
-        for (int l = 0; l < LANE_NUM; l++)
-          pipe[0][l] <= data_in[l] * weight_in;
-
-        // stage 1..NUM_STAGE-1
-        for (int s = 1; s < NUM_STAGE; s++) begin
-          val_pipe[s] <= val_pipe[s-1];
-          for (int l = 0; l < LANE_NUM; l++) begin
-            if (val_pipe[s-1])
-              pipe[s][l] <= pipe[s-1][l] + data_in[l] * weight_in;
-            else
-              pipe[s][l] <= '0;
-          end
-        end
-      end else begin
-        // idle 시 파이프라인 flush
-        val_pipe[0] <= 1'b0;
-        for (int l = 0; l < LANE_NUM; l++)
-          pipe[0][l] <= '0;
-        for (int s = 1; s < NUM_STAGE; s++)
-          val_pipe[s] <= 1'b0;
-      end
+    if (!rst_n | layer_start) cnt <= 0;
+    else if (pe_en) begin
+      if (cnt == 8) cnt <= 0;
+      else          cnt <= cnt + 1;
     end
   end
 
-    // --- 출력 블록: pe_done은 1사이클 펄스, result도 그때만 찍어줌 ---
-    always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            prev_valid_stage <= 1'b0;
-            pe_done <= 1'b0;
-            for (int l = 0; l < LANE_NUM; l++)
-                result_out_flat[l] <= '0;
-        end else begin
-            prev_valid_stage <= val_pipe[NUM_STAGE-2];
-            if (val_pipe[NUM_STAGE-2] && !prev_valid_stage) begin
-                pe_done <= 1'b1;
-                for (int l = 0; l < LANE_NUM; l++) begin
-                    result_out_flat[l] <= pipe[NUM_STAGE-2][l] + data_in[l] * weight_in;
-                end
-            end else begin
-                pe_done <= 1'b0;
-                for (int l = 0; l < LANE_NUM; l++)
-                    result_out_flat[l] <= '0;
-            end
-        end
-    end
+  always_comb begin
+    pe_done = 1'b0;
+    if (pe_en) begin
+      if (cnt == 1) begin
+          for (int l = 0; l < LANE_NUM; l++) begin
+              pipe[1][l] =  pipe[0][l] + data_in[l] * weight_in;
+          end
+      end
 
+      for (int l = 0; l < LANE_NUM; l++) begin
+          pipe[0][l] = data_in[l] * weight_in;
+      end
+      if (cnt >= 2)begin
+          for (int l = 0; l < LANE_NUM; l++) begin
+            pipe[cnt][l] = pipe[cnt-1][l] + data_in[l] * weight_in;
+          end
+      end
+        
+      if (cnt == 8) begin
+        pe_done = 1'b1;
+        for (int l = 0; l < LANE_NUM; l++) begin
+            result_out_flat[l] = pipe[cnt][l];
+        end
+        for (int l = 0; l < LANE_NUM; l++)
+            pipe[0][l] = '0;
+      end
+    end
+   end
 
 endmodule

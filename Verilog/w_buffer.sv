@@ -28,6 +28,7 @@ module w_buffer #(
     input  wire                           wren,           // 외부에서 feature 로드 허용
     input  wire                           rden,           // 데이터 출력 허용
     input  wire [WIDTH_FSRAM_WL-1:0]      data_in,        // SRAM 에서 읽어온 128bit
+    input  wire                           layer_start,
     output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (출력) 각 채널별로 8bit씩 묶음
     output reg                            w_buffer_done   // 리턴: 초기 또는 후속 로드/출력이 끝났음을 알림
 );
@@ -54,13 +55,12 @@ module w_buffer #(
     // 4) 메인 always 블록: 리셋, 쓰기(wren), 읽기(rden) 순으로 분기
     //================================================================
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (!rst_n | layer_start) begin
             for (r = 0; r < SIZE_BUFFER_H; r = r + 1)
                 for (c = 0; c < SIZE_BUFFER_W; c = c + 1)
                     buffer_data[r][c] <= {NUM_CHNL*DATA_WIDTH{1'b0}};
             load_cnt      <= 0;
             out_cnt       <= 0;
-            data_out      <= {NUM_CHNL*DATA_WIDTH{1'b0}};
             w_buffer_done  <= 1'b0;
         end else begin
             w_buffer_done  <= 1'b0;
@@ -82,7 +82,12 @@ module w_buffer #(
             end else begin
                 load_cnt <= 0;
             end
-            
+        end
+    end
+    
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
         end
     end
     

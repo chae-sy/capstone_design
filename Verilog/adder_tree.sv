@@ -8,8 +8,9 @@ module adder_tree #(
   input  wire                        rst_n,
   input  wire                        adder_tree_en,     // 연산 시작 인에이블
   input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      // 단일 lane 입력
-  output reg  [SUM_WIDTH-1:0]             sum_out,      // 단일 lane 출력
-  output reg                             adder_tree_done // 연산 완료 펄스
+  input  wire                        layer_start,
+  output reg  [SUM_WIDTH-1:0]        sum_out,      // 단일 lane 출력
+  output reg                         adder_tree_done // 연산 완료 펄스
 );
 
   // Stage1 parameters
@@ -34,7 +35,7 @@ module adder_tree #(
 
   reg en_stage1, en_stage2;
   always @(posedge clk or negedge rst_n) begin
-    if (!rst_n) begin
+    if (!rst_n | layer_start) begin
       en_stage1 <= 1'b0;
       en_stage2 <= 1'b0;
     end else begin
