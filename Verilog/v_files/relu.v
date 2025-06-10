@@ -1,43 +1,43 @@
 module bias_relu #(
-parameter NUM_CHNL       = 16,
-parameter NUM_ACCUMULATE = 9,
-parameter NUM_ADDER_TREE_INPUTS = 16,
-parameter WIDTH_BITWIDTH = 8,
-
-parameter WIDTH_IN_DATA  = 16 + 4 + 4, // WIDTH_BITWIDTH*2 + clog2(9) + clog2(16)
-parameter WIDTH_BIAS     = 32,
-parameter WIDTH_OUT_DATA = 8,
-parameter RELU_MAX_VAL   = 6,
-
-parameter WIDTH_L1_IN_IL  = 9,
-parameter WIDTH_L1_OUT_IL = 1,
-parameter WIDTH_L1_ZERO_POINT = -1,
-parameter WIDTH_L1_SCALE_INV = 5,  // 1 / 0.2 = 5
-
-parameter WIDTH_L2_IN_IL = 7,
-parameter WIDTH_L2_OUT_IL = 1,
-parameter WIDTH_L2_ZERO_POINT = 0,
-parameter WIDTH_L2_SCALE_INV = 5,
-
-parameter WIDTH_L3_IN_IL = 12,
-parameter WIDTH_L3_OUT_IL = 1,
-parameter WIDTH_L3_ZERO_POINT = 0,
-parameter WIDTH_L3_SCALE_INV = 5,
-
-parameter WIDTH_L4_IN_IL = 7,
-parameter WIDTH_L4_OUT_IL = 0,
-parameter WIDTH_L4_ZERO_POINT = 0,
-parameter WIDTH_L4_SCALE_INV = 5,
-
-parameter WIDTH_L5_IN_IL = 8,
-parameter WIDTH_L5_OUT_IL = 0,
-parameter WIDTH_L5_ZERO_POINT = 0,
-parameter WIDTH_L5_SCALE_INV = 5,
-
-parameter WIDTH_L6_IN_IL = 8,
-parameter WIDTH_L6_OUT_IL = 0,
-parameter WIDTH_L6_ZERO_POINT = 0,
-parameter WIDTH_L6_SCALE_INV = 5
+    parameter NUM_CHNL       = 16,
+    parameter NUM_ACCUMULATE = 9,
+    parameter NUM_ADDER_TREE_INPUTS = 16,
+    parameter WIDTH_BITWIDTH = 8,
+    
+    parameter WIDTH_IN_DATA  = 16 + 4 + 4, // WIDTH_BITWIDTH*2 + clog2(9) + clog2(16)
+    parameter WIDTH_BIAS     = 32,
+    parameter WIDTH_OUT_DATA = 8,
+    parameter RELU_MAX_VAL   = 6,
+    
+    parameter WIDTH_L1_IN_IL  = 9,
+    parameter WIDTH_L1_OUT_IL = 1,
+    parameter WIDTH_L1_ZERO_POINT = -1,
+    parameter WIDTH_L1_SCALE_INV = 5,  // 1 / 0.2 = 5
+    
+    parameter WIDTH_L2_IN_IL = 7,
+    parameter WIDTH_L2_OUT_IL = 1,
+    parameter WIDTH_L2_ZERO_POINT = 0,
+    parameter WIDTH_L2_SCALE_INV = 5,
+    
+    parameter WIDTH_L3_IN_IL = 12,
+    parameter WIDTH_L3_OUT_IL = 1,
+    parameter WIDTH_L3_ZERO_POINT = 0,
+    parameter WIDTH_L3_SCALE_INV = 5,
+    
+    parameter WIDTH_L4_IN_IL = 7,
+    parameter WIDTH_L4_OUT_IL = 0,
+    parameter WIDTH_L4_ZERO_POINT = 0,
+    parameter WIDTH_L4_SCALE_INV = 5,
+    
+    parameter WIDTH_L5_IN_IL = 8,
+    parameter WIDTH_L5_OUT_IL = 0,
+    parameter WIDTH_L5_ZERO_POINT = 0,
+    parameter WIDTH_L5_SCALE_INV = 5,
+    
+    parameter WIDTH_L6_IN_IL = 8,
+    parameter WIDTH_L6_OUT_IL = 0,
+    parameter WIDTH_L6_ZERO_POINT = 0,
+    parameter WIDTH_L6_SCALE_INV = 5
 )(
     input  wire           relu_en,
     output reg            relu_done,

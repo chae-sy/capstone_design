@@ -83,7 +83,6 @@ module Controller#(
     reg     [3:0]           state,      state_n;
     reg     [2:0]           layer_num,  layer_num_n;
     reg                     layer_start,  layer_start_n;
-    reg     [15:0]          data_num,  data_num_n;
     reg     [8:0]           weight_num,  weight_num_n;
     reg     [4:0]           channel;
 
@@ -211,7 +210,7 @@ module Controller#(
         .in_buf_rden_r      (in_buf_rden_r),
         .in_buf_rden_g      (in_buf_rden_g),
         .in_buf_rden_b      (in_buf_rden_b),        
-        .is_initial_o       (is_initial),
+        .is_initial_o       (is_initial_o),
         
         .out_buf_wren_r     (out_buf_wren_r),
         .out_buf_wren_g     (out_buf_wren_g),

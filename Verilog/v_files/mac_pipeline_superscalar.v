@@ -19,7 +19,7 @@ module mac_pipeline_superscalar #(
   output reg [19:0]                 result_out_flat_b
 );
 
-  reg [19:0] pipe[NUM_STAGE:0][LANE_NUM:0];
+  reg [19:0] pipe[NUM_STAGE-1:0][LANE_NUM-1:0];
   reg [3:0] cnt, cnt_n;
   reg [DATA_WIDTH-1:0] data_in[0:LANE_NUM-1];
   reg [19:0] result_out_flat[0:LANE_NUM-1];

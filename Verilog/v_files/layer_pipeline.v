@@ -1011,7 +1011,7 @@ module layer_pipeline #(
                     else if (num_p == 'd204) begin
                         mem_wr_pad_addr_n = 'd10507;
                     end
-                    else if (num_p == 'd255) begin // 마지막
+                    else if (num_p >= 'd255) begin // 마지막
                         mem_wr_pad_addr_n = mem_wr_pad_addr;
                         num_p_n = num_p;
                     end
