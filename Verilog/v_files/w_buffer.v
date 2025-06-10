@@ -1,18 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-//
-// Create Date: 2025/05/18
-// Design Name: 
-// Module Name: w_buffer_v1 (fixed & cleaned)
-// 
-// Description: 
-//   INPUT_BUFFER (w_buffer_v0) 을 루프와 3차원 배열로 리팩토링한 버전.
-//   ? 초기 로딩 (3×3 데이터): is_initial=1 일 때 9 사이클 동안 데이터를 채운 뒤 w_buffer_done=1
-//   ? 이후 로딩 (shift + 3개 데이터): is_initial=0 이면 왼쪽으로 shift 후 마지막 열에 3개 행(row) 씩 데이터 로드
-//   ? rden=1 이면, 3×3 데이터(tap)를 순차적으로 data_out 으로 출력 (각 채널마다 DATA_WIDTH)
-//////////////////////////////////////////////////////////////////////////////////
 
 module w_buffer #(
     parameter WIDTH_FSRAM_WL  = 128,   // SRAM에서 한 번에 읽어오는 비트 폭 (예: 8bit×16채널=128)
@@ -28,6 +14,7 @@ module w_buffer #(
     input  wire                           wren,           // 외부에서 feature 로드 허용
     input  wire                           rden,           // 데이터 출력 허용
     input  wire [WIDTH_FSRAM_WL-1:0]      data_in,        // SRAM 에서 읽어온 128bit
+    input  wire                           layer_start,
     output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (출력) 각 채널별로 8bit씩 묶음
     output reg                            w_buffer_done   // 리턴: 초기 또는 후속 로드/출력이 끝났음을 알림
 );
@@ -54,13 +41,12 @@ module w_buffer #(
     // 4) 메인 always 블록: 리셋, 쓰기(wren), 읽기(rden) 순으로 분기
     //================================================================
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
+        if (!rst_n | layer_start) begin
             for (r = 0; r < SIZE_BUFFER_H; r = r + 1)
                 for (c = 0; c < SIZE_BUFFER_W; c = c + 1)
                     buffer_data[r][c] <= {NUM_CHNL*DATA_WIDTH{1'b0}};
             load_cnt      <= 0;
             out_cnt       <= 0;
-            data_out      <= {NUM_CHNL*DATA_WIDTH{1'b0}};
             w_buffer_done  <= 1'b0;
         end else begin
             w_buffer_done  <= 1'b0;
@@ -82,11 +68,16 @@ module w_buffer #(
             end else begin
                 load_cnt <= 0;
             end
-            
         end
     end
     
-    always_comb begin
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n | layer_start) begin
+            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
+        end
+    end
+    
+    always @(*) begin
         out_cnt_n = out_cnt;
         if (rden) begin
             if (out_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin

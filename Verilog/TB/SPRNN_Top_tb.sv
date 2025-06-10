@@ -19,10 +19,8 @@ module SPRNN_Top_tb;
     reg [511:0] write_data_bias_i;
     reg initial_SRAMw_done;
     reg initial_weight_done;
-
-    // Outputs
-    wire fin;
-    wire total_done_o;
+    reg layer_done;
+    reg total_done_o;
 
     // DUT 인스턴스
     SPRNN_Top #(
@@ -44,6 +42,7 @@ module SPRNN_Top_tb;
         .write_data_bias_i(write_data_bias_i),
         .initial_SRAMw_done(initial_SRAMw_done),
         .initial_weight_done(initial_weight_done),
+        .layer_done_o (layer_done),
         .total_done_o(total_done_o)
     );
 
@@ -53,9 +52,78 @@ module SPRNN_Top_tb;
         forever #5 clk = ~clk; // 100MHz
     end
 
-    integer i;
+    // Task to load data from file and write to sram
+    integer data_file_in, data_file_w, data_file_b;
+    integer scan_file_in, scan_file_w, scan_file_b;
+    reg [127:0] data_buffer_in, data_buffer_w;
+    reg [511:0] data_buffer_b;
 
+    task load_data_to_sram;
+        input integer start_address;
+        integer i;
+        begin
+            // Bias regfile 초기화
+            for (i = 0; i < 8; i = i + 1) begin
+                wren_bias_i = 1;
+                write_addr_bias_i = i;
+                scan_file_b = $fscanf(data_file_b, "%h\n", data_buffer_b);
+                if (scan_file_b != 1) begin
+                    $display("Error reading data from file!");
+                    $finish;
+                end
+                write_data_bias_i = data_buffer_b;
+                #10;
+            end
+            wren_bias_i = 0;
+
+            // weight 초기화
+            for (i = 0; i < 582; i = i + 1) begin
+                wmem_addr_i = i;
+                scan_file_w = $fscanf(data_file_w, "%h\n", data_buffer_w);
+                if (scan_file_w != 1) begin
+                    $display("Error reading data from file!");
+                    $finish;
+                end
+                wmem_d_i = data_buffer_w;
+                #10;
+            end
+
+            // memA, memB 초기화
+            for (i = 0; i < 31008; i = i + 1) begin
+                memA_addr_i = i;
+                memB_addr_i = i;
+                scan_file_in = $fscanf(data_file_in, "%h\n", data_buffer_in);
+                if (scan_file_in != 1) begin
+                    $display("Error reading data from file!");
+                    $finish;
+                end
+                memA_d_i = data_buffer_in;
+                memB_d_i = 128'd0;
+            end
+        end
+    endtask
+
+    integer i;
+    integer iteration;
     initial begin
+
+        // Open data file
+        data_file_in = $fopen("C:/Users/tjwws/RES_OUT/feature_data_hexa.txt", "r");
+        data_file_w = $fopen("feature_data_hexa.txt", "r");
+        data_file_b = $fopen("feature_data_hexa.txt", "r");
+        if (data_file_in == 0) begin
+            $display("Error opening feature_data_hexa.txt!");
+            $finish;
+        end
+        if (data_file_w == 0) begin
+            $display("Error opening feature_data_hexa.txt!");
+            $finish;
+        end
+        if (data_file_b == 0) begin
+            $display("Error opening feature_data_hexa.txt!");
+            $finish;
+        end
+
         // 초기화
         rst_n = 0; start = 0; initial_SRAMw_done = 0; initial_weight_done = 0;
         memA_addr_i = 0; memB_addr_i = 0; wmem_addr_i = 0;
@@ -63,44 +131,77 @@ module SPRNN_Top_tb;
         wren_bias_i = 0; write_addr_bias_i = 0; write_data_bias_i = 0;
 
         #20 rst_n = 1;
-        #5; start = 1;
-        // Memory A, B, W 초기화
-        for (i = 0; i < 31004; i = i + 1) begin
-            memA_addr_i = i;
-            memA_d_i = 128'h0000_0000_0000_0000_0000_0000_0000_0000 + i;
-            memB_addr_i = i;
-            memB_d_i = 0;
-            #10;
-        end
-        
-        // Memory weight 초기화
-        for (i = 0; i < 582; i = i + 1) begin
-            wmem_addr_i = i;
-            wmem_d_i = 128'h0000_0000_0000_0000_0000_0000_0000_0002;
-            #10;
-        end
-        
-        // Bias regfile 초기화
-        for (i = 0; i < 8; i = i + 1) begin
-            wren_bias_i = 1;
-            write_addr_bias_i = i[2:0];
-            write_data_bias_i = {64{i}}; // 각 주소마다 값 변화
-            #10;
-        end
-        wren_bias_i = 0;
+        #5  start = 1;
+
+        load_data_to_sram((i % 3) * 7);
 
         // 초기화 완료 시그널
         initial_SRAMw_done = 1;
         initial_weight_done = 1;
 
-        // 동작 관찰
-        #200000000 $finish;
+        // Test scenario
+        for (i = 0; i < 6; i = i + 1) begin // 
+            wait(layer_done);
+            save_mem_to_file(i);
+            #10;
+        end
+
+        $fclose(data_file_in);
+        $fclose(data_file_w);
+        $fclose(data_file_b);
+        wait(total_done_o);
+        #20000;
+        $finish;
     end
+    
+
+        // Task to save memory contents in signed decimal format, 8 bits per entry
+    task save_mem_to_file;
+        input integer i;
+        integer j, k;
+        integer file;
+        reg signed [7:0] mem_byte;
+        reg [7:0] i_start, i_end;
+           
+        begin
+            if (i == 0) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_1.txt", "w");
+            else if (i == 1) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_2.txt", "w");
+            else if (i == 2) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_3.txt", "w");
+            else if (i == 3) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_4.txt", "w");
+            else if (i == 4) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_5.txt", "w");
+            else if (i == 5) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_6.txt", "w");
+            else file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_00.txt", "w");
+            if (file == 0) begin
+                $display("Failed to open file!");
+                $finish;
+            end
+ 
+            if (i % 2 == 0) begin // layer 0, 2, 4
+                for (j = 0; j < 31008; j = j + 1) begin
+                    $fwrite(file,"%0d : ",  j);
+                    mem_byte = dut.u_memB.mem_W[j];
+                    $fwrite(file, "%0d ", mem_byte);
+                    $fwrite(file, "\n");
+                end
+            end 
+            else begin // layer 1, 3, 5
+                for (j = 0; j < 31008; j = j + 1) begin
+                    $fwrite(file,"%0d : ",  j);
+                    mem_byte = dut.u_memA.mem_W[j];
+                    $fwrite(file, "%0d ", mem_byte);
+                    $fwrite(file, "\n");
+                end
+            end
+
+            $fclose(file);
+            $display("Memory values for iteration: ", i);
+        end
+    endtask
 
     // 출력 모니터링
     initial begin
-        $monitor("Time=%0t | rst_n=%b | start=%b | total_done_o=%b",
-                 $time, rst_n, start, total_done_o);
+        $monitor("Time=%0t | rst_n=%b | start=%b | layer_done_o=%b | total_done_o=%b",
+                 $time, rst_n, start, layer_done, total_done_o);
     end
 
 endmodule
