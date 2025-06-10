@@ -33,17 +33,17 @@ module maxpool_16ch#(
     reg maxpool_done;
     reg signed [DATA_WIDTH-1:0] out_data [0:CHANNELS-1];
 
-    integer i;
+    integer i, ch;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
-            for (int ch = 0; ch < CHANNELS; ch = ch + 1) begin
+            for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
                 wr_ptr[ch]       <= 0;
                 cnt[ch]          <= 0;
                 max_val[ch]      <= INIT_MAX;
             end
         end else begin
-            for (int ch = 0; ch < CHANNELS; ch = ch + 1) begin
+            for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
                 wr_ptr[ch]       <= wr_ptr_n[ch];
                 cnt[ch]          <= cnt_n[ch];
                 max_val[ch]      <= max_val_n[ch];
@@ -54,18 +54,18 @@ module maxpool_16ch#(
     reg signed [DATA_WIDTH-1:0] in_data_reg [0:CHANNELS-1];
     
     generate
-        genvar ch;
-        for (ch = 0; ch < CHANNELS; ch = ch + 1) begin : GENBLOCK
-            always_comb begin
+        genvar c;
+        for (c = 0; c < CHANNELS; c = c + 1) begin : GENBLOCK
+            always @(*) begin
                 if (maxpool_en)
-                    in_data_reg[ch] = in_data[((ch+1)*DATA_WIDTH)-1 : ch*DATA_WIDTH];
+                    in_data_reg[c] = in_data[((c+1)*DATA_WIDTH)-1 : c*DATA_WIDTH];
             end
         end
     endgenerate
 
     always @(*) begin
         maxpool_done = 0;
-        for (int ch = 0; ch < CHANNELS; ch = ch + 1) begin
+        for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
             wr_ptr_n[ch] = wr_ptr[ch];
             cnt_n[ch] = cnt[ch];
             max_val_n[ch] = max_val[ch];

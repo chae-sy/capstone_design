@@ -29,14 +29,22 @@ module Controller#(
     output  wire        wei_buff_rden_o,
     
     // input buffer
-    output  wire        in_buf_wren_o[0:NUM_COLOR-1],
-    output  wire        in_buf_rden_o[0:NUM_COLOR-1],
-    output  wire        is_initial,
+    output  wire        in_buf_wren_r,
+    output  wire        in_buf_wren_g,
+    output  wire        in_buf_wren_b,
+    output  wire        in_buf_rden_r,
+    output  wire        in_buf_rden_g,
+    output  wire        in_buf_rden_b,
+    output  wire        is_initial_o,
     
     // output buffer
-    output  wire        out_buf_wren_o[0:NUM_COLOR-1],
-    output  wire        out_buf_rden_o[0:NUM_COLOR-1],
-    output  wire        out_buf_done_i,
+    output  wire        out_buf_wren_r,
+    output  wire        out_buf_wren_g,
+    output  wire        out_buf_wren_b,
+    output  wire        out_buf_rden_r,
+    output  wire        out_buf_rden_g,
+    output  wire        out_buf_rden_b,
+    input   wire        out_buf_done_i,
     
     //PE array
     output  wire        pe_en_o,
@@ -56,7 +64,7 @@ module Controller#(
     output  wire [1:0]  color_o,
     
     output  wire        layer_done_o,
-    output  wire        total_done_o, // 최종 끝
+    output  wire        total_done_o, 
     output  wire [2:0]  layer_num_o,
     output  wire        layer_start_o
     
@@ -197,12 +205,20 @@ module Controller#(
         .wei_buff_wren_o    (wei_buff_wren_o),
         .wei_buff_rden_o    (wei_buff_rden_o),
         
-        .in_buf_wren_o      (in_buf_wren_o[0:NUM_COLOR-1]),
-        .in_buf_rden_o      (in_buf_rden_o[0:NUM_COLOR-1]),
-        .is_initial_o         (is_initial),
+        .in_buf_wren_r      (in_buf_wren_r),
+        .in_buf_wren_g      (in_buf_wren_g),
+        .in_buf_wren_b      (in_buf_wren_b),
+        .in_buf_rden_r      (in_buf_rden_r),
+        .in_buf_rden_g      (in_buf_rden_g),
+        .in_buf_rden_b      (in_buf_rden_b),        
+        .is_initial_o       (is_initial),
         
-        .out_buf_wren_o     (out_buf_wren_o[0:NUM_COLOR-1]),
-        .out_buf_rden_o     (out_buf_rden_o[0:NUM_COLOR-1]),
+        .out_buf_wren_r     (out_buf_wren_r),
+        .out_buf_wren_g     (out_buf_wren_g),
+        .out_buf_wren_b     (out_buf_wren_b),
+        .out_buf_rden_r     (out_buf_rden_r),
+        .out_buf_rden_g     (out_buf_rden_g),
+        .out_buf_rden_b     (out_buf_rden_b),
         .out_buf_done_i     (out_buf_done_i),
         
         .pe_en_o            (pe_en_o),

@@ -117,6 +117,6 @@ module regfile_sync #(
     //    read_buf에 저장된 DATA_WIDTH 폭 전체에서
     //    cnt*BITWIDTH 위치부터 BITWIDTH 폭만큼 잘라서 내보냄
     //----------------------------------------------------------------------
-    assign rdata = read_buf[ (cnt * BITWIDTH) + BITWIDTH - 1 : cnt * BITWIDTH ];
+    assign rdata = read_buf[ cnt * BITWIDTH +: BITWIDTH ];
 
 endmodule
