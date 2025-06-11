@@ -10,22 +10,22 @@ module bias_relu #(
     parameter RELU_MAX_VAL = 6,
     
     parameter WIDTH_L1_IN_IL = 9,
-    parameter WIDTH_L1_OUT_IL = 1,
+    parameter WIDTH_L1_OUT_IL = 2,
     
-    parameter WIDTH_L2_IN_IL = 7,
-    parameter WIDTH_L2_OUT_IL = 1,
+    parameter WIDTH_L2_IN_IL = 9,
+    parameter WIDTH_L2_OUT_IL = 2,
     
-    parameter WIDTH_L3_IN_IL = 12,
-    parameter WIDTH_L3_OUT_IL = 1,
+    parameter WIDTH_L3_IN_IL = 9,
+    parameter WIDTH_L3_OUT_IL = 2,
     
-    parameter WIDTH_L4_IN_IL = 7,
-    parameter WIDTH_L4_OUT_IL = 0,
+    parameter WIDTH_L4_IN_IL = 9,
+    parameter WIDTH_L4_OUT_IL = 2,
      
-    parameter WIDTH_L5_IN_IL = 8,
-    parameter WIDTH_L5_OUT_IL = 0,
+    parameter WIDTH_L5_IN_IL = 9,
+    parameter WIDTH_L5_OUT_IL = 2,
     
-    parameter WIDTH_L6_IN_IL = 8,
-    parameter WIDTH_L6_OUT_IL = 0,
+    parameter WIDTH_L6_IN_IL = 9,
+    parameter WIDTH_L6_OUT_IL = 2,
       
 )
 (
