@@ -898,7 +898,7 @@ module layer_pipeline #(
             output_state <= output_state_n;
             num2 <= num2_n;
             num_w2 <= num_w2_n;
-            num_p <= num_p;
+            num_p <= num_p_n;
             color_wb <= color_wb_n;
         end
         
@@ -960,8 +960,8 @@ module layer_pipeline #(
                                     if (cnt2_row == 'd49) begin// 마지막 row
                                         cnt2_row_n = 0;
                                         cnt2_column_n = cnt2_column + 1;
-                                        mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1;
-                                        if (cnt2_column == 49) begin // 마지막 column & row
+                                        mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1 + 'd2652;
+                                        if (cnt2_column == 49) begin // 마�?�? column & row
                                             color_wb_n = blue;
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd103 + 'd7854;
@@ -982,10 +982,10 @@ module layer_pipeline #(
                                     if (cnt2_row == 'd49) begin// 마지막 row
                                         cnt2_row_n = 0;
                                         cnt2_column_n = cnt2_column + 1;
-                                        mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1;
-                                        if (cnt2_column == 24) begin // 마지막 column & row
+                                        mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1 + 'd7854;
+                                        if (cnt2_column == 24) begin // 마�?�? column & row
                                             cnt2_column_n = 0;
-                                            mem_wr_addr_n = 'd103 + 'd2652;
+                                            mem_wr_addr_n = 'd0;
                                             stage5_done = 1;
                                         end
                                     end

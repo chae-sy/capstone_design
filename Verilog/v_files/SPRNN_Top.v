@@ -220,7 +220,7 @@ module SPRNN_Top#(
 
     //(4) maxpool -> memory //maxpool_output
     //(1,2,3,5,6) output buffer -> memory // data_out
-    assign memA_d = (is_A_rd) ? 0 : ((layer_num == 4) ? maxpool_output : data_out);
+    assign memA_d = (is_A_rd) ? 0 : ((layer_num == 4) ? ((maxpool_done_i) ? maxpool_output : 128'd0 ): data_out);
     assign memB_d = (is_A_rd) ? ((layer_num == 4) ? maxpool_output : data_out): 0;
 
     assign is_A_rd = ((layer_num == 1)|(layer_num == 3)|(layer_num == 5)) ? 1'b1 : 1'b0;

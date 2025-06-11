@@ -95,8 +95,8 @@ module regfile_sync #(
         end 
         // rden이 0→1로 바뀔 때마다 cnt를 +1 혹은 wrap-around
         else if (rden && !prev_rden) begin
-            if (layer_num == 1) begin
                 // layer_num==1일 때는 LAYER_1_NUM_WORD 개수만큼만 순환
+            if (layer_num == 6) begin
                 if (cnt == (LAYER_6_NUM_WORD - 1))
                     cnt <= 4'd0;
                 else
