@@ -24,13 +24,21 @@ module layer_pipeline #(
     output  wire        wei_buff_rden_o,
     
     // input buffer
-    output  wire        in_buf_wren_o[0:NUM_COLOR-1],
-    output  wire        in_buf_rden_o[0:NUM_COLOR-1],
-    output  reg         is_initial_o,
+    output  wire        in_buf_wren_r,
+    output  wire        in_buf_wren_g,
+    output  wire        in_buf_wren_b,
+    output  wire        in_buf_rden_r,
+    output  wire        in_buf_rden_g,
+    output  wire        in_buf_rden_b,
+    output  wire        is_initial_o,
     
     // output buffer
-    output  wire        out_buf_wren_o[0:NUM_COLOR-1],
-    output  wire        out_buf_rden_o[0:NUM_COLOR-1],
+    output  wire        out_buf_wren_r,
+    output  wire        out_buf_wren_g,
+    output  wire        out_buf_wren_b,
+    output  wire        out_buf_rden_r,
+    output  wire        out_buf_rden_g,
+    output  wire        out_buf_rden_b,
     input   wire        out_buf_done_i,
     
     //PE array
@@ -137,6 +145,8 @@ module layer_pipeline #(
     reg                     is_initial_reg, is_initial;
     reg     [1:0]           color_reg;        
     
+    integer i;
+    
     // 1. mem data fetch (fetch)
     always @( posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
@@ -218,7 +228,7 @@ module layer_pipeline #(
         maxpool_en = 0;
         is_initial = 1'b0;
 
-        for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+        for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
             in_buf_wren[i] = 0;
         end
         row_last_n = row_last;
@@ -709,7 +719,7 @@ module layer_pipeline #(
             if (layer_num >= 1) begin
                 stage2_en_reg <= stage2_en;
                 wei_buff_wren_reg <= wei_buff_wren;
-                for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                     in_buf_wren_reg[i] <= in_buf_wren[i];
                 end
                 maxpool_en_reg <= maxpool_en;
@@ -723,7 +733,7 @@ module layer_pipeline #(
     always @(*) begin
         pe_en = 0;
         wei_buff_rden = 0;
-        for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+        for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
             in_buf_rden[i] = 0;
         end
         cnt2_n = cnt2;
@@ -734,7 +744,7 @@ module layer_pipeline #(
                 stage3_en_n = 0;
                 if (stage2_en_reg) begin
                     wei_buff_rden = 1;
-                    for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                    for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                         in_buf_rden[i] = 1;
                     end
                     pe_en = 1;
@@ -743,7 +753,7 @@ module layer_pipeline #(
             end
             enable1: begin
                 wei_buff_rden = 1;
-                for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                     in_buf_rden[i] = 1;
                 end
                 pe_en = 1;
@@ -910,7 +920,7 @@ module layer_pipeline #(
         stage5_done = 0;
         color_wb_n = color_wb;
 
-        for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+        for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
             out_buf_wren[i] = 0; 
             out_buf_rden[i] = 0;
         end
@@ -1001,7 +1011,7 @@ module layer_pipeline #(
                     else if (num_p == 'd204) begin
                         mem_wr_pad_addr_n = 'd10507;
                     end
-                    else if (num_p == 'd255) begin // 마지막
+                    else if (num_p >= 'd255) begin // 마지막
                         mem_wr_pad_addr_n = mem_wr_pad_addr;
                         num_p_n = num_p;
                     end
@@ -1017,7 +1027,7 @@ module layer_pipeline #(
                 case (output_state)
                     IDLE: begin
                         if (relu_done_i) begin // relu 연산 끝 -> output buffer에 저장
-                            for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                            for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                                 out_buf_wren[i] = 1; 
                             end
                         end
@@ -1117,11 +1127,19 @@ module layer_pipeline #(
     assign     wei_buff_wren_o = wei_buff_wren_reg;
     assign     wei_buff_rden_o = wei_buff_rden;
   
-    assign     in_buf_wren_o = in_buf_wren_reg;
-    assign     in_buf_rden_o = in_buf_rden;
+    assign     in_buf_wren_r = in_buf_wren_reg[0];
+    assign     in_buf_wren_g = in_buf_wren_reg[1];
+    assign     in_buf_wren_b = in_buf_wren_reg[2];
+    assign     in_buf_rden_r = in_buf_rden[0];
+    assign     in_buf_rden_g = in_buf_rden[1];
+    assign     in_buf_rden_b = in_buf_rden[2];
     
-    assign     out_buf_wren_o = out_buf_wren;
-    assign     out_buf_rden_o = out_buf_rden; 
+    assign     out_buf_wren_r = out_buf_wren[0];
+    assign     out_buf_wren_g = out_buf_wren[1];
+    assign     out_buf_wren_b = out_buf_wren[2];
+    assign     out_buf_rden_r = out_buf_rden[0];
+    assign     out_buf_rden_g = out_buf_rden[1]; 
+    assign     out_buf_rden_b = out_buf_rden[2];  
 
     assign     pe_en_o = pe_en;
     assign     addtree_en_o = addtree_en;

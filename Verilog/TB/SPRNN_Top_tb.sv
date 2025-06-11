@@ -22,7 +22,7 @@ module SPRNN_Top_tb;
     reg layer_done;
     reg total_done_o;
 
-    // DUT Ïù∏Ïä§ÌÑ¥Ïä§
+    // DUT ?ù∏?ä§?Ñ¥?ä§
     SPRNN_Top #(
         .DATA_WIDTH(8),
         .NUM_COLOR(3),
@@ -46,7 +46,7 @@ module SPRNN_Top_tb;
         .total_done_o(total_done_o)
     );
 
-    // Clock ÏÉùÏÑ±
+    // Clock ?Éù?Ñ±
     initial begin
         clk = 0;
         forever #5 clk = ~clk; // 100MHz
@@ -62,8 +62,8 @@ module SPRNN_Top_tb;
         input integer start_address;
         integer i;
         begin
-            // Bias regfile Ï¥àÍ∏∞Ìôî
-            for (i = 0; i < 8; i = i + 1) begin
+            // Bias regfile 
+            for (i = 0; i < 5; i = i + 1) begin
                 wren_bias_i = 1;
                 write_addr_bias_i = i;
                 scan_file_b = $fscanf(data_file_b, "%h\n", data_buffer_b);
@@ -76,7 +76,7 @@ module SPRNN_Top_tb;
             end
             wren_bias_i = 0;
 
-            // weight Ï¥àÍ∏∞Ìôî
+            // weight 
             for (i = 0; i < 582; i = i + 1) begin
                 wmem_addr_i = i;
                 scan_file_w = $fscanf(data_file_w, "%h\n", data_buffer_w);
@@ -88,7 +88,7 @@ module SPRNN_Top_tb;
                 #10;
             end
 
-            // memA, memB Ï¥àÍ∏∞Ìôî
+            // memA, memB 
             for (i = 0; i < 31008; i = i + 1) begin
                 memA_addr_i = i;
                 memB_addr_i = i;
@@ -99,18 +99,20 @@ module SPRNN_Top_tb;
                 end
                 memA_d_i = data_buffer_in;
                 memB_d_i = 128'd0;
+                #10;
             end
+            initial_SRAMw_done = 1;
+            initial_weight_done = 1;
         end
     endtask
 
     integer i;
-    integer iteration;
     initial begin
 
         // Open data file
-        data_file_in = $fopen("C:/Users/tjwws/RES_OUT/feature_data_hexa.txt", "r");
-        data_file_w = $fopen("feature_data_hexa.txt", "r");
-        data_file_b = $fopen("feature_data_hexa.txt", "r");
+        data_file_in = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/input.txt", "r");
+        data_file_w = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/mem_w.txt", "r");
+        data_file_b = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/reg_b.txt", "r");
         if (data_file_in == 0) begin
             $display("Error opening feature_data_hexa.txt!");
             $finish;
@@ -124,7 +126,6 @@ module SPRNN_Top_tb;
             $finish;
         end
 
-        // Ï¥àÍ∏∞Ìôî
         rst_n = 0; start = 0; initial_SRAMw_done = 0; initial_weight_done = 0;
         memA_addr_i = 0; memB_addr_i = 0; wmem_addr_i = 0;
         memA_d_i = 0; memB_d_i = 0; wmem_d_i = 0;
@@ -134,16 +135,14 @@ module SPRNN_Top_tb;
         #5  start = 1;
 
         load_data_to_sram((i % 3) * 7);
-
-        // Ï¥àÍ∏∞Ìôî ÏôÑÎ£å ÏãúÍ∑∏ÎÑê
-        initial_SRAMw_done = 1;
-        initial_weight_done = 1;
+        
+        wait(!layer_done);
 
         // Test scenario
         for (i = 0; i < 6; i = i + 1) begin // 
             wait(layer_done);
             save_mem_to_file(i);
-            #10;
+            #20;
         end
 
         $fclose(data_file_in);
@@ -164,31 +163,39 @@ module SPRNN_Top_tb;
         reg [7:0] i_start, i_end;
            
         begin
-            if (i == 0) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_1.txt", "w");
-            else if (i == 1) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_2.txt", "w");
-            else if (i == 2) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_3.txt", "w");
-            else if (i == 3) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_4.txt", "w");
-            else if (i == 4) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_5.txt", "w");
-            else if (i == 5) file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_6.txt", "w");
-            else file = $fopen("C:/Users/tjwws/RES_OUT/feature_data_out_00.txt", "w");
+            if (i == 0) file = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/feature_data_out_1.txt", "w");
+            else if (i == 1) file = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/feature_data_out_2.txt", "w");
+            else if (i == 2) file = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/feature_data_out_3.txt", "w");
+            else if (i == 3) file = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/feature_data_out_4.txt", "w");
+            else if (i == 4) file = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/feature_data_out_5.txt", "w");
+            else if (i == 5) file = $fopen("C:/Users/LG/OneDrive/πÆº≠/GitHub/capstone_design/Verification/text/feature_data_out_6.txt", "w");
+            else file = $fopen("C:\Users\LG\OneDrive\πÆº≠\GitHub\capstone_design\Verification\text\feature_data_out_00.txt", "w");
             if (file == 0) begin
                 $display("Failed to open file!");
                 $finish;
             end
  
             if (i % 2 == 0) begin // layer 0, 2, 4
-                for (j = 0; j < 31008; j = j + 1) begin
+                 for (j = 0; j < 31008; j = j + 1) begin
+                    // Split 128-bit data into 8 signed 8-bit segments
                     $fwrite(file,"%0d : ",  j);
-                    mem_byte = dut.u_memB.mem_W[j];
-                    $fwrite(file, "%0d ", mem_byte);
+                    for (k = 15; k >= 0; k = k - 1) begin
+                        mem_byte = dut.u_memB.mem_W[j][k*8 +: 8];
+                        if (k > 0 ) $fwrite(file, "%0d ", mem_byte);
+                        else $fwrite(file, "%0d", mem_byte);
+                    end
                     $fwrite(file, "\n");
                 end
             end 
             else begin // layer 1, 3, 5
                 for (j = 0; j < 31008; j = j + 1) begin
+                    // Split 128-bit data into 8 signed 8-bit segments
                     $fwrite(file,"%0d : ",  j);
-                    mem_byte = dut.u_memA.mem_W[j];
-                    $fwrite(file, "%0d ", mem_byte);
+                    for (k = 15; k >= 0; k = k - 1) begin
+                        mem_byte = dut.u_memA.mem_W[j][k*8 +: 8];
+                        if (k > 0 ) $fwrite(file, "%0d ", mem_byte);
+                        else $fwrite(file, "%0d", mem_byte);
+                    end
                     $fwrite(file, "\n");
                 end
             end
@@ -198,7 +205,6 @@ module SPRNN_Top_tb;
         end
     endtask
 
-    // Ï∂úÎ†• Î™®ÎãàÌÑ∞ÎßÅ
     initial begin
         $monitor("Time=%0t | rst_n=%b | start=%b | layer_done_o=%b | total_done_o=%b",
                  $time, rst_n, start, layer_done, total_done_o);

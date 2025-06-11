@@ -9,11 +9,15 @@ module output_buffer #(
 )(
     input  wire                             clk,
     input  wire                             rst_n,
-    input  wire                             wren[0:2],
+    input  wire                             wren_r,
+    input  wire                             wren_g,
+    input  wire                             wren_b,
     input  wire [DATA_WIDTH-1:0]            data_in_r,
     input  wire [DATA_WIDTH-1:0]            data_in_g,
     input  wire [DATA_WIDTH-1:0]            data_in_b,
-    input  wire                             rden[0:2],
+    input  wire                             rden_r,
+    input  wire                             rden_g,
+    input  wire                             rden_b,
     input  wire [2:0]                       layer_num,
     input  wire                             layer_start,
     output reg                              o_buffer_done,
@@ -29,14 +33,26 @@ module output_buffer #(
     reg [t_WIDTH-1:0] buffer_data_b;
     reg [4:0] cnt[0:NUM_COLOR-1];
     reg [4:0] cnt_n[0:NUM_COLOR-1];
-
+    reg wren[0:NUM_COLOR-1];
+    reg rden[0:NUM_COLOR-1];
+    integer i;
+    
+    always @(*) begin
+        wren[0] = wren_r;
+        wren[1] = wren_g;
+        wren[2] = wren_b;
+        rden[0] = rden_r;
+        rden[1] = rden_r;
+        rden[2] = rden_r;
+    end
+    
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
-            for (int i = 0; i < NUM_COLOR; i = i + 1) begin
+            for (i = 0; i < NUM_COLOR; i = i + 1) begin
                 cnt[i]          <= 0;
             end
         end else begin
-            for (int i = 0; i < NUM_COLOR; i = i + 1) begin
+            for (i = 0; i < NUM_COLOR; i = i + 1) begin
                 cnt[i]          <= cnt_n[i];
             end
             if (wren[0]) buffer_data_r_array[cnt[0]] <= data_in_r;
@@ -66,12 +82,12 @@ module output_buffer #(
 
     always @(*) begin
         o_buffer_done = 0;
-        for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+        for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
             cnt_n[i] = cnt[i]; 
         end
         case (layer_num)
             3'd6: begin
-                for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                     if (wren[i]) o_buffer_done = 1;
                 end
 
@@ -86,7 +102,7 @@ module output_buffer #(
                 end
             end
             default: begin
-                for (int i = 0; i < NUM_COLOR; i = i + 1 ) begin
+                for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                     if (wren[i]) cnt_n[i] = cnt[i] + 1;
                 end
                 if ((cnt[0] == 15) & wren[0]) begin

@@ -3,7 +3,7 @@
 module regfile_sync #(
     parameter BITWIDTH            = 32,                        // 각 워드의 비트 폭
     parameter NUM_WORD            = 16,                        // 워드 개수
-    parameter LAYER_1_NUM_WORD    = 2,                         // layer_num == 1일 때만 사용할 워드 개수
+    parameter LAYER_6_NUM_WORD    = 2,                         // layer_num == 1일 때만 사용할 워드 개수
     parameter DATA_WIDTH          = NUM_WORD * BITWIDTH,       // 전체 메모리 폭
     parameter ADDR_WIDTH          = 3                          // 
 )(
@@ -87,7 +87,7 @@ module regfile_sync #(
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
         if (layer_num == 1) begin
-            cnt <= LAYER_1_NUM_WORD - 1;
+            cnt <= LAYER_6_NUM_WORD - 1;
             end
         else begin
         cnt <= NUM_WORD - 1;
@@ -97,7 +97,7 @@ module regfile_sync #(
         else if (rden && !prev_rden) begin
             if (layer_num == 1) begin
                 // layer_num==1일 때는 LAYER_1_NUM_WORD 개수만큼만 순환
-                if (cnt == (LAYER_1_NUM_WORD - 1))
+                if (cnt == (LAYER_6_NUM_WORD - 1))
                     cnt <= 4'd0;
                 else
                     cnt <= cnt + 4'd1;
@@ -117,6 +117,6 @@ module regfile_sync #(
     //    read_buf에 저장된 DATA_WIDTH 폭 전체에서
     //    cnt*BITWIDTH 위치부터 BITWIDTH 폭만큼 잘라서 내보냄
     //----------------------------------------------------------------------
-    assign rdata = read_buf[ (cnt * BITWIDTH) + BITWIDTH - 1 : cnt * BITWIDTH ];
+    assign rdata = read_buf[ cnt * BITWIDTH +: BITWIDTH ];
 
 endmodule

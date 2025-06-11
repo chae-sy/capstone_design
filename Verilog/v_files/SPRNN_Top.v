@@ -22,8 +22,8 @@ module SPRNN_Top#(
     input   wire  [511:0]   write_data_bias_i,
     input   wire            initial_SRAMw_done,
     input   wire            initial_weight_done,
-    output  reg             layer_done_o,   
-    output  reg             total_done_o  
+    output  wire            layer_done_o,   
+    output  wire            total_done_o  
 );
 
     wire    [9:0]           wmem_addr_o;
@@ -134,12 +134,20 @@ module SPRNN_Top#(
         .wei_buff_wren_o    (wei_buf_wren_o),
         .wei_buff_rden_o    (wei_buf_rden_o),
         
-        .in_buf_wren_o      (in_buf_wren_o),
-        .in_buf_rden_o      (in_buf_rden_o),
-        .is_initial         (is_initial),
+        .in_buf_wren_r      (in_buf_wren_o[0]),
+        .in_buf_wren_g      (in_buf_wren_o[1]),
+        .in_buf_wren_b      (in_buf_wren_o[2]),
+        .in_buf_rden_r      (in_buf_rden_o[0]),
+        .in_buf_rden_g      (in_buf_rden_o[1]),
+        .in_buf_rden_b      (in_buf_rden_o[2]),        
+        .is_initial_o       (is_initial),
         
-        .out_buf_wren_o     (out_buf_wren_o),
-        .out_buf_rden_o     (out_buf_rden_o),
+        .out_buf_wren_r     (out_buf_wren_o[0]),
+        .out_buf_wren_g     (out_buf_wren_o[1]),
+        .out_buf_wren_b     (out_buf_wren_o[2]),
+        .out_buf_rden_r     (out_buf_rden_o[0]),
+        .out_buf_rden_g     (out_buf_rden_o[1]),
+        .out_buf_rden_b     (out_buf_rden_o[2]),
         .out_buf_done_i     (out_buf_done_i),
         
         .pe_en_o            (pe_en_o),
@@ -273,7 +281,9 @@ module SPRNN_Top#(
     
     //(memory -> buffer) => PE array 
     always @(*) begin
-        stage2_in_input = stage1_in_output;
+        stage2_in_input[0] = stage1_in_output[0];
+        stage2_in_input[1] = stage1_in_output[1];
+        stage2_in_input[2] = stage1_in_output[2];
         stage2_weight_input = stage1_weight_output;
     end 
     
@@ -294,11 +304,15 @@ module SPRNN_Top#(
                 .clk                (clk),
                 .rst_n              (rst_n),
                 .pe_en              (pe_en_o),
-                .data_in            (rgb_lane[ch]),     
+                .data_in_r          (rgb_lane[ch][0]),     
+                .data_in_g          (rgb_lane[ch][1]),
+                .data_in_b          (rgb_lane[ch][2]),
                 .weight_in          (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
                 .layer_start        (layer_start),
                 .pe_done            (pe_done[ch]),
-                .result_out_flat    (stage2_output[ch][0:2]) // r, g, b
+                .result_out_flat_r  (stage2_output[ch][0]),
+                .result_out_flat_g  (stage2_output[ch][1]),
+                .result_out_flat_b  (stage2_output[ch][2])
             );
         end
     endgenerate
@@ -372,12 +386,14 @@ module SPRNN_Top#(
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             for (i=0; i < NUM_COLOR; i=i+1) begin
-            stage4_input[i] <= {24{1'b0}};
+                stage4_input[i] <= {24{1'b0}};
             end
             rden_bias <= 1'b0;
         end
         else if (addtree_done_i) begin // valid == done
-            stage4_input <= stage3_output;
+            for (i=0; i < NUM_COLOR; i=i+1) begin
+                stage4_input[i] <= stage3_output[i];
+            end
             rden_bias <= 1'b1;
         end
         else begin
@@ -442,7 +458,9 @@ module SPRNN_Top#(
         case (layer_num)
             1,2,3,5,6: begin
                 if (relu_done_i) begin
-                    stage5_input = stage4_output;
+                    for (i=0; i < NUM_COLOR; i=i+1) begin
+                        stage5_input[i] = stage4_output[i];
+                    end
                 end
             end
         endcase
@@ -470,11 +488,15 @@ module SPRNN_Top#(
     (
         .clk                (clk),
         .rst_n              (rst_n),
-        .wren               (out_buf_wren_o),
+        .wren_r             (out_buf_wren_o[0]),
+        .wren_g             (out_buf_wren_o[1]),
+        .wren_b             (out_buf_wren_o[2]),
         .data_in_r          (stage5_input[0]),
         .data_in_g          (stage5_input[1]),
         .data_in_b          (stage5_input[2]),
-        .rden               (out_buf_rden_o),
+        .rden_r             (out_buf_rden_o[0]),
+        .rden_g             (out_buf_rden_o[1]),
+        .rden_b             (out_buf_rden_o[2]),
         .layer_num          (layer_num),
         .layer_start        (layer_start),
         .o_buffer_done      (out_buf_done_i),
