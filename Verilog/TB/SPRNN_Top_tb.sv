@@ -157,7 +157,7 @@ module SPRNN_Top_tb;
         $fclose(data_file_w);
         $fclose(data_file_b);
 
-        #20000;
+        #100;
         $finish;
     end
     
