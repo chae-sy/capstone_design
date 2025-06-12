@@ -19,6 +19,7 @@ module SPRNN_Top_tb;
     reg [511:0] write_data_bias_i;
     reg initial_SRAMw_done;
     reg initial_weight_done;
+    reg [2:0] layer_num;
     reg layer_done;
     reg total_done_o;
 
@@ -28,22 +29,23 @@ module SPRNN_Top_tb;
         .NUM_COLOR(3),
         .NUM_CHNL(16)
     ) dut (
-        .clk(clk),
-        .rst_n(rst_n),
-        .start(start),
-        .memA_addr_i(memA_addr_i),
-        .memB_addr_i(memB_addr_i),
-        .wmem_addr_i(wmem_addr_i),
-        .memA_d_i(memA_d_i),
-        .memB_d_i(memB_d_i),
-        .wmem_d_i(wmem_d_i),
-        .wren_bias_i(wren_bias_i),
-        .write_addr_bias_i(write_addr_bias_i),
-        .write_data_bias_i(write_data_bias_i),
-        .initial_SRAMw_done(initial_SRAMw_done),
+        .clk                (clk),
+        .rst_n              (rst_n),
+        .start              (start),
+        .memA_addr_i        (memA_addr_i),
+        .memB_addr_i        (memB_addr_i),
+        .wmem_addr_i        (wmem_addr_i),
+        .memA_d_i           (memA_d_i),
+        .memB_d_i           (memB_d_i),
+        .wmem_d_i           (wmem_d_i),
+        .wren_bias_i        (wren_bias_i),
+        .write_addr_bias_i  (write_addr_bias_i),
+        .write_data_bias_i  (write_data_bias_i),
+        .initial_SRAMw_done (initial_SRAMw_done),
         .initial_weight_done(initial_weight_done),
-        .layer_done_o (layer_done),
-        .total_done_o(total_done_o)
+        .layer_num_o        (layer_num),
+        .layer_done_o       (layer_done),
+        .total_done_o       (total_done_o)
     );
 
     // Clock ?Éù?Ñ±
@@ -77,7 +79,7 @@ module SPRNN_Top_tb;
             wren_bias_i = 0;
 
             // weight 
-            for (i = 0; i < 582; i = i + 1) begin
+            for (i = 0; i < 585; i = i + 1) begin
                 wmem_addr_i = i;
                 scan_file_w = $fscanf(data_file_w, "%h\n", data_buffer_w);
                 if (scan_file_w != 1) begin
@@ -106,7 +108,7 @@ module SPRNN_Top_tb;
         end
     endtask
 
-    integer i;
+    integer it, i;
     initial begin
 
         // Open data file
@@ -136,19 +138,25 @@ module SPRNN_Top_tb;
 
         load_data_to_sram((i % 3) * 7);
         
-        wait(!layer_done);
-
+        @(negedge layer_done);
+        
         // Test scenario
-        for (i = 0; i < 6; i = i + 1) begin // 
-            wait(layer_done);
+        for (it = 0; it < 6; it = it + 1) begin // 
+            @(negedge layer_done);
+            i = layer_num-2;
             save_mem_to_file(i);
-            #20;
+            # 20;
+//            @(posedge layer_done);
         end
+        
+        @(negedge layer_done);
+        i = 5;
+        save_mem_to_file(i);
 
         $fclose(data_file_in);
         $fclose(data_file_w);
         $fclose(data_file_b);
-        wait(total_done_o);
+
         #20000;
         $finish;
     end
