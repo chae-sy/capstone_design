@@ -106,7 +106,7 @@ module SPRNN_Top#(
         
     reg  [2:0]                      read_addr_bias;
     reg                             rden_bias;
-    wire [BIAS_WIDTH-1:0]           read_data_bias;
+    wire [DATA_WIDTH-1:0]           read_data_bias;
     
     wire [DATA_WIDTH*NUM_CHNL-1:0]  maxpool_output;
     wire [DATA_WIDTH*NUM_CHNL-1:0]  data_out;

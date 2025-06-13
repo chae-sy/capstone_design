@@ -16,7 +16,7 @@ module regfile_sync #(
     // --- Read Port ---
     input  wire [ADDR_WIDTH-1:0]    raddr,      // read address (동기식으로 캡처)
     input  wire                     rden,       // read enable: 이 신호가 1로 전이(0→1)될 때마다 한 워드를 읽음
-    output wire [BITWIDTH-1:0]      rdata,      // 최종 슬라이싱된 한 워드 (BITWIDTH 폭)
+    output wire [DATA_WIDTH8-1:0]   rdata,      // 최종 ?��?��?��?��?�� ?�� ?��?�� (BITWIDTH ?��)
     // --- layer num ---
     input  wire [2:0]               layer_num
 );
@@ -117,6 +117,6 @@ module regfile_sync #(
     //    read_buf에 저장된 DATA_WIDTH 폭 전체에서
     //    cnt*BITWIDTH 위치부터 BITWIDTH 폭만큼 잘라서 내보냄
     //----------------------------------------------------------------------
-    assign rdata = read_buf[ cnt * BITWIDTH +: BITWIDTH ];
+    assign rdata = read_buf[127 - cnt * DATA_WIDTH8 -: DATA_WIDTH8];
 
 endmodule
