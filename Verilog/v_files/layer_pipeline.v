@@ -1038,7 +1038,7 @@ module layer_pipeline #(
                     end
                     enable1: begin // red
                         out_buf_rden[0] = 1;
-                        if (layer_num == 'd6) mem_wr_wenb = 1;
+                        if ((layer_num == 'd6) & (cnt2_column >= 'd25)) mem_wr_wenb = 1;
                         else mem_wr_wenb = 0;
                         mem_wr_cenb = 0;
                         output_mem_en = 1;
@@ -1054,7 +1054,7 @@ module layer_pipeline #(
                     enable3: begin // blue
                         out_buf_rden[2] = 1;
                         mem_wr_cenb = 0;
-                        if (layer_num == 'd6) mem_wr_wenb = 1;
+                        if ((layer_num == 'd6)  & (cnt2_column >='d25)) mem_wr_wenb = 1;
                         else mem_wr_wenb = 0;
                         output_mem_en = 1;
                         output_state_n = IDLE;

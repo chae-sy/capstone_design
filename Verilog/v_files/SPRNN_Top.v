@@ -22,6 +22,7 @@ module SPRNN_Top#(
     input   wire  [511:0]   write_data_bias_i,
     input   wire            initial_SRAMw_done,
     input   wire            initial_weight_done,
+    output  wire  [2:0]     layer_num_o,
     output  wire            layer_done_o,   
     output  wire            total_done_o  
 );
@@ -105,7 +106,7 @@ module SPRNN_Top#(
         
     reg  [2:0]                      read_addr_bias;
     reg                             rden_bias;
-    wire [BIAS_WIDTH-1:0]           read_data_bias;
+    wire [DATA_WIDTH-1:0]           read_data_bias;
     
     wire [DATA_WIDTH*NUM_CHNL-1:0]  maxpool_output;
     wire [DATA_WIDTH*NUM_CHNL-1:0]  data_out;
@@ -168,7 +169,7 @@ module SPRNN_Top#(
         .layer_num_o        (layer_num),
         .layer_start_o      (layer_start)
     );
-
+    assign  layer_num_o = layer_num;
 
     /////////////////////// memory //////////////////////////
 
