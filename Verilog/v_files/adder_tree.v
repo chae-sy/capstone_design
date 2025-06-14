@@ -1,36 +1,38 @@
 `timescale 1ns / 1ps
 module adder_tree #(
   parameter DATA_WIDTH = 20,
-  parameter NUM_INPUTS = 16,  // ë‹¨ì¼ laneì˜ ì…ë ¥ ê°œìˆ˜
+  parameter NUM_INPUTS = 16,  // ?‹¨?¼ lane?˜ ?…? ¥ ê°œìˆ˜
   parameter SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS)
 )(
   input  wire                        clk,
   input  wire                        rst_n,
-  input  wire                        adder_tree_en,     // ì—°ì‚° ì‹œì‘ ì¸ì—ì´ë¸”
-  input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      // ë‹¨ì¼ lane ì…ë ¥
+  input  wire                        adder_tree_en,     // ?—°?‚° ?‹œ?‘ ?¸?—?´ë¸?
+  input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      // ?‹¨?¼ lane ?…? ¥
   input  wire                        layer_start,
-  output reg  [SUM_WIDTH-1:0]        sum_out,      // ë‹¨ì¼ lane ì¶œë ¥
-  output reg                         adder_tree_done // ì—°ì‚° ì™„ë£Œ í„ìŠ¤
+  output reg  signed [SUM_WIDTH-1:0] sum_out,      // ?‹¨?¼ lane ì¶œë ¥
+  output reg                         adder_tree_done // ?—°?‚° ?™„ë£? ?„?Š¤
 );
 
   // Stage1 parameters
   localparam GROUP_SIZE = 4;
-  localparam NUM_GROUPS = NUM_INPUTS / GROUP_SIZE;
-  localparam ST1_WIDTH  = DATA_WIDTH + $clog2(GROUP_SIZE);
+  localparam NUM_GROUPS = NUM_INPUTS / GROUP_SIZE; //4
+  localparam ST1_WIDTH  = DATA_WIDTH + $clog2(GROUP_SIZE); //22
 
   // Stage1: combinational partial sums [group]
-  wire [ST1_WIDTH-1:0] stage1_comb [0:NUM_GROUPS-1];
-  reg  [ST1_WIDTH-1:0] stage1_reg  [0:NUM_GROUPS-1];
-
+  wire signed [ST1_WIDTH-1:0] stage1_comb [0:NUM_GROUPS-1];
+  reg  signed [ST1_WIDTH-1:0] stage1_reg  [0:NUM_GROUPS-1];
+  wire signed [19:0] st, stt1;
   genvar grp;
   generate
     for (grp = 0; grp < NUM_GROUPS; grp = grp + 1) begin : GEN_STAGE1
-      assign stage1_comb[grp] =
-          in_flat[(grp*GROUP_SIZE + 0)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 0)*DATA_WIDTH]
-        + in_flat[(grp*GROUP_SIZE + 1)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 1)*DATA_WIDTH]
-        + in_flat[(grp*GROUP_SIZE + 2)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 2)*DATA_WIDTH]
-        + in_flat[(grp*GROUP_SIZE + 3)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 3)*DATA_WIDTH];
+      assign stage1_comb[grp] = $signed(
+          $signed(in_flat[(grp*GROUP_SIZE + 0)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 0)*DATA_WIDTH])
+        + $signed(in_flat[(grp*GROUP_SIZE + 1)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 1)*DATA_WIDTH])
+        + $signed(in_flat[(grp*GROUP_SIZE + 2)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 2)*DATA_WIDTH])
+        + $signed(in_flat[(grp*GROUP_SIZE + 3)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 3)*DATA_WIDTH]));
     end
+    assign st = $signed(in_flat[(3*GROUP_SIZE + 2)*DATA_WIDTH + DATA_WIDTH - 1 : (3*GROUP_SIZE + 2)*DATA_WIDTH]);
+    assign stt1 = $signed(in_flat[(3*GROUP_SIZE + 3)*DATA_WIDTH + DATA_WIDTH - 1 : (3*GROUP_SIZE + 3)*DATA_WIDTH]);
   endgenerate
 
 

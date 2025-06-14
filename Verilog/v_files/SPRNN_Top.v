@@ -90,8 +90,8 @@ module SPRNN_Top#(
                                     stage2_weight_input;
     wire [19:0]                     stage2_output[0:NUM_CHNL-1][0:NUM_COLOR-1];
     reg  [20*NUM_CHNL-1:0]          stage3_input[0:NUM_COLOR-1];
-    wire [23:0]                     stage3_output[0:NUM_COLOR-1];
-    reg  [23:0]                     stage4_input[0:NUM_COLOR-1];
+    wire signed [23:0]              stage3_output[0:NUM_COLOR-1];
+    reg  signed [23:0]              stage4_input[0:NUM_COLOR-1];
     wire [DATA_WIDTH-1:0]           stage4_output[0:NUM_COLOR-1];
     reg  [DATA_WIDTH-1:0]           stage5_input[0:NUM_COLOR-1];
                                     
@@ -106,7 +106,7 @@ module SPRNN_Top#(
         
     reg  [2:0]                      read_addr_bias;
     reg                             rden_bias;
-    wire [DATA_WIDTH-1:0]           read_data_bias;
+    wire [BIAS_WIDTH-1:0]           read_data_bias;
     
     wire [DATA_WIDTH*NUM_CHNL-1:0]  maxpool_output;
     wire [DATA_WIDTH*NUM_CHNL-1:0]  data_out;
@@ -308,7 +308,7 @@ module SPRNN_Top#(
                 .data_in_r          (rgb_lane[ch][0]),     
                 .data_in_g          (rgb_lane[ch][1]),
                 .data_in_b          (rgb_lane[ch][2]),
-                .weight_in          (stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH]),
+                .weight_in          ($signed(stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH])),
                 .layer_start        (layer_start),
                 .pe_done            (pe_done[ch]),
                 .result_out_flat_r  (stage2_output[ch][0]),

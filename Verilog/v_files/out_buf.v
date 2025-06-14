@@ -42,8 +42,8 @@ module output_buffer #(
         wren[1] = wren_g;
         wren[2] = wren_b;
         rden[0] = rden_r;
-        rden[1] = rden_r;
-        rden[2] = rden_r;
+        rden[1] = rden_g;
+        rden[2] = rden_b;
     end
     
     always @(posedge clk or negedge rst_n) begin
@@ -72,9 +72,9 @@ module output_buffer #(
     generate
         for (genvar i=0; i<NUM_CHNL; i=i+1) begin
             always @(*) begin
-                buffer_data_r[(i+1)*DATA_WIDTH-1:i*DATA_WIDTH] = buffer_data_r_array[i];
-                buffer_data_g[(i+1)*DATA_WIDTH-1:i*DATA_WIDTH] = buffer_data_g_array[i];
-                buffer_data_b[(i+1)*DATA_WIDTH-1:i*DATA_WIDTH] = buffer_data_b_array[i];
+                buffer_data_r[(16-i)*DATA_WIDTH-1:(16-i-1)*DATA_WIDTH] = buffer_data_r_array[i];
+                buffer_data_g[(16-i)*DATA_WIDTH-1:(16-i-1)*DATA_WIDTH] = buffer_data_g_array[i];
+                buffer_data_b[(16-i)*DATA_WIDTH-1:(16-i-1)*DATA_WIDTH] = buffer_data_b_array[i];
             end
         end
     endgenerate
@@ -92,13 +92,13 @@ module output_buffer #(
                 end
 
                 if (rden[0]) begin
-                    data_out = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_r[DATA_WIDTH-1:0]};
+                    data_out = {buffer_data_r[DATA_WIDTH-1:0], {(t_WIDTH-DATA_WIDTH){1'b0}}};
                 end
                 else if (rden[1]) begin
-                    data_out = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_g[DATA_WIDTH-1:0]};
+                    data_out = {buffer_data_g[DATA_WIDTH-1:0], {(t_WIDTH-DATA_WIDTH){1'b0}}};
                 end
                 else if (rden[2]) begin    
-                    data_out = {{(t_WIDTH-DATA_WIDTH){1'b0}}, buffer_data_b[DATA_WIDTH-1:0]};
+                    data_out = {buffer_data_b[DATA_WIDTH-1:0], {(t_WIDTH-DATA_WIDTH){1'b0}}};
                 end
             end
             default: begin

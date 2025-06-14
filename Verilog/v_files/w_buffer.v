@@ -1,44 +1,44 @@
 `timescale 1ns / 1ps
 
 module w_buffer #(
-    parameter WIDTH_FSRAM_WL  = 128,   // SRAMì—ì„œ í•œ ë²ˆì— ì½ì–´ì˜¤ëŠ” ë¹„íŠ¸ í­ (ì˜ˆ: 8bitÃ—16ì±„ë„=128)
-    parameter DATA_WIDTH      = 8,     // í•œ ì±„ë„ë‹¹ ë°ì´í„° í­
-    parameter NUM_CHNL        = 16,    // ì±„ë„ ìˆ˜
-    parameter SIZE_BUFFER_H   = 3,     // ë²„í¼ ì„¸ë¡œ í¬ê¸° (í–‰ ê°œìˆ˜)
-    parameter SIZE_BUFFER_W   = 3,     // ë²„í¼ ê°€ë¡œ í¬ê¸° (ì—´ ê°œìˆ˜)
-    parameter SIZE_KERNEL_H   = 3,     // ì»¤ë„ ì„¸ë¡œ í¬ê¸° (ì˜ˆ: 3)
-    parameter SIZE_KERNEL_W   = 3      // ì»¤ë„ ê°€ë¡œ í¬ê¸° (ì˜ˆ: 3)
+    parameter WIDTH_FSRAM_WL  = 128,   // SRAM?—?„œ ?•œ ë²ˆì— ?½?–´?˜¤?Š” ë¹„íŠ¸ ?­ (?˜ˆ: 8bitÃ—16ì±„ë„=128)
+    parameter DATA_WIDTH      = 8,     // ?•œ ì±„ë„?‹¹ ?°?´?„° ?­
+    parameter NUM_CHNL        = 16,    // ì±„ë„ ?ˆ˜
+    parameter SIZE_BUFFER_H   = 3,     // ë²„í¼ ?„¸ë¡? ?¬ê¸? (?–‰ ê°œìˆ˜)
+    parameter SIZE_BUFFER_W   = 3,     // ë²„í¼ ê°?ë¡? ?¬ê¸? (?—´ ê°œìˆ˜)
+    parameter SIZE_KERNEL_H   = 3,     // ì»¤ë„ ?„¸ë¡? ?¬ê¸? (?˜ˆ: 3)
+    parameter SIZE_KERNEL_W   = 3      // ì»¤ë„ ê°?ë¡? ?¬ê¸? (?˜ˆ: 3)
 )(
     input  wire                           clk,
     input  wire                           rst_n,
-    input  wire                           wren,           // ì™¸ë¶€ì—ì„œ feature ë¡œë“œ í—ˆìš©
-    input  wire                           rden,           // ë°ì´í„° ì¶œë ¥ í—ˆìš©
-    input  wire [WIDTH_FSRAM_WL-1:0]      data_in,        // SRAM ì—ì„œ ì½ì–´ì˜¨ 128bit
+    input  wire                           wren,           // ?™¸ë¶??—?„œ feature ë¡œë“œ ?—ˆ?š©
+    input  wire                           rden,           // ?°?´?„° ì¶œë ¥ ?—ˆ?š©
+    input  wire [WIDTH_FSRAM_WL-1:0]      data_in,        // SRAM ?—?„œ ?½?–´?˜¨ 128bit
     input  wire                           layer_start,
-    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (ì¶œë ¥) ê° ì±„ë„ë³„ë¡œ 8bitì”© ë¬¶ìŒ
-    output reg                            w_buffer_done   // ë¦¬í„´: ì´ˆê¸° ë˜ëŠ” í›„ì† ë¡œë“œ/ì¶œë ¥ì´ ëë‚¬ìŒì„ ì•Œë¦¼
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (ì¶œë ¥) ê°? ì±„ë„ë³„ë¡œ 8bit?”© ë¬¶ìŒ
+    output reg                            w_buffer_done   // ë¦¬í„´: ì´ˆê¸° ?˜?Š” ?›„?† ë¡œë“œ/ì¶œë ¥?´ ??‚¬?Œ?„ ?•Œë¦?
 );
 
     //================================================================
-    // 1) ë‚´ë¶€ ë²„í¼: 3D ë°°ì—´ ì„ ì–¸ (SIZE_BUFFER_H Ã— SIZE_BUFFER_W Ã— NUM_CHNL)
-    //    â†’ buffer_data[row][col][channel]
+    // 1) ?‚´ë¶? ë²„í¼: 3D ë°°ì—´ ?„ ?–¸ (SIZE_BUFFER_H Ã— SIZE_BUFFER_W Ã— NUM_CHNL)
+    //    ?†’ buffer_data[row][col][channel]
     //================================================================
     reg [NUM_CHNL*DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1];
     reg [WIDTH_FSRAM_WL-1:0] data_in_reg;
 
     //================================================================
-    // 2) ì½ê¸°/ì“°ê¸° ì¹´ìš´í„°: ì´ˆê¸° ë¡œë”©, í›„ì† ë¡œë”©, ì¶œë ¥ ì‹œ ê°ê° ë”°ë¡œ ê´€ë¦¬
-    //    load_cnt : initial=1ì´ë©´ 0~8 (3Ã—3), is_initial=0 ì´ë©´ 0~(SIZE_BUFFER_H-1)
-    //    out_cnt  : 0~(SIZE_KERNEL_H*SIZE_KERNEL_W-1) ë™ì•ˆ tap ì¶œë ¥
+    // 2) ?½ê¸?/?“°ê¸? ì¹´ìš´?„°: ì´ˆê¸° ë¡œë”©, ?›„?† ë¡œë”©, ì¶œë ¥ ?‹œ ê°ê° ?”°ë¡? ê´?ë¦?
+    //    load_cnt : initial=1?´ë©? 0~8 (3Ã—3), is_initial=0 ?´ë©? 0~(SIZE_BUFFER_H-1)
+    //    out_cnt  : 0~(SIZE_KERNEL_H*SIZE_KERNEL_W-1) ?™?•ˆ tap ì¶œë ¥
     //================================================================
-    reg [5:0] load_cnt;  // ìµœëŒ€ 9 ë˜ëŠ” 3 ê¹Œì§€ ì¹´ìš´íŒ…(6ë¹„íŠ¸ë©´ ì¶©ë¶„)
-    reg [5:0] out_cnt, out_cnt_n;   // ìµœëŒ€ 9ê¹Œì§€ ì¹´ìš´íŒ…
+    reg [5:0] load_cnt;  // ìµœë? 9 ?˜?Š” 3 ê¹Œì? ì¹´ìš´?Œ…(6ë¹„íŠ¸ë©? ì¶©ë¶„)
+    reg [5:0] out_cnt, out_cnt_n;   // ìµœë? 9ê¹Œì? ì¹´ìš´?Œ…
     reg wren_d;
-    // ì •ìˆ˜ ë°˜ë³µë¬¸ìš© ë³€ìˆ˜
+    // ? •?ˆ˜ ë°˜ë³µë¬¸ìš© ë³??ˆ˜
     integer r, c;
 
     //================================================================
-    // 4) ë©”ì¸ always ë¸”ë¡: ë¦¬ì…‹, ì“°ê¸°(wren), ì½ê¸°(rden) ìˆœìœ¼ë¡œ ë¶„ê¸°
+    // 4) ë©”ì¸ always ë¸”ë¡: ë¦¬ì…‹, ?“°ê¸?(wren), ?½ê¸?(rden) ?ˆœ?œ¼ë¡? ë¶„ê¸°
     //================================================================
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n | layer_start) begin
@@ -55,7 +55,7 @@ module w_buffer #(
             if (wren) begin
                 data_in_reg <= data_in;
             end
-            // ì“°ê¸° ë¡œì§
+            // ?“°ê¸? ë¡œì§
             if (wren_d) begin
                 if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
                     buffer_data[ load_cnt / SIZE_KERNEL_W ][ load_cnt % SIZE_KERNEL_W ] <= data_in_reg;

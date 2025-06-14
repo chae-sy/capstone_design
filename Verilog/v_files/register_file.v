@@ -1,35 +1,35 @@
 `timescale 1ns / 1ps
 
 module regfile_sync #(
-    parameter BITWIDTH            = 32,                        // ê° ì›Œë“œì˜ ë¹„íŠ¸ í­
-    parameter NUM_WORD            = 16,                        // ì›Œë“œ ê°œìˆ˜
-    parameter LAYER_6_NUM_WORD    = 2,                         // layer_num == 1ì¼ ë•Œë§Œ ì‚¬ìš©í•  ì›Œë“œ ê°œìˆ˜
-    parameter DATA_WIDTH          = NUM_WORD * BITWIDTH,       // ì „ì²´ ë©”ëª¨ë¦¬ í­
+    parameter BITWIDTH            = 32,                        // ê°? ?›Œ?“œ?˜ ë¹„íŠ¸ ?­
+    parameter NUM_WORD            = 16,                        // ?›Œ?“œ ê°œìˆ˜
+    parameter LAYER_6_NUM_WORD    = 2,                         // layer_num == 1?¼ ?•Œë§? ?‚¬?š©?•  ?›Œ?“œ ê°œìˆ˜
+    parameter DATA_WIDTH          = NUM_WORD * BITWIDTH,       // ? „ì²? ë©”ëª¨ë¦? ?­
     parameter ADDR_WIDTH          = 3                          // 
 )(
-    input  wire                     clk,        // í´ë¡
-    input  wire                     rst_n,      // ë¹„ë™ê¸° ë¦¬ì…‹ (low active)
+    input  wire                     clk,        // ?´ë¡?
+    input  wire                     rst_n,      // ë¹„ë™ê¸? ë¦¬ì…‹ (low active)
     // --- Write Port ---
     input  wire                     we,         // write enable
     input  wire [ADDR_WIDTH-1:0]    waddr,      // write address
-    input  wire [DATA_WIDTH-1:0]    wdata,      // write data (í•œ ë²ˆì— NUM_WORD * BITWIDTHë¥¼ ì¨ë„£ìŒ)
+    input  wire [DATA_WIDTH-1:0]    wdata,      // write data (?•œ ë²ˆì— NUM_WORD * BITWIDTHë¥? ?¨?„£?Œ)
     // --- Read Port ---
-    input  wire [ADDR_WIDTH-1:0]    raddr,      // read address (ë™ê¸°ì‹ìœ¼ë¡œ ìº¡ì²˜)
-    input  wire                     rden,       // read enable: ì´ ì‹ í˜¸ê°€ 1ë¡œ ì „ì´(0â†’1)ë  ë•Œë§ˆë‹¤ í•œ ì›Œë“œë¥¼ ì½ìŒ
-    output wire [DATA_WIDTH8-1:0]   rdata,      // ìµœì¢… ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ (BITWIDTH ?ï¿½ï¿½)
+    input  wire [ADDR_WIDTH-1:0]    raddr,      // read address (?™ê¸°ì‹?œ¼ë¡? ìº¡ì²˜)
+    input  wire                     rden,       // read enable: ?´ ?‹ ?˜¸ê°? 1ë¡? ? „?´(0?†’1)?  ?•Œë§ˆë‹¤ ?•œ ?›Œ?“œë¥? ?½?Œ
+    output wire [BITWIDTH-1:0]      rdata,      // ìµœì¢… ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ (BITWIDTH ?ï¿½ï¿½)
     // --- layer num ---
     input  wire [2:0]               layer_num
 );
 
     //======================================================================
-    // 1) ë‚´ë¶€ ë©”ëª¨ë¦¬ ì„ ì–¸
+    // 1) ?‚´ë¶? ë©”ëª¨ë¦? ?„ ?–¸
     //======================================================================
     localparam DEPTH = (1 << ADDR_WIDTH);
     reg [DATA_WIDTH-1:0] mem [0:DEPTH-1];
     integer i;
 
     //----------------------------------------------------------------------
-    // 2) ë™ê¸°ì‹ ì“°ê¸° (Write)
+    // 2) ?™ê¸°ì‹ ?“°ê¸? (Write)
     //----------------------------------------------------------------------
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -42,7 +42,7 @@ module regfile_sync #(
     end
 
     //----------------------------------------------------------------------
-    // 3) ì½ê¸° ì£¼ì†Œ ë ˆì§€ìŠ¤í„° ìº¡ì²˜ (Read Address Register)
+    // 3) ?½ê¸? ì£¼ì†Œ ? ˆì§??Š¤?„° ìº¡ì²˜ (Read Address Register)
     //----------------------------------------------------------------------
     reg [ADDR_WIDTH-1:0] raddr_reg;
     always @(posedge clk or negedge rst_n) begin
@@ -54,7 +54,7 @@ module regfile_sync #(
     end
 
     //----------------------------------------------------------------------
-    // 4) rden ì—£ì§€ ê°ì§€ìš©: ì´ì „ í´ë¡ì˜ rden ê°’ì„ ì €ì¥
+    // 4) rden ?—£ì§? ê°ì??š©: ?´? „ ?´ë¡ì˜ rden ê°’ì„ ???¥
     //----------------------------------------------------------------------
     reg prev_rden;
     always @(posedge clk or negedge rst_n) begin
@@ -66,57 +66,52 @@ module regfile_sync #(
     end
 
     //----------------------------------------------------------------------
-    // 5) "rdenì´ 0â†’1ìœ¼ë¡œ ì „ì´ëœ ìˆœê°„"ì—ë§Œ read_bufì— ë©”ëª¨ë¦¬ ë¡œë“œ
+    // 5) "rden?´ 0?†’1?œ¼ë¡? ? „?´?œ ?ˆœê°?"?—ë§? read_buf?— ë©”ëª¨ë¦? ë¡œë“œ
     //----------------------------------------------------------------------
     reg [DATA_WIDTH-1:0] read_buf;
-    always @(posedge clk or negedge rst_n) begin
+    always @(*) begin
         if (!rst_n) begin
-            read_buf <= {DATA_WIDTH{1'b0}};
+            read_buf = {DATA_WIDTH{1'b0}};
         end 
-        // rdenì´ 0â†’1ë¡œ ë°”ë€ŒëŠ” ìˆœê°„: (rden=1 & prev_rden=0)
-        else if (rden && !prev_rden) begin
-            read_buf <= mem[raddr_reg];
+        // rden?´ 0?†’1ë¡? ë°”ë?ŒëŠ” ?ˆœê°?: (rden=1 & prev_rden=0)
+        else if (rden) begin
+            read_buf = mem[raddr_reg];
         end
-        // ê·¸ ì™¸(= rden ê³„ì† 1ì´ê±°ë‚˜, í˜¹ì€ rden=0ì¸ ìƒíƒœ)ì—ëŠ” ë²„í¼ ìœ ì§€ë¥¼ í•¨
+        // ê·? ?™¸(= rden ê³„ì† 1?´ê±°ë‚˜, ?˜¹?? rden=0?¸ ?ƒ?ƒœ)?—?Š” ë²„í¼ ?œ ì§?ë¥? ?•¨
     end
 
     //----------------------------------------------------------------------
-    // 6) "rdenì´ 0â†’1 ì „ì´ëœ ìˆœê°„"ë§ˆë‹¤ cntë¥¼ 0â†’1â†’â€¦â†’max-1â†’0 ìˆœìœ¼ë¡œ ì¦ê°€ì‹œí‚¤ê¸°
+    // 6) "rden?´ 0?†’1 ? „?´?œ ?ˆœê°?"ë§ˆë‹¤ cntë¥? 0?†’1?†’?¦â†’max-1?†’0 ?ˆœ?œ¼ë¡? ì¦ê??‹œ?‚¤ê¸?
     //----------------------------------------------------------------------
     reg [3:0] cnt;
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-        if (layer_num == 1) begin
-            cnt <= LAYER_6_NUM_WORD - 1;
-            end
-        else begin
-        cnt <= NUM_WORD - 1;
-        end
+            cnt <= 0;
         end 
-        // rdenì´ 0â†’1ë¡œ ë°”ë€” ë•Œë§ˆë‹¤ cntë¥¼ +1 í˜¹ì€ wrap-around
-        else if (rden && !prev_rden) begin
-                // layer_num==1ì¼ ë•ŒëŠ” LAYER_1_NUM_WORD ê°œìˆ˜ë§Œí¼ë§Œ ìˆœí™˜
+        // rden?´ 0?†’1ë¡? ë°”ë?? ?•Œë§ˆë‹¤ cntë¥? +1 ?˜¹?? wrap-around
+        else if (rden) begin
+                // layer_num==1?¼ ?•Œ?Š” LAYER_1_NUM_WORD ê°œìˆ˜ë§Œí¼ë§? ?ˆœ?™˜
             if (layer_num == 6) begin
                 if (cnt == (LAYER_6_NUM_WORD - 1))
                     cnt <= 4'd0;
                 else
                     cnt <= cnt + 4'd1;
             end else begin
-                // layer_num!=1ì¼ ë•ŒëŠ” NUM_WORD ê°œìˆ˜ë§Œí¼ë§Œ ìˆœí™˜
+                // layer_num!=1?¼ ?•Œ?Š” NUM_WORD ê°œìˆ˜ë§Œí¼ë§? ?ˆœ?™˜
                 if (cnt == (NUM_WORD - 1))
                     cnt <= 4'd0;
                 else
                     cnt <= cnt + 4'd1;
             end
         end
-        // rdenì´ 1ì´ ì•„ë‹ˆê±°ë‚˜, rdenì´ 1ì¸ë° ë°”ë¡œ ì „ í´ë¡ì—” prev_rdenë„ 1ì¸ ê²½ìš°(cnt ì¦ë¶„ ì¡°ê±´ ì•„ë‹˜) â†’ cnt ìœ ì§€
+        // rden?´ 1?´ ?•„?‹ˆê±°ë‚˜, rden?´ 1?¸?° ë°”ë¡œ ? „ ?´ë¡ì—” prev_rden?„ 1?¸ ê²½ìš°(cnt ì¦ë¶„ ì¡°ê±´ ?•„?‹˜) ?†’ cnt ?œ ì§?
     end
 
     //----------------------------------------------------------------------
-    // 7) ìŠ¬ë¼ì´ì‹±ëœ rdata ì¶œë ¥
-    //    read_bufì— ì €ì¥ëœ DATA_WIDTH í­ ì „ì²´ì—ì„œ
-    //    cnt*BITWIDTH ìœ„ì¹˜ë¶€í„° BITWIDTH í­ë§Œí¼ ì˜ë¼ì„œ ë‚´ë³´ëƒ„
+    // 7) ?Š¬?¼?´?‹±?œ rdata ì¶œë ¥
+    //    read_buf?— ???¥?œ DATA_WIDTH ?­ ? „ì²´ì—?„œ
+    //    cnt*BITWIDTH ?œ„ì¹˜ë??„° BITWIDTH ?­ë§Œí¼ ?˜?¼?„œ ?‚´ë³´ëƒ„
     //----------------------------------------------------------------------
-    assign rdata = read_buf[127 - cnt * DATA_WIDTH8 -: DATA_WIDTH8];
+    assign rdata = read_buf[511-cnt * BITWIDTH -: BITWIDTH];
 
 endmodule
