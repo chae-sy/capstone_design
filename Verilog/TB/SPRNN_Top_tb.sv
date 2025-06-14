@@ -188,7 +188,7 @@ module SPRNN_Top_tb;
                     // Split 128-bit data into 8 signed 8-bit segments
                     $fwrite(file,"%0d : ",  j);
                     for (k = 15; k >= 0; k = k - 1) begin
-                        mem_byte = dut.u_memB.mem_W[j][127 - k * 8 -: 8];
+                        mem_byte = dut.u_memB.mem_W[j][k * 8 +: 8];
                         if (k > 0 ) $fwrite(file, "%0d ", mem_byte);
                         else $fwrite(file, "%0d", mem_byte);
                     end
@@ -200,7 +200,7 @@ module SPRNN_Top_tb;
                     // Split 128-bit data into 8 signed 8-bit segments
                     $fwrite(file,"%0d : ",  j);
                     for (k = 15; k >= 0; k = k - 1) begin
-                        mem_byte = dut.u_memA.mem_W[j][127 - k * 8 -: 8];
+                        mem_byte = dut.u_memA.mem_W[j][k * 8 +: 8];
                         if (k > 0 ) $fwrite(file, "%0d ", mem_byte);
                         else $fwrite(file, "%0d", mem_byte);
                     end

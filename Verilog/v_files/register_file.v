@@ -92,10 +92,7 @@ module regfile_sync #(
         else if (rden) begin
                 // layer_num==1?¼ ?•Œ?Š” LAYER_1_NUM_WORD ê°œìˆ˜ë§Œí¼ë§? ?ˆœ?™˜
             if (layer_num == 6) begin
-                if (cnt == (LAYER_6_NUM_WORD - 1))
                     cnt <= 4'd0;
-                else
-                    cnt <= cnt + 4'd1;
             end else begin
                 // layer_num!=1?¼ ?•Œ?Š” NUM_WORD ê°œìˆ˜ë§Œí¼ë§? ?ˆœ?™˜
                 if (cnt == (NUM_WORD - 1))

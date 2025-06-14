@@ -46,77 +46,18 @@ module bias_relu #(
 
     if (relu_en) begin
       case (layer_state)
-        3'd1: begin
-          bias_ext = {{(WIDTH_BIAS - WIDTH_BITWIDTH){bias[WIDTH_BITWIDTH-1]}}, bias} >>> 11;
+        1, 2, 3, 5, 6: begin
+          bias_ext = bias >>> 11;
           bias_added = data_extended + bias_ext;
-          clipped = $signed({bias_added[31],bias_added[20:14]});
-          if (bias_added < 0)
+          clipped = $signed({bias_added[31], bias_added[20:14]}) + bias_added[13];
+          if (clipped < 0)
             data_out = 0;
-          else if (bias_added > 127)
+          else if (clipped > 127)
             data_out = 8'd127;
           else
             data_out = clipped;
           relu_done = 1'b1;
         end
-
-        3'd2: begin
-          bias_ext = {{(WIDTH_BIAS - WIDTH_BITWIDTH){bias[WIDTH_BITWIDTH-1]}}, bias} << 5;
-          bias_added = data_extended + bias_ext;
-          if (bias_added < 0)
-            data_out = 0;
-          else if (bias_added > 4064)
-            data_out = 8'd127;
-          else
-            data_out = bias_added[12:5];
-          relu_done = 1'b1;
-        end
-
-        3'd3: begin
-          bias_ext = {{(WIDTH_BIAS - WIDTH_BITWIDTH){bias[WIDTH_BITWIDTH-1]}}, bias} << 5;
-          bias_added = data_extended + bias_ext;
-          if (bias_added < 0)
-            data_out = 0;
-          else if (bias_added > 4064)
-            data_out = 8'd127;
-          else
-            data_out = bias_added[12:5];
-          relu_done = 1'b1;
-        end
-
-        3'd4: begin
-          if (data_extended < 0)
-            data_out = 0;
-          else if (data_extended > 4064)
-            data_out = 8'd127;
-          else
-            data_out = data_extended[12:5];
-          relu_done = 1'b1;
-        end
-
-        3'd5: begin
-          bias_ext = {{(WIDTH_BIAS - WIDTH_BITWIDTH){bias[WIDTH_BITWIDTH-1]}}, bias} << 5;
-          bias_added = data_extended + bias_ext;
-          if (bias_added < 0)
-            data_out = 0;
-          else if (bias_added > 4064)
-            data_out = 8'd127;
-          else
-            data_out = bias_added[12:5];
-          relu_done = 1'b1;
-        end
-
-        3'd6: begin
-          bias_ext = {{(WIDTH_BIAS - WIDTH_BITWIDTH){bias[WIDTH_BITWIDTH-1]}}, bias} << 5;
-          bias_added = data_extended + bias_ext;
-          if (bias_added < -4096)
-            data_out = 0;
-          else if (bias_added > 4064)
-            data_out = 8'd127;
-          else
-            data_out = bias_added[12:5];
-          relu_done = 1'b1;
-        end
-
         default: begin
           data_out = {WIDTH_OUT_DATA{1'b0}};
           relu_done = 1'b0;

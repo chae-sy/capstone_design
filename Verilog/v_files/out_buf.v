@@ -92,13 +92,13 @@ module output_buffer #(
                 end
 
                 if (rden[0]) begin
-                    data_out = {buffer_data_r[DATA_WIDTH-1:0], {(t_WIDTH-DATA_WIDTH){1'b0}}};
+                    data_out = buffer_data_r;
                 end
                 else if (rden[1]) begin
-                    data_out = {buffer_data_g[DATA_WIDTH-1:0], {(t_WIDTH-DATA_WIDTH){1'b0}}};
+                    data_out = buffer_data_g;
                 end
                 else if (rden[2]) begin    
-                    data_out = {buffer_data_b[DATA_WIDTH-1:0], {(t_WIDTH-DATA_WIDTH){1'b0}}};
+                    data_out = buffer_data_b;
                 end
             end
             default: begin

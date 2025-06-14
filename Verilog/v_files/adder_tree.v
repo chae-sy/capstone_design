@@ -62,12 +62,12 @@ module adder_tree #(
 
   // Stage2: sum all groups
   wire [SUM_WIDTH-1:0] stage2_comb;
-  assign stage2_comb =
+  assign stage2_comb = $signed(
        {{(SUM_WIDTH-ST1_WIDTH){1'b0}}}
      + stage1_reg[0]
      + stage1_reg[1]
      + stage1_reg[2]
-     + stage1_reg[3];
+     + stage1_reg[3]);
 
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -75,7 +75,7 @@ module adder_tree #(
       adder_tree_done <= 1'b0;
     end else begin
       if (en_stage1) begin
-        sum_out <= stage2_comb;
+        sum_out <= $signed(stage2_comb);
       end
       adder_tree_done <= en_stage1;
     end
