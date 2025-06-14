@@ -21,7 +21,6 @@ module adder_tree #(
   // Stage1: combinational partial sums [group]
   wire signed [ST1_WIDTH-1:0] stage1_comb [0:NUM_GROUPS-1];
   reg  signed [ST1_WIDTH-1:0] stage1_reg  [0:NUM_GROUPS-1];
-  wire signed [19:0] st, stt1;
   genvar grp;
   generate
     for (grp = 0; grp < NUM_GROUPS; grp = grp + 1) begin : GEN_STAGE1
@@ -31,8 +30,6 @@ module adder_tree #(
         + $signed(in_flat[(grp*GROUP_SIZE + 2)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 2)*DATA_WIDTH])
         + $signed(in_flat[(grp*GROUP_SIZE + 3)*DATA_WIDTH + DATA_WIDTH - 1 : (grp*GROUP_SIZE + 3)*DATA_WIDTH]));
     end
-    assign st = $signed(in_flat[(3*GROUP_SIZE + 2)*DATA_WIDTH + DATA_WIDTH - 1 : (3*GROUP_SIZE + 2)*DATA_WIDTH]);
-    assign stt1 = $signed(in_flat[(3*GROUP_SIZE + 3)*DATA_WIDTH + DATA_WIDTH - 1 : (3*GROUP_SIZE + 3)*DATA_WIDTH]);
   endgenerate
 
 

@@ -70,11 +70,12 @@ module output_buffer #(
     end
     
     generate
-        for (genvar i=0; i<NUM_CHNL; i=i+1) begin
+        genvar j;
+        for (j=0; j<NUM_CHNL; j=j+1) begin
             always @(*) begin
-                buffer_data_r[(16-i)*DATA_WIDTH-1:(16-i-1)*DATA_WIDTH] = buffer_data_r_array[i];
-                buffer_data_g[(16-i)*DATA_WIDTH-1:(16-i-1)*DATA_WIDTH] = buffer_data_g_array[i];
-                buffer_data_b[(16-i)*DATA_WIDTH-1:(16-i-1)*DATA_WIDTH] = buffer_data_b_array[i];
+                buffer_data_r[(16-j)*DATA_WIDTH-1:(16-j-1)*DATA_WIDTH] = buffer_data_r_array[j];
+                buffer_data_g[(16-j)*DATA_WIDTH-1:(16-j-1)*DATA_WIDTH] = buffer_data_g_array[j];
+                buffer_data_b[(16-j)*DATA_WIDTH-1:(16-j-1)*DATA_WIDTH] = buffer_data_b_array[j];
             end
         end
     endgenerate

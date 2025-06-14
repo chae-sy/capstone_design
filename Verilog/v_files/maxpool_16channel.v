@@ -109,8 +109,9 @@ module maxpool_16ch#(
 
     assign maxpool_done_o = maxpool_done;
     generate
-        for (genvar ch = 0; ch < CHANNELS; ch = ch + 1) begin
-            assign out_data_o[((ch+1)*DATA_WIDTH-1):ch*DATA_WIDTH] = out_data[ch];
+        genvar h;
+        for (h = 0; h < CHANNELS; h = h + 1) begin
+            assign out_data_o[((h+1)*DATA_WIDTH-1):h*DATA_WIDTH] = out_data[h];
         end
     endgenerate
 

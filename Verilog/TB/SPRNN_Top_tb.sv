@@ -51,7 +51,7 @@ module SPRNN_Top_tb;
     // Clock ?Éù?Ñ±
     initial begin
         clk = 0;
-        forever #5 clk = ~clk; // 100MHz
+        forever #1 clk = ~clk; // 100MHz
     end
 
     // Task to load data from file and write to sram
@@ -74,7 +74,7 @@ module SPRNN_Top_tb;
                     $finish;
                 end
                 write_data_bias_i = data_buffer_b;
-                #10;
+                #2;
             end
             wren_bias_i = 0;
 
@@ -87,7 +87,7 @@ module SPRNN_Top_tb;
                     $finish;
                 end
                 wmem_d_i = data_buffer_w;
-                #10;
+                #2;
             end
 
             // memA, memB 
@@ -101,7 +101,7 @@ module SPRNN_Top_tb;
                 end
                 memA_d_i = data_buffer_in;
                 memB_d_i = 128'd0;
-                #10;
+                #2;
             end
             initial_SRAMw_done = 1;
             initial_weight_done = 1;
@@ -133,8 +133,8 @@ module SPRNN_Top_tb;
         memA_d_i = 0; memB_d_i = 0; wmem_d_i = 0;
         wren_bias_i = 0; write_addr_bias_i = 0; write_data_bias_i = 0;
 
-        #20 rst_n = 1;
-        #5  start = 1;
+        #4 rst_n = 1;
+        #1  start = 1;
 
         load_data_to_sram((i % 3) * 7);
         
@@ -145,7 +145,7 @@ module SPRNN_Top_tb;
             @(negedge layer_done);
             i = layer_num-2;
             save_mem_to_file(i);
-            # 20;
+            # 4;
 //            @(posedge layer_done);
         end
         
@@ -157,7 +157,7 @@ module SPRNN_Top_tb;
         $fclose(data_file_w);
         $fclose(data_file_b);
 
-        #100;
+        #25;
         $finish;
     end
     

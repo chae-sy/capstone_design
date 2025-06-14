@@ -85,6 +85,7 @@ module Controller#(
     reg                     layer_start,  layer_start_n;
     reg     [8:0]           weight_num,  weight_num_n;
     reg     [4:0]           channel;
+    wire                    layer_done;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
