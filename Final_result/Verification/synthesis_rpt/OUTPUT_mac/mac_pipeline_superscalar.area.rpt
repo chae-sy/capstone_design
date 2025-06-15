@@ -1,0 +1,45 @@
+ 
+****************************************
+Report : area
+Design : mac_pipeline_superscalar
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 18:58:02 2025
+****************************************
+
+Library(s) Used:
+
+    saed32lvt_ss0p75v125c (File: /home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db)
+
+Number of ports:                           97
+Number of nets:                          2545
+Number of cells:                         2256
+Number of combinational cells:           1652
+Number of sequential cells:               604
+Number of macros/black boxes:               0
+Number of buf/inv:                        179
+Number of references:                      27
+
+Combinational area:               4375.851357
+Buf/Inv area:                      235.083202
+Noncombinational area:            3078.192141
+Macro/Black Box area:                0.000000
+Net Interconnect area:            2247.961756
+
+Total cell area:                  7454.043498
+Total area:                       9702.005254
+
+The above information was reported from the logical library. The following are from the physical library:
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area          Local cell area
+                                  ------------------  ---------------------------- 
+Hierarchical cell                 Absolute   Percent  Combi-     Noncombi-  Black-
+                                  Total      Total    national   national   boxes   Design
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+mac_pipeline_superscalar          7454.0435    100.0  4375.8514  3078.1921  0.0000  mac_pipeline_superscalar
+--------------------------------  ---------  -------  ---------  ---------  ------  ---------
+Total                                                 4375.8514  3078.1921  0.0000
+
+1

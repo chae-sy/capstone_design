@@ -1,0 +1,78 @@
+ 
+****************************************
+Report : reference
+Design : mac_pipeline_superscalar
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 18:58:02 2025
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+AND2X1_LVT         saed32lvt_ss0p75v125c
+                                  2.033152     184    374.099987  
+AND3X1_LVT         saed32lvt_ss0p75v125c
+                                  2.287296      25     57.182401  
+AND4X1_LVT         saed32lvt_ss0p75v125c
+                                  2.541440      19     48.287360  
+AO21X1_LVT         saed32lvt_ss0p75v125c
+                                  2.541440      47    119.447680  
+AO22X1_LVT         saed32lvt_ss0p75v125c
+                                  2.541440     385    978.454404  
+AO221X1_LVT        saed32lvt_ss0p75v125c
+                                  3.049728       3      9.149184  
+AO222X1_LVT        saed32lvt_ss0p75v125c
+                                  3.303872       3      9.911616  
+AOI21X1_LVT        saed32lvt_ss0p75v125c
+                                  3.049728       7     21.348095  
+AOI22X1_LVT        saed32lvt_ss0p75v125c
+                                  3.049728     132    402.564085  
+DFFARX1_LVT        saed32lvt_ss0p75v125c
+                                  7.116032       4     28.464128  n
+FADDX1_LVT         saed32lvt_ss0p75v125c
+                                  4.828736     252   1216.841429  r
+INVX0_LVT          saed32lvt_ss0p75v125c
+                                  1.270720       2      2.541440  
+INVX1_LVT          saed32lvt_ss0p75v125c
+                                  1.270720     167    212.210241  
+LATCHX1_LVT        saed32lvt_ss0p75v125c
+                                  5.082880     600   3049.728012  n
+NAND2X0_LVT        saed32lvt_ss0p75v125c
+                                  1.524864     177    269.900921  
+NAND3X0_LVT        saed32lvt_ss0p75v125c
+                                  1.779008      84    149.436675  
+NAND4X0_LVT        saed32lvt_ss0p75v125c
+                                  2.033152       6     12.198913  
+NBUFFX2_LVT        saed32lvt_ss0p75v125c
+                                  2.033152      10     20.331521  
+NOR4X1_LVT         saed32lvt_ss0p75v125c
+                                  3.049728      57    173.834491  
+OA21X1_LVT         saed32lvt_ss0p75v125c
+                                  2.541440       9     22.872960  
+OA221X1_LVT        saed32lvt_ss0p75v125c
+                                  3.049728       6     18.298368  
+OA222X1_LVT        saed32lvt_ss0p75v125c
+                                  3.303872       1      3.303872  
+OAI22X1_LVT        saed32lvt_ss0p75v125c
+                                  3.049728       3      9.149184  
+OR2X1_LVT          saed32lvt_ss0p75v125c
+                                  2.033152       1      2.033152  
+OR3X1_LVT          saed32lvt_ss0p75v125c
+                                  2.287296      18     41.171329  
+OR4X1_LVT          saed32lvt_ss0p75v125c
+                                  3.558016      42    149.436675  
+XOR2X1_LVT         saed32lvt_ss0p75v125c
+                                  4.320448      12     51.845375  
+-----------------------------------------------------------------------------
+Total 27 references                                  7454.043498
+1

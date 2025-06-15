@@ -1,0 +1,29 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -verbose
+Design : mac_pipeline_superscalar
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 18:58:02 2025
+****************************************
+
+
+    Design: mac_pipeline_superscalar
+
+    max_area           0.0000000000
+  - Current Area       9702.0048828125
+  ------------------------------
+    Slack              -9702.0048828125  (VIOLATED)
+
+
+    Design: mac_pipeline_superscalar
+
+    max_leakage_power      0.0000000000
+  - Current Leakage Power  220778400.0000000000
+  ----------------------------------
+    Slack                  -220778400.0000000000  (VIOLATED)
+
+
+1

@@ -1,0 +1,42 @@
+ 
+****************************************
+Report : hierarchy
+        -full
+Design : mac_pipeline_superscalar
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 18:58:02 2025
+****************************************
+
+Attributes:
+    r - licensed design
+
+mac_pipeline_superscalar
+                   r
+    AND2X1_LVT          saed32lvt_ss0p75v125c
+    AND3X1_LVT          saed32lvt_ss0p75v125c
+    AND4X1_LVT          saed32lvt_ss0p75v125c
+    AO21X1_LVT          saed32lvt_ss0p75v125c
+    AO22X1_LVT          saed32lvt_ss0p75v125c
+    AO221X1_LVT         saed32lvt_ss0p75v125c
+    AO222X1_LVT         saed32lvt_ss0p75v125c
+    AOI21X1_LVT         saed32lvt_ss0p75v125c
+    AOI22X1_LVT         saed32lvt_ss0p75v125c
+    DFFARX1_LVT         saed32lvt_ss0p75v125c
+    FADDX1_LVT          saed32lvt_ss0p75v125c
+    INVX0_LVT           saed32lvt_ss0p75v125c
+    INVX1_LVT           saed32lvt_ss0p75v125c
+    LATCHX1_LVT         saed32lvt_ss0p75v125c
+    NAND2X0_LVT         saed32lvt_ss0p75v125c
+    NAND3X0_LVT         saed32lvt_ss0p75v125c
+    NAND4X0_LVT         saed32lvt_ss0p75v125c
+    NBUFFX2_LVT         saed32lvt_ss0p75v125c
+    NOR4X1_LVT          saed32lvt_ss0p75v125c
+    OA21X1_LVT          saed32lvt_ss0p75v125c
+    OA221X1_LVT         saed32lvt_ss0p75v125c
+    OA222X1_LVT         saed32lvt_ss0p75v125c
+    OAI22X1_LVT         saed32lvt_ss0p75v125c
+    OR2X1_LVT           saed32lvt_ss0p75v125c
+    OR3X1_LVT           saed32lvt_ss0p75v125c
+    OR4X1_LVT           saed32lvt_ss0p75v125c
+    XOR2X1_LVT          saed32lvt_ss0p75v125c
+1

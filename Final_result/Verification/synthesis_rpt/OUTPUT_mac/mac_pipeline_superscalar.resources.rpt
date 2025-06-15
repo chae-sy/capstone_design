@@ -1,0 +1,118 @@
+ 
+****************************************
+Report : resources
+Design : mac_pipeline_superscalar
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 18:58:02 2025
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| add_x_1        | DW01_inc       | width=4    | add_42 (mac_pipeline_superscalar.v:42) |
+| sub_x_5        | DW01_dec       | width=4    | sub_60 (mac_pipeline_superscalar.v:60) |
+     |                |            | sub_60_I2 (mac_pipeline_superscalar.v:60) |
+  |                |            | sub_60_I3 (mac_pipeline_superscalar.v:60) |
+| DP_OP_1257J1_122_5663           |            |                            |
+|                | DP_OP_1257J1_122_5663 |     |                            |
+| DP_OP_1258J1_123_5663           |            |                            |
+|                | DP_OP_1258J1_123_5663 |     |                            |
+| DP_OP_1259J1_124_5663           |            |                            |
+|                | DP_OP_1259J1_124_5663 |     |                            |
+=============================================================================
+
+Datapath Report for DP_OP_1257J1_122_5663
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_1257J1_122_5663 | mult_51 (mac_pipeline_superscalar.v:51)            |
+|                      | mult_56 (mac_pipeline_superscalar.v:56)             |
+|                      | mult_60 (mac_pipeline_superscalar.v:60)             |
+|                      | add_51 (mac_pipeline_superscalar.v:51)              |
+|                      | add_60 (mac_pipeline_superscalar.v:60)              |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Signed   | 8     |                                          |
+| I2    | PI   | Signed   | 8     |                                          |
+| I3    | PI   | Signed   | 20    |                                          |
+| I4    | PI   | Signed   | 20    |                                          |
+| O1    | PO   | Signed   | 16    | I1 * I2 ( mac_pipeline_superscalar.v:51 mac_pipeline_superscalar.v:56 mac_pipeline_superscalar.v:60 ) |
+| O2    | PO   | Signed   | 20    | I3 + O1 (mac_pipeline_superscalar.v:51)  |
+| O3    | PO   | Signed   | 20    | I4 + O1 (mac_pipeline_superscalar.v:60)  |
+==============================================================================
+
+Datapath Report for DP_OP_1258J1_123_5663
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_1258J1_123_5663 | mult_51_I2 (mac_pipeline_superscalar.v:51)         |
+|                      | mult_56_I2 (mac_pipeline_superscalar.v:56)          |
+|                      | mult_60_I2 (mac_pipeline_superscalar.v:60)          |
+|                      | add_51_I2 (mac_pipeline_superscalar.v:51)           |
+|                      | add_60_I2 (mac_pipeline_superscalar.v:60)           |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Signed   | 8     |                                          |
+| I2    | PI   | Signed   | 8     |                                          |
+| I3    | PI   | Signed   | 20    |                                          |
+| I4    | PI   | Signed   | 20    |                                          |
+| O1    | PO   | Signed   | 16    | I1 * I2 ( mac_pipeline_superscalar.v:51 mac_pipeline_superscalar.v:56 mac_pipeline_superscalar.v:60 ) |
+| O2    | PO   | Signed   | 20    | I3 + O1 (mac_pipeline_superscalar.v:51)  |
+| O3    | PO   | Signed   | 20    | I4 + O1 (mac_pipeline_superscalar.v:60)  |
+==============================================================================
+
+Datapath Report for DP_OP_1259J1_124_5663
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_1259J1_124_5663 | mult_51_I3 (mac_pipeline_superscalar.v:51)         |
+|                      | mult_56_I3 (mac_pipeline_superscalar.v:56)          |
+|                      | mult_60_I3 (mac_pipeline_superscalar.v:60)          |
+|                      | add_51_I3 (mac_pipeline_superscalar.v:51)           |
+|                      | add_60_I3 (mac_pipeline_superscalar.v:60)           |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Signed   | 8     |                                          |
+| I2    | PI   | Signed   | 8     |                                          |
+| I3    | PI   | Signed   | 20    |                                          |
+| I4    | PI   | Signed   | 20    |                                          |
+| O1    | PO   | Signed   | 16    | I1 * I2 ( mac_pipeline_superscalar.v:51 mac_pipeline_superscalar.v:56 mac_pipeline_superscalar.v:60 ) |
+| O2    | PO   | Signed   | 20    | I3 + O1 (mac_pipeline_superscalar.v:51)  |
+| O3    | PO   | Signed   | 20    | I4 + O1 (mac_pipeline_superscalar.v:60)  |
+==============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| add_x_1            | DW01_inc         | apparch (area)     |                |
+| sub_x_5            | DW01_dec         | apparch (area)     |                |
+| DP_OP_1257J1_122_5663                 |                    |                |
+|                    | DP_OP_1257J1_122_5663 | str (area)    |                |
+|                    |                  | mult_arch: and     |                |
+| DP_OP_1258J1_123_5663                 |                    |                |
+|                    | DP_OP_1258J1_123_5663 | str (area)    |                |
+|                    |                  | mult_arch: and     |                |
+| DP_OP_1259J1_124_5663                 |                    |                |
+|                    | DP_OP_1259J1_124_5663 | str (area)    |                |
+|                    |                  | mult_arch: and     |                |
+===============================================================================
+
+1
