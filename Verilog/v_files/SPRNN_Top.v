@@ -315,6 +315,23 @@ module SPRNN_Top#(
                 .result_out_flat_g  (stage2_output[ch][1]),
                 .result_out_flat_b  (stage2_output[ch][2])
             );
+//            mac_pipeline_shift #(
+//                .DATA_WIDTH (DATA_WIDTH),
+//                .LANE_NUM   (NUM_COLOR)
+//            ) u_PE_array_shift (
+//                .clk                (clk),
+//                .rst_n              (rst_n),
+//                .pe_en              (pe_en_o),
+//                .data_in_r          (rgb_lane[ch][0]),     
+//                .data_in_g          (rgb_lane[ch][1]),
+//                .data_in_b          (rgb_lane[ch][2]),
+//                .weight_in          ($signed(stage2_weight_input[(ch+1)*DATA_WIDTH-1:ch*DATA_WIDTH])),
+//                .layer_start        (layer_start),
+//                .pe_done            (pe_done[ch]),
+//                .result_out_flat_r  (stage2_output[ch][0]),
+//                .result_out_flat_g  (stage2_output[ch][1]),
+//                .result_out_flat_b  (stage2_output[ch][2])
+//            );
         end
     endgenerate
     

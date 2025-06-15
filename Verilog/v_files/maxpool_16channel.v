@@ -36,13 +36,21 @@ module maxpool_16ch#(
     integer i, ch;
 
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n | layer_start) begin
+        if (!rst_n) begin
             for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
                 wr_ptr[ch]       <= 0;
                 cnt[ch]          <= 0;
                 max_val[ch]      <= INIT_MAX;
             end
-        end else begin
+        end
+        else if (layer_start) begin
+            for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
+                wr_ptr[ch]       <= 0;
+                cnt[ch]          <= 0;
+                max_val[ch]      <= INIT_MAX;
+            end
+        end
+        else begin
             for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
                 wr_ptr[ch]       <= wr_ptr_n[ch];
                 cnt[ch]          <= cnt_n[ch];

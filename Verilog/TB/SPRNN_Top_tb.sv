@@ -182,7 +182,19 @@ module SPRNN_Top_tb;
                 $display("Failed to open file!");
                 $finish;
             end
- 
+
+            //shift
+//            if (i == 0) file = $fopen("C:/Users/LG/OneDrive/문서/GitHub/capstone_design/Verification/text/feature_data_out_shift_1.txt", "w");
+//            else if (i == 1) file = $fopen("C:/Users/LG/OneDrive/문서/GitHub/capstone_design/Verification/text/feature_data_out_shift_2.txt", "w");
+//            else if (i == 2) file = $fopen("C:/Users/LG/OneDrive/문서/GitHub/capstone_design/Verification/text/feature_data_out_shift_3.txt", "w");
+//            else if (i == 3) file = $fopen("C:/Users/LG/OneDrive/문서/GitHub/capstone_design/Verification/text/feature_data_out_shift_4.txt", "w");
+//            else if (i == 4) file = $fopen("C:/Users/LG/OneDrive/문서/GitHub/capstone_design/Verification/text/feature_data_out_shift_5.txt", "w");
+//            else if (i == 5) file = $fopen("C:/Users/LG/OneDrive/문서/GitHub/capstone_design/Verification/text/feature_data_out_shift_6.txt", "w");
+//            else file = $fopen("C:\Users\LG\OneDrive\문서\GitHub\capstone_design\Verification\text\feature_data_out_shift_00.txt", "w");
+//            if (file == 0) begin
+//                $display("Failed to open file!");
+//                $finish;
+//            end
             if (i % 2 == 0) begin // layer 0, 2, 4
                  for (j = 0; j < 31008; j = j + 1) begin
                     // Split 128-bit data into 8 signed 8-bit segments

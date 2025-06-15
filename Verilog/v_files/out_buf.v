@@ -47,11 +47,17 @@ module output_buffer #(
     end
     
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n | layer_start) begin
+        if (!rst_n) begin
             for (i = 0; i < NUM_COLOR; i = i + 1) begin
                 cnt[i]          <= 0;
             end
-        end else begin
+        end
+        else if (layer_start) begin
+            for (i = 0; i < NUM_COLOR; i = i + 1) begin
+                cnt[i]          <= 0;
+            end
+        end
+        else begin
             for (i = 0; i < NUM_COLOR; i = i + 1) begin
                 cnt[i]          <= cnt_n[i];
             end
@@ -62,7 +68,12 @@ module output_buffer #(
     end
     
     always @(posedge clk or negedge rst_n) begin
-        if (!rst_n | layer_start) begin
+        if (!rst_n) begin
+            buffer_data_r = 'b0;
+            buffer_data_g = 'b0;
+            buffer_data_b = 'b0;
+        end
+        else if (layer_start) begin
             buffer_data_r = 'b0;
             buffer_data_g = 'b0;
             buffer_data_b = 'b0;
