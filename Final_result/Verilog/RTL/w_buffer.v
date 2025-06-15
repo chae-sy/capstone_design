@@ -67,18 +67,15 @@ module w_buffer #(
         end
     end
     end
-   always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
-        end else begin
-        if (layer_start) begin
-            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
-        end
-    end
-   end
     
     always @(*) begin
         out_cnt_n = out_cnt;
+        if (!rst_n) begin
+            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
+        end
+        if (layer_start) begin
+            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
+        end
         if (rden) begin
             if (out_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
                 data_out = buffer_data[ out_cnt / SIZE_KERNEL_W ][ out_cnt % SIZE_KERNEL_W ];
