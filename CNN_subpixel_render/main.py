@@ -6,7 +6,9 @@ from train import train_model, evaluate_model
 from dataset import SubpixelDataset, DIV2KDataset
 import torchvision.transforms as transforms
 import random
-import time
+import argparse
+
+
 # def generate_fake_image_tensor(H, W):
 #     return torch.rand(1, H, W)
 
@@ -21,6 +23,11 @@ import time
 
 #         dataset.append((Ir, Ig, Ib, Pr, Pg, Pb))
 #     return dataset
+def parse_args():
+    parser = argparse.ArgumentParser(description='SPRNN training')
+    parser.add_argument('--gpu', type=int, default=0, help='GPU id to use (default: 0)')
+    args = parser.parse_args()
+    return args
 
 def save_model(model):
         month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][time.localtime().tm_mon - 1]
@@ -32,45 +39,49 @@ def save_model(model):
         print('Model saved:', file_name)
 
 if __name__ == "__main__":
-    # Settings
-    b_size = 1
-    num_epochs = 10
-    image_size = 100
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    torch.backends.cudnn.benchmark=True
+    args = parse_args()
+    if torch.cuda.is_available():
+        device = f'cuda:{args.gpu}'
+    else:
+        device = 'cpu'
+    print(f"Using device: {device}")
 
+    # Settings
+    b_size = 128
+    num_epochs = 30
+    image_size = 100
+    num_w = 16
     transform = transforms.Compose([
         transforms.RandomCrop((image_size, image_size)),  # Crop to 256x256 patches
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomVerticalFlip(),
         transforms.Lambda(lambda img: transforms.functional.rotate(img, angle=random.choice([0, 90, 180, 270]))),
         transforms.ToTensor(),
     ])
 
-    eval_transform = transforms.Compose([
-        transforms.RandomCrop((image_size, image_size)),
-        transforms.ToTensor()
-        ])
     # Paths to datasets
-    div2k_train_dir = 'data/DIV2K_train_HR_augmented'
+    div2k_train_dir = 'data/DIV2K_patches_4800'
     div2k_valid_dir = 'data/DIV2K_valid_HR'
     div2k_test_dir = 'data/DIV2K_test_HR'
 
     # Initialize datasets   
-    train_dataset = DIV2KDataset(root_dir=div2k_train_dir, img_size=image_size, transform=transform)
+    train_dataset = DIV2KDataset(root_dir=div2k_train_dir, img_size=image_size, transform=transforms.ToTensor())
     valid_dataset = DIV2KDataset(root_dir=div2k_valid_dir, img_size=image_size, transform=transform)  # You can change this to no augmentation if needed
-    eval_dataset = DIV2KDataset(root_dir=div2k_test_dir, img_size=image_size, transform=eval_transform)  # Just normalization
+    eval_dataset = DIV2KDataset(root_dir=div2k_test_dir, img_size=image_size, transform=transforms.ToTensor())  # Just normalization
 
     # Initialize dataloaders
-    train_loader = DataLoader(SubpixelDataset(train_dataset), batch_size=b_size, shuffle=True, num_workers=4, pin_memory=True, prefetch_factor = 2, persistent_workers=True)
-    valid_loader = DataLoader(SubpixelDataset(valid_dataset), batch_size=b_size, shuffle=False, num_workers=4, pin_memory=True)
-    eval_loader = DataLoader(SubpixelDataset(eval_dataset), batch_size=b_size, shuffle=False, num_workers=4, pin_memory=True)
+    train_loader = DataLoader(SubpixelDataset(train_dataset), batch_size=b_size, shuffle=True, num_workers=num_w, pin_memory=True)
+    valid_loader = DataLoader(SubpixelDataset(valid_dataset), batch_size=b_size, shuffle=False, num_workers=num_w, pin_memory=True)
+    eval_loader = DataLoader(SubpixelDataset(eval_dataset), batch_size=b_size, shuffle=False, num_workers=num_w, pin_memory=True)
 
     # Model
     model = SPRNN()
 
     # Train
-    train_model(model, train_loader, valid_loader, epochs=30, quant_schedule=[0.3, 0.6, 0.9])
+    train_model(model, train_loader, valid_loader, epochs=num_epochs, device=device)
+
     # Evaluate
-    evaluate_model(model, eval_loader, device=device)
+    evaluate_model(model, eval_loader)
 
     # Save model
     save_model(model)
