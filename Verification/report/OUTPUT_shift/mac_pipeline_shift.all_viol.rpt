@@ -1,0 +1,29 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -verbose
+Design : mac_pipeline_shift
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 19:00:14 2025
+****************************************
+
+
+    Design: mac_pipeline_shift
+
+    max_area           0.0000000000
+  - Current Area       8722.9658203125
+  ------------------------------
+    Slack              -8722.9658203125  (VIOLATED)
+
+
+    Design: mac_pipeline_shift
+
+    max_leakage_power      0.0000000000
+  - Current Leakage Power  198073584.0000000000
+  ----------------------------------
+    Slack                  -198073584.0000000000  (VIOLATED)
+
+
+1
