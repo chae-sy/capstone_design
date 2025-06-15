@@ -36,7 +36,7 @@ if __name__ == "__main__":
     b_size = 1
     num_epochs = 10
     image_size = 100
-    device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.backends.cudnn.benchmark=True
 
     transform = transforms.Compose([
@@ -68,8 +68,7 @@ if __name__ == "__main__":
     model = SPRNN()
 
     # Train
-    train_model(model, train_loader, valid_loader, epochs=num_epochs, device=device)
-
+    train_model(model, train_loader, valid_loader, epochs=30, quant_schedule=[0.3, 0.6, 0.9])
     # Evaluate
     evaluate_model(model, eval_loader, device=device)
 
