@@ -148,109 +148,100 @@ module layer_pipeline #(
     integer i;
     
     // 1. mem data fetch (fetch)
-    always @( posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            if (layer_num == 4) begin
-                mem_rd_addr <= 'd103;
-            end
-            else begin
-                mem_rd_addr <= 'b0;
-            end
-            case(layer_num)
-                1: begin
-                    wmem_addr <= 'b0; 
-                    start_weight <= 'b0;
-                end
-                2: begin
-                    wmem_addr <= 'd144; 
-                    start_weight <= 'd144;
-                end
-                3: begin
-                    wmem_addr <= 'd288; 
-                    start_weight <= 'd288;
-                end
-                5: begin
-                    wmem_addr <= 'd432; 
-                    start_weight <= 'd432;
-                end
-                6: begin 
-                    wmem_addr <= 'd576; 
-                    start_weight <= 'd576;
-                end
-                default: begin
-                    wmem_addr <= 'b0; 
-                    start_weight <= 'b0;
-                end
-            endcase
-            cnt1_row <= 'd0;
-            cnt1_column <= 'd0;
-            state <= FIRST;
-            num1 <= 0;
-            num_w <= weight_num;
-            stage2_en <= 0;
-            row_last <= 0;
-            final_data <= 0;
-            color <= red;
-        end
-        else if (layer_start) begin
-            if (layer_num == 4) begin
-                mem_rd_addr <= 'd103;
-            end
-            else begin
-                mem_rd_addr <= 'b0;
-            end
-            case(layer_num)
-                1: begin
-                    wmem_addr <= 'b0; 
-                    start_weight <= 'b0;
-                end
-                2: begin
-                    wmem_addr <= 'd144; 
-                    start_weight <= 'd144;
-                end
-                3: begin
-                    wmem_addr <= 'd288; 
-                    start_weight <= 'd288;
-                end
-                5: begin
-                    wmem_addr <= 'd432; 
-                    start_weight <= 'd432;
-                end
-                6: begin 
-                    wmem_addr <= 'd576; 
-                    start_weight <= 'd576;
-                end
-                default: begin
-                    wmem_addr <= 'b0; 
-                    start_weight <= 'b0;
-                end
-            endcase
-            cnt1_row <= 'd0;
-            cnt1_column <= 'd0;
-            state <= FIRST;
-            num1 <= 0;
-            num_w <= weight_num;
-            stage2_en <= 0;
-            row_last <= 0;
-            final_data <= 0;
-            color <= red;
-        end
-        else begin
-            mem_rd_addr <= mem_rd_addr_n;
-            wmem_addr <= wmem_addr_n;
-            cnt1_row <= cnt1_row_n;
-            cnt1_column <= cnt1_column_n;
-            state <= state_n;
-            num1 <= num1_n;
-            num_w <= num_w_n;
-            stage2_en <= stage2_en_n;
-            row_last <= row_last_n;
-            final_data <= final_data_n;
-            color <= color_n;
-        end
+    // -----------------------------------------------------------------------------
+// 1. mem data fetch (fetch)
+// -----------------------------------------------------------------------------
+always @(posedge clk or negedge rst_n) begin
+    // -----------------------------------------------------------
+    // (1) ë¹„ë™ê¸° reset : ë°˜ë“œì‹œ ê³ ì • ìƒìˆ˜ë§Œ!
+    // -----------------------------------------------------------
+    if (!rst_n) begin
+        mem_rd_addr  <= {ADDR_WIDTH{1'b0}};
+        wmem_addr    <= {ADDR_WIDTH{1'b0}};
+        start_weight <= {ADDR_WIDTH{1'b0}};
+
+        cnt1_row     <= 'd0;
+        cnt1_column  <= 'd0;
+        state        <= FIRST;
+
+        num1         <= 'd0;
+        num_w        <= 'd0;          // ê°€ë³€ ê°’ X
+
+        stage2_en    <= 1'b0;
+        row_last     <= 1'b0;
+        final_data   <= 'd0;
+        color        <= red;          // ê³ ì • ìƒìˆ˜
     end
+    // -----------------------------------------------------------
+    // (2) ìƒˆ ë ˆì´ì–´ê°€ ì‹œìž‘ë  ë•Œ : ë ˆì´ì–´-ì˜ì¡´ ì´ˆê¸°í™”
+    // -----------------------------------------------------------
+    else if (layer_start) begin
+        // ê° ë ˆì´ì–´ë³„ weight / mem ì‹œìž‘ ì£¼ì†Œ
+        mem_rd_addr <= (layer_num == 4) ? 'd103 : 'd0;
+
+        case (layer_num)
+            1: begin
+                wmem_addr    <= 'd0;
+                start_weight <= 'd0;
+            end
+            2: begin
+                wmem_addr    <= 'd144;
+                start_weight <= 'd144;
+            end
+            3: begin
+                wmem_addr    <= 'd288;
+                start_weight <= 'd288;
+            end
+            5: begin
+                wmem_addr    <= 'd432;
+                start_weight <= 'd432;
+            end
+            6: begin
+                wmem_addr    <= 'd576;
+                start_weight <= 'd576;
+            end
+            default: begin
+                wmem_addr    <= 'd0;
+                start_weight <= 'd0;
+            end
+        endcase
+
+        // ë‚˜ë¨¸ì§€ í”Œëž˜ê·¸Â·ì¹´ìš´í„° ì´ˆê¸°í™”
+        cnt1_row     <= 'd0;
+        cnt1_column  <= 'd0;
+        state        <= FIRST;
+
+        num1         <= 'd0;
+        num_w        <= weight_num;   // layer_start ì‹œì ì— í™•ì •ë¼ ìžˆì–´ì•¼ í•¨
+
+        stage2_en    <= 1'b0;
+        row_last     <= 1'b0;
+        final_data   <= 'd0;
+        color        <= red;
+    end
+    // -----------------------------------------------------------
+    // (3) ì •ìƒ ë™ìž‘ : ë‹¤ìŒ ìƒíƒœë¡œ ì „íŒŒ
+    // -----------------------------------------------------------
+    else begin
+        mem_rd_addr  <= mem_rd_addr_n;
+        wmem_addr    <= wmem_addr_n;
+
+        cnt1_row     <= cnt1_row_n;
+        cnt1_column  <= cnt1_column_n;
+        state        <= state_n;
+
+        num1         <= num1_n;
+        num_w        <= num_w_n;
+
+        stage2_en    <= stage2_en_n;
+        row_last     <= row_last_n;
+        final_data   <= final_data_n;
+        color        <= color_n;
+    end
+end
+
   
-    //channel µ¿½Ã, (input data ÀüÃ¼) * weight 16°³
+    //channel ï¿½ï¿½ï¿½ï¿½, (input data ï¿½ï¿½Ã¼) * weight 16ï¿½ï¿½
     always @(*) begin
         mem_rd_addr_n = mem_rd_addr;
         wmem_addr_n = wmem_addr; 
@@ -286,22 +277,22 @@ module layer_pipeline #(
                                 maxpool_en = 1;
                                 mem_rd_cenb = 0;
                                 num1_n = num1 + 1;
-                                if (num1 == 'd7) begin // 4x2 ¸¶Áö¸·
+                                if (num1 == 'd7) begin // 4x2 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                                     mem_rd_addr_n = mem_rd_addr - 'd305;
                                     cnt1_row_n = cnt1_row + 2;
                                     num1_n = 0;
-                                    if (cnt1_row == 98) begin// ¸¶Áö¸· row
+                                    if (cnt1_row == 98) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt1_row_n = 0;
                                         cnt1_column_n = cnt1_column + 4;
                                         mem_rd_addr_n = mem_rd_addr + 'd3;
                                     end
-                                    if ((cnt1_column == 96) & (cnt1_row == 98)) begin // ¸¶Áö¸· column & row
+                                    if ((cnt1_column == 96) & (cnt1_row == 98)) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                         color_n = green;
                                         cnt1_column_n = 0;
                                         mem_rd_addr_n = 'd103 + 'd10302;
                                     end
                                 end
-                                else if (num1 % 2 == 'd1) begin // ÁÙ ¹Ù²Ù±â
+                                else if (num1 % 2 == 'd1) begin // ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                                     mem_rd_addr_n = mem_rd_addr + 'd101;
                                 end
                                 else begin
@@ -316,22 +307,22 @@ module layer_pipeline #(
                                 maxpool_en = 1;
                                 mem_rd_cenb = 0;
                                 num1_n = num1 + 1;
-                                if (num1 == 'd3) begin // 2x2 ¸¶Áö¸·
+                                if (num1 == 'd3) begin // 2x2 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                                     mem_rd_addr_n = mem_rd_addr - 'd101;
                                     cnt1_row_n = cnt1_row + 2;
                                     num1_n = 0;
-                                    if (cnt1_row == 98) begin// ¸¶Áö¸· row
+                                    if (cnt1_row == 98) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt1_row_n = 0;
                                         cnt1_column_n = cnt1_column + 2;
                                         mem_rd_addr_n = mem_rd_addr + 'd3;
                                     end
-                                    if ((cnt1_column == 98) & (cnt1_row == 98)) begin // ¸¶Áö¸· column & row
+                                    if ((cnt1_column == 98) & (cnt1_row == 98)) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                         color_n = blue;
                                         cnt1_column_n = 0;
                                         mem_rd_addr_n = 'd103 + 'd20604;
                                     end
                                 end
-                                else if (num1 % 2 == 'd1) begin // ÁÙ ¹Ù²Ù±â
+                                else if (num1 % 2 == 'd1) begin // ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                                     mem_rd_addr_n = mem_rd_addr + 'd101;
                                 end
                                 else begin
@@ -346,20 +337,20 @@ module layer_pipeline #(
                                 maxpool_en = 1;
                                 mem_rd_cenb = 0;
                                 num1_n = num1 + 1;
-                                if (num1 == 'd7) begin // 4x2 ¸¶Áö¸·
+                                if (num1 == 'd7) begin // 4x2 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                                     mem_rd_addr_n = mem_rd_addr - 'd305;
                                     cnt1_row_n = cnt1_row + 2;
                                     num1_n = 0;
-                                    if (cnt1_row == 98) begin// ¸¶Áö¸· row
+                                    if (cnt1_row == 98) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt1_row_n = 0;
                                         cnt1_column_n = cnt1_column + 4;
                                         mem_rd_addr_n = mem_rd_addr + 'd3;
                                     end
-                                    if ((cnt1_column == 96) & (cnt1_row == 98)) begin // ¸¶Áö¸· column & row
+                                    if ((cnt1_column == 96) & (cnt1_row == 98)) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                         mem_rd_addr_n = 0;
                                     end
                                 end
-                                else if (num1 % 2 == 'd1) begin // ÁÙ ¹Ù²Ù±â
+                                else if (num1 % 2 == 'd1) begin // ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                                     mem_rd_addr_n = mem_rd_addr + 'd101;
                                 end
                                 else begin
@@ -373,10 +364,10 @@ module layer_pipeline #(
             end
             1,2,3,5: begin //1,2,3,5,6 layer
                 case(state)
-                    FIRST: begin // Ã³À½ input_data:27°³, weight:9°³ ºÒ·¯¿À±â
+                    FIRST: begin // Ã³ï¿½ï¿½ input_data:27ï¿½ï¿½, weight:9ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                         stage2_en_n = 'b0;      
-                        // input data Ã³¸®
-                        if (num_w != 0) begin // weight °³¼ö
+                        // input data Ã³ï¿½ï¿½
+                        if (num_w != 0) begin // weight ï¿½ï¿½ï¿½ï¿½
                             is_initial = 1'b1;
                             mem_rd_cenb = 0;
                             num1_n = num1 + 1;
@@ -387,7 +378,7 @@ module layer_pipeline #(
                             else if (num1 == 'd17) begin// green -> blue
                                 mem_rd_addr_n = (((layer_num == 1)|(layer_num == 2)|(layer_num == 3)) ? 'd20604 : 'd7854) + 'd102 * cnt1_column;
                             end
-                            else if (num1 == 'd26) begin // ¸Ç ¸¶Áö¸·. 27°³ ºÒ·¯¿È.
+                            else if (num1 == 'd26) begin // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 27ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½.
                                 stage2_en_n = 'b1;
                                 mem_rd_addr_n = cnt1_column * 102 + 3;
                                 cnt1_row_n = cnt1_row + 1;
@@ -395,17 +386,17 @@ module layer_pipeline #(
                                 num1_n = 0;
                                 num_w_n = num_w - 1;
                             end
-                            else if ((num1 % 3) == 'd2) begin // ÁÙ ¹Ù²Ù±â
+                            else if ((num1 % 3) == 'd2) begin // ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                                 mem_rd_addr_n = mem_rd_addr + 100;
                             end
-                            else begin // ¿·À¸·Î ÀÌµ¿
+                            else begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
                                 mem_rd_addr_n = mem_rd_addr + 1;
                             end
             
                             if (num1 >= 'd9) begin
                                 wei_buff_wren = 0;
                             end
-                            else begin // Ã¹¹øÂ° weight ºÒ·¯¿À±â
+                            else begin // Ã¹ï¿½ï¿½Â° weight ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                                 wmem_cenb            = 0;
                                 wmem_addr_n = wmem_addr + 1;
                                 wei_buff_wren         = 1;
@@ -419,9 +410,9 @@ module layer_pipeline #(
                             stage1_done = 1;
                         end
                     end
-                    weight_change: begin // weight °³¼ö µû¶ó ºÒ·¯¿À±â, input_data´Â °íÁ¤
+                    weight_change: begin // weight ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½, input_dataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                         stage2_en_n = 'b0;
-                        if (num_w != 0) begin // weight °³¼ö
+                        if (num_w != 0) begin // weight ï¿½ï¿½ï¿½ï¿½
                             wmem_cenb            = 0;
                             wmem_addr_n = wmem_addr + 1;
                             wei_buff_wren         = 1;
@@ -431,14 +422,14 @@ module layer_pipeline #(
                                 num_w_n = num_w - 1;
                                 stage2_en_n = 'b1;
                             end
-                            if (num_w_n == 0) begin // ¸ðµç weight ´Ù ºÒ·¯¿È. addr ÃÊ±âÈ­ & input/weight µÑ ´Ù ºÒ·¯¿À´Â state·Î ÀÌµ¿
+                            if (num_w_n == 0) begin // ï¿½ï¿½ï¿½ weight ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½. addr ï¿½Ê±ï¿½È­ & input/weight ï¿½ï¿½ ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ stateï¿½ï¿½ ï¿½Ìµï¿½
                                 num_w_n = weight_num;
                                 num1_n = 0;
                                 wmem_addr_n = start_weight;
                                 if (row_last) begin
                                     state_n = FIRST;
                                     row_last_n = 0;
-                                    if (final_data) begin // µ¥ÀÌÅÍ ºÒ·¯¿À±â ³¡
+                                    if (final_data) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
                                         num_w_n = 0;
                                         final_data_n = 0;
                                     end
@@ -454,10 +445,10 @@ module layer_pipeline #(
                             1, 2, 3: begin
                                 stage2_en_n = 'b0;
                                 if (cnt1_column <= 'd99) begin
-                                    if (cnt1_row <= 99) begin // ÇÑ ÁÙ °³¼ö ¼¼±â (99 = ¸¶Áö¸·)
+                                    if (cnt1_row <= 99) begin // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (99 = ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
                                         mem_rd_cenb = 0;
 
-                                        // weight ºÒ·¯¿À±â
+                                        // weight ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                                         wmem_cenb = 0;
                                         wmem_addr_n = wmem_addr + 1;
                                         wei_buff_wren = 1;
@@ -469,20 +460,20 @@ module layer_pipeline #(
                                         else if (num1 == 'd5) begin// green -> blue
                                             mem_rd_addr_n = 'd20604 + 'd102 * cnt1_column + cnt1_row + 2;
                                         end
-                                        else if (num1 == 'd8) begin // ´ÙÀ½ row·Î ÀÌµ¿ & weight ¹Ù²Ù±â
+                                        else if (num1 == 'd8) begin // ï¿½ï¿½ï¿½ï¿½ rowï¿½ï¿½ ï¿½Ìµï¿½ & weight ï¿½Ù²Ù±ï¿½
                                             mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
                                             stage2_en_n = 'b1;
                                             cnt1_row_n = cnt1_row + 1;
                                             num1_n = 0;
                                             num_w_n = num_w - 1;
                                             state_n = weight_change;
-                                            if (cnt1_row == 99) begin// ¸¶Áö¸· row
+                                            if (cnt1_row == 99) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                                 cnt1_row_n = 0;
                                                 cnt1_column_n = cnt1_column + 1;
                                                 mem_rd_addr_n = cnt1_column_n * 102;
                                                 row_last_n = 1;
                                             end
-                                            if ((cnt1_column == 99) & (cnt1_row == 99)) begin // ¸¶Áö¸· column & row
+                                            if ((cnt1_column == 99) & (cnt1_row == 99)) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                                 final_data_n = 1;
                                                 cnt1_column_n = 0;
                                                 mem_rd_addr_n = 0;
@@ -501,10 +492,10 @@ module layer_pipeline #(
                             5, 6: begin // R, B <-> G size different
                                 stage2_en_n = 'b0;
                                 if (cnt1_column <= 'd24) begin
-                                    if (cnt1_row <= 'd49) begin // ÇÑ ÁÙ °³¼ö ¼¼±â (R, G, B ´Ù ÇØ´ç)
+                                    if (cnt1_row <= 'd49) begin // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (R, G, B ï¿½ï¿½ ï¿½Ø´ï¿½)
                                         mem_rd_cenb = 0;
 
-                                        // weight ºÒ·¯¿À±â
+                                        // weight ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                                         wmem_cenb = 0;
                                         wmem_addr_n = wmem_addr + 1;
                                         wei_buff_wren = 1;
@@ -516,14 +507,14 @@ module layer_pipeline #(
                                         else if (num1 == 'd5) begin// green -> blue
                                             mem_rd_addr_n = 'd7854 + 'd102 * cnt1_column + cnt1_row + 2;
                                         end
-                                        else if (num1 == 'd8) begin // ´ÙÀ½ row·Î ÀÌµ¿ & weight ¹Ù²Ù±â
+                                        else if (num1 == 'd8) begin // ï¿½ï¿½ï¿½ï¿½ rowï¿½ï¿½ ï¿½Ìµï¿½ & weight ï¿½Ù²Ù±ï¿½
                                             stage2_en_n = 'b1;
                                             cnt1_row_n = cnt1_row + 1;
                                             num1_n = 0;
                                             num_w_n = num_w - 1;
                                             state_n = weight_change;
                                             mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
-                                            if (cnt1_row == 49) begin// ¸¶Áö¸· row
+                                            if (cnt1_row == 49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                                 cnt1_row_n = 0;
                                                 cnt1_column_n = cnt1_column + 1;
                                                 row_last_n = 1;
@@ -539,11 +530,11 @@ module layer_pipeline #(
                                         else if (num1 <= 'd8) in_buf_wren[2] = 1;
                                     end
                                 end
-                                else if (cnt1_column <= 'd49) begin // Green¸¸
-                                    if (cnt1_row <= 'd49) begin // ÇÑ ÁÙ °³¼ö ¼¼±â (R, G, B ´Ù ÇØ´ç)
+                                else if (cnt1_column <= 'd49) begin // Greenï¿½ï¿½
+                                    if (cnt1_row <= 'd49) begin // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (R, G, B ï¿½ï¿½ ï¿½Ø´ï¿½)
                                         mem_rd_cenb = 0;
 
-                                        // weight ºÒ·¯¿À±â
+                                        // weight ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                                         wmem_cenb = 0;
                                         wmem_addr_n = wmem_addr + 1;
                                         wei_buff_wren = 1;
@@ -555,20 +546,20 @@ module layer_pipeline #(
                                         else if (num1 == 'd5) begin// green -> blue
                                             mem_rd_addr_n = 'd7854 + 'd102 * cnt1_column + cnt1_row + 2;
                                         end
-                                        else if (num1 == 'd8) begin // ´ÙÀ½ row·Î ÀÌµ¿ & weight ¹Ù²Ù±â
+                                        else if (num1 == 'd8) begin // ï¿½ï¿½ï¿½ï¿½ rowï¿½ï¿½ ï¿½Ìµï¿½ & weight ï¿½Ù²Ù±ï¿½
                                             stage2_en_n = 'b1;
                                             cnt1_row_n = cnt1_row + 1;
                                             num1_n = 0;
                                             num_w_n = num_w - 1;
                                             state_n = weight_change;
                                             mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
-                                            if (cnt1_row == 49) begin// ¸¶Áö¸· row
+                                            if (cnt1_row == 49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                                 cnt1_row_n = 0;
                                                 cnt1_column_n = cnt1_column + 1;
                                                 mem_rd_addr_n = cnt1_column_n * 102;
                                                 row_last_n = 1;
                                             end
-                                            if ((cnt1_column == 49) & (cnt1_row == 49)) begin // ¸¶Áö¸· column & row
+                                            if ((cnt1_column == 49) & (cnt1_row == 49)) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                                 final_data_n = 1;
                                                 cnt1_column_n = 0;
                                                 mem_rd_addr_n = 0;
@@ -591,11 +582,11 @@ module layer_pipeline #(
             end
             6: begin
                 case(state)
-                    FIRST: begin // Ã³À½ input_data:27°³, weight:9°³ ºÒ·¯¿À±â
+                    FIRST: begin // Ã³ï¿½ï¿½ input_data:27ï¿½ï¿½, weight:9ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                         stage2_en_n = 'b0;
                         is_initial = 1'b1;
-                        // input data Ã³¸®
-                        if (num_w != 0) begin // weight °³¼ö
+                        // input data Ã³ï¿½ï¿½
+                        if (num_w != 0) begin // weight ï¿½ï¿½ï¿½ï¿½
                             mem_rd_cenb = 0;
                             num1_n = num1 + 1;
           
@@ -605,24 +596,24 @@ module layer_pipeline #(
                             else if (num1 == 'd17) begin// green -> blue
                                 mem_rd_addr_n = (((layer_num == 1)|(layer_num == 2)|(layer_num == 3)) ? 'd20604 : 'd7854) + 'd102 * cnt1_column;
                             end
-                            else if (num1 == 'd26) begin // ¸Ç ¸¶Áö¸·. 27°³ ºÒ·¯¿È.
+                            else if (num1 == 'd26) begin // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 27ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½.
                                 stage2_en_n = 'b1;
                                 mem_rd_addr_n = cnt1_column * 102 + 3;
                                 cnt1_row_n = cnt1_row + 1;
                                 state_n = inputandweight_change;
                                 num1_n = 0;
                             end
-                            else if ((num1 % 3) == 'd2) begin // ÁÙ ¹Ù²Ù±â
+                            else if ((num1 % 3) == 'd2) begin // ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                                 mem_rd_addr_n = mem_rd_addr + 100;
                             end
-                            else begin // ¿·À¸·Î ÀÌµ¿
+                            else begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
                                 mem_rd_addr_n = mem_rd_addr + 1;
                             end
             
                             if (num1 >= 'd9) begin
                                 wei_buff_wren = 0;
                             end
-                            else begin // Ã¹¹øÂ° weight ºÒ·¯¿À±â
+                            else begin // Ã¹ï¿½ï¿½Â° weight ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
                                 wmem_cenb            = 0;
                                 wmem_addr_n = wmem_addr + 1;
                                 wei_buff_wren         = 1;
@@ -639,8 +630,8 @@ module layer_pipeline #(
                     Second: begin // input only
                         stage2_en_n = 'b0;
                         is_initial = 1'b1;
-                        // input data Ã³¸®
-                        if (num_w != 0) begin // weight °³¼ö
+                        // input data Ã³ï¿½ï¿½
+                        if (num_w != 0) begin // weight ï¿½ï¿½ï¿½ï¿½
                             mem_rd_cenb = 0;
                             num1_n = num1 + 1;
           
@@ -650,17 +641,17 @@ module layer_pipeline #(
                             else if (num1 == 'd17) begin// green -> blue
                                 mem_rd_addr_n = (((layer_num == 1)|(layer_num == 2)|(layer_num == 3)) ? 'd20604 : 'd7854) + 'd102 * cnt1_column;
                             end
-                            else if (num1 == 'd26) begin // ¸Ç ¸¶Áö¸·. 27°³ ºÒ·¯¿È.
+                            else if (num1 == 'd26) begin // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. 27ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½.
                                 stage2_en_n = 'b1;
                                 mem_rd_addr_n = cnt1_column * 102 + 3;
                                 cnt1_row_n = cnt1_row + 1;
                                 state_n = inputandweight_change;
                                 num1_n = 0;
                             end
-                            else if ((num1 % 3) == 'd2) begin // ÁÙ ¹Ù²Ù±â
+                            else if ((num1 % 3) == 'd2) begin // ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                                 mem_rd_addr_n = mem_rd_addr + 100;
                             end
-                            else begin // ¿·À¸·Î ÀÌµ¿
+                            else begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
                                 mem_rd_addr_n = mem_rd_addr + 1;
                             end
                             if (num1 <= 'd8) in_buf_wren[0] = 1;
@@ -675,7 +666,7 @@ module layer_pipeline #(
                     inputandweight_change: begin // input only changed
                         stage2_en_n = 'b0;
                         if (cnt1_column <= 'd24) begin
-                            if (cnt1_row <= 'd49) begin // ÇÑ ÁÙ °³¼ö ¼¼±â (R, G, B ´Ù ÇØ´ç)
+                            if (cnt1_row <= 'd49) begin // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (R, G, B ï¿½ï¿½ ï¿½Ø´ï¿½)
                                 mem_rd_cenb = 0;
                                 num1_n = num1 + 1;
 
@@ -685,12 +676,12 @@ module layer_pipeline #(
                                 else if (num1 == 'd5) begin// green -> blue
                                     mem_rd_addr_n = 'd7854 + 'd102 * cnt1_column + cnt1_row + 2;
                                 end
-                                else if (num1 == 'd8) begin // ´ÙÀ½ row·Î ÀÌµ¿ 
+                                else if (num1 == 'd8) begin // ï¿½ï¿½ï¿½ï¿½ rowï¿½ï¿½ ï¿½Ìµï¿½ 
                                     stage2_en_n = 'b1;
                                     cnt1_row_n = cnt1_row + 1;
                                     num1_n = 0;
                                     mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
-                                    if (cnt1_row == 49) begin// ¸¶Áö¸· row
+                                    if (cnt1_row == 49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt1_row_n = 0;
                                         cnt1_column_n = cnt1_column + 1;
                                         row_last_n = 1;
@@ -707,8 +698,8 @@ module layer_pipeline #(
                                 else if (num1 <= 'd8) in_buf_wren[2] = 1;
                             end
                         end
-                        else if (cnt1_column <= 'd49) begin // Green¸¸
-                            if (cnt1_row <= 'd49) begin // ÇÑ ÁÙ °³¼ö ¼¼±â (R, G, B ´Ù ÇØ´ç)
+                        else if (cnt1_column <= 'd49) begin // Greenï¿½ï¿½
+                            if (cnt1_row <= 'd49) begin // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (R, G, B ï¿½ï¿½ ï¿½Ø´ï¿½)
                                 mem_rd_cenb = 0;
                                 num1_n = num1 + 1;
 
@@ -718,19 +709,19 @@ module layer_pipeline #(
                                 else if (num1 == 'd5) begin// green -> blue
                                     mem_rd_addr_n = 'd7854 + 'd102 * cnt1_column + cnt1_row + 2;
                                 end
-                                else if (num1 == 'd8) begin // ´ÙÀ½ row·Î ÀÌµ¿ & weight ¹Ù²Ù±â
+                                else if (num1 == 'd8) begin // ï¿½ï¿½ï¿½ï¿½ rowï¿½ï¿½ ï¿½Ìµï¿½ & weight ï¿½Ù²Ù±ï¿½
                                     stage2_en_n = 'b1;
                                     cnt1_row_n = cnt1_row + 1;
                                     num1_n = 0;
                                     mem_rd_addr_n = cnt1_column * 102 + cnt1_row + 3;
-                                    if (cnt1_row == 49) begin// ¸¶Áö¸· row
+                                    if (cnt1_row == 49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt1_row_n = 0;
                                         cnt1_column_n = cnt1_column + 1;
                                         mem_rd_addr_n = cnt1_column_n * 102;
                                         row_last_n = 1;
                                         state_n = Second;
                                     end
-                                    if ((cnt1_column == 49) & (cnt1_row == 49)) begin // ¸¶Áö¸· column & row
+                                    if ((cnt1_column == 49) & (cnt1_row == 49)) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                         final_data_n = 1;
                                         cnt1_column_n = 0;
                                         mem_rd_addr_n = 0;
@@ -753,7 +744,7 @@ module layer_pipeline #(
         endcase
     end
 
-    // ÁÖ¼Ò°¡ ¿¹Á¤º¸´Ù ´Ê°Ô µé¾î¿Í¼­ ÇÑ »çÀÌÅ¬¾¿ µÚ·Î ¹Ð¾î¾ßÇÔ
+    // ï¿½Ö¼Ò°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½Í¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½Ú·ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
     always @(posedge clk) begin
         if (!rst_n) begin
            stage2_en_reg <= 0;
@@ -951,26 +942,26 @@ module layer_pipeline #(
     // 5. write back (out_buff -> mem) all layer
     always @( posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            mem_wr_addr <= 'd103; // ½ÃÀÛºÎºÐ
-            mem_wr_pad_addr <= 'd153; // ½ÃÀÛºÎºÐ
+            mem_wr_addr <= 'd103; // ï¿½ï¿½ï¿½ÛºÎºï¿½
+            mem_wr_pad_addr <= 'd153; // ï¿½ï¿½ï¿½ÛºÎºï¿½
             cnt2_row <= 'd0;
             cnt2_column <= 'd0;
             cnt_ch <= 'd0;
             output_state <= IDLE;
             num2 <= 0;
-            num_w2 <= weight_num; // Ã¤³Î ±¸ºÐ
+            num_w2 <= weight_num; // Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             num_p <= 0;
             color_wb <= red;
         end 
         else if (layer_start) begin
-            mem_wr_addr <= 'd103; // ½ÃÀÛºÎºÐ
-            mem_wr_pad_addr <= 'd153; // ½ÃÀÛºÎºÐ
+            mem_wr_addr <= 'd103; // ï¿½ï¿½ï¿½ÛºÎºï¿½
+            mem_wr_pad_addr <= 'd153; // ï¿½ï¿½ï¿½ÛºÎºï¿½
             cnt2_row <= 'd0;
             cnt2_column <= 'd0;
             cnt_ch <= 'd0;
             output_state <= IDLE;
             num2 <= 0;
-            num_w2 <= weight_num; // Ã¤³Î ±¸ºÐ
+            num_w2 <= weight_num; // Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             num_p <= 0;
             color_wb <= red;
         end
@@ -1011,8 +1002,8 @@ module layer_pipeline #(
         end
         output_mem_en = 0;
         case (layer_num)
-            4: begin // R -> G -> B ¼ø¼­´ë·Î ÁÖ¼Ò(Ã¤³Î ´Ù) ÇÏ³ª¾¿
-                if (stage6_en_n) begin  // maxpool ¿¬»ê ³¡ -> ¹Ù·Î memory¿¡ ÀúÀå
+            4: begin // R -> G -> B ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½(Ã¤ï¿½ï¿½ ï¿½ï¿½) ï¿½Ï³ï¿½ï¿½ï¿½
+                if (stage6_en_n) begin  // maxpool ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ -> ï¿½Ù·ï¿½ memoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                     case(color_wb)
                         red: begin
                             if (cnt2_column <= 'd24) begin
@@ -1020,11 +1011,11 @@ module layer_pipeline #(
                                     cnt2_row_n = cnt2_row + 1;
                                     mem_wr_cenb = 0;
                                     mem_wr_wenb = 0;
-                                    if (cnt2_row == 'd49) begin// ¸¶Áö¸· row
+                                    if (cnt2_row == 'd49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt2_row_n = 0;
                                         cnt2_column_n = cnt2_column + 1;
                                         mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1;
-                                        if (cnt2_column == 24) begin // ¸¶Áö¸· column & row
+                                        if (cnt2_column == 24) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ column & row
                                             color_wb_n = green;
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd103 + 'd2652;
@@ -1042,11 +1033,11 @@ module layer_pipeline #(
                                     cnt2_row_n = cnt2_row + 1;
                                     mem_wr_cenb = 0;
                                     mem_wr_wenb = 0;
-                                    if (cnt2_row == 'd49) begin// ¸¶Áö¸· row
+                                    if (cnt2_row == 'd49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt2_row_n = 0;
                                         cnt2_column_n = cnt2_column + 1;
                                         mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1 + 'd2652;
-                                        if (cnt2_column == 49) begin // ¸¶???? column & row
+                                        if (cnt2_column == 49) begin // ï¿½ï¿½???? column & row
                                             color_wb_n = blue;
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd103 + 'd7854;
@@ -1064,11 +1055,11 @@ module layer_pipeline #(
                                     cnt2_row_n = cnt2_row + 1;
                                     mem_wr_cenb = 0;
                                     mem_wr_wenb = 0;
-                                    if (cnt2_row == 'd49) begin// ¸¶Áö¸· row
+                                    if (cnt2_row == 'd49) begin// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ row
                                         cnt2_row_n = 0;
                                         cnt2_column_n = cnt2_column + 1;
                                         mem_wr_addr_n = (cnt2_column_n + 1)*'d102  + 'd1 + 'd7854;
-                                        if (cnt2_column == 24) begin // ¸¶???? column & row
+                                        if (cnt2_column == 24) begin // ï¿½ï¿½???? column & row
                                             cnt2_column_n = 0;
                                             mem_wr_addr_n = 'd0;
                                             stage5_done = 1;
@@ -1082,7 +1073,7 @@ module layer_pipeline #(
                         end
                     endcase
                 end
-                else begin // padding ÇÏ±â
+                else begin // padding ï¿½Ï±ï¿½
                     mem_wr_cenb = 0;
                     mem_wr_wenb = 0;
                     out_data = 'd0;
@@ -1096,7 +1087,7 @@ module layer_pipeline #(
                     else if (num_p == 'd204) begin
                         mem_wr_pad_addr_n = 'd10507;
                     end
-                    else if (num_p >= 'd255) begin // ¸¶Áö¸·
+                    else if (num_p >= 'd255) begin // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                         mem_wr_pad_addr_n = mem_wr_pad_addr;
                         num_p_n = num_p;
                     end
@@ -1111,7 +1102,7 @@ module layer_pipeline #(
             default begin
                 case (output_state)
                     IDLE: begin
-                        if (relu_done_i) begin // relu ¿¬»ê ³¡ -> output buffer¿¡ ÀúÀå
+                        if (relu_done_i) begin // relu ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ -> output bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                             for (i = 0; i < NUM_COLOR; i = i + 1 ) begin
                                 out_buf_wren[i] = 1; 
                             end
@@ -1146,7 +1137,7 @@ module layer_pipeline #(
                     end
                 endcase
                 case(layer_num)
-                    1,2,3: begin // paddingÇÏ´Â°Ô Ãß°¡µÊ.
+                    1,2,3: begin // paddingï¿½Ï´Â°ï¿½ ï¿½ß°ï¿½ï¿½ï¿½.
                         row_num = 'd100;
                         color_num1 = 'd10302;
                         color_num2 = 'd10302;
@@ -1162,16 +1153,16 @@ module layer_pipeline #(
                 endcase
             
                 
-                if (cnt2_column != row_num) begin // column ¼ö ¼¼±â, ¸ðµç column ³¡³ª¸é Ã¤³Î +1
-                    if (output_mem_en) begin // output memory¿¡ ³Ö±â (R, G, B ÇÏ³ª¾¿ ³ª¿È)
+                if (cnt2_column != row_num) begin // column ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ column ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ +1
+                    if (output_mem_en) begin // output memoryï¿½ï¿½ ï¿½Ö±ï¿½ (R, G, B ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
                         start_point = 'd103 + 'd102*cnt2_column;
-                        if (cnt2_row != row_num) begin // row ¼ö ¼¼±â, ÇÑ ÁÙ ³¡³ª°í ÁÙ ¹Ù²Ù±â
+                        if (cnt2_row != row_num) begin // row ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
                             num2_n = num2 + 1;
 
                             if (num2 == 'd2) begin
                                 num2_n = 0;
                                 cnt2_row_n = cnt2_row + 1;
-                                mem_wr_addr_n = start_point + cnt2_row + 1; // ¿·À¸·Î ÀÌµ¿
+                                mem_wr_addr_n = start_point + cnt2_row + 1; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
                             end
                             else if (num2 == 'd0) begin
                                 mem_wr_addr_n = mem_wr_addr + color_num1; // r <-> g
@@ -1180,7 +1171,7 @@ module layer_pipeline #(
                                 mem_wr_addr_n = mem_wr_addr + color_num2; // g <-> b
                             end    
                             
-                            if (cnt2_row_n == row_num) begin // ´ÙÀ½ columnÀ¸·Î ÀÌµ¿
+                            if (cnt2_row_n == row_num) begin // ï¿½ï¿½ï¿½ï¿½ columnï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
                                 cnt2_column_n = cnt2_column + 1;
                                 cnt2_row_n = 0;
                                 mem_wr_addr_n = start_point + 'd102; 
