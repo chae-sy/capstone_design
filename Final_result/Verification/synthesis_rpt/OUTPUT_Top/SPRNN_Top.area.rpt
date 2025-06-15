@@ -1,0 +1,363 @@
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : area
+Design : SPRNN_Top
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 20:55:05 2025
+****************************************
+
+Library(s) Used:
+
+    NangateOpenCellLibrary (File: /home/SOC17/freepdk-45nm/stdcells.db)
+
+Number of ports:                        18664
+Number of nets:                        116392
+Number of cells:                        87573
+Number of combinational cells:          62273
+Number of sequential cells:             24732
+Number of macros/black boxes:               0
+Number of buf/inv:                      11364
+Number of references:                      52
+
+Combinational area:              90847.512650
+Buf/Inv area:                     6711.711994
+Noncombinational area:           97710.846993
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                188558.359643
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+
+The above information was reported from the logical library. The following are from the physical library:
+
+Hierarchical area distribution
+------------------------------
+
+                                  Global cell area             Local cell area
+                                  --------------------  ------------------------------ 
+Hierarchical cell                 Absolute     Percent  Combi-      Noncombi-   Black-
+                                  Total        Total    national    national    boxes   Design
+--------------------------------  -----------  -------  ----------  ----------  ------  --------------------------------------------------------------------------
+SPRNN_Top                         188558.3596    100.0   3380.3280   5572.9662  0.0000  SPRNN_Top
+GEN_PE[0].u_PE_array                4386.3401      2.3   1291.1640   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15
+GEN_PE[0].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_5_DW01_add_101
+GEN_PE[0].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_4_DW01_add_100
+GEN_PE[0].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_3_DW01_add_99
+GEN_PE[0].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_2_DW01_add_98
+GEN_PE[0].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_1_DW01_add_97
+GEN_PE[0].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_0_DW01_add_96
+GEN_PE[0].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_2
+GEN_PE[0].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_8_DW01_add_149
+GEN_PE[0].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_1
+GEN_PE[0].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_7_DW01_add_148
+GEN_PE[0].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_0
+GEN_PE[0].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_6_DW01_add_147
+GEN_PE[10].u_PE_array               4387.4041      2.3   1292.2280   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5
+GEN_PE[10].u_PE_array/add_51          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_5_DW01_add_41
+GEN_PE[10].u_PE_array/add_51_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_4_DW01_add_40
+GEN_PE[10].u_PE_array/add_51_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_3_DW01_add_39
+GEN_PE[10].u_PE_array/add_60          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_2_DW01_add_38
+GEN_PE[10].u_PE_array/add_60_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_1_DW01_add_37
+GEN_PE[10].u_PE_array/add_60_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_0_DW01_add_36
+GEN_PE[10].u_PE_array/r226           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_2_DW02_mult_32
+GEN_PE[10].u_PE_array/r226/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_8_DW01_add_179
+GEN_PE[10].u_PE_array/r228           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_1_DW02_mult_31
+GEN_PE[10].u_PE_array/r228/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_7_DW01_add_178
+GEN_PE[10].u_PE_array/r230           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_0_DW02_mult_30
+GEN_PE[10].u_PE_array/r230/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_6_DW01_add_177
+GEN_PE[11].u_PE_array               4386.3401      2.3   1291.1640   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4
+GEN_PE[11].u_PE_array/add_51          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_5_DW01_add_35
+GEN_PE[11].u_PE_array/add_51_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_4_DW01_add_34
+GEN_PE[11].u_PE_array/add_51_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_3_DW01_add_33
+GEN_PE[11].u_PE_array/add_60          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_2_DW01_add_32
+GEN_PE[11].u_PE_array/add_60_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_1_DW01_add_31
+GEN_PE[11].u_PE_array/add_60_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_0_DW01_add_30
+GEN_PE[11].u_PE_array/r226           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_2_DW02_mult_35
+GEN_PE[11].u_PE_array/r226/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_8_DW01_add_182
+GEN_PE[11].u_PE_array/r228           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_1_DW02_mult_34
+GEN_PE[11].u_PE_array/r228/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_7_DW01_add_181
+GEN_PE[11].u_PE_array/r230           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_0_DW02_mult_33
+GEN_PE[11].u_PE_array/r230/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_6_DW01_add_180
+GEN_PE[12].u_PE_array               4386.3401      2.3   1291.1640   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3
+GEN_PE[12].u_PE_array/add_51          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_5_DW01_add_29
+GEN_PE[12].u_PE_array/add_51_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_4_DW01_add_28
+GEN_PE[12].u_PE_array/add_51_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_3_DW01_add_27
+GEN_PE[12].u_PE_array/add_60          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_2_DW01_add_26
+GEN_PE[12].u_PE_array/add_60_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_1_DW01_add_25
+GEN_PE[12].u_PE_array/add_60_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_0_DW01_add_24
+GEN_PE[12].u_PE_array/r226           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_2_DW02_mult_38
+GEN_PE[12].u_PE_array/r226/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_8_DW01_add_185
+GEN_PE[12].u_PE_array/r228           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_1_DW02_mult_37
+GEN_PE[12].u_PE_array/r228/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_7_DW01_add_184
+GEN_PE[12].u_PE_array/r230           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_0_DW02_mult_36
+GEN_PE[12].u_PE_array/r230/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_6_DW01_add_183
+GEN_PE[13].u_PE_array               4387.1381      2.3   1291.9620   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2
+GEN_PE[13].u_PE_array/add_51          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_5_DW01_add_23
+GEN_PE[13].u_PE_array/add_51_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_4_DW01_add_22
+GEN_PE[13].u_PE_array/add_51_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_3_DW01_add_21
+GEN_PE[13].u_PE_array/add_60          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_2_DW01_add_20
+GEN_PE[13].u_PE_array/add_60_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_1_DW01_add_19
+GEN_PE[13].u_PE_array/add_60_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_0_DW01_add_18
+GEN_PE[13].u_PE_array/r226           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_2_DW02_mult_41
+GEN_PE[13].u_PE_array/r226/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_8_DW01_add_188
+GEN_PE[13].u_PE_array/r228           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_1_DW02_mult_40
+GEN_PE[13].u_PE_array/r228/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_7_DW01_add_187
+GEN_PE[13].u_PE_array/r230           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_0_DW02_mult_39
+GEN_PE[13].u_PE_array/r230/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_6_DW01_add_186
+GEN_PE[14].u_PE_array               4387.1381      2.3   1291.9620   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1
+GEN_PE[14].u_PE_array/add_51          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_5_DW01_add_17
+GEN_PE[14].u_PE_array/add_51_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_4_DW01_add_16
+GEN_PE[14].u_PE_array/add_51_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_3_DW01_add_15
+GEN_PE[14].u_PE_array/add_60          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_2_DW01_add_14
+GEN_PE[14].u_PE_array/add_60_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_1_DW01_add_13
+GEN_PE[14].u_PE_array/add_60_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_0_DW01_add_12
+GEN_PE[14].u_PE_array/r226           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_2_DW02_mult_44
+GEN_PE[14].u_PE_array/r226/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_8_DW01_add_191
+GEN_PE[14].u_PE_array/r228           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_1_DW02_mult_43
+GEN_PE[14].u_PE_array/r228/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_7_DW01_add_190
+GEN_PE[14].u_PE_array/r230           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_0_DW02_mult_42
+GEN_PE[14].u_PE_array/r230/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_6_DW01_add_189
+GEN_PE[15].u_PE_array               4386.8721      2.3   1291.6960   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0
+GEN_PE[15].u_PE_array/add_51          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_5_DW01_add_11
+GEN_PE[15].u_PE_array/add_51_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_4_DW01_add_10
+GEN_PE[15].u_PE_array/add_51_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_3_DW01_add_9
+GEN_PE[15].u_PE_array/add_60          83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_2_DW01_add_8
+GEN_PE[15].u_PE_array/add_60_I2       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_1_DW01_add_7
+GEN_PE[15].u_PE_array/add_60_I3       83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_0_DW01_add_6
+GEN_PE[15].u_PE_array/r226           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_2_DW02_mult_47
+GEN_PE[15].u_PE_array/r226/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_8_DW01_add_194
+GEN_PE[15].u_PE_array/r228           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_1_DW02_mult_46
+GEN_PE[15].u_PE_array/r228/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_7_DW01_add_193
+GEN_PE[15].u_PE_array/r230           325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_0_DW02_mult_45
+GEN_PE[15].u_PE_array/r230/FS_1       40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_6_DW01_add_192
+GEN_PE[1].u_PE_array                4387.1381      2.3   1291.9620   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14
+GEN_PE[1].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_5_DW01_add_95
+GEN_PE[1].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_4_DW01_add_94
+GEN_PE[1].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_3_DW01_add_93
+GEN_PE[1].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_2_DW01_add_92
+GEN_PE[1].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_1_DW01_add_91
+GEN_PE[1].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_0_DW01_add_90
+GEN_PE[1].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_2_DW02_mult_5
+GEN_PE[1].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_8_DW01_add_152
+GEN_PE[1].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_1_DW02_mult_4
+GEN_PE[1].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_7_DW01_add_151
+GEN_PE[1].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_0_DW02_mult_3
+GEN_PE[1].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_6_DW01_add_150
+GEN_PE[2].u_PE_array                4388.4681      2.3   1293.2920   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13
+GEN_PE[2].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_5_DW01_add_89
+GEN_PE[2].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_4_DW01_add_88
+GEN_PE[2].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_3_DW01_add_87
+GEN_PE[2].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_2_DW01_add_86
+GEN_PE[2].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_1_DW01_add_85
+GEN_PE[2].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_0_DW01_add_84
+GEN_PE[2].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_2_DW02_mult_8
+GEN_PE[2].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_8_DW01_add_155
+GEN_PE[2].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_1_DW02_mult_7
+GEN_PE[2].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_7_DW01_add_154
+GEN_PE[2].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_0_DW02_mult_6
+GEN_PE[2].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_6_DW01_add_153
+GEN_PE[3].u_PE_array                4387.6701      2.3   1292.4940   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12
+GEN_PE[3].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_5_DW01_add_83
+GEN_PE[3].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_4_DW01_add_82
+GEN_PE[3].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_3_DW01_add_81
+GEN_PE[3].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_2_DW01_add_80
+GEN_PE[3].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_1_DW01_add_79
+GEN_PE[3].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_0_DW01_add_78
+GEN_PE[3].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_2_DW02_mult_11
+GEN_PE[3].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_8_DW01_add_158
+GEN_PE[3].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_1_DW02_mult_10
+GEN_PE[3].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_7_DW01_add_157
+GEN_PE[3].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_0_DW02_mult_9
+GEN_PE[3].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_6_DW01_add_156
+GEN_PE[4].u_PE_array                4388.4681      2.3   1293.2920   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11
+GEN_PE[4].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_5_DW01_add_77
+GEN_PE[4].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_4_DW01_add_76
+GEN_PE[4].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_3_DW01_add_75
+GEN_PE[4].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_2_DW01_add_74
+GEN_PE[4].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_1_DW01_add_73
+GEN_PE[4].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_0_DW01_add_72
+GEN_PE[4].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_2_DW02_mult_14
+GEN_PE[4].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_8_DW01_add_161
+GEN_PE[4].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_1_DW02_mult_13
+GEN_PE[4].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_7_DW01_add_160
+GEN_PE[4].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_0_DW02_mult_12
+GEN_PE[4].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_6_DW01_add_159
+GEN_PE[5].u_PE_array                4388.4681      2.3   1293.2920   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10
+GEN_PE[5].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_5_DW01_add_71
+GEN_PE[5].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_4_DW01_add_70
+GEN_PE[5].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_3_DW01_add_69
+GEN_PE[5].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_2_DW01_add_68
+GEN_PE[5].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_1_DW01_add_67
+GEN_PE[5].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_0_DW01_add_66
+GEN_PE[5].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_2_DW02_mult_17
+GEN_PE[5].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_8_DW01_add_164
+GEN_PE[5].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_1_DW02_mult_16
+GEN_PE[5].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_7_DW01_add_163
+GEN_PE[5].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_0_DW02_mult_15
+GEN_PE[5].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_6_DW01_add_162
+GEN_PE[6].u_PE_array                4388.4681      2.3   1293.2920   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9
+GEN_PE[6].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_5_DW01_add_65
+GEN_PE[6].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_4_DW01_add_64
+GEN_PE[6].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_3_DW01_add_63
+GEN_PE[6].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_2_DW01_add_62
+GEN_PE[6].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_1_DW01_add_61
+GEN_PE[6].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_0_DW01_add_60
+GEN_PE[6].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_2_DW02_mult_20
+GEN_PE[6].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_8_DW01_add_167
+GEN_PE[6].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_1_DW02_mult_19
+GEN_PE[6].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_7_DW01_add_166
+GEN_PE[6].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_0_DW02_mult_18
+GEN_PE[6].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_6_DW01_add_165
+GEN_PE[7].u_PE_array                4386.3401      2.3   1291.1640   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8
+GEN_PE[7].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_5_DW01_add_59
+GEN_PE[7].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_4_DW01_add_58
+GEN_PE[7].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_3_DW01_add_57
+GEN_PE[7].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_2_DW01_add_56
+GEN_PE[7].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_1_DW01_add_55
+GEN_PE[7].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_0_DW01_add_54
+GEN_PE[7].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_2_DW02_mult_23
+GEN_PE[7].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_8_DW01_add_170
+GEN_PE[7].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_1_DW02_mult_22
+GEN_PE[7].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_7_DW01_add_169
+GEN_PE[7].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_0_DW02_mult_21
+GEN_PE[7].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_6_DW01_add_168
+GEN_PE[8].u_PE_array                4386.6061      2.3   1291.4300   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7
+GEN_PE[8].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_5_DW01_add_53
+GEN_PE[8].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_4_DW01_add_52
+GEN_PE[8].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_3_DW01_add_51
+GEN_PE[8].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_2_DW01_add_50
+GEN_PE[8].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_1_DW01_add_49
+GEN_PE[8].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_0_DW01_add_48
+GEN_PE[8].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_2_DW02_mult_26
+GEN_PE[8].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_8_DW01_add_173
+GEN_PE[8].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_1_DW02_mult_25
+GEN_PE[8].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_7_DW01_add_172
+GEN_PE[8].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_0_DW02_mult_24
+GEN_PE[8].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_6_DW01_add_171
+GEN_PE[9].u_PE_array                4387.6701      2.3   1292.4940   1617.2801  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6
+GEN_PE[9].u_PE_array/add_51           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_5_DW01_add_47
+GEN_PE[9].u_PE_array/add_51_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_4_DW01_add_46
+GEN_PE[9].u_PE_array/add_51_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_3_DW01_add_45
+GEN_PE[9].u_PE_array/add_60           83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_2_DW01_add_44
+GEN_PE[9].u_PE_array/add_60_I2        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_1_DW01_add_43
+GEN_PE[9].u_PE_array/add_60_I3        83.5240      0.0     83.5240      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_0_DW01_add_42
+GEN_PE[9].u_PE_array/r226            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_2_DW02_mult_29
+GEN_PE[9].u_PE_array/r226/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_8_DW01_add_176
+GEN_PE[9].u_PE_array/r228            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_1_DW02_mult_28
+GEN_PE[9].u_PE_array/r228/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_7_DW01_add_175
+GEN_PE[9].u_PE_array/r230            325.5840      0.2    284.6200      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_0_DW02_mult_27
+GEN_PE[9].u_PE_array/r230/FS_1        40.9640      0.0     40.9640      0.0000  0.0000  mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_6_DW01_add_174
+u_adder_tree_b                      2089.9620      1.1    205.0860    606.4800  0.0000  adder_tree_0
+u_adder_tree_b/add_0_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_12_DW01_add_144
+u_adder_tree_b/add_0_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_6_DW01_add_120
+u_adder_tree_b/add_0_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_9_DW01_add_123
+u_adder_tree_b/add_0_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_3_DW01_add_117
+u_adder_tree_b/add_0_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_0_DW01_add_0_DW01_add_102
+u_adder_tree_b/add_1_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_13_DW01_add_145
+u_adder_tree_b/add_1_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_7_DW01_add_121
+u_adder_tree_b/add_1_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_10_DW01_add_124
+u_adder_tree_b/add_1_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_4_DW01_add_118
+u_adder_tree_b/add_1_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_0_DW01_add_1_DW01_add_103
+u_adder_tree_b/add_2_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_14_DW01_add_146
+u_adder_tree_b/add_2_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_8_DW01_add_122
+u_adder_tree_b/add_2_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_11_DW01_add_125
+u_adder_tree_b/add_2_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_0_DW01_add_5_DW01_add_119
+u_adder_tree_b/add_2_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_0_DW01_add_2_DW01_add_104
+u_adder_tree_g                      2089.9620      1.1    205.0860    606.4800  0.0000  adder_tree_1
+u_adder_tree_g/add_0_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_6_DW01_add_126
+u_adder_tree_g/add_0_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_12_DW01_add_132
+u_adder_tree_g/add_0_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_9_DW01_add_129
+u_adder_tree_g/add_0_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_3_DW01_add_114
+u_adder_tree_g/add_0_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_1_DW01_add_0_DW01_add_105
+u_adder_tree_g/add_1_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_7_DW01_add_127
+u_adder_tree_g/add_1_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_13_DW01_add_133
+u_adder_tree_g/add_1_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_10_DW01_add_130
+u_adder_tree_g/add_1_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_4_DW01_add_115
+u_adder_tree_g/add_1_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_1_DW01_add_1_DW01_add_106
+u_adder_tree_g/add_2_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_8_DW01_add_128
+u_adder_tree_g/add_2_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_14_DW01_add_134
+u_adder_tree_g/add_2_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_11_DW01_add_131
+u_adder_tree_g/add_2_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_1_DW01_add_5_DW01_add_116
+u_adder_tree_g/add_2_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_1_DW01_add_2_DW01_add_107
+u_adder_tree_r                      2089.9620      1.1    205.0860    606.4800  0.0000  adder_tree_2
+u_adder_tree_r/add_0_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_6_DW01_add_135
+u_adder_tree_r/add_0_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_12_DW01_add_141
+u_adder_tree_r/add_0_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_9_DW01_add_138
+u_adder_tree_r/add_0_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_3_DW01_add_111
+u_adder_tree_r/add_0_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_2_DW01_add_0_DW01_add_108
+u_adder_tree_r/add_1_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_7_DW01_add_136
+u_adder_tree_r/add_1_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_13_DW01_add_142
+u_adder_tree_r/add_1_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_10_DW01_add_139
+u_adder_tree_r/add_1_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_4_DW01_add_112
+u_adder_tree_r/add_1_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_2_DW01_add_1_DW01_add_109
+u_adder_tree_r/add_2_root_add_0_root_add_27_3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_8_DW01_add_137
+u_adder_tree_r/add_2_root_add_0_root_add_27_3_G2
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_14_DW01_add_143
+u_adder_tree_r/add_2_root_add_0_root_add_27_3_G3
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_11_DW01_add_140
+u_adder_tree_r/add_2_root_add_0_root_add_27_3_G4
+                                      83.5240      0.0     83.5240      0.0000  0.0000  adder_tree_2_DW01_add_5_DW01_add_113
+u_adder_tree_r/add_2_root_add_0_root_add_67_4
+                                      92.0360      0.0     92.0360      0.0000  0.0000  adder_tree_2_DW01_add_2_DW01_add_110
+u_bias_relu_B                        114.1140      0.1     34.0480      0.0000  0.0000  bias_relu_0
+u_bias_relu_B/add_51                  80.0660      0.0     80.0660      0.0000  0.0000  bias_relu_0_DW01_add_1
+u_bias_relu_G                        114.1140      0.1     34.0480      0.0000  0.0000  bias_relu_1
+u_bias_relu_G/add_51                  80.0660      0.0     80.0660      0.0000  0.0000  bias_relu_1_DW01_add_1_DW01_add_3
+u_bias_relu_R                        114.9120      0.1     34.8460      0.0000  0.0000  bias_relu_2
+u_bias_relu_R/add_51                  80.0660      0.0     80.0660      0.0000  0.0000  bias_relu_2_DW01_add_1_DW01_add_5
+u_controller                         148.6940      0.1     63.0420     85.6520  0.0000  Controller
+u_in_buf_blue                      13718.6843      7.3   5132.2041   8586.4803  0.0000  f_buffer_0
+u_in_buf_green                     13718.6843      7.3   5132.2041   8586.4803  0.0000  f_buffer_1
+u_in_buf_red                       13718.6843      7.3   5132.2041   8586.4803  0.0000  f_buffer_2
+u_maxpool                          14391.6642      7.6   8263.0240   6128.6402  0.0000  maxpool_16ch
+u_mem_bias                         33770.0310     17.9  10580.1503  23189.8807  0.0000  regfile_sync
+u_out_buf                           3143.0560      1.7    986.3280   2156.7280  0.0000  output_buffer
+u_w_buf                            10185.6722      5.4   3064.0540   7121.6182  0.0000  w_buffer
+--------------------------------  -----------  -------  ----------  ----------  ------  --------------------------------------------------------------------------
+Total                                                   90847.5126  97710.8470  0.0000
+
+1
