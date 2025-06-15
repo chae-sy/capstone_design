@@ -1,0 +1,387 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version Q-2019.12-SP5-5 for linux64 - Mar 21, 2021 
+
+                    Copyright (c) 1988 - 2021 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# ---------------------------------------
+# Step 1: Specify libraries
+# ---------------------------------------
+set link_library [list /home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db ]
+/home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db
+set target_library [list /home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db ]
+/home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db
+# ---------------------------------------
+# Step 2: Read designs
+# ---------------------------------------
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v
+Presto compilation completed successfully.
+Loading db file '/home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db'
+Information: Using CCS timing libraries. (TIM-024)
+1
+set design_name         mac_pipeline_superscalar
+mac_pipeline_superscalar
+elaborate $design_name
+Loading db file '/INST/syn/Q-2019.12-SP5-5/libraries/syn/gtech.db'
+Loading db file '/INST/syn/Q-2019.12-SP5-5/libraries/syn/standard.sldb'
+  Loading link library 'saed32lvt_ss0p75v125c'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+
+Inferred memory devices in process
+	in routine mac_pipeline_superscalar line 37 in file
+		'/home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       cnt_reg       | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mac_pipeline_superscalar line 46 in file
+		'/home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+| result_out_flat_reg | Latch |  60   |  Y  | N  | N  | N  | -  | -  | -  |
+|      pipe_reg       | Latch |  540  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Presto compilation completed successfully. (mac_pipeline_superscalar)
+Elaborated 1 design.
+Current design is now 'mac_pipeline_superscalar'.
+1
+# connect all the library components and designs
+link
+
+  Linking design 'mac_pipeline_superscalar'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  saed32lvt_ss0p75v125c (library) /home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db
+
+1
+# renames multiply references designs so that each
+# instance references a unique design
+uniquify
+1
+# ---------------------------------------
+# Step 3: Define design environments
+# ---------------------------------------
+#
+# ---------------------------------------
+# Step 4: Set design constraints
+# ---------------------------------------
+# ---------------------------------------
+# Clock
+# ---------------------------------------
+set clk_name clk
+clk
+set clk_freq            200
+200
+# Reduce clock period to model wire delay (60% of original period)
+set clk_period [expr 1000 / double($clk_freq)]
+5.0
+create_clock -period $clk_period $clk_name
+1
+set clk_uncertainty [expr $clk_period * 0.35]
+1.75
+set_clock_uncertainty -setup $clk_uncertainty $clk_name
+1
+# Set infinite drive strength
+set_drive 0 $clk_name
+1
+set_ideal_network rst_n
+1
+# ---------------------------------------
+# Input/Output
+# ---------------------------------------
+# Apply default timing constraints for modules
+set_input_delay  1.3 [all_inputs]  -clock $clk_name
+1
+set_output_delay 1.3 [all_outputs] -clock $clk_name
+1
+# ---------------------------------------
+# Area
+# ---------------------------------------
+# If max_area is set 0, DesignCompiler will minimize the design as small as possible
+set_max_area 0 
+1
+# ---------------------------------------
+# Step 5: Synthesize and optimzie the design
+# ---------------------------------------
+compile_ultra
+Loading db file '/INST/syn/Q-2019.12-SP5-5/libraries/syn/dw_foundation.sldb'
+Warning: DesignWare synthetic library dw_foundation.sldb is added to the synthetic_library in the current command. (UISN-40)
+Information: Performing power optimization. (PWR-850)
+Analyzing: "/home/ScalableArchiLab/SAED32_EDK/lib/stdcell_lvt/db_ccs/saed32lvt_ss0p75v125c.db"
+Library analysis succeeded.
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | Q-2019.12-DWBB_201912.5 |     *     |
+| Licensed DW Building Blocks        | Q-2019.12-DWBB_201912.5 |     *     |
+============================================================================
+
+Information: Sequential output inversion is enabled.  SVF file must be used for formal verification. (OPT-1208)
+
+Information: There are 3 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+  Simplifying Design 'mac_pipeline_superscalar'
+
+Loaded alib file './alib-52/saed32lvt_ss0p75v125c.db.alib'
+  Building model 'DW01_NAND2'
+Information: Ungrouping 0 of 1 hierarchies before Pass 1 (OPT-775)
+Information: State dependent leakage is now switched from on to off.
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'mac_pipeline_superscalar'
+Information: Added key list 'DesignWare' to design 'mac_pipeline_superscalar'. (DDB-72)
+ Implement Synthetic for 'mac_pipeline_superscalar'.
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+Information: The library cell 'PMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'PMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT3_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT2_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The library cell 'NMT1_LVT' in the library 'saed32lvt_ss0p75v125c' is not characterized for internal power. (PWR-536)
+Information: The target library(s) contains cell(s), other than black boxes, that are not characterized for internal power. (PWR-24)
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+
+  Beginning Mapping Optimizations  (Ultra High effort)
+  -------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:09    9220.3     18.05      80.8  376638.7                           260898144.0000
+    0:00:09    9200.0     18.05      80.7  377277.3                           260308576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+
+  Beginning Constant Register Removal
+  -----------------------------------
+    0:00:09    9200.0     18.05      80.7  377277.3                           260308576.0000
+    0:00:09    9200.0     18.05      80.7  377277.3                           260308576.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+
+  Beginning Global Optimizations
+  ------------------------------
+  Numerical Synthesis (Phase 1)
+  Numerical Synthesis (Phase 2)
+  Global Optimization (Phase 1)
+  Global Optimization (Phase 2)
+  Global Optimization (Phase 3)
+  Global Optimization (Phase 4)
+  Global Optimization (Phase 5)
+  Global Optimization (Phase 6)
+  Global Optimization (Phase 7)
+  Global Optimization (Phase 8)
+  Global Optimization (Phase 9)
+  Global Optimization (Phase 10)
+  Global Optimization (Phase 11)
+  Global Optimization (Phase 12)
+  Global Optimization (Phase 13)
+  Global Optimization (Phase 14)
+  Global Optimization (Phase 15)
+  Global Optimization (Phase 16)
+  Global Optimization (Phase 17)
+  Global Optimization (Phase 18)
+  Global Optimization (Phase 19)
+  Global Optimization (Phase 20)
+  Global Optimization (Phase 21)
+  Global Optimization (Phase 22)
+  Global Optimization (Phase 23)
+  Global Optimization (Phase 24)
+  Global Optimization (Phase 25)
+  Global Optimization (Phase 26)
+  Global Optimization (Phase 27)
+  Global Optimization (Phase 28)
+  Global Optimization (Phase 29)
+  Global Optimization (Phase 30)
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+
+  Beginning Isolate Ports
+  -----------------------
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+
+  Beginning Delay Optimization
+  ----------------------------
+    0:00:11    7520.1      1.09       4.2       0.0                           227051392.0000
+    0:00:11    7527.0      0.00       0.0       0.0                           227286352.0000
+    0:00:11    7527.0      0.00       0.0       0.0                           227286352.0000
+    0:00:11    7527.0      0.00       0.0       0.0                           227286352.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+    0:00:11    7527.0      0.00       0.0       0.0                           227286352.0000
+    0:00:11    7527.0      0.00       0.0       0.0                           227286352.0000
+
+  Beginning WLM Backend Optimization
+  --------------------------------------
+    0:00:12    7491.9      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7491.9      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7491.9      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+
+Threshold voltage group cell usage:
+>> saed32cell_lvt 100.00%
+
+
+  Beginning Leakage Power Optimization  (max_leakage_power 0)
+  ------------------------------------
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:12    7454.3      0.00       0.0       0.0                           226686384.0000
+  Global Optimization (Phase 31)
+  Global Optimization (Phase 32)
+  Global Optimization (Phase 33)
+  Global Optimization (Phase 34)
+  Global Optimization (Phase 35)
+  Global Optimization (Phase 36)
+  Global Optimization (Phase 37)
+  Global Optimization (Phase 38)
+  Global Optimization (Phase 39)
+  Global Optimization (Phase 40)
+  Global Optimization (Phase 41)
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+
+                                  TOTAL                                                
+   ELAPSED            WORST NEG   SETUP    DESIGN                              LEAKAGE 
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT            POWER  
+  --------- --------- --------- --------- --------- ------------------------- ---------
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:12    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+    0:00:13    7454.0      0.00       0.0       0.0                           226686384.0000
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Information: State dependent leakage is now switched from off to on.
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+1
+#compile
+# ---------------------------------------
+# Step 6: Analyze and resolve design problems
+# ---------------------------------------
+check_design  > $design_name.check_design.rpt
+report_constraint -all_violators -verbose -sig 10 > $design_name.all_viol.rpt
+report_design                             > $design_name.design.rpt
+report_area -physical -hierarchy          > $design_name.area.rpt
+report_timing -nworst 10 -max_paths 10    > $design_name.timing.rpt
+report_power -analysis_effort high        > $design_name.power.rpt
+report_cell                               > $design_name.cell.rpt
+report_qor                                > $design_name.qor.rpt
+report_reference                          > $design_name.reference.rpt
+report_resources                          > $design_name.resources.rpt
+report_hierarchy -full                    > $design_name.hierarchy.rpt
+report_threshold_voltage_group            > $design_name.vth.rpt
+# ---------------------------------------
+# Step 7: Save the design database
+# ---------------------------------------
+write -hierarchy -format verilog -output  $design_name.netlist.v
+Writing verilog file '/home/SOC17/controller/DMAC/SYN/OUTPUT_MAC/mac_pipeline_superscalar.netlist.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+1
+write -hierarchy -format ddc     -output  $design_name.ddc
+Writing ddc file 'mac_pipeline_superscalar.ddc'.
+1
+write_sdf -version 1.0                    $design_name.sdf
+Information: Annotated 'cell' delays are assumed to include load delay. (UID-282)
+Information: Writing timing information to file '/home/SOC17/controller/DMAC/SYN/OUTPUT_MAC/mac_pipeline_superscalar.sdf'. (WT-3)
+1
+write_sdc                                 $design_name.sdc
+1
+exit
+
+Memory usage for this session 235 Mbytes.
+Memory usage for this session including child processes 235 Mbytes.
+CPU usage for this session 86 seconds ( 0.02 hours ).
+Elapsed time for this session 88 seconds ( 0.02 hours ).
+
+Thank you...
