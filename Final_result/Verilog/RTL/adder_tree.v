@@ -1,16 +1,16 @@
 `timescale 1ns / 1ps
 module adder_tree #(
   parameter DATA_WIDTH = 20,
-  parameter NUM_INPUTS = 16,  // ?????? lane??? ?????? ����
+  parameter NUM_INPUTS = 16,  
   parameter SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS)
 )(
   input  wire                        clk,
   input  wire                        rst_n,
-  input  wire                        adder_tree_en,     // ?????? ?????? ???????????
-  input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      // ?????? lane ??????
+  input  wire                        adder_tree_en,     
+  input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      
   input  wire                        layer_start,
-  output reg  signed [SUM_WIDTH-1:0] sum_out,      // ?????? lane ���
-  output reg                         adder_tree_done // ?????? ????? ??????
+  output reg  signed [SUM_WIDTH-1:0] sum_out,     
+  output reg                         adder_tree_done 
 );
 
   // Stage1 parameters
