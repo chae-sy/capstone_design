@@ -3,20 +3,20 @@
 module w_buffer #(
     parameter WIDTH_FSRAM_WL  = 128,  
     parameter DATA_WIDTH      = 8,     
-    parameter NUM_CHNL        = 16,    // ä�� 
-    parameter SIZE_BUFFER_H   = 3,     // ���� 
-    parameter SIZE_BUFFER_W   = 3,     // ����
-    parameter SIZE_KERNEL_H   = 3,     // Ŀ�� 
-    parameter SIZE_KERNEL_W   = 3      // Ŀ��
+    parameter NUM_CHNL        = 16,   
+    parameter SIZE_BUFFER_H   = 3,    
+    parameter SIZE_BUFFER_W   = 3,     
+    parameter SIZE_KERNEL_H   = 3,    
+    parameter SIZE_KERNEL_W   = 3      
 )(
     input  wire                           clk,
     input  wire                           rst_n,
-    input  wire                           wren,           // ??????????? feature �ε� ??????
-    input  wire                           rden,           // ????????? ��� ??????
-    input  wire [WIDTH_FSRAM_WL-1:0]      data_in,        // SRAM ?????? ????????? 128bit
+    input  wire                           wren,           
+    input  wire                           rden,          
+    input  wire [WIDTH_FSRAM_WL-1:0]      data_in,  
     input  wire                           layer_start,
-    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (���) ?? ä�κ��� 8bit??? ����
-    output reg                            w_buffer_done   // ����: �ʱ� ?????? ?????? �ε�/���??? ???????????? ?????
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,      
+    output reg                            w_buffer_done
 );
 
     reg [NUM_CHNL*DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1];
@@ -51,7 +51,6 @@ module w_buffer #(
             if (wren) begin
                 data_in_reg <= data_in;
             end
-            // ????? ����
             if (wren_d) begin
                 if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
                     buffer_data[ load_cnt / SIZE_KERNEL_W ][ load_cnt % SIZE_KERNEL_W ] <= data_in_reg;
