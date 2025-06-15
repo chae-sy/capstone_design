@@ -1,0 +1,1257 @@
+
+                           Design Compiler Graphical 
+                                 DC Ultra (TM)
+                                  DFTMAX (TM)
+                              Power Compiler (TM)
+                                 DesignWare (R)
+                                 DC Expert (TM)
+                               Design Vision (TM)
+                               HDL Compiler (TM)
+                               VHDL Compiler (TM)
+                                  DFT Compiler
+                               Design Compiler(R)
+
+              Version Q-2019.12-SP5-5 for linux64 - Mar 21, 2021 
+
+                    Copyright (c) 1988 - 2021 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+Initializing...
+# ---------------------------------------
+# Step 1: Specify libraries
+# ---------------------------------------
+set link_library [list /home/SOC17/freepdk-45nm/stdcells.db]
+/home/SOC17/freepdk-45nm/stdcells.db
+set target_library [list /home/SOC17/freepdk-45nm/stdcells.db ]
+/home/SOC17/freepdk-45nm/stdcells.db
+# ---------------------------------------
+# Step 2: Read designs
+# ---------------------------------------
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v
+Presto compilation completed successfully.
+Loading db file '/home/SOC17/freepdk-45nm/stdcells.db'
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/adder_tree.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/adder_tree.v
+Presto compilation completed successfully.
+1
+#analyze -format sverilog /home/SOC17/controller/DMAC/RTL/BP_SRAM_W32_A15.v
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/Controller.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/Controller.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/f_buffer.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/f_buffer.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/layer_pipeline.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/layer_pipeline.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/maxpool_16channel.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/maxpool_16channel.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/out_buf.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/out_buf.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/register_file.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/register_file.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/relu.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/relu.v
+Presto compilation completed successfully.
+1
+analyze -format sverilog /home/SOC17/controller/DMAC/RTL/w_buffer.v
+Running PRESTO HDLC
+Compiling source file /home/SOC17/controller/DMAC/RTL/w_buffer.v
+Presto compilation completed successfully.
+1
+set design_name         SPRNN_Top
+SPRNN_Top
+elaborate $design_name
+Loading db file '/INST/syn/Q-2019.12-SP5-5/libraries/syn/gtech.db'
+Loading db file '/INST/syn/Q-2019.12-SP5-5/libraries/syn/standard.sldb'
+  Loading link library 'NangateOpenCellLibrary'
+  Loading link library 'gtech'
+Running PRESTO HDLC
+Warning:  /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v:208: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v:209: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v:210: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v:211: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v:212: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/SPRNN_Top.v:213: signed to unsigned conversion occurs. (VER-318)
+
+Statistics for case statements in always block at line 390 in file
+	'/home/SOC17/controller/DMAC/RTL/SPRNN_Top.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           402            |    auto/auto     |
+===============================================
+
+Statistics for case statements in always block at line 462 in file
+	'/home/SOC17/controller/DMAC/RTL/SPRNN_Top.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           464            |     no/auto      |
+===============================================
+
+Inferred memory devices in process
+	in routine SPRNN_Top line 331 in file
+		'/home/SOC17/controller/DMAC/RTL/SPRNN_Top.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  stage3_input_reg   | Flip-flop |  960  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine SPRNN_Top line 390 in file
+		'/home/SOC17/controller/DMAC/RTL/SPRNN_Top.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+| read_addr_bias_reg  | Flip-flop |   3   |  Y  | N  | N  | N  | N  | N  | N  |
+|    rden_bias_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|  stage4_input_reg   | Flip-flop |  72   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine SPRNN_Top line 462 in file
+		'/home/SOC17/controller/DMAC/RTL/SPRNN_Top.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|  stage5_input_reg   | Latch |  24   |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Presto compilation completed successfully. (SPRNN_Top)
+Elaborated 1 design.
+Current design is now 'SPRNN_Top'.
+Information: Building the design 'Controller'. (HDL-193)
+
+Statistics for case statements in always block at line 105 in file
+	'/home/SOC17/controller/DMAC/RTL/Controller.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|           111            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine Controller line 90 in file
+		'/home/SOC17/controller/DMAC/RTL/Controller.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   layer_start_reg   | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|      state_reg      | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+|    layer_num_reg    | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   weight_num_reg    | Flip-flop |   8   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   weight_num_reg    | Flip-flop |   1   |  N  | N  | N  | Y  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (Controller)
+Information: Building the design 'memory_w_v0' instantiated from design 'SPRNN_Top' with
+	the parameters "addr_width=10,data_width=128,wr_delay=8". (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'memory_w_v0'. (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'f_buffer'. (HDL-193)
+Warning:  /home/SOC17/controller/DMAC/RTL/f_buffer.v:55: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/f_buffer.v:59: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/f_buffer.v:68: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/f_buffer.v:108: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/f_buffer.v:112: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine f_buffer line 30 in file
+		'/home/SOC17/controller/DMAC/RTL/f_buffer.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|  f_buffer_done_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   write_done_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   buffer_data_reg   | Flip-flop | 1536  |  Y  | N  | Y  | N  | N  | N  | N  |
+|    load_cnt_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     out_cnt_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine f_buffer line 98 in file
+		'/home/SOC17/controller/DMAC/RTL/f_buffer.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|    data_out_reg     | Latch |  128  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Statistics for MUX_OPs
+======================================================
+| block name/line  | Inputs | Outputs | # sel inputs |
+======================================================
+|   f_buffer/109   |   4    |   128   |      2       |
+======================================================
+Presto compilation completed successfully. (f_buffer)
+Information: Building the design 'w_buffer'. (HDL-193)
+Warning:  /home/SOC17/controller/DMAC/RTL/w_buffer.v:55: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/w_buffer.v:59: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/w_buffer.v:86: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/w_buffer.v:90: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine w_buffer line 29 in file
+		'/home/SOC17/controller/DMAC/RTL/w_buffer.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|     wren_d_reg      | Flip-flop |   1   |  N  | N  | N  | N  | N  | N  | N  |
+|  w_buffer_done_reg  | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|   buffer_data_reg   | Flip-flop | 1152  |  Y  | N  | Y  | N  | N  | N  | N  |
+|    load_cnt_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     out_cnt_reg     | Flip-flop |   6   |  Y  | N  | Y  | N  | N  | N  | N  |
+|   data_in_reg_reg   | Flip-flop |  128  |  Y  | N  | N  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine w_buffer line 77 in file
+		'/home/SOC17/controller/DMAC/RTL/w_buffer.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|    data_out_reg     | Latch |  128  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Presto compilation completed successfully. (w_buffer)
+Information: Building the design 'mac_pipeline_superscalar' instantiated from design 'SPRNN_Top' with
+	the parameters "DATA_WIDTH=8,LANE_NUM=3". (HDL-193)
+
+Inferred memory devices in process
+	in routine mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3 line 37 in file
+		'/home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       cnt_reg       | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3 line 46 in file
+		'/home/SOC17/controller/DMAC/RTL/mac_pipeline_superscalar.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+| result_out_flat_reg | Latch |  60   |  Y  | N  | N  | N  | -  | -  | -  |
+|      pipe_reg       | Latch |  540  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Presto compilation completed successfully. (mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3)
+Information: Building the design 'adder_tree'. (HDL-193)
+Warning:  /home/SOC17/controller/DMAC/RTL/adder_tree.v:56: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/adder_tree.v:67: signed to unsigned assignment occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/adder_tree.v:76: unsigned to signed assignment occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine adder_tree line 37 in file
+		'/home/SOC17/controller/DMAC/RTL/adder_tree.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    en_stage1_reg    | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine adder_tree line 53 in file
+		'/home/SOC17/controller/DMAC/RTL/adder_tree.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|   stage1_reg_reg    | Flip-flop |  88   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine adder_tree line 74 in file
+		'/home/SOC17/controller/DMAC/RTL/adder_tree.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+| adder_tree_done_reg | Flip-flop |   1   |  N  | N  | Y  | N  | N  | N  | N  |
+|     sum_out_reg     | Flip-flop |  24   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Presto compilation completed successfully. (adder_tree)
+Information: Building the design 'regfile_sync'. (HDL-193)
+Warning:  /home/SOC17/controller/DMAC/RTL/register_file.v:98: signed to unsigned conversion occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine regfile_sync line 34 in file
+		'/home/SOC17/controller/DMAC/RTL/register_file.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       mem_reg       | Flip-flop | 4096  |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine regfile_sync line 48 in file
+		'/home/SOC17/controller/DMAC/RTL/register_file.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|    raddr_reg_reg    | Flip-flop |   3   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine regfile_sync line 72 in file
+		'/home/SOC17/controller/DMAC/RTL/register_file.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|    read_buf_reg     | Latch |  512  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+
+Inferred memory devices in process
+	in routine regfile_sync line 87 in file
+		'/home/SOC17/controller/DMAC/RTL/register_file.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       cnt_reg       | Flip-flop |   4   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+Statistics for MUX_OPs
+======================================================
+| block name/line  | Inputs | Outputs | # sel inputs |
+======================================================
+| regfile_sync/78  |   8    |   512   |      3       |
+======================================================
+Warning:  /home/SOC17/controller/DMAC/RTL/register_file.v:60: Netlist for always block is empty. (ELAB-985)
+Presto compilation completed successfully. (regfile_sync)
+Information: Building the design 'bias_relu'. (HDL-193)
+Warning:  /home/SOC17/controller/DMAC/RTL/relu.v:42: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/relu.v:44: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/relu.v:45: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/relu.v:52: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/relu.v:62: unsigned to signed assignment occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/relu.v:56: Statement unreachable (Branch condition impossible to meet).  (VER-61)
+
+Statistics for case statements in always block at line 41 in file
+	'/home/SOC17/controller/DMAC/RTL/relu.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            48            |    auto/auto     |
+===============================================
+Presto compilation completed successfully. (bias_relu)
+Information: Building the design 'maxpool_16ch'. (HDL-193)
+Warning:  /home/SOC17/controller/DMAC/RTL/maxpool_16channel.v:69: signed to unsigned part selection occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/maxpool_16channel.v:89: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/maxpool_16channel.v:105: signed to unsigned conversion occurs. (VER-318)
+Warning:  /home/SOC17/controller/DMAC/RTL/maxpool_16channel.v:122: signed to unsigned part selection occurs. (VER-318)
+
+Inferred memory devices in process
+	in routine maxpool_16ch line 38 in file
+		'/home/SOC17/controller/DMAC/RTL/maxpool_16channel.v'.
+===============================================================================
+|    Register Name    |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===============================================================================
+|       cnt_reg       | Flip-flop |  64   |  Y  | N  | Y  | N  | N  | N  | N  |
+|     max_val_reg     | Flip-flop |  16   |  Y  | N  | N  | Y  | N  | N  | N  |
+|     max_val_reg     | Flip-flop |  112  |  Y  | N  | Y  | N  | N  | N  | N  |
+|     wr_ptr_reg      | Flip-flop |  64   |  Y  | N  | Y  | N  | N  | N  | N  |
+===============================================================================
+
+Inferred memory devices in process
+	in routine maxpool_16ch line 67 in file
+		'/home/SOC17/controller/DMAC/RTL/maxpool_16channel.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|   in_data_reg_reg   | Latch |  128  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+
+Inferred memory devices in process
+	in routine maxpool_16ch line 74 in file
+		'/home/SOC17/controller/DMAC/RTL/maxpool_16channel.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|    linebuf_g_reg    | Latch |  512  |  Y  | N  | N  | N  | -  | -  | -  |
+|    out_data_reg     | Latch |  128  |  Y  | N  | N  | N  | -  | -  | -  |
+|   linebuf_rb_reg    | Latch | 1024  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Statistics for MUX_OPs
+======================================================
+| block name/line  | Inputs | Outputs | # sel inputs |
+======================================================
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+| maxpool_16ch/86  |   4    |   16    |      2       |
+| maxpool_16ch/102 |   8    |   16    |      3       |
+======================================================
+Presto compilation completed successfully. (maxpool_16ch)
+Information: Building the design 'output_buffer'. (HDL-193)
+
+Statistics for case statements in always block at line 91 in file
+	'/home/SOC17/controller/DMAC/RTL/out_buf.v'
+===============================================
+|           Line           |  full/ parallel  |
+===============================================
+|            96            |    auto/auto     |
+===============================================
+
+Inferred memory devices in process
+	in routine output_buffer line 49 in file
+		'/home/SOC17/controller/DMAC/RTL/out_buf.v'.
+===================================================================================
+|      Register Name      |   Type    | Width | Bus | MB | AR | AS | SR | SS | ST |
+===================================================================================
+| buffer_data_b_array_reg | Flip-flop |  128  |  Y  | N  | N  | N  | N  | N  | N  |
+|         cnt_reg         | Flip-flop |  15   |  Y  | N  | Y  | N  | N  | N  | N  |
+| buffer_data_r_array_reg | Flip-flop |  128  |  Y  | N  | N  | N  | N  | N  | N  |
+| buffer_data_g_array_reg | Flip-flop |  128  |  Y  | N  | N  | N  | N  | N  | N  |
+===================================================================================
+
+Inferred memory devices in process
+	in routine output_buffer line 91 in file
+		'/home/SOC17/controller/DMAC/RTL/out_buf.v'.
+===========================================================================
+|    Register Name    | Type  | Width | Bus | MB | AR | AS | SR | SS | ST |
+===========================================================================
+|    data_out_reg     | Latch |  128  |  Y  | N  | N  | N  | -  | -  | -  |
+===========================================================================
+Presto compilation completed successfully. (output_buffer)
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:838: Cannot test variable 'pe_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:884: Cannot test variable 'addtree_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+*** Presto compilation terminated with 2 errors. ***
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+# connect all the library components and designs
+link
+
+  Linking design 'SPRNN_Top'
+  Using the following designs and libraries:
+  --------------------------------------------------------------------------
+  NangateOpenCellLibrary (library) /home/SOC17/freepdk-45nm/stdcells.db
+
+Information: Building the design 'memory_w_v0' instantiated from design 'SPRNN_Top' with
+	the parameters "addr_width=10,data_width=128,wr_delay=8". (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'memory_w_v0'. (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:838: Cannot test variable 'pe_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:884: Cannot test variable 'addtree_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+*** Presto compilation terminated with 2 errors. ***
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Warning: Unable to resolve reference 'memory_w_v0' in 'SPRNN_Top'. (LINK-5)
+Warning: Unable to resolve reference 'layer_pipeline' in 'Controller'. (LINK-5)
+0
+set_dont_touch [get_cells -hierarchical *memory_w_v0*]
+Information: Building the design 'memory_w_v0' instantiated from design 'SPRNN_Top' with
+	the parameters "addr_width=10,data_width=128,wr_delay=8". (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'memory_w_v0'. (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:838: Cannot test variable 'pe_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:884: Cannot test variable 'addtree_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+*** Presto compilation terminated with 2 errors. ***
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Warning: Unable to resolve reference 'memory_w_v0' in 'SPRNN_Top'. (LINK-5)
+Warning: Unable to resolve reference 'layer_pipeline' in 'Controller'. (LINK-5)
+Warning: Can't find objects matching '*memory_w_v0*' in design 'SPRNN_Top'. (UID-95)
+Error: Value for list 'object_list' must have 1 elements. (CMD-036)
+0
+set_black_box memory_w_v0*
+Error: unknown command 'set_black_box' (CMD-005)
+# renames multiply references designs so that each
+# instance references a unique design
+uniquify
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Uniquified 3 instances of design 'f_buffer'. (OPT-1056)
+Information: Uniquified 16 instances of design 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3'. (OPT-1056)
+Information: Uniquified 3 instances of design 'adder_tree'. (OPT-1056)
+Information: Uniquified 3 instances of design 'bias_relu'. (OPT-1056)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:838: Cannot test variable 'pe_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:884: Cannot test variable 'addtree_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+*** Presto compilation terminated with 2 errors. ***
+1
+# ---------------------------------------
+# Step 3: Define design environments
+# ---------------------------------------
+#
+# ---------------------------------------
+# Step 4: Set design constraints
+# ---------------------------------------
+# ---------------------------------------
+# Clock
+# ---------------------------------------
+set clk_name clk
+clk
+set clk_freq            200
+200
+# Reduce clock period to model wire delay (60% of original period)
+set clk_period [expr 1000 / double($clk_freq)]
+5.0
+create_clock -period $clk_period $clk_name
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set clk_uncertainty [expr $clk_period * 0.35]
+1.75
+set_clock_uncertainty -setup $clk_uncertainty $clk_name
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+# Set infinite drive strength
+set_drive 0 $clk_name
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set_ideal_network rst_n
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+# ---------------------------------------
+# Input/Output
+# ---------------------------------------
+# Apply default timing constraints for modules
+set_input_delay  1.0 [all_inputs]  -clock $clk_name
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+set_output_delay 1.0 [all_outputs] -clock $clk_name
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+# ---------------------------------------
+# Area
+# ---------------------------------------
+# If max_area is set 0, DesignCompiler will minimize the design as small as possible
+set_max_area 0 
+1
+# ---------------------------------------
+# Step 5: Synthesize and optimzie the design
+# ---------------------------------------
+compile -map_effort high
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Evaluating DesignWare library utilization. (UISN-27)
+
+============================================================================
+| DesignWare Building Block Library  |         Version         | Available |
+============================================================================
+| Basic DW Building Blocks           | Q-2019.12-DWBB_201912.5 |     *     |
+| Licensed DW Building Blocks        |                         |           |
+============================================================================
+
+
+Information: There are 598 potential problems in your design. Please run 'check_design' for more information. (LINT-99)
+
+
+
+  Beginning Pass 1 Mapping
+  ------------------------
+  Processing 'output_buffer'
+  Processing 'maxpool_16ch'
+  Processing 'bias_relu_0'
+  Processing 'regfile_sync'
+  Processing 'adder_tree_0'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0'
+  Processing 'w_buffer'
+  Processing 'f_buffer_0'
+  Processing 'Controller'
+Information: Cell 'U4/U1' (*GEN*6402) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: The register 'state_reg[3]' is a constant and will be removed. (OPT-1206)
+  Processing 'SPRNN_Top'
+Information: Cell 'U11/U1' (*GEN*6519) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U12/U1' (*GEN*6518) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U13/U1' (*GEN*6517) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U14/U1' (*GEN*6516) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U15/U1' (*GEN*6515) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U16/U1' (*GEN*6514) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U17/U1' (*GEN*6513) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U18/U1' (*GEN*6512) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U19/U1' (*GEN*6511) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U20/U1' (*GEN*6510) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Cell 'U21/U1' (*GEN*6509) cannot be exactly translated 1 for 1 into target library. (TRANS-9)
+Information: Building the design 'memory_w_v0' instantiated from design 'SPRNN_Top' with
+	the parameters "addr_width=10,data_width=128,wr_delay=8". (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'memory_w_v0'. (HDL-193)
+Warning: Cannot find the design 'memory_w_v0' in the library 'WORK'. (LBR-1)
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:838: Cannot test variable 'pe_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+Error:  /home/SOC17/controller/DMAC/RTL/layer_pipeline.v:884: Cannot test variable 'addtree_done_i' because it was not in the event expression or with wrong polarity. (ELAB-300)
+*** Presto compilation terminated with 2 errors. ***
+Information: Building the design 'layer_pipeline'. (HDL-193)
+Warning: Unable to resolve reference 'memory_w_v0' in 'SPRNN_Top'. (LINK-5)
+Warning: Unable to resolve reference 'layer_pipeline' in 'Controller'. (LINK-5)
+
+  Updating timing information
+Information: Updating design information... (UID-85)
+
+  Beginning Implementation Selection
+  ----------------------------------
+  Processing 'output_buffer_DW01_inc_0_DW01_inc_34'
+  Processing 'output_buffer_DW01_inc_1_DW01_inc_35'
+  Processing 'output_buffer_DW01_inc_2_DW01_inc_36'
+  Processing 'maxpool_16ch_DW01_cmp2_0'
+  Processing 'maxpool_16ch_DW01_cmp2_1'
+  Processing 'maxpool_16ch_DW01_cmp2_2'
+  Processing 'maxpool_16ch_DW01_cmp2_3'
+  Processing 'maxpool_16ch_DW01_cmp2_4'
+  Processing 'maxpool_16ch_DW01_cmp2_5'
+  Processing 'maxpool_16ch_DW01_cmp2_6'
+  Processing 'maxpool_16ch_DW01_cmp2_7'
+  Processing 'maxpool_16ch_DW01_cmp2_8'
+  Processing 'maxpool_16ch_DW01_cmp2_9'
+  Processing 'maxpool_16ch_DW01_cmp2_10'
+  Processing 'maxpool_16ch_DW01_cmp2_11'
+  Processing 'maxpool_16ch_DW01_cmp2_12'
+  Processing 'maxpool_16ch_DW01_cmp2_13'
+  Processing 'maxpool_16ch_DW01_cmp2_14'
+  Processing 'maxpool_16ch_DW01_cmp2_15'
+  Processing 'maxpool_16ch_DW01_cmp2_16'
+  Processing 'maxpool_16ch_DW01_cmp2_17'
+  Processing 'maxpool_16ch_DW01_cmp2_18'
+  Processing 'maxpool_16ch_DW01_cmp2_19'
+  Processing 'maxpool_16ch_DW01_cmp2_20'
+  Processing 'maxpool_16ch_DW01_cmp2_21'
+  Processing 'maxpool_16ch_DW01_cmp2_22'
+  Processing 'maxpool_16ch_DW01_cmp2_23'
+  Processing 'maxpool_16ch_DW01_cmp2_24'
+  Processing 'maxpool_16ch_DW01_cmp2_25'
+  Processing 'maxpool_16ch_DW01_cmp2_26'
+  Processing 'maxpool_16ch_DW01_cmp2_27'
+  Processing 'maxpool_16ch_DW01_cmp2_28'
+  Processing 'maxpool_16ch_DW01_cmp2_29'
+  Processing 'maxpool_16ch_DW01_cmp2_30'
+  Processing 'maxpool_16ch_DW01_cmp2_31'
+  Processing 'bias_relu_0_DW01_cmp2_0_DW01_cmp2_32'
+  Processing 'bias_relu_0_DW01_add_0'
+  Processing 'bias_relu_0_DW01_add_1'
+  Processing 'bias_relu_1_DW01_cmp2_0_DW01_cmp2_33'
+  Processing 'bias_relu_1_DW01_add_0_DW01_add_2'
+  Processing 'bias_relu_1_DW01_add_1_DW01_add_3'
+  Processing 'bias_relu_2_DW01_cmp2_0_DW01_cmp2_34'
+  Processing 'bias_relu_2_DW01_add_0_DW01_add_4'
+  Processing 'bias_relu_2_DW01_add_1_DW01_add_5'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_0_DW01_add_6'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_1_DW01_add_7'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_2_DW01_add_8'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_3_DW01_add_9'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_4_DW01_add_10'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_5_DW01_add_11'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_0_DW01_add_12'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_1_DW01_add_13'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_2_DW01_add_14'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_3_DW01_add_15'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_4_DW01_add_16'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_5_DW01_add_17'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_0_DW01_add_18'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_1_DW01_add_19'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_2_DW01_add_20'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_3_DW01_add_21'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_4_DW01_add_22'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_5_DW01_add_23'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_0_DW01_add_24'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_1_DW01_add_25'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_2_DW01_add_26'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_3_DW01_add_27'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_4_DW01_add_28'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_5_DW01_add_29'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_0_DW01_add_30'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_1_DW01_add_31'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_2_DW01_add_32'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_3_DW01_add_33'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_4_DW01_add_34'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_5_DW01_add_35'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_0_DW01_add_36'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_1_DW01_add_37'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_2_DW01_add_38'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_3_DW01_add_39'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_4_DW01_add_40'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_5_DW01_add_41'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_0_DW01_add_42'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_1_DW01_add_43'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_2_DW01_add_44'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_3_DW01_add_45'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_4_DW01_add_46'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_5_DW01_add_47'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_0_DW01_add_48'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_1_DW01_add_49'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_2_DW01_add_50'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_3_DW01_add_51'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_4_DW01_add_52'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_5_DW01_add_53'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_0_DW01_add_54'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_1_DW01_add_55'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_2_DW01_add_56'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_3_DW01_add_57'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_4_DW01_add_58'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_5_DW01_add_59'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_0_DW01_add_60'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_1_DW01_add_61'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_2_DW01_add_62'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_3_DW01_add_63'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_4_DW01_add_64'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_5_DW01_add_65'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_0_DW01_add_66'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_1_DW01_add_67'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_2_DW01_add_68'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_3_DW01_add_69'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_4_DW01_add_70'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_5_DW01_add_71'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_0_DW01_add_72'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_1_DW01_add_73'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_2_DW01_add_74'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_3_DW01_add_75'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_4_DW01_add_76'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_5_DW01_add_77'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_0_DW01_add_78'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_1_DW01_add_79'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_2_DW01_add_80'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_3_DW01_add_81'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_4_DW01_add_82'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_5_DW01_add_83'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_0_DW01_add_84'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_1_DW01_add_85'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_2_DW01_add_86'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_3_DW01_add_87'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_4_DW01_add_88'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_5_DW01_add_89'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_0_DW01_add_90'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_1_DW01_add_91'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_2_DW01_add_92'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_3_DW01_add_93'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_4_DW01_add_94'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_5_DW01_add_95'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_0_DW01_add_96'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_1_DW01_add_97'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_2_DW01_add_98'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_3_DW01_add_99'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_4_DW01_add_100'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_5_DW01_add_101'
+  Processing 'w_buffer_DW01_inc_0_DW01_inc_37'
+  Processing 'w_buffer_DW_div_uns_0'
+  Processing 'w_buffer_DW_div_uns_1'
+  Processing 'w_buffer_DW01_cmp2_0_DW01_cmp2_35'
+  Processing 'w_buffer_DW01_inc_1_DW01_inc_38'
+  Processing 'w_buffer_DW_div_uns_2'
+  Processing 'w_buffer_DW_div_uns_3'
+  Processing 'w_buffer_DW01_cmp2_1_DW01_cmp2_36'
+  Processing 'f_buffer_0_DW01_inc_0_DW01_inc_39'
+  Processing 'f_buffer_0_DW_div_uns_0_DW_div_uns_4'
+  Processing 'f_buffer_0_DW_div_uns_1_DW_div_uns_5'
+  Processing 'f_buffer_0_DW01_cmp2_0_DW01_cmp2_37'
+  Processing 'f_buffer_0_DW_div_uns_2_DW_div_uns_6'
+  Processing 'f_buffer_0_DW_div_uns_3_DW_div_uns_7'
+  Processing 'f_buffer_0_DW01_inc_1_DW01_inc_40'
+  Processing 'f_buffer_0_DW01_cmp2_1_DW01_cmp2_38'
+  Processing 'f_buffer_0_DW01_cmp2_2_DW01_cmp2_39'
+  Processing 'f_buffer_1_DW01_inc_0_DW01_inc_41'
+  Processing 'f_buffer_1_DW_div_uns_0_DW_div_uns_8'
+  Processing 'f_buffer_1_DW_div_uns_1_DW_div_uns_9'
+  Processing 'f_buffer_1_DW01_cmp2_0_DW01_cmp2_40'
+  Processing 'f_buffer_1_DW_div_uns_2_DW_div_uns_10'
+  Processing 'f_buffer_1_DW_div_uns_3_DW_div_uns_11'
+  Processing 'f_buffer_1_DW01_inc_1_DW01_inc_42'
+  Processing 'f_buffer_1_DW01_cmp2_1_DW01_cmp2_41'
+  Processing 'f_buffer_1_DW01_cmp2_2_DW01_cmp2_42'
+  Processing 'f_buffer_2_DW01_inc_0_DW01_inc_43'
+  Processing 'f_buffer_2_DW_div_uns_0_DW_div_uns_12'
+  Processing 'f_buffer_2_DW_div_uns_1_DW_div_uns_13'
+  Processing 'f_buffer_2_DW01_cmp2_0_DW01_cmp2_43'
+  Processing 'f_buffer_2_DW_div_uns_2_DW_div_uns_14'
+  Processing 'f_buffer_2_DW_div_uns_3_DW_div_uns_15'
+  Processing 'f_buffer_2_DW01_inc_1_DW01_inc_44'
+  Processing 'f_buffer_2_DW01_cmp2_1_DW01_cmp2_44'
+  Processing 'f_buffer_2_DW01_cmp2_2_DW01_cmp2_45'
+  Processing 'adder_tree_0_DW01_add_0_DW01_add_102'
+  Processing 'adder_tree_0_DW01_add_1_DW01_add_103'
+  Processing 'adder_tree_0_DW01_add_2_DW01_add_104'
+  Processing 'adder_tree_1_DW01_add_0_DW01_add_105'
+  Processing 'adder_tree_1_DW01_add_1_DW01_add_106'
+  Processing 'adder_tree_1_DW01_add_2_DW01_add_107'
+  Processing 'adder_tree_2_DW01_add_0_DW01_add_108'
+  Processing 'adder_tree_2_DW01_add_1_DW01_add_109'
+  Processing 'adder_tree_2_DW01_add_2_DW01_add_110'
+  Processing 'adder_tree_2_DW01_add_3_DW01_add_111'
+  Processing 'adder_tree_2_DW01_add_4_DW01_add_112'
+  Processing 'adder_tree_2_DW01_add_5_DW01_add_113'
+  Processing 'adder_tree_1_DW01_add_3_DW01_add_114'
+  Processing 'adder_tree_1_DW01_add_4_DW01_add_115'
+  Processing 'adder_tree_1_DW01_add_5_DW01_add_116'
+  Processing 'adder_tree_0_DW01_add_3_DW01_add_117'
+  Processing 'adder_tree_0_DW01_add_4_DW01_add_118'
+  Processing 'adder_tree_0_DW01_add_5_DW01_add_119'
+  Processing 'adder_tree_0_DW01_add_6_DW01_add_120'
+  Processing 'adder_tree_0_DW01_add_7_DW01_add_121'
+  Processing 'adder_tree_0_DW01_add_8_DW01_add_122'
+  Processing 'adder_tree_0_DW01_add_9_DW01_add_123'
+  Processing 'adder_tree_0_DW01_add_10_DW01_add_124'
+  Processing 'adder_tree_0_DW01_add_11_DW01_add_125'
+  Processing 'adder_tree_1_DW01_add_6_DW01_add_126'
+  Processing 'adder_tree_1_DW01_add_7_DW01_add_127'
+  Processing 'adder_tree_1_DW01_add_8_DW01_add_128'
+  Processing 'adder_tree_1_DW01_add_9_DW01_add_129'
+  Processing 'adder_tree_1_DW01_add_10_DW01_add_130'
+  Processing 'adder_tree_1_DW01_add_11_DW01_add_131'
+  Processing 'adder_tree_1_DW01_add_12_DW01_add_132'
+  Processing 'adder_tree_1_DW01_add_13_DW01_add_133'
+  Processing 'adder_tree_1_DW01_add_14_DW01_add_134'
+  Processing 'adder_tree_2_DW01_add_6_DW01_add_135'
+  Processing 'adder_tree_2_DW01_add_7_DW01_add_136'
+  Processing 'adder_tree_2_DW01_add_8_DW01_add_137'
+  Processing 'adder_tree_2_DW01_add_9_DW01_add_138'
+  Processing 'adder_tree_2_DW01_add_10_DW01_add_139'
+  Processing 'adder_tree_2_DW01_add_11_DW01_add_140'
+  Processing 'adder_tree_2_DW01_add_12_DW01_add_141'
+  Processing 'adder_tree_2_DW01_add_13_DW01_add_142'
+  Processing 'adder_tree_2_DW01_add_14_DW01_add_143'
+  Processing 'adder_tree_0_DW01_add_12_DW01_add_144'
+  Processing 'adder_tree_0_DW01_add_13_DW01_add_145'
+  Processing 'adder_tree_0_DW01_add_14_DW01_add_146'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_0'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_6_DW01_add_147'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_1'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_7_DW01_add_148'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_2'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_8_DW01_add_149'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_0_DW02_mult_3'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_6_DW01_add_150'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_1_DW02_mult_4'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_7_DW01_add_151'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_2_DW02_mult_5'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_8_DW01_add_152'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_0_DW02_mult_6'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_6_DW01_add_153'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_1_DW02_mult_7'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_7_DW01_add_154'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_2_DW02_mult_8'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_8_DW01_add_155'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_0_DW02_mult_9'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_6_DW01_add_156'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_1_DW02_mult_10'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_7_DW01_add_157'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_2_DW02_mult_11'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_8_DW01_add_158'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_0_DW02_mult_12'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_6_DW01_add_159'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_1_DW02_mult_13'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_7_DW01_add_160'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_2_DW02_mult_14'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_8_DW01_add_161'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_0_DW02_mult_15'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_6_DW01_add_162'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_1_DW02_mult_16'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_7_DW01_add_163'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_2_DW02_mult_17'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_8_DW01_add_164'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_0_DW02_mult_18'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_6_DW01_add_165'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_1_DW02_mult_19'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_7_DW01_add_166'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_2_DW02_mult_20'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_8_DW01_add_167'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_0_DW02_mult_21'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_6_DW01_add_168'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_1_DW02_mult_22'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_7_DW01_add_169'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_2_DW02_mult_23'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_8_DW01_add_170'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_0_DW02_mult_24'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_6_DW01_add_171'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_1_DW02_mult_25'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_7_DW01_add_172'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_2_DW02_mult_26'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_8_DW01_add_173'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_0_DW02_mult_27'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_6_DW01_add_174'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_1_DW02_mult_28'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_7_DW01_add_175'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_2_DW02_mult_29'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_8_DW01_add_176'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_0_DW02_mult_30'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_6_DW01_add_177'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_1_DW02_mult_31'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_7_DW01_add_178'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_2_DW02_mult_32'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_8_DW01_add_179'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_0_DW02_mult_33'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_6_DW01_add_180'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_1_DW02_mult_34'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_7_DW01_add_181'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_2_DW02_mult_35'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_8_DW01_add_182'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_0_DW02_mult_36'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_6_DW01_add_183'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_1_DW02_mult_37'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_7_DW01_add_184'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_2_DW02_mult_38'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_8_DW01_add_185'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_0_DW02_mult_39'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_6_DW01_add_186'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_1_DW02_mult_40'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_7_DW01_add_187'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_2_DW02_mult_41'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_8_DW01_add_188'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_0_DW02_mult_42'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_6_DW01_add_189'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_1_DW02_mult_43'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_7_DW01_add_190'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_2_DW02_mult_44'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_8_DW01_add_191'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_0_DW02_mult_45'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_6_DW01_add_192'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_1_DW02_mult_46'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_7_DW01_add_193'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_2_DW02_mult_47'
+  Processing 'mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_8_DW01_add_194'
+
+  Beginning Mapping Optimizations  (High effort)
+  -------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:01:32  257590.4   2683.74 7260293.0 4075756.8                          
+    0:01:32  257590.4   2683.74 7260293.0 4075756.8                          
+    0:01:36  294807.5   1197.25 1149355.6 1310376.9                          
+    0:02:20  321884.5    584.75  561159.6 1142059.0                          
+    0:02:25  321864.3    584.59  561203.7 1141975.0                          
+    0:02:25  321864.3    584.59  561203.7 1141975.0                          
+    0:02:25  321864.3    584.59  561203.7 1141975.0                          
+    0:02:26  321864.3    584.59  561203.7 1141975.0                          
+    0:02:58  199100.7    584.61  561221.0 1140401.8                          
+    0:03:07  198597.7    584.61  561226.8 1140401.8                          
+    0:03:32  198598.3    584.59  561198.6 1140401.8                          
+    0:03:34  198598.3    584.59  561198.6 1140401.8                          
+    0:03:35  198598.3    584.59  561198.6 1140401.8                          
+    0:03:36  198598.3    584.59  561198.6 1140401.8                          
+    0:03:36  198598.3    584.59  561198.6 1140401.8                          
+    0:03:44  198684.7    584.59  561198.6 1138818.0                          
+    0:03:51  198693.2    584.59  561198.6 1138665.0                          
+    0:03:51  198693.2    584.59  561198.6 1138665.0                          
+    0:03:51  198693.2    584.59  561198.6 1138665.0                          
+    0:03:51  198693.2    584.59  561198.6 1138665.0                          
+
+
+
+  Beginning Delay Optimization Phase
+  ----------------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:03:51  198693.2    584.59  561198.6 1138665.0                          
+    0:03:52  198725.1    584.59  561016.4 1139084.8 stage3_input_reg[0][229]/D
+    0:03:52  198759.2    584.59  560822.1 1139532.5 stage3_input_reg[0][267]/D
+    0:03:52  198793.2    584.59  560627.9 1139980.2 stage3_input_reg[0][299]/D
+    0:03:52  198827.3    584.59  560433.6 1140428.0 stage3_input_reg[1][234]/D
+    0:03:52  198861.3    584.59  560239.3 1140875.7 stage3_input_reg[1][266]/D
+    0:03:53  198895.4    584.59  560045.1 1141323.4 stage3_input_reg[1][298]/D
+    0:03:53  198929.4    584.59  559850.8 1141771.1 stage3_input_reg[1][210]/D
+    0:03:53  198963.5    584.59  559656.5 1142218.9 stage3_input_reg[2][265]/D
+    0:03:53  198997.5    584.59  559462.2 1142666.6 stage3_input_reg[2][297]/D
+    0:03:54  199031.6    584.59  559268.0 1143114.3 stage3_input_reg[2][209]/D
+    0:03:54  199065.6    584.59  559073.7 1143562.1 stage3_input_reg[2][241]/D
+    0:03:54  199099.7    584.59  558879.4 1144009.8 stage3_input_reg[2][39]/D
+    0:03:54  199133.7    584.59  558685.2 1144457.5 stage3_input_reg[2][7]/D 
+    0:03:54  199167.8    584.59  558490.9 1144905.3 stage3_input_reg[2][134]/D
+    0:03:55  199201.8    584.59  558296.6 1145353.0 stage3_input_reg[2][102]/D
+    0:03:55  199235.9    584.59  558102.4 1145800.7 stage3_input_reg[2][70]/D
+    0:03:55  199269.9    584.59  557908.1 1146248.4 stage3_input_reg[2][170]/D
+    0:03:55  199304.0    584.59  557713.8 1146696.2 stage3_input_reg[1][17]/D
+    0:03:55  199338.0    584.59  557519.6 1147143.9 stage3_input_reg[1][131]/D
+    0:03:56  199372.1    584.59  557325.3 1147591.6 stage3_input_reg[1][99]/D
+    0:03:56  199406.1    584.59  557131.0 1148039.4 stage3_input_reg[1][67]/D
+    0:03:56  199440.2    584.59  556936.8 1148487.1 stage3_input_reg[1][35]/D
+    0:03:56  199474.2    584.59  556742.5 1148934.8 stage3_input_reg[1][158]/D
+    0:03:56  199508.2    584.59  556548.2 1149382.6 stage3_input_reg[0][5]/D 
+    0:03:57  199542.3    584.59  556353.9 1149830.3 stage3_input_reg[0][86]/D
+    0:03:57  199576.3    584.59  556159.7 1150278.0 stage3_input_reg[0][54]/D
+    0:03:57  199610.4    584.59  555965.4 1150725.7 stage3_input_reg[0][22]/D
+    0:03:57  199644.4    584.59  555771.1 1151173.5 stage3_input_reg[0][168]/D
+    0:03:57  199678.5    584.59  555576.9 1151621.2 stage3_input_reg[0][136]/D
+    0:03:58  199712.5    584.59  555382.6 1152068.9 stage3_input_reg[2][318]/D
+    0:03:59  199735.9    578.50  555346.5 1152102.0 stage3_input_reg[2][310]/D
+    0:04:00  199737.0    578.50  555336.3 1152038.3 stage3_input_reg[2][310]/D
+    0:04:06  199745.8    578.50  555311.8 1151957.5                          
+    0:04:13  199755.6    578.50  555277.0 1151812.9                          
+    0:04:20  199765.5    578.50  555242.2 1151668.3                          
+    0:04:28  199775.3    578.50  555207.5 1151523.7                          
+    0:04:35  199785.2    578.50  555172.8 1151379.1                          
+    0:04:42  199795.0    578.50  555137.9 1151234.6                          
+    0:04:49  199804.8    578.50  555103.2 1151090.0                          
+    0:04:56  199814.7    578.50  555068.4 1150945.4                          
+    0:05:03  199824.5    578.50  555033.7 1150800.8                          
+    0:05:11  199834.4    578.50  554998.9 1150656.3                          
+    0:05:18  199844.2    578.50  554964.1 1150511.7                          
+    0:05:25  199854.0    578.50  554929.4 1150367.1                          
+    0:05:32  199863.9    578.50  554894.6 1150222.5                          
+    0:05:39  199873.7    578.50  554859.9 1150078.0                          
+    0:05:46  199883.6    578.50  554825.1 1149933.4                          
+    0:05:53  199893.4    578.50  554790.3 1149788.8                          
+    0:06:00  199903.3    578.50  554755.6 1149644.2                          
+    0:06:07  199913.1    578.50  554720.8 1149499.6                          
+    0:06:14  199922.9    578.50  554686.1 1149355.1                          
+    0:06:21  199932.8    578.50  554651.3 1149210.5                          
+    0:06:28  199942.6    578.50  554616.6 1149065.9                          
+    0:06:35  199952.5    578.50  554581.8 1148921.3                          
+    0:06:42  199962.3    578.50  554547.0 1148776.8                          
+    0:06:49  199972.2    578.50  554512.2 1148632.2                          
+    0:06:56  199982.0    578.50  554477.5 1148487.6                          
+    0:06:58  199980.7    578.50  554475.1 1148517.8 stage3_input_reg[0][256]/D
+    0:07:00  199980.7    578.50  554475.1 1148517.8                          
+    0:07:04  196824.3    578.50  554476.4 1148515.6                          
+
+
+  Beginning Design Rule Fixing  (max_transition)  (max_capacitance)
+  ----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:07:04  196824.3    578.50  554476.4 1148515.6                          
+    0:07:08  196829.4    589.21  554487.1 1148356.1 n2818                    
+    0:07:09  196882.3    589.21  554747.4 1148219.2 stage3_input_reg[0][145]/D
+    0:07:09  196863.7    589.21  554732.3 1148134.0 stage3_input_reg[0][138]/D
+    0:07:09  196845.1    589.21  554717.2 1148048.7 stage3_input_reg[0][131]/D
+    0:07:09  196826.4    589.21  554702.1 1147963.4 stage3_input_reg[0][124]/D
+    0:07:10  196834.4    587.05  554694.0 1147938.9 stage3_input_reg[0][123]/D
+    0:07:12  196832.8    589.21  554701.2 1147934.9 n2792                    
+    0:07:15  196944.8      0.00       0.0    1230.2 net444201                
+    0:07:16  196958.1      0.00       0.0       0.0                          
+
+
+  Beginning Area-Recovery Phase  (max_area 0)
+  -----------------------------
+
+                                  TOTAL                                      
+   ELAPSED            WORST NEG   SETUP    DESIGN                            
+    TIME      AREA      SLACK     COST    RULE COST         ENDPOINT         
+  --------- --------- --------- --------- --------- -------------------------
+    0:07:16  196958.1      0.00       0.0       0.0                          
+    0:07:16  196958.1      0.00       0.0       0.0                          
+    0:07:39  195603.6      0.00       0.0       0.0                          
+    0:07:44  195431.5      0.00       0.0       0.0                          
+    0:07:45  195405.7      0.00       0.0       0.0                          
+    0:07:46  195389.8      0.00       0.0       0.0                          
+    0:07:46  195379.9      0.00       0.0       0.0                          
+    0:07:47  195372.5      0.00       0.0       0.0                          
+    0:07:48  195364.2      0.00       0.0       0.0                          
+    0:07:48  195357.1      0.00       0.0       0.0                          
+    0:07:49  195349.9      0.00       0.0       0.0                          
+    0:07:49  195343.5      0.00       0.0       0.0                          
+    0:07:50  195337.1      0.00       0.0       0.0                          
+    0:07:50  195330.7      0.00       0.0       0.0                          
+    0:07:51  195324.6      0.00       0.0       0.0                          
+    0:07:51  195319.3      0.00       0.0       0.0                          
+    0:07:52  195314.0      0.00       0.0       0.0                          
+    0:07:52  195308.6      0.00       0.0       0.0                          
+    0:07:52  195303.9      0.00       0.0       0.0                          
+    0:07:53  195298.5      0.00       0.0       0.0                          
+    0:07:53  195293.2      0.00       0.0       0.0                          
+    0:07:54  195287.9      0.00       0.0       0.0                          
+    0:07:54  195282.6      0.00       0.0       0.0                          
+    0:07:54  195277.3      0.00       0.0       0.0                          
+    0:07:55  195271.9      0.00       0.0       0.0                          
+    0:07:56  195270.9      0.00       0.0       0.0                          
+    0:07:56  195270.9      0.00       0.0       0.0                          
+    0:07:58  195270.9      0.00       0.0       0.0                          
+    0:07:59  193409.7      0.00       0.0       0.0                          
+    0:08:00  193408.6      0.00       0.0       0.0                          
+    0:08:00  193408.6      0.00       0.0       0.0                          
+    0:08:00  193408.6      0.00       0.0       0.0                          
+    0:08:00  193408.6      0.00       0.0       0.0                          
+    0:08:01  193408.6      0.00       0.0       0.0                          
+    0:08:01  193408.6      0.00       0.0       0.0                          
+    0:08:02  193407.0      0.00       0.0       0.0                          
+    0:08:04  193268.7      0.00       0.0       0.0                          
+    0:08:04  193134.6      0.00       0.0       0.0                          
+    0:08:05  192999.0      0.00       0.0       0.0                          
+    0:08:06  192863.3      0.00       0.0       0.0                          
+    0:08:07  192727.6      0.00       0.0       0.0                          
+    0:08:08  192592.8      0.00       0.0       0.0                          
+    0:08:08  192457.9      0.00       0.0       0.0                          
+    0:08:09  192321.5      0.00       0.0       0.0                          
+    0:08:10  192189.0      0.00       0.0       0.0                          
+    0:08:11  192054.9      0.00       0.0       0.0                          
+    0:08:12  191952.0      0.00       0.0       0.0                          
+    0:08:16  191824.3      0.00       0.0       0.0                          
+    0:08:17  191726.2      0.00       0.0       0.0                          
+    0:08:20  191624.0      0.00       0.0       0.0                          
+    0:08:20  191523.5      0.00       0.0       0.0                          
+    0:08:21  191411.7      0.00       0.0       0.0                          
+    0:08:22  191276.9      0.00       0.0       0.0                          
+    0:08:23  191176.3      0.00       0.0       0.0                          
+    0:08:27  191027.1      0.00       0.0       0.0                          
+    0:08:28  190948.9      0.00       0.0       0.0                          
+    0:08:29  190818.8      0.00       0.0       0.0                          
+    0:08:31  190695.9      0.00       0.0       0.0                          
+    0:08:33  190606.6      0.00       0.0       0.0                          
+    0:08:34  190475.7      0.00       0.0       0.0                          
+    0:08:36  190378.3      0.00       0.0       0.0                          
+    0:08:38  190256.2      0.00       0.0       0.0                          
+    0:08:39  190145.3      0.00       0.0       0.0                          
+    0:08:40  190019.2      0.00       0.0       0.0                          
+    0:08:41  189899.5      0.00       0.0       0.0                          
+    0:08:42  189770.3      0.00       0.0       0.0                          
+    0:08:43  189626.6      0.00       0.0       0.0                          
+    0:08:45  189489.4      0.00       0.0       0.0                          
+    0:08:46  189344.1      0.00       0.0       0.0                          
+    0:08:47  189210.9      0.00       0.0       0.0                          
+    0:08:49  189064.8      0.00       0.0       0.0                          
+    0:08:50  188926.0      0.00       0.0       0.0                          
+    0:08:51  188826.2      0.00       0.0       0.0                          
+    0:08:52  188794.3      0.00       0.0       0.0                          
+    0:09:09  188720.9      0.00       0.0       0.0                          
+    0:09:16  188720.1      0.00       0.0       0.0                          
+    0:09:16  188720.1      0.00       0.0       0.0                          
+    0:09:16  188720.1      0.00       0.0       0.0                          
+    0:09:17  188720.1      0.00       0.0       0.0                          
+    0:09:17  188720.1      0.00       0.0       0.0                          
+    0:09:17  188720.1      0.00       0.0       0.0                          
+    0:09:18  188720.1      0.00       0.0       0.0                          
+    0:10:53  188695.3      0.00       0.0       0.0                          
+    0:10:58  188687.9      0.00       0.0       0.0                          
+    0:11:00  188673.5      0.00       0.0       0.0                          
+    0:11:01  188661.6      0.00       0.0       0.0                          
+    0:11:03  188651.7      0.00       0.0       0.0                          
+    0:11:04  188642.1      0.00       0.0       0.0                          
+    0:11:06  188633.6      0.00       0.0       0.0                          
+    0:11:08  188608.1      0.00       0.0       0.0                          
+    0:11:09  188584.7      0.00       0.0       0.0                          
+    0:11:10  188580.4      0.00       0.0       0.0                          
+    0:11:10  188576.2      0.00       0.0       0.0                          
+    0:11:11  188576.2      0.00       0.0       0.0                          
+    0:11:12  188576.2      0.00       0.0       0.0                          
+    0:11:13  188576.2      0.00       0.0       0.0                          
+    0:11:14  188576.2      0.00       0.0       0.0                          
+    0:11:14  188573.3      0.00       0.0       0.0                          
+    0:11:16  188563.9      0.00       0.0       0.0                          
+    0:11:16  188563.9      0.00       0.0       0.0                          
+    0:11:17  188560.0      0.00       0.0       0.0                          
+    0:11:18  188559.2      0.00       0.0       0.0                          
+    0:11:19  188559.2      0.00       0.0       0.0                          
+    0:11:19  188559.2      0.00       0.0       0.0                          
+    0:11:20  188559.2      0.00       0.0       0.0                          
+    0:11:20  188559.2      0.00       0.0       0.0                          
+    0:11:21  188559.2      0.00       0.0       0.0                          
+    0:11:21  188558.4      0.00       0.0       0.0                          
+    0:11:22  188558.4      0.00       0.0       0.0                          
+    0:11:22  188558.4      0.00       0.0       0.0                          
+    0:11:22  188558.4      0.00       0.0       0.0                          
+    0:11:23  188558.4      0.00       0.0       0.0                          
+    0:11:23  188558.4      0.00       0.0       0.0                          
+    0:11:24  188558.4      0.00       0.0       0.0                          
+    0:11:25  188558.4      0.00       0.0       0.0                          
+    0:11:25  188558.4      0.00       0.0       0.0                          
+    0:11:25  188558.4      0.00       0.0       0.0                          
+    0:11:26  188558.4      0.00       0.0       0.0                          
+    0:11:26  188558.4      0.00       0.0       0.0                          
+    0:11:26  188558.4      0.00       0.0       0.0                          
+    0:11:26  188558.4      0.00       0.0       0.0                          
+    0:11:27  188558.4      0.00       0.0       0.0                          
+    0:11:28  188558.4      0.00       0.0       0.0                          
+Loading db file '/home/SOC17/freepdk-45nm/stdcells.db'
+
+
+Note: Symbol # after min delay cost means estimated hold TNS across all active scenarios 
+
+
+  Optimization Complete
+  ---------------------
+Warning: Design 'SPRNN_Top' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+     Net 'u_adder_tree_g/clk': 12160 load(s), 1 driver(s), 4 inout(s)
+     Net 'u_adder_tree_g/rst_n': 11654 load(s), 1 driver(s), 1 inout(s)
+1
+# ---------------------------------------
+# Step 6: Analyze and resolve design problems
+# ---------------------------------------
+check_design  > $design_name.check_design.rpt
+report_constraint -all_violators -verbose -sig 10 > $design_name.all_viol.rpt
+report_design                             > $design_name.design.rpt
+report_area -physical -hierarchy          > $design_name.area.rpt
+report_timing -nworst 10 -max_paths 10    > $design_name.timing.rpt
+report_power -analysis_effort high        > $design_name.power.rpt
+report_cell                               > $design_name.cell.rpt
+report_qor                                > $design_name.qor.rpt
+report_reference                          > $design_name.reference.rpt
+report_resources                          > $design_name.resources.rpt
+report_hierarchy -full                    > $design_name.hierarchy.rpt
+report_threshold_voltage_group            > $design_name.vth.rpt
+# ---------------------------------------
+# Step 7: Save the design database
+# ---------------------------------------
+write -hierarchy -format verilog -output  $design_name.netlist.v
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Writing verilog file '/home/SOC17/controller/DMAC/SYN/OUTPUT_TOP/SPRNN_Top.netlist.v'.
+Warning: Verilog 'assign' or 'tran' statements are written out. (VO-4)
+Warning: Verilog writer has added 23 nets to module bias_relu_2 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 23 nets to module bias_relu_1 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+Warning: Verilog writer has added 23 nets to module bias_relu_0 using SYNOPSYS_UNCONNECTED_ as prefix.  Please use the change_names command to make the correct changes before invoking the verilog writer.  (VO-11)
+1
+write -hierarchy -format ddc     -output  $design_name.ddc
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Writing ddc file 'SPRNN_Top.ddc'.
+1
+write_sdf -version 1.0                    $design_name.sdf
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Annotated 'cell' delays are assumed to include load delay. (UID-282)
+Information: Writing timing information to file '/home/SOC17/controller/DMAC/SYN/OUTPUT_TOP/SPRNN_Top.sdf'. (WT-3)
+Warning: Design contains black-box components.  These cells will have no timing information. (WT-7)
+1
+write_sdc                                 $design_name.sdc
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+1
+exit
+Memory usage for this session 505 Mbytes.
+Memory usage for this session including child processes 505 Mbytes.
+CPU usage for this session 736 seconds ( 0.20 hours ).
+Elapsed time for this session 738 seconds ( 0.20 hours ).
+
+Thank you...

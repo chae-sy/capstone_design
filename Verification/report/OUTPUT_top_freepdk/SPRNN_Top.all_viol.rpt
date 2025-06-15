@@ -1,0 +1,23 @@
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Updating design information... (UID-85)
+Warning: Design 'SPRNN_Top' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -verbose
+Design : SPRNN_Top
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 20:55:04 2025
+****************************************
+
+
+    Design: SPRNN_Top
+
+    max_area           0.0000000000
+  - Current Area       188558.3593750000
+  ------------------------------
+    Slack              -188558.3593750000  (VIOLATED)
+
+
+1
