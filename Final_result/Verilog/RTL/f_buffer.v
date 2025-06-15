@@ -1,24 +1,23 @@
 `timescale 1ns / 1ps
 module f_buffer #(
-    parameter DATA_WIDTH      = 8,     // �� ä�δ� ������ ��
-    parameter NUM_CHNL        = 16,    // ä�� ��
-    parameter SIZE_BUFFER_H   = 3,     // ���� ���� ũ��
-    parameter SIZE_BUFFER_W   = 4,     // ���� ���� ũ��
-    parameter SIZE_KERNEL_H   = 3,     // Ŀ�� ���� ũ��
-    parameter SIZE_KERNEL_W   = 3      // Ŀ�� ���� ũ��
+    parameter DATA_WIDTH      = 8,     
+    parameter NUM_CHNL        = 16,   
+    parameter SIZE_BUFFER_H   = 3,    
+    parameter SIZE_BUFFER_W   = 4,     
+    parameter SIZE_KERNEL_H   = 3,    
+    parameter SIZE_KERNEL_W   = 3      
 )(
     input  wire                                clk,
     input  wire                                rst_n,
-    input  wire                                is_initial,   // �ʱ� �ε� �÷���
-    input  wire                                wren,         // ���� enable
-    input  wire                                rden,         // �б� enable
-    input  wire [NUM_CHNL*DATA_WIDTH-1:0]      data_in,      // �� ���� NUM_CHNL * DATA_WIDTH �Է�
+    input  wire                                is_initial,   
+    input  wire                                wren,         
+    input  wire                                rden,        
+    input  wire [NUM_CHNL*DATA_WIDTH-1:0]      data_in,      
     input  wire                                layer_start,
-    output reg  [NUM_CHNL*DATA_WIDTH-1:0]      data_out,     // NUM_CHNL * DATA_WIDTH ���
-    output reg                                 f_buffer_done // �Ϸ� �޽�
+    output reg  [NUM_CHNL*DATA_WIDTH-1:0]      data_out,    
+    output reg                                 f_buffer_done 
 );
 
-    // 2D �迭 ����, �� ��Ҵ� NUM_CHNL*DATA_WIDTH ��Ʈ
     reg [NUM_CHNL*DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1];
 
     reg [5:0] load_cnt;
@@ -50,7 +49,6 @@ module f_buffer #(
         else begin
             f_buffer_done <= 1'b0;
             out_cnt <= out_cnt_n;
-            // ���� ����
             if (wren) begin
                 if (is_initial) begin
                     if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
