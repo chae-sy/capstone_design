@@ -1,24 +1,24 @@
 `timescale 1ns / 1ps
 module f_buffer #(
-    parameter DATA_WIDTH      = 8,     // ÇÑ Ã¤³Î´ç µ¥ÀÌÅÍ Æø
-    parameter NUM_CHNL        = 16,    // Ã¤³Î ¼ö
-    parameter SIZE_BUFFER_H   = 3,     // ¹öÆÛ ¼¼·Î Å©±â
-    parameter SIZE_BUFFER_W   = 4,     // ¹öÆÛ °¡·Î Å©±â
-    parameter SIZE_KERNEL_H   = 3,     // Ä¿³Î ¼¼·Î Å©±â
-    parameter SIZE_KERNEL_W   = 3      // Ä¿³Î °¡·Î Å©±â
+    parameter DATA_WIDTH      = 8,     // ï¿½ï¿½ Ã¤ï¿½Î´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+    parameter NUM_CHNL        = 16,    // Ã¤ï¿½ï¿½ ï¿½ï¿½
+    parameter SIZE_BUFFER_H   = 3,     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
+    parameter SIZE_BUFFER_W   = 4,     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
+    parameter SIZE_KERNEL_H   = 3,     // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
+    parameter SIZE_KERNEL_W   = 3      // Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 )(
     input  wire                                clk,
     input  wire                                rst_n,
-    input  wire                                is_initial,   // ÃÊ±â ·Îµå ÇÃ·¡±×
-    input  wire                                wren,         // ¾²±â enable
-    input  wire                                rden,         // ÀÐ±â enable
-    input  wire [NUM_CHNL*DATA_WIDTH-1:0]      data_in,      // ÇÑ ¹ø¿¡ NUM_CHNL * DATA_WIDTH ÀÔ·Â
+    input  wire                                is_initial,   // ï¿½Ê±ï¿½ ï¿½Îµï¿½ ï¿½Ã·ï¿½ï¿½ï¿½
+    input  wire                                wren,         // ï¿½ï¿½ï¿½ï¿½ enable
+    input  wire                                rden,         // ï¿½Ð±ï¿½ enable
+    input  wire [NUM_CHNL*DATA_WIDTH-1:0]      data_in,      // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NUM_CHNL * DATA_WIDTH ï¿½Ô·ï¿½
     input  wire                                layer_start,
-    output reg  [NUM_CHNL*DATA_WIDTH-1:0]      data_out,     // NUM_CHNL * DATA_WIDTH Ãâ·Â
-    output reg                                 f_buffer_done // ¿Ï·á ÆÞ½º
+    output reg  [NUM_CHNL*DATA_WIDTH-1:0]      data_out,     // NUM_CHNL * DATA_WIDTH ï¿½ï¿½ï¿½
+    output reg                                 f_buffer_done // ï¿½Ï·ï¿½ ï¿½Þ½ï¿½
 );
 
-    // 2D ¹è¿­ ¼±¾ð, °¢ ¿ä¼Ò´Â NUM_CHNL*DATA_WIDTH ºñÆ®
+    // 2D ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Ò´ï¿½ NUM_CHNL*DATA_WIDTH ï¿½ï¿½Æ®
     reg [NUM_CHNL*DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1];
 
     reg [5:0] load_cnt;
@@ -37,7 +37,8 @@ module f_buffer #(
             f_buffer_done <= 1'b0;
             write_done <= 1'b0;
         end
-        else if (layer_start) begin
+        else begin
+        if (layer_start) begin
             for (r = 0; r < SIZE_BUFFER_H; r = r + 1)
                 for (c = 0; c < SIZE_BUFFER_W; c = c + 1)
                     buffer_data[r][c] <= {NUM_CHNL*DATA_WIDTH{1'b0}};
@@ -49,7 +50,7 @@ module f_buffer #(
         else begin
             f_buffer_done <= 1'b0;
             out_cnt <= out_cnt_n;
-            // ¾²±â ·ÎÁ÷
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (wren) begin
                 if (is_initial) begin
                     if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
@@ -74,7 +75,7 @@ module f_buffer #(
             end else begin
                 load_cnt <= 0;
             end
-            
+        
             // shift
             if (write_done & read_done)begin
                 for (r = 0; r < SIZE_BUFFER_H; r = r + 1) begin
@@ -86,13 +87,16 @@ module f_buffer #(
             end
         end
     end
+    end
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
         end
-        else if (layer_start) begin
+        else begin
+        if (layer_start) begin
             data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
         end
+    end
     end
     
     always @(*) begin

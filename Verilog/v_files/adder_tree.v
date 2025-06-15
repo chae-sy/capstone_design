@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 module adder_tree #(
   parameter DATA_WIDTH = 20,
-  parameter NUM_INPUTS = 16,  // ?????? lane??? ?????? °³¼ö
+  parameter NUM_INPUTS = 16,  // ?????? lane??? ?????? ï¿½ï¿½ï¿½ï¿½
   parameter SUM_WIDTH  = DATA_WIDTH + $clog2(NUM_INPUTS)
 )(
   input  wire                        clk,
@@ -9,7 +9,7 @@ module adder_tree #(
   input  wire                        adder_tree_en,     // ?????? ?????? ???????????
   input  wire [NUM_INPUTS*DATA_WIDTH-1:0] in_flat,      // ?????? lane ??????
   input  wire                        layer_start,
-  output reg  signed [SUM_WIDTH-1:0] sum_out,      // ?????? lane Ãâ·Â
+  output reg  signed [SUM_WIDTH-1:0] sum_out,      // ?????? lane ï¿½ï¿½ï¿½
   output reg                         adder_tree_done // ?????? ????? ??????
 );
 
@@ -39,7 +39,8 @@ module adder_tree #(
       en_stage1 <= 1'b0;
       en_stage2 <= 1'b0;
     end 
-    else if (layer_start) begin
+    else begin
+    if (layer_start) begin
       en_stage1 <= 1'b0;
       en_stage2 <= 1'b0;
     end
@@ -48,7 +49,7 @@ module adder_tree #(
       en_stage2 <= en_stage1;
     end
   end
-
+  end
   integer j;
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin

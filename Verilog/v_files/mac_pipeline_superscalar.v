@@ -36,8 +36,9 @@ module mac_pipeline_superscalar #(
     
   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) cnt <= 0;
-    else if (layer_start ) cnt <= 0;
-    else if (pe_en) begin
+  end else begin
+    if (layer_start ) cnt <= 0;
+    if (pe_en) begin
       if (cnt == 8) cnt <= 0;
       else          cnt <= cnt + 1;
     end

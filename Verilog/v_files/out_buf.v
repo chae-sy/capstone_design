@@ -52,7 +52,8 @@ module output_buffer #(
                 cnt[i]          <= 0;
             end
         end
-        else if (layer_start) begin
+        else begin 
+        if (layer_start) begin
             for (i = 0; i < NUM_COLOR; i = i + 1) begin
                 cnt[i]          <= 0;
             end
@@ -65,6 +66,7 @@ module output_buffer #(
             if (wren[1]) buffer_data_g_array[cnt[1]] <= data_in_g;
             if (wren[2]) buffer_data_b_array[cnt[2]] <= data_in_b;
         end
+    end
     end
     
     always @(posedge clk or negedge rst_n) begin

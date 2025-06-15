@@ -3,20 +3,20 @@
 module w_buffer #(
     parameter WIDTH_FSRAM_WL  = 128,  
     parameter DATA_WIDTH      = 8,     
-    parameter NUM_CHNL        = 16,    // Ã¤³Î 
-    parameter SIZE_BUFFER_H   = 3,     // ¹öÆÛ 
-    parameter SIZE_BUFFER_W   = 3,     // ¹öÆÛ
-    parameter SIZE_KERNEL_H   = 3,     // Ä¿³Î 
-    parameter SIZE_KERNEL_W   = 3      // Ä¿³Î
+    parameter NUM_CHNL        = 16,    // Ã¤ï¿½ï¿½ 
+    parameter SIZE_BUFFER_H   = 3,     // ï¿½ï¿½ï¿½ï¿½ 
+    parameter SIZE_BUFFER_W   = 3,     // ï¿½ï¿½ï¿½ï¿½
+    parameter SIZE_KERNEL_H   = 3,     // Ä¿ï¿½ï¿½ 
+    parameter SIZE_KERNEL_W   = 3      // Ä¿ï¿½ï¿½
 )(
     input  wire                           clk,
     input  wire                           rst_n,
-    input  wire                           wren,           // ??????????? feature ·Îµå ??????
-    input  wire                           rden,           // ????????? Ãâ·Â ??????
+    input  wire                           wren,           // ??????????? feature ï¿½Îµï¿½ ??????
+    input  wire                           rden,           // ????????? ï¿½ï¿½ï¿½ ??????
     input  wire [WIDTH_FSRAM_WL-1:0]      data_in,        // SRAM ?????? ????????? 128bit
     input  wire                           layer_start,
-    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (Ãâ·Â) ?? Ã¤³Îº°·Î 8bit??? ¹­À½
-    output reg                            w_buffer_done   // ¸®ÅÏ: ÃÊ±â ?????? ?????? ·Îµå/Ãâ·Â??? ???????????? ?????
+    output reg [DATA_WIDTH*NUM_CHNL-1:0]  data_out,       // (ï¿½ï¿½ï¿½) ?? Ã¤ï¿½Îºï¿½ï¿½ï¿½ 8bit??? ï¿½ï¿½ï¿½ï¿½
+    output reg                            w_buffer_done   // ï¿½ï¿½ï¿½ï¿½: ï¿½Ê±ï¿½ ?????? ?????? ï¿½Îµï¿½/ï¿½ï¿½ï¿½??? ???????????? ?????
 );
 
     reg [NUM_CHNL*DATA_WIDTH-1:0] buffer_data [0:SIZE_BUFFER_H-1][0:SIZE_BUFFER_W-1];
@@ -35,7 +35,8 @@ module w_buffer #(
             out_cnt       <= 0;
             w_buffer_done  <= 1'b0;
         end 
-        else if (layer_start) begin
+        else begin
+        if (layer_start) begin
             for (r = 0; r < SIZE_BUFFER_H; r = r + 1)
                 for (c = 0; c < SIZE_BUFFER_W; c = c + 1)
                     buffer_data[r][c] <= {NUM_CHNL*DATA_WIDTH{1'b0}};
@@ -50,7 +51,7 @@ module w_buffer #(
             if (wren) begin
                 data_in_reg <= data_in;
             end
-            // ????? ·ÎÁ÷
+            // ????? ï¿½ï¿½ï¿½ï¿½
             if (wren_d) begin
                 if (load_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
                     buffer_data[ load_cnt / SIZE_KERNEL_W ][ load_cnt % SIZE_KERNEL_W ] <= data_in_reg;
@@ -65,14 +66,16 @@ module w_buffer #(
             end
         end
     end
+    end
    always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
-        end
-        else if (layer_start) begin
+        end else begin
+        if (layer_start) begin
             data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
         end
     end
+   end
     
     always @(*) begin
         out_cnt_n = out_cnt;
