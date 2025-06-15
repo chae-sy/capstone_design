@@ -1,0 +1,143 @@
+ 
+****************************************
+Report : resources
+Design : mac_pipeline_shift
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 19:00:14 2025
+****************************************
+
+
+Resource Report for this hierarchy in file
+        /home/SOC17/controller/DMAC/RTL/mac_pipeline_shift.v
+=============================================================================
+| Cell           | Module         | Parameters | Contained Operations       |
+=============================================================================
+| add_x_1        | DW01_inc       | width=4    | add_41 (mac_pipeline_shift.v:41) |
+| lte_x_5        | DW_cmp         | width=8    | lte_54 (mac_pipeline_shift.v:54) |
+| lte_x_6        | DW_cmp         | width=8    | lte_57 (mac_pipeline_shift.v:57) |
+| lte_x_7        | DW_cmp         | width=8    | lte_60 (mac_pipeline_shift.v:60) |
+| lte_x_8        | DW_cmp         | width=8    | lte_63 (mac_pipeline_shift.v:63) |
+| lte_x_9        | DW_cmp         | width=8    | lte_66 (mac_pipeline_shift.v:66) |
+| lte_x_10       | DW_cmp         | width=8    | lte_69 (mac_pipeline_shift.v:69) |
+| lte_x_11       | DW_cmp         | width=8    | lte_72 (mac_pipeline_shift.v:72) |
+| lte_x_13       | DW_cmp         | width=8    | lte_78 (mac_pipeline_shift.v:78) |
+| lte_x_14       | DW_cmp         | width=8    | lte_81 (mac_pipeline_shift.v:81) |
+| lte_x_15       | DW_cmp         | width=8    | lte_84 (mac_pipeline_shift.v:84) |
+| lte_x_16       | DW_cmp         | width=8    | lte_87 (mac_pipeline_shift.v:87) |
+| lte_x_17       | DW_cmp         | width=8    | lte_90 (mac_pipeline_shift.v:90) |
+| lte_x_18       | DW_cmp         | width=8    | lte_93 (mac_pipeline_shift.v:93) |
+| lte_x_19       | DW_cmp         | width=8    | lte_96 (mac_pipeline_shift.v:96) |
+| add_x_24       | DW01_add       | width=20   | add_114 (mac_pipeline_shift.v:114) |
+| add_x_25       | DW01_add       | width=20   | add_114_I2 (mac_pipeline_shift.v:114) |
+| add_x_26       | DW01_add       | width=20   | add_114_I3 (mac_pipeline_shift.v:114) |
+| sub_x_23       | DW01_dec       | width=4    | sub_114 (mac_pipeline_shift.v:114) |
+         |                |            | sub_114_I2 (mac_pipeline_shift.v:114) |
+      |                |            | sub_114_I3 (mac_pipeline_shift.v:114) |
+| DP_OP_1328J1_138_5760           |            |                            |
+|                | DP_OP_1328J1_138_5760 |     |                            |
+| DP_OP_1323J1_130_3005           |            |                            |
+|                | DP_OP_1323J1_130_3005 |     |                            |
+| DP_OP_1318J1_122_250            |            |                            |
+|                | DP_OP_1318J1_122_250 |      |                            |
+=============================================================================
+
+Datapath Report for DP_OP_1328J1_138_5760
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_1328J1_138_5760 | sub_55_I3 (mac_pipeline_shift.v:55)                |
+|                      | sub_58_I3 (mac_pipeline_shift.v:58)                 |
+|                      | sub_61_I3 (mac_pipeline_shift.v:61)                 |
+|                      | sub_64_I3 (mac_pipeline_shift.v:64)                 |
+|                      | sub_67_I3 (mac_pipeline_shift.v:67)                 |
+|                      | sub_70_I3 (mac_pipeline_shift.v:70)                 |
+|                      | sub_73_I3 (mac_pipeline_shift.v:73)                 |
+|                      | sub_76_I3 (mac_pipeline_shift.v:76)                 |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Signed   | 15    |                                          |
+| O1    | PO   | Signed   | 16    | $signed(1'b0) - I1 ( mac_pipeline_shift.v:55 mac_pipeline_shift.v:58 mac_pipeline_shift.v:61 mac_pipeline_shift.v:64 mac_pipeline_shift.v:67 mac_pipeline_shift.v:70 mac_pipeline_shift.v:73 mac_pipeline_shift.v:76 ) |
+==============================================================================
+
+Datapath Report for DP_OP_1323J1_130_3005
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_1323J1_130_3005 | sub_55_I2 (mac_pipeline_shift.v:55)                |
+|                      | sub_58_I2 (mac_pipeline_shift.v:58)                 |
+|                      | sub_61_I2 (mac_pipeline_shift.v:61)                 |
+|                      | sub_64_I2 (mac_pipeline_shift.v:64)                 |
+|                      | sub_67_I2 (mac_pipeline_shift.v:67)                 |
+|                      | sub_70_I2 (mac_pipeline_shift.v:70)                 |
+|                      | sub_73_I2 (mac_pipeline_shift.v:73)                 |
+|                      | sub_76_I2 (mac_pipeline_shift.v:76)                 |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Signed   | 15    |                                          |
+| O1    | PO   | Signed   | 16    | $signed(1'b0) - I1 ( mac_pipeline_shift.v:55 mac_pipeline_shift.v:58 mac_pipeline_shift.v:61 mac_pipeline_shift.v:64 mac_pipeline_shift.v:67 mac_pipeline_shift.v:70 mac_pipeline_shift.v:73 mac_pipeline_shift.v:76 ) |
+==============================================================================
+
+Datapath Report for DP_OP_1318J1_122_250
+==============================================================================
+| Cell                 | Contained Operations                                |
+==============================================================================
+| DP_OP_1318J1_122_250 | sub_55 (mac_pipeline_shift.v:55)                    |
+|                      | sub_58 (mac_pipeline_shift.v:58)                    |
+|                      | sub_61 (mac_pipeline_shift.v:61)                    |
+|                      | sub_64 (mac_pipeline_shift.v:64)                    |
+|                      | sub_67 (mac_pipeline_shift.v:67)                    |
+|                      | sub_70 (mac_pipeline_shift.v:70)                    |
+|                      | sub_73 (mac_pipeline_shift.v:73)                    |
+|                      | sub_76 (mac_pipeline_shift.v:76)                    |
+==============================================================================
+
+==============================================================================
+|       |      | Data     |       |                                          |
+| Var   | Type | Class    | Width | Expression                               |
+==============================================================================
+| I1    | PI   | Signed   | 15    |                                          |
+| O1    | PO   | Signed   | 16    | $signed(1'b0) - I1 ( mac_pipeline_shift.v:55 mac_pipeline_shift.v:58 mac_pipeline_shift.v:61 mac_pipeline_shift.v:64 mac_pipeline_shift.v:67 mac_pipeline_shift.v:70 mac_pipeline_shift.v:73 mac_pipeline_shift.v:76 ) |
+==============================================================================
+
+
+Implementation Report
+===============================================================================
+|                    |                  | Current            | Set            |
+| Cell               | Module           | Implementation     | Implementation |
+===============================================================================
+| add_x_1            | DW01_inc         | apparch (area)     |                |
+| lte_x_5            | DW_cmp           | apparch (area)     |                |
+| lte_x_6            | DW_cmp           | apparch (area)     |                |
+| lte_x_7            | DW_cmp           | apparch (area)     |                |
+| lte_x_8            | DW_cmp           | apparch (area)     |                |
+| lte_x_9            | DW_cmp           | apparch (area)     |                |
+| lte_x_10           | DW_cmp           | apparch (area)     |                |
+| lte_x_11           | DW_cmp           | apparch (area)     |                |
+| lte_x_13           | DW_cmp           | apparch (area)     |                |
+| lte_x_14           | DW_cmp           | apparch (area)     |                |
+| lte_x_15           | DW_cmp           | apparch (area)     |                |
+| lte_x_16           | DW_cmp           | apparch (area)     |                |
+| lte_x_17           | DW_cmp           | apparch (area)     |                |
+| lte_x_18           | DW_cmp           | apparch (area)     |                |
+| lte_x_19           | DW_cmp           | apparch (area)     |                |
+| add_x_24           | DW01_add         | apparch (area)     |                |
+| add_x_25           | DW01_add         | apparch (area)     |                |
+| add_x_26           | DW01_add         | apparch (area)     |                |
+| sub_x_23           | DW01_dec         | apparch (area)     |                |
+| DP_OP_1328J1_138_5760                 |                    |                |
+|                    | DP_OP_1328J1_138_5760 | str (area)    |                |
+| DP_OP_1323J1_130_3005                 |                    |                |
+|                    | DP_OP_1323J1_130_3005 | str (area)    |                |
+| DP_OP_1318J1_122_250                  |                    |                |
+|                    | DP_OP_1318J1_122_250 | str (area)     |                |
+===============================================================================
+
+1

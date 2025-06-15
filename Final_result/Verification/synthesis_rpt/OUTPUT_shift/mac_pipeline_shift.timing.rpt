@@ -1,0 +1,356 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -nworst 10
+        -max_paths 10
+Design : mac_pipeline_shift
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 19:00:14 2025
+****************************************
+
+Operating Conditions: ss0p75v125c   Library: saed32lvt_ss0p75v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: cnt_reg[0] (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 r
+  pe_en (in)                               0.00       1.30 r
+  U1538/Y (INVX1_LVT)                      0.30       1.60 f
+  U1539/Y (INVX1_LVT)                      0.12       1.71 r
+  U2643/Y (NOR2X0_LVT)                     1.08       2.79 f
+  U2644/Y (AO22X1_LVT)                     0.11       2.90 f
+  cnt_reg[0]/D (DFFARX1_LVT)               0.01       2.91 f
+  data arrival time                                   2.91
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  cnt_reg[0]/CLK (DFFARX1_LVT)             0.00       3.25 r
+  library setup time                      -0.08       3.17
+  data required time                                  3.17
+  -----------------------------------------------------------
+  data required time                                  3.17
+  data arrival time                                  -2.91
+  -----------------------------------------------------------
+  slack (MET)                                         0.25
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: pe_done (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 r
+  pe_en (in)                               0.00       1.30 r
+  U1407/Y (AND2X1_LVT)                     0.34       1.64 r
+  pe_done (out)                            0.03       1.67 r
+  data arrival time                                   1.67
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  output external delay                   -1.30       1.95
+  data required time                                  1.95
+  -----------------------------------------------------------
+  data required time                                  1.95
+  data arrival time                                  -1.67
+  -----------------------------------------------------------
+  slack (MET)                                         0.28
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: pe_done (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 f
+  pe_en (in)                               0.00       1.30 f
+  U1407/Y (AND2X1_LVT)                     0.31       1.61 f
+  pe_done (out)                            0.03       1.64 f
+  data arrival time                                   1.64
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  output external delay                   -1.30       1.95
+  data required time                                  1.95
+  -----------------------------------------------------------
+  data required time                                  1.95
+  data arrival time                                  -1.64
+  -----------------------------------------------------------
+  slack (MET)                                         0.31
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: cnt_reg[0] (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 f
+  pe_en (in)                               0.00       1.30 f
+  U1538/Y (INVX1_LVT)                      0.28       1.58 r
+  U1539/Y (INVX1_LVT)                      0.11       1.69 f
+  U2643/Y (NOR2X0_LVT)                     1.01       2.70 r
+  U2644/Y (AO22X1_LVT)                     0.11       2.81 r
+  cnt_reg[0]/D (DFFARX1_LVT)               0.01       2.82 r
+  data arrival time                                   2.82
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  cnt_reg[0]/CLK (DFFARX1_LVT)             0.00       3.25 r
+  library setup time                      -0.09       3.16
+  data required time                                  3.16
+  -----------------------------------------------------------
+  data required time                                  3.16
+  data arrival time                                  -2.82
+  -----------------------------------------------------------
+  slack (MET)                                         0.34
+
+
+  Startpoint: cnt_reg[2] (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: pe_done (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  cnt_reg[2]/CLK (DFFARX1_LVT)             0.00       0.00 r
+  cnt_reg[2]/QN (DFFARX1_LVT)              0.19       0.19 r
+  U1405/Y (AND2X1_LVT)                     0.92       1.11 r
+  U1406/Y (AND3X1_LVT)                     0.22       1.34 r
+  U1407/Y (AND2X1_LVT)                     0.20       1.54 r
+  pe_done (out)                            0.03       1.57 r
+  data arrival time                                   1.57
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  output external delay                   -1.30       1.95
+  data required time                                  1.95
+  -----------------------------------------------------------
+  data required time                                  1.95
+  data arrival time                                  -1.57
+  -----------------------------------------------------------
+  slack (MET)                                         0.38
+
+
+  Startpoint: cnt_reg[2] (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: pe_done (output port clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  cnt_reg[2]/CLK (DFFARX1_LVT)             0.00       0.00 r
+  cnt_reg[2]/QN (DFFARX1_LVT)              0.17       0.17 f
+  U1405/Y (AND2X1_LVT)                     0.86       1.03 f
+  U1406/Y (AND3X1_LVT)                     0.22       1.25 f
+  U1407/Y (AND2X1_LVT)                     0.21       1.46 f
+  pe_done (out)                            0.03       1.49 f
+  data arrival time                                   1.49
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  output external delay                   -1.30       1.95
+  data required time                                  1.95
+  -----------------------------------------------------------
+  data required time                                  1.95
+  data arrival time                                  -1.49
+  -----------------------------------------------------------
+  slack (MET)                                         0.46
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: cnt_reg[3] (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 r
+  pe_en (in)                               0.00       1.30 r
+  U1538/Y (INVX1_LVT)                      0.30       1.60 f
+  U2240/Y (OR3X1_LVT)                      0.15       1.75 f
+  U1115/Y (INVX1_LVT)                      0.12       1.87 r
+  U2646/Y (AO21X1_LVT)                     0.50       2.37 r
+  U2647/Y (AO22X1_LVT)                     0.12       2.49 r
+  cnt_reg[3]/D (DFFARX1_LVT)               0.01       2.50 r
+  data arrival time                                   2.50
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  cnt_reg[3]/CLK (DFFARX1_LVT)             0.00       3.25 r
+  library setup time                      -0.09       3.16
+  data required time                                  3.16
+  -----------------------------------------------------------
+  data required time                                  3.16
+  data arrival time                                  -2.50
+  -----------------------------------------------------------
+  slack (MET)                                         0.66
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: cnt_reg[3] (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 f
+  pe_en (in)                               0.00       1.30 f
+  U1538/Y (INVX1_LVT)                      0.28       1.58 r
+  U2240/Y (OR3X1_LVT)                      0.15       1.73 r
+  U1115/Y (INVX1_LVT)                      0.11       1.84 f
+  U2646/Y (AO21X1_LVT)                     0.49       2.33 f
+  U2647/Y (AO22X1_LVT)                     0.12       2.45 f
+  cnt_reg[3]/D (DFFARX1_LVT)               0.01       2.46 f
+  data arrival time                                   2.46
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  cnt_reg[3]/CLK (DFFARX1_LVT)             0.00       3.25 r
+  library setup time                      -0.08       3.17
+  data required time                                  3.17
+  -----------------------------------------------------------
+  data required time                                  3.17
+  data arrival time                                  -2.46
+  -----------------------------------------------------------
+  slack (MET)                                         0.71
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: cnt_reg[1] (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 r
+  pe_en (in)                               0.00       1.30 r
+  U1538/Y (INVX1_LVT)                      0.30       1.60 f
+  U2240/Y (OR3X1_LVT)                      0.15       1.75 f
+  U1115/Y (INVX1_LVT)                      0.12       1.87 r
+  U2242/Y (OA222X1_LVT)                    0.53       2.40 r
+  cnt_reg[1]/D (DFFARX1_LVT)               0.01       2.41 r
+  data arrival time                                   2.41
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  cnt_reg[1]/CLK (DFFARX1_LVT)             0.00       3.25 r
+  library setup time                      -0.09       3.16
+  data required time                                  3.16
+  -----------------------------------------------------------
+  data required time                                  3.16
+  data arrival time                                  -2.41
+  -----------------------------------------------------------
+  slack (MET)                                         0.75
+
+
+  Startpoint: pe_en (input port clocked by clk)
+  Endpoint: cnt_reg[1] (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  mac_pipeline_shift 8000                  saed32lvt_ss0p75v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  input external delay                     1.30       1.30 f
+  pe_en (in)                               0.00       1.30 f
+  U1538/Y (INVX1_LVT)                      0.28       1.58 r
+  U2240/Y (OR3X1_LVT)                      0.15       1.73 r
+  U1115/Y (INVX1_LVT)                      0.11       1.84 f
+  U2242/Y (OA222X1_LVT)                    0.52       2.36 f
+  cnt_reg[1]/D (DFFARX1_LVT)               0.01       2.37 f
+  data arrival time                                   2.37
+
+  clock clk (rise edge)                    5.00       5.00
+  clock network delay (ideal)              0.00       5.00
+  clock uncertainty                       -1.75       3.25
+  cnt_reg[1]/CLK (DFFARX1_LVT)             0.00       3.25 r
+  library setup time                      -0.10       3.15
+  data required time                                  3.15
+  -----------------------------------------------------------
+  data required time                                  3.15
+  data arrival time                                  -2.37
+  -----------------------------------------------------------
+  slack (MET)                                         0.78
+
+
+1
