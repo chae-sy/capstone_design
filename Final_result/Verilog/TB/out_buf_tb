@@ -1,0 +1,118 @@
+`timescale 1ns / 1ps
+
+module output_buffer_tb;
+
+    parameter t_WIDTH = 128;
+    parameter DATA_WIDTH = 8;
+    parameter NUM_CHNL = 16;
+    parameter NUM_COLOR = 3;
+
+    reg clk;
+    reg rst_n;
+    reg wren[0:2];
+    reg [DATA_WIDTH-1:0] data_in_r, data_in_g, data_in_b;
+    reg rden[0:2];
+    reg [2:0] layer_num;
+    wire o_buffer_done;
+    wire [t_WIDTH-1:0] data_out[0:2];
+
+    // DUT 인스턴스
+    output_buffer #(
+        .t_WIDTH(t_WIDTH),
+        .DATA_WIDTH(DATA_WIDTH),
+        .NUM_CHNL(NUM_CHNL),
+        .NUM_COLOR(NUM_COLOR)
+    ) uut (
+        .clk(clk),
+        .rst_n(rst_n),
+        .wren(wren),
+        .data_in_r(data_in_r),
+        .data_in_g(data_in_g),
+        .data_in_b(data_in_b),
+        .rden(rden),
+        .layer_num(layer_num),
+        .o_buffer_done(o_buffer_done),
+        .data_out(data_out)
+    );
+
+    // Clock generation
+    initial clk = 0;
+    always #5 clk = ~clk;
+
+    // 초기화
+    initial begin
+        rst_n = 0; wren[0]=0; wren[1]=0; wren[2]=0; rden[0]=0; rden[1]=0; rden[2]=0;
+        data_in_r = 0; data_in_g = 0; data_in_b = 0; layer_num = 0;
+        #20 rst_n = 1;
+    end
+
+    // 메인 테스트 시퀀스
+    initial begin
+        #30; // Reset 끝나고
+
+        // === Test 1: layer_num=default, 16연속 입력 (중간중간 wren off) ===
+        $display("=== Test 1: 16연속 입력 (중간중간 wren off) ===");
+        layer_num = 3'b000;
+        for (int i=0; i<16; i=i+1) begin
+            @(posedge clk);
+            wren[0]=1; wren[1]=1; wren[2]=1;
+            data_in_r = i; data_in_g = i+16; data_in_b = i+32;
+            @(posedge clk);
+            wren[0]=0; wren[1]=0; wren[2]=0;
+        end
+        wren[0]=0; wren[1]=0; wren[2]=0;
+        wait(o_buffer_done);
+        rden[0]=1; rden[1]=1; rden[2]=1;
+        @(posedge clk); rden[0]=0; rden[1]=0; rden[2]=0;
+
+        // === Test 2: wren/rden 동시 16연속 입력 (중간중간 wren off, rden은 단발성) ===
+        $display("=== Test 2: wren/rden 동시 16연속 입력 (중간중간 wren off) ===");
+        layer_num = 3'b000; // 유지
+        for (int i=0; i<16; i=i+1) begin
+            @(posedge clk);
+            wren[0]=1; wren[1]=1; wren[2]=1;
+            data_in_r = i+50; data_in_g = i+60; data_in_b = i+70;
+            @(posedge clk);
+            wren[0]=0; wren[1]=0; wren[2]=0;
+        end
+        wren[0]=0; wren[1]=0; wren[2]=0;
+        wait(o_buffer_done);
+        rden[0]=1; rden[1]=1; rden[2]=1;
+        @(posedge clk); rden[0]=0; rden[1]=0; rden[2]=0;
+
+        // === Test 3: layer_num=2, wren/rden 동시 16연속 입력 (중간중간 wren off, rden은 단발성) ===
+        $display("=== Test 3: layer_num=2, wren/rden 동시 16연속 입력 (중간중간 wren off) ===");
+        layer_num = 3'b010;
+        for (int i=0; i<16; i=i+1) begin
+            @(posedge clk);
+            wren[0]=1; wren[1]=1; wren[2]=1;
+            data_in_r = i+100; data_in_g = i+110; data_in_b = i+120;
+            @(posedge clk);
+            wren[0]=0; wren[1]=0; wren[2]=0;
+        end
+        wren[0]=0; wren[1]=0; wren[2]=0;
+        wait(o_buffer_done);
+        rden[0]=1; rden[1]=1; rden[2]=1;
+        @(posedge clk); rden[0]=0; rden[1]=0; rden[2]=0;
+
+        // === Test 4: layer_num=6, wren/rden 동시 16연속 입력 (중간중간 wren off, rden은 단발성) ===
+        $display("=== Test 4: layer_num=6, wren/rden 동시 1연속 입력 ===");
+        layer_num = 3'b110;
+        @(posedge clk);
+        wren[0]=1; wren[1]=1; wren[2]=1;
+        data_in_r = 10; data_in_g = 2; data_in_b = 14;
+        
+        wait(o_buffer_done);
+        
+        
+        @(posedge clk); rden[0]=1; rden[1]=1; rden[2]=1;
+        wren[0]=0; wren[1]=0; wren[2]=0;
+        
+        @(posedge clk); rden[0]=0; rden[1]=0; rden[2]=0;
+        
+        #50;
+        $display("Simulation finished");
+        $finish;
+    end
+
+endmodule
