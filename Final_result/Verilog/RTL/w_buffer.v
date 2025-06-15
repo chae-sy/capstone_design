@@ -73,8 +73,10 @@ module w_buffer #(
         if (!rst_n) begin
             data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
         end
-        if (layer_start) begin
-            data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
+        else begin
+            if (layer_start) begin
+                data_out      = {NUM_CHNL*DATA_WIDTH{1'b0}};
+            end
         end
         if (rden) begin
             if (out_cnt < SIZE_KERNEL_H * SIZE_KERNEL_W) begin
