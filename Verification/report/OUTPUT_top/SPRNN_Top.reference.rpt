@@ -1,0 +1,117 @@
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : reference
+Design : SPRNN_Top
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 19:40:50 2025
+****************************************
+
+Attributes:
+    b - black box (unknown)
+   bo - allows boundary optimization
+    d - dont_touch
+   mo - map_only
+    h - hierarchical
+    n - noncombinational
+    r - removable
+    s - synthetic operator
+    u - contains unmapped logic
+
+Reference          Library       Unit Area   Count    Total Area   Attributes
+-----------------------------------------------------------------------------
+Controller                       49.098001       1     49.098001  b, h, n
+SVQ_AN2_MG_1       um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       5      1.960000  
+SVQ_AN4B_1         um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.588000       1      0.588000  
+SVQ_AO21_U_1       um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.490000       1      0.490000  
+SVQ_AO22_1         um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.686000    1160    795.759988  
+SVQ_AOI21_S_1      um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       1      0.392000  
+SVQ_AOI22_0P75     um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.490000     128     62.720001  
+SVQ_BUF_M_1        um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.294000      30      8.820000  
+SVQ_FDPQ_V2_1      um28nchllogl35udl140f_ssgwc0p81v125c
+                                  1.568000       3      4.704000  n
+SVQ_FDPRBQ_V2_1    um28nchllogl35udl140f_ssgwc0p81v125c
+                                  1.764000    1033   1822.212060  n
+SVQ_INV_1          um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.196000     383     75.067998  
+SVQ_LDPRBQ_1       um28nchllogl35udl140f_ssgwc0p81v125c
+                                  1.078000      24     25.871999  n
+SVQ_ND2B_V1_1      um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       2      0.784000  
+SVQ_ND2_1          um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.294000     139     40.866000  
+SVQ_ND3_1          um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       2      0.784000  
+SVQ_ND4_1          um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.490000       4      1.960000  
+SVQ_NR4_1          um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.490000       2      0.980000  
+SVQ_OAI21_S_1      um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       7      2.744000  
+SVQ_OAI211_1       um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.490000       2      0.980000  
+SVQ_OAI222_1       um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.784000     298    233.631994  
+SVQ_OAOI211_1      um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.490000       1      0.490000  
+SVQ_TIE0_1         um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       1      0.392000  
+SVQ_TIE1_1         um28nchllogl35udl140f_ssgwc0p81v125c
+                                  0.392000       1      0.392000  
+adder_tree_0                    745.877995       1    745.877995  h, n
+adder_tree_1                    745.877995       1    745.877995  h, n
+adder_tree_2                    745.877995       1    745.877995  h, n
+bias_relu_0                      40.277999       1     40.277999  h
+bias_relu_1                      40.277999       1     40.277999  h
+bias_relu_2                      40.277999       1     40.277999  h
+f_buffer_0                     4973.794047       1   4973.794047  h, n
+f_buffer_1                     4973.794047       1   4973.794047  h, n
+f_buffer_2                     4973.794047       1   4973.794047  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2
+                               1615.823956       1   1615.823956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4
+                               1615.823956       1   1615.823956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5
+                               1615.235956       1   1615.235956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8
+                               1615.235956       1   1615.235956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12
+                               1615.823956       1   1615.823956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13
+                               1615.529956       1   1615.529956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14
+                               1615.823956       1   1615.823956  h, n
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15
+                               1615.529956       1   1615.529956  h, n
+maxpool_16ch                   5149.311922       1   5149.311922  h, n
+memory_w_v0                       0.000000       2      0.000000  b
+memory_w_v0                       0.000000       1      0.000000  b
+output_buffer                  1204.419977       1   1204.419977  h, n
+regfile_sync                  11689.440230       1  11689.440230  h, n
+w_buffer                       3726.450060       1   3726.450060  h, n
+-----------------------------------------------------------------------------
+Total 54 references                                 68030.227640
+1

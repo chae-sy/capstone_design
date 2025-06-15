@@ -1,0 +1,2503 @@
+Warning: Design 'SPRNN_Top' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Updating design information... (UID-85)
+Warning: Design 'SPRNN_Top' contains 4 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : constraint
+        -all_violators
+        -verbose
+Design : SPRNN_Top
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 19:40:29 2025
+****************************************
+
+
+    Net: memA_addr[0]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[1]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[2]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[3]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[4]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[5]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[6]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[7]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[8]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[9]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[10]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[11]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[12]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[13]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[14]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_addr[15]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_cenb
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[0]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[1]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[2]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[3]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[4]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[5]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[6]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[7]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[8]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[9]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[10]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[11]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[12]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[13]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[14]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[15]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[16]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[17]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[18]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[19]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[20]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[21]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[22]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[23]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[24]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[25]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[26]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[27]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[28]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[29]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[30]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[31]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[32]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[33]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[34]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[35]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[36]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[37]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[38]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[39]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[40]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[41]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[42]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[43]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[44]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[45]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[46]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[47]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[48]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[49]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[50]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[51]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[52]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[53]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[54]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[55]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[56]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[57]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[58]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[59]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[60]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[61]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[62]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[63]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[64]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[65]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[66]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[67]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[68]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[69]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[70]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[71]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[72]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[73]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[74]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[75]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[76]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[77]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[78]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[79]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[80]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[81]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[82]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[83]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[84]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[85]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[86]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[87]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[88]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[89]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[90]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[91]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[92]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[93]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[94]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[95]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[96]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[97]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[98]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[99]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[100]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[101]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[102]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[103]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[104]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[105]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[106]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[107]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[108]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[109]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[110]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[111]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[112]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[113]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[114]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[115]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[116]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[117]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[118]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[119]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[120]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[121]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[122]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[123]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[124]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[125]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[126]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_din[127]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memA_wenb
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[0]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[1]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[2]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[3]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[4]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[5]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[6]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[7]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[8]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[9]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[10]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[11]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[12]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[13]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[14]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_addr[15]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_cenb
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[0]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[1]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[2]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[3]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[4]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[5]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[6]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[7]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[8]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[9]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[10]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[11]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[12]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[13]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[14]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[15]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[16]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[17]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[18]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[19]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[20]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[21]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[22]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[23]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[24]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[25]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[26]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[27]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[28]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[29]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[30]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[31]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[32]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[33]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[34]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[35]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[36]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[37]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[38]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[39]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[40]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[41]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[42]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[43]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[44]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[45]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[46]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[47]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[48]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[49]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[50]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[51]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[52]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[53]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[54]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[55]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[56]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[57]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[58]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[59]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[60]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[61]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[62]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[63]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[64]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[65]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[66]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[67]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[68]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[69]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[70]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[71]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[72]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[73]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[74]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[75]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[76]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[77]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[78]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[79]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[80]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[81]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[82]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[83]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[84]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[85]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[86]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[87]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[88]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[89]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[90]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[91]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[92]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[93]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[94]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[95]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[96]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[97]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[98]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[99]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[100]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[101]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[102]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[103]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[104]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[105]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[106]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[107]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[108]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[109]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[110]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[111]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[112]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[113]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[114]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[115]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[116]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[117]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[118]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[119]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[120]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[121]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[122]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[123]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[124]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[125]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[126]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_din[127]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: memB_wenb
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: out_buf_done_i
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: total_done_o
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: u_controller/channel[0]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: u_controller/channel[1]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: u_controller/channel_4
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: u_out_buf/n576 (dont_touch)
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[0]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[1]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[2]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[3]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[4]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[5]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[6]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[7]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[8]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_addr[9]
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_cenb
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Net: wmem_wenb
+
+    Capacitance        0.0000000000
+  - min_capacitance    0.0000502000
+  ------------------------------
+    Slack              -0.0000502000  (VIOLATED)
+
+
+    Design: SPRNN_Top
+
+    max_area           0.0000000000
+  - Current Area       68030.2265625000
+  ------------------------------
+    Slack              -68030.2265625000  (VIOLATED)
+
+
+1

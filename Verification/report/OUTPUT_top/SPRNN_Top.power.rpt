@@ -1,0 +1,583 @@
+Loading db file '/home/ScalableArchiLab/UMC/um28nchllogl35udl140f_ssgwc0p81v125c.db'
+Information: Propagating switching activity (high effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+Warning: Design has unannotated black box outputs. (PWR-428)
+ 
+****************************************
+Report : power
+        -analysis_effort high
+Design : SPRNN_Top
+Version: Q-2019.12-SP5-5
+Date   : Sun Jun 15 19:40:47 2025
+****************************************
+
+
+Library(s) Used:
+
+    um28nchllogl35udl140f_ssgwc0p81v125c (File: /home/ScalableArchiLab/UMC/um28nchllogl35udl140f_ssgwc0p81v125c.db)
+
+
+Operating Conditions: SSGWC0P81V125C   Library: um28nchllogl35udl140f_ssgwc0p81v125c
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+SPRNN_Top              ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+Controller             ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+f_buffer_2             ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+w_buffer               ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2           ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+regfile_sync           ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+bias_relu_2            ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+maxpool_16ch           ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+output_buffer          ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+f_buffer_0             ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+f_buffer_1             ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0           ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1           ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+bias_relu_0            ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+bias_relu_1            ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+bias_relu_0_DW01_add_1 ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+bias_relu_1_DW01_add_1_DW01_add_3
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+bias_relu_2_DW01_add_1_DW01_add_5
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_0_DW01_add_6
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_1_DW01_add_7
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_2_DW01_add_8
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_3_DW01_add_9
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_4_DW01_add_10
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_5_DW01_add_11
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_0_DW01_add_12
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_1_DW01_add_13
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_2_DW01_add_14
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_3_DW01_add_15
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_4_DW01_add_16
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_5_DW01_add_17
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_0_DW01_add_18
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_1_DW01_add_19
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_2_DW01_add_20
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_3_DW01_add_21
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_4_DW01_add_22
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_5_DW01_add_23
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_0_DW01_add_24
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_1_DW01_add_25
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_2_DW01_add_26
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_3_DW01_add_27
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_4_DW01_add_28
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_5_DW01_add_29
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_0_DW01_add_30
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_1_DW01_add_31
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_2_DW01_add_32
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_3_DW01_add_33
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_4_DW01_add_34
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_5_DW01_add_35
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_0_DW01_add_36
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_1_DW01_add_37
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_2_DW01_add_38
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_3_DW01_add_39
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_4_DW01_add_40
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_5_DW01_add_41
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_0_DW01_add_42
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_1_DW01_add_43
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_2_DW01_add_44
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_3_DW01_add_45
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_4_DW01_add_46
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_5_DW01_add_47
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_0_DW01_add_48
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_1_DW01_add_49
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_2_DW01_add_50
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_3_DW01_add_51
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_4_DW01_add_52
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_5_DW01_add_53
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_0_DW01_add_54
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_1_DW01_add_55
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_2_DW01_add_56
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_3_DW01_add_57
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_4_DW01_add_58
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_5_DW01_add_59
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_0_DW01_add_60
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_1_DW01_add_61
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_2_DW01_add_62
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_3_DW01_add_63
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_4_DW01_add_64
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_5_DW01_add_65
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_0_DW01_add_66
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_1_DW01_add_67
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_2_DW01_add_68
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_3_DW01_add_69
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_4_DW01_add_70
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_5_DW01_add_71
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_0_DW01_add_72
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_1_DW01_add_73
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_2_DW01_add_74
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_3_DW01_add_75
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_4_DW01_add_76
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_5_DW01_add_77
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_0_DW01_add_78
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_1_DW01_add_79
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_2_DW01_add_80
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_3_DW01_add_81
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_4_DW01_add_82
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_5_DW01_add_83
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_0_DW01_add_84
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_1_DW01_add_85
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_2_DW01_add_86
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_3_DW01_add_87
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_4_DW01_add_88
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_5_DW01_add_89
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_0_DW01_add_90
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_1_DW01_add_91
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_2_DW01_add_92
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_3_DW01_add_93
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_4_DW01_add_94
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_5_DW01_add_95
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_0_DW01_add_96
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_1_DW01_add_97
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_2_DW01_add_98
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_3_DW01_add_99
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_4_DW01_add_100
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_5_DW01_add_101
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_0_DW01_add_102
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_1_DW01_add_103
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_2_DW01_add_104
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_0_DW01_add_105
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_1_DW01_add_106
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_2_DW01_add_107
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_0_DW01_add_108
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_1_DW01_add_109
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_2_DW01_add_110
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_3_DW01_add_111
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_4_DW01_add_112
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_5_DW01_add_113
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_3_DW01_add_114
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_4_DW01_add_115
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_5_DW01_add_116
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_3_DW01_add_117
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_4_DW01_add_118
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_5_DW01_add_119
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_6_DW01_add_120
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_7_DW01_add_121
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_8_DW01_add_122
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_9_DW01_add_123
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_10_DW01_add_124
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_11_DW01_add_125
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_6_DW01_add_126
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_7_DW01_add_127
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_8_DW01_add_128
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_9_DW01_add_129
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_10_DW01_add_130
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_11_DW01_add_131
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_12_DW01_add_132
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_13_DW01_add_133
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_1_DW01_add_14_DW01_add_134
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_6_DW01_add_135
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_7_DW01_add_136
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_8_DW01_add_137
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_9_DW01_add_138
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_10_DW01_add_139
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_11_DW01_add_140
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_12_DW01_add_141
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_13_DW01_add_142
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_2_DW01_add_14_DW01_add_143
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_12_DW01_add_144
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_13_DW01_add_145
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+adder_tree_0_DW01_add_14_DW01_add_146
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_0
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_6_DW01_add_147
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_1
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_7_DW01_add_148
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW02_mult_2
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_15_DW01_add_8_DW01_add_149
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_0_DW02_mult_3
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_6_DW01_add_150
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_1_DW02_mult_4
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_7_DW01_add_151
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW02_mult_2_DW02_mult_5
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_14_DW01_add_8_DW01_add_152
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_0_DW02_mult_6
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_6_DW01_add_153
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_1_DW02_mult_7
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_7_DW01_add_154
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW02_mult_2_DW02_mult_8
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_13_DW01_add_8_DW01_add_155
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_0_DW02_mult_9
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_6_DW01_add_156
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_1_DW02_mult_10
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_7_DW01_add_157
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW02_mult_2_DW02_mult_11
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_12_DW01_add_8_DW01_add_158
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_0_DW02_mult_12
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_6_DW01_add_159
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_1_DW02_mult_13
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_7_DW01_add_160
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW02_mult_2_DW02_mult_14
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_11_DW01_add_8_DW01_add_161
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_0_DW02_mult_15
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_6_DW01_add_162
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_1_DW02_mult_16
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_7_DW01_add_163
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW02_mult_2_DW02_mult_17
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_10_DW01_add_8_DW01_add_164
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_0_DW02_mult_18
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_6_DW01_add_165
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_1_DW02_mult_19
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_7_DW01_add_166
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW02_mult_2_DW02_mult_20
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_9_DW01_add_8_DW01_add_167
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_0_DW02_mult_21
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_6_DW01_add_168
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_1_DW02_mult_22
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_7_DW01_add_169
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW02_mult_2_DW02_mult_23
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_8_DW01_add_8_DW01_add_170
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_0_DW02_mult_24
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_6_DW01_add_171
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_1_DW02_mult_25
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_7_DW01_add_172
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW02_mult_2_DW02_mult_26
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_7_DW01_add_8_DW01_add_173
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_0_DW02_mult_27
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_6_DW01_add_174
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_1_DW02_mult_28
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_7_DW01_add_175
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW02_mult_2_DW02_mult_29
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_6_DW01_add_8_DW01_add_176
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_0_DW02_mult_30
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_6_DW01_add_177
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_1_DW02_mult_31
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_7_DW01_add_178
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW02_mult_2_DW02_mult_32
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_5_DW01_add_8_DW01_add_179
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_0_DW02_mult_33
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_6_DW01_add_180
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_1_DW02_mult_34
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_7_DW01_add_181
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW02_mult_2_DW02_mult_35
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_4_DW01_add_8_DW01_add_182
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_0_DW02_mult_36
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_6_DW01_add_183
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_1_DW02_mult_37
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_7_DW01_add_184
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW02_mult_2_DW02_mult_38
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_3_DW01_add_8_DW01_add_185
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_0_DW02_mult_39
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_6_DW01_add_186
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_1_DW02_mult_40
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_7_DW01_add_187
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW02_mult_2_DW02_mult_41
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_2_DW01_add_8_DW01_add_188
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_0_DW02_mult_42
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_6_DW01_add_189
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_1_DW02_mult_43
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_7_DW01_add_190
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW02_mult_2_DW02_mult_44
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_1_DW01_add_8_DW01_add_191
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_0_DW02_mult_45
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_6_DW01_add_192
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_1_DW02_mult_46
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_7_DW01_add_193
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW02_mult_2_DW02_mult_47
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+mac_pipeline_superscalar_DATA_WIDTH8_LANE_NUM3_0_DW01_add_8_DW01_add_194
+                       ZeroWLM           um28nchllogl35udl140f_ssgwc0p81v125c
+
+
+Global Operating Voltage = 0.81 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1nW
+
+
+  Cell Internal Power  =   7.4435 mW    (6%)
+  Net Switching Power  = 111.7842 mW   (94%)
+                         ---------
+Total Dynamic Power    = 119.2278 mW  (100%)
+
+Cell Leakage Power     =   3.0255 mW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network  4.7937e-02          111.6410        1.5554e+05          111.8401  (  91.49%)
+register           7.3095        1.3464e-02        1.7174e+06            9.0403  (   7.40%)
+sequential     9.4607e-03        2.9906e-04        2.9561e+04        3.9320e-02  (   0.03%)
+combinational  7.6848e-02            0.1239        1.1230e+06            1.3238  (   1.08%)
+--------------------------------------------------------------------------------------------------
+Total              7.4437 mW       111.7787 mW     3.0255e+06 nW       122.2436 mW
+1
