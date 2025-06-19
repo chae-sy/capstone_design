@@ -34,15 +34,16 @@ module mac_pipeline_superscalar #(
         result_out_flat_b = result_out_flat[2];
   end
     
-  always @(posedge clk or negedge rst_n) begin
+   always @(posedge clk or negedge rst_n) begin
     if (!rst_n) cnt <= 0;
-  end else begin
-    if (layer_start ) cnt <= 0;
-    if (pe_en) begin
-      if (cnt == 8) cnt <= 0;
-      else          cnt <= cnt + 1;
+    else begin
+        if (layer_start ) cnt <= 0;
+        if (pe_en) begin
+          if (cnt == 8) cnt <= 0;
+          else          cnt <= cnt + 1;
+        end
     end
-  end
+ end
 
   always @(*) begin
     pe_done = 1'b0;
