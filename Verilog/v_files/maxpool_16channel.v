@@ -44,21 +44,21 @@ module maxpool_16ch#(
             end
         end
         else begin
-        if (layer_start) begin
-            for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
-                wr_ptr[ch]       <= 0;
-                cnt[ch]          <= 0;
-                max_val[ch]      <= INIT_MAX;
+            if (layer_start) begin
+                for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
+                    wr_ptr[ch]       <= 0;
+                    cnt[ch]          <= 0;
+                    max_val[ch]      <= INIT_MAX;
+                end
+            end
+            else begin
+                for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
+                    wr_ptr[ch]       <= wr_ptr_n[ch];
+                    cnt[ch]          <= cnt_n[ch];
+                    max_val[ch]      <= max_val_n[ch];
+                end
             end
         end
-        else begin
-            for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
-                wr_ptr[ch]       <= wr_ptr_n[ch];
-                cnt[ch]          <= cnt_n[ch];
-                max_val[ch]      <= max_val_n[ch];
-            end
-        end
-    end
     end
     
     reg signed [DATA_WIDTH-1:0] in_data_reg [0:CHANNELS-1];

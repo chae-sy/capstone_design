@@ -149,99 +149,83 @@ module layer_pipeline #(
     
     // 1. mem data fetch (fetch)
     // -----------------------------------------------------------------------------
-// 1. mem data fetch (fetch)
-// -----------------------------------------------------------------------------
-always @(posedge clk or negedge rst_n) begin
-    // -----------------------------------------------------------
-    // (1) 비동기 reset : 반드시 고정 상수만!
-    // -----------------------------------------------------------
-    if (!rst_n) begin
-        mem_rd_addr  <= {ADDR_WIDTH{1'b0}};
-        wmem_addr    <= {ADDR_WIDTH{1'b0}};
-        start_weight <= {ADDR_WIDTH{1'b0}};
-
-        cnt1_row     <= 'd0;
-        cnt1_column  <= 'd0;
-        state        <= FIRST;
-
-        num1         <= 'd0;
-        num_w        <= 'd0;          // 가변 값 X
-
-        stage2_en    <= 1'b0;
-        row_last     <= 1'b0;
-        final_data   <= 'd0;
-        color        <= red;          // 고정 상수
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            mem_rd_addr  <= 'd0;
+            wmem_addr    <= 'd0;
+            start_weight <= 'd0;
+    
+            cnt1_row     <= 'd0;
+            cnt1_column  <= 'd0;
+            state        <= FIRST;
+    
+            num1         <= 'd0;
+            num_w        <= 'd0;       
+    
+            stage2_en    <= 1'b0;
+            row_last     <= 1'b0;
+            final_data   <= 'd0;
+            color        <= red;          
+        end
+        else if (layer_start) begin
+            mem_rd_addr <= (layer_num == 4) ? 'd103 : 'd0;
+    
+            case (layer_num)
+                1: begin
+                    wmem_addr    <= 'd0;
+                    start_weight <= 'd0;
+                end
+                2: begin
+                    wmem_addr    <= 'd144;
+                    start_weight <= 'd144;
+                end
+                3: begin
+                    wmem_addr    <= 'd288;
+                    start_weight <= 'd288;
+                end
+                5: begin
+                    wmem_addr    <= 'd432;
+                    start_weight <= 'd432;
+                end
+                6: begin
+                    wmem_addr    <= 'd576;
+                    start_weight <= 'd576;
+                end
+                default: begin
+                    wmem_addr    <= 'd0;
+                    start_weight <= 'd0;
+                end
+            endcase
+            cnt1_row     <= 'd0;
+            cnt1_column  <= 'd0;
+            state        <= FIRST;
+    
+            num1         <= 'd0;
+            num_w        <= weight_num;   
+    
+            stage2_en    <= 1'b0;
+            row_last     <= 1'b0;
+            final_data   <= 'd0;
+            color        <= red;
+        end
+        else begin
+            mem_rd_addr  <= mem_rd_addr_n;
+            wmem_addr    <= wmem_addr_n;
+    
+            cnt1_row     <= cnt1_row_n;
+            cnt1_column  <= cnt1_column_n;
+            state        <= state_n;
+    
+            num1         <= num1_n;
+            num_w        <= num_w_n;
+    
+            stage2_en    <= stage2_en_n;
+            row_last     <= row_last_n;
+            final_data   <= final_data_n;
+            color        <= color_n;
+        end
     end
-    // -----------------------------------------------------------
-    // (2) 새 레이어가 시작될 때 : 레이어-의존 초기화
-    // -----------------------------------------------------------
-    else if (layer_start) begin
-        // 각 레이어별 weight / mem 시작 주소
-        mem_rd_addr <= (layer_num == 4) ? 'd103 : 'd0;
 
-        case (layer_num)
-            1: begin
-                wmem_addr    <= 'd0;
-                start_weight <= 'd0;
-            end
-            2: begin
-                wmem_addr    <= 'd144;
-                start_weight <= 'd144;
-            end
-            3: begin
-                wmem_addr    <= 'd288;
-                start_weight <= 'd288;
-            end
-            5: begin
-                wmem_addr    <= 'd432;
-                start_weight <= 'd432;
-            end
-            6: begin
-                wmem_addr    <= 'd576;
-                start_weight <= 'd576;
-            end
-            default: begin
-                wmem_addr    <= 'd0;
-                start_weight <= 'd0;
-            end
-        endcase
-
-        // 나머지 플래그·카운터 초기화
-        cnt1_row     <= 'd0;
-        cnt1_column  <= 'd0;
-        state        <= FIRST;
-
-        num1         <= 'd0;
-        num_w        <= weight_num;   // layer_start 시점에 확정돼 있어야 함
-
-        stage2_en    <= 1'b0;
-        row_last     <= 1'b0;
-        final_data   <= 'd0;
-        color        <= red;
-    end
-    // -----------------------------------------------------------
-    // (3) 정상 동작 : 다음 상태로 전파
-    // -----------------------------------------------------------
-    else begin
-        mem_rd_addr  <= mem_rd_addr_n;
-        wmem_addr    <= wmem_addr_n;
-
-        cnt1_row     <= cnt1_row_n;
-        cnt1_column  <= cnt1_column_n;
-        state        <= state_n;
-
-        num1         <= num1_n;
-        num_w        <= num_w_n;
-
-        stage2_en    <= stage2_en_n;
-        row_last     <= row_last_n;
-        final_data   <= final_data_n;
-        color        <= color_n;
-    end
-end
-
-  
-    //channel ����, (input data ��ü) * weight 16��
     always @(*) begin
         mem_rd_addr_n = mem_rd_addr;
         wmem_addr_n = wmem_addr; 
@@ -422,7 +406,7 @@ end
                                 num_w_n = num_w - 1;
                                 stage2_en_n = 'b1;
                             end
-                            if (num_w_n == 0) begin // ��� weight �� �ҷ���. addr �ʱ�ȭ & input/weight �� �� �ҷ����� state�� �̵�
+                            if (num_w_n == 0) begin // ���? weight �� �ҷ���. addr �ʱ�ȭ & input/weight �� �� �ҷ����� state�� �̵�
                                 num_w_n = weight_num;
                                 num1_n = 0;
                                 wmem_addr_n = start_weight;
@@ -744,7 +728,7 @@ end
         endcase
     end
 
-    // �ּҰ� �������� �ʰ� ���ͼ� �� ����Ŭ�� �ڷ� �о����
+    // �ּҰ� �������� �ʰ� ���ͼ� �� ����Ŭ�� �ڷ� �о����?
     always @(posedge clk) begin
         if (!rst_n) begin
            stage2_en_reg <= 0;
@@ -1002,7 +986,7 @@ end
         end
         output_mem_en = 0;
         case (layer_num)
-            4: begin // R -> G -> B ������� �ּ�(ä�� ��) �ϳ���
+            4: begin // R -> G -> B �������? �ּ�(ä�� ��) �ϳ���
                 if (stage6_en_n) begin  // maxpool ���� �� -> �ٷ� memory�� ����
                     case(color_wb)
                         red: begin
@@ -1153,7 +1137,7 @@ end
                 endcase
             
                 
-                if (cnt2_column != row_num) begin // column �� ����, ��� column ������ ä�� +1
+                if (cnt2_column != row_num) begin // column �� ����, ���? column ������ ä�� +1
                     if (output_mem_en) begin // output memory�� �ֱ� (R, G, B �ϳ��� ����)
                         start_point = 'd103 + 'd102*cnt2_column;
                         if (cnt2_row != row_num) begin // row �� ����, �� �� ������ �� �ٲٱ�
