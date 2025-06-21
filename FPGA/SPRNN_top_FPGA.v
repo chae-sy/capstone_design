@@ -25,7 +25,7 @@ module SPRNN_Top#(
     output  wire  [2:0]     layer_num_o,
     output  wire            layer_done_o,   
     output  wire            total_done_o,
-    output  wire            UART_RXD_OUT  
+    output  wire            UART_TXD_IN  
 );
 
     wire    [9:0]           wmem_addr_o;
@@ -208,28 +208,28 @@ module SPRNN_Top#(
         .CEB                (wmem_cenb),
         .WEB                (wmem_wenb),
         .A                  (wmem_addr),
-      	.D                  (wmem_din),
-      	.Q                  (wmem_qout)
-      );
+    	.D                  (wmem_din),
+    	.Q                  (wmem_qout)
+    );
 
     memory_w_v0 u_memA(  // Data Storage A
-    	  .CLK                (clk),
+    	.CLK                (clk),
         .CEB                (memA_cenb),
         .WEB                (memA_wenb),
         .A                  (memA_addr),
-      	.D                  (memA_din),
-      	.Q                  (memA_qout)
-      );
+    	.D                  (memA_din),
+    	.Q                  (memA_qout)
+    );
     
     memory_w_v0 u_memB(  // Data Storage B
         .CLK                (clk),
         .CEB                (memB_cenb),
         .WEB                (memB_wenb),
         .A                  (memB_addr),
-      	.D                  (memB_din),
-      	.Q                  (memB_qout)
-      );        
-      
+    	.D                  (memB_din),
+    	.Q                  (memB_qout)
+    );        
+    
     assign wmem_cenb = (initial_weight_done & start) ? wmem_cenb_o : (start ? 0 : 1);
     assign wmem_wenb = (initial_weight_done & start) ? wmem_wenb_o : (start ? 0 : 1);
     assign memA_cenb = (send) ? mem_rd_cenb : ((initial_SRAMw_done & start) ? memA_cenb_o : (start ? 0 : 1));
@@ -262,7 +262,7 @@ module SPRNN_Top#(
         .image_data(image_data),
         .total_bytes(total_bytes),
         .one_byte(one_byte),
-        .tx(UART_RXD_OUT),
+        .tx(UART_TXD_IN),
         .busy(busy),
         .tx_done(tx_done)
     );
