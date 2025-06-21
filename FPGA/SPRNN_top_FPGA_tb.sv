@@ -46,7 +46,7 @@ module SPRNN_Top_tb;
         .layer_num_o        (layer_num),
         .layer_done_o       (layer_done),
         .total_done_o       (total_done_o),
-        .UART_RXD_OUT       (UART_RXD_OUT)
+        .UART_TXD_IN        (UART_TXD_IN)
     );
 
     // Clock ?깮?꽦
@@ -181,7 +181,7 @@ module SPRNN_Top_tb;
         $monitor("Time=%0t | tx=%b | valid=%b | bit_index=%d | shift_reg = %b | state=%d | one_byte=%b | address=%d", 
         $time, dut.uart_tx_inst.tx, dut.valid, dut.uart_tx_inst.bit_index ,dut.uart_tx_inst.shift_reg, 
         dut.uart_tx_inst.state, dut.uart_tx_inst.one_byte, dut.mem_rd_addr); // 항상 모니터링
-        $monitor("Time=%0t, UART_RXD_OUT=%0d", $time, UART_RXD_OUT); // DUT 포트 이름에 맞춰 변경
+        $monitor("Time=%0t, UART_TXD_IN=%0d", $time, UART_TXD_IN); // DUT 포트 이름에 맞춰 변경
         $monitor("tx_done=%0d | frame_state=%d | byte_counter=%d", dut.tx_done, dut.frame_state, dut.uart_tx_inst.byte_counter); // DUT 포트 이름에 맞춰 변경
     end
     
