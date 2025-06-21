@@ -10,7 +10,7 @@ module uart_image_tx (
     output reg         tx_done        // 전체 전송 완료 플래그 (1클럭 HIGH)
 );
 
-    localparam BAUD_RATE = 1;  // 50 MHz / 115200bps
+    localparam BAUD_RATE = 868;  // (100_000_000 / 115200)
     localparam IDLE = 2'd0, LOAD = 2'd1, SEND = 2'd2;
 
     reg [1:0]  state, next_state;
