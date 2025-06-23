@@ -19,18 +19,20 @@ def remap_and_convolve(D, P, kernel):
     D: [B, 1, h, w]
     P: [B, 1, H, W]
     """
-    B, _, H, W = P.shape
+    B, _, H, W = P.shape                # H, W: full-res
+    _, _, h, w = D.shape                # h, w: low-res
+
+    scale_h = H // h                    # ex) 4  (R/B), 2 (G)
+    scale_w = W // w                    # ex) 2  (R/B), 2 (G)
+
     Z = torch.zeros_like(P)
-    mask = (P == 1)
-    
-    # Map low-res D to high-res Z
+
     for b in range(B):
-        d_idx = 0
         for i in range(H):
+            ni = i // scale_h           # 높이 매핑
             for j in range(W):
+                nj = j // scale_w       # 너비 매핑
                 if P[b, 0, i, j] == 1:
-                    ni = i // 2
-                    nj = j // 4 if D.shape[-1] * 4 == W else j // 2
                     Z[b, 0, i, j] = D[b, 0, ni, nj]
     # Convolve with kernel
     kernel = kernel.to(Z.device).unsqueeze(0).unsqueeze(0)
@@ -63,15 +65,18 @@ def generate_pixel_masks(H, W):
 
     for i in range(H):
         for j in range(W):
-            if (i % 4 == 1 and j % 4 == 1) or (i % 4 == 3 and j % 4 == 3):
-                Pr[0, i, j] = 1
-            if i % 2 == 0 and j % 2 == 0:
+            ii, jj = i % 4, j % 4       # 4×4 반복 타일 좌표
+
+            # ── Green (변화 없음) ───────────────────────────
+            if ii % 2 == 0 and jj % 2 == 0:      # (0,0) (0,2) (2,0) (2,2)
                 Pg[0, i, j] = 1
-            if (i % 4 == 1 and j % 4 == 3) or (i % 4 == 3 and j % 4 == 1):
+
+            # ── Red / Blue (1↔3 위치 뒤집음) ────────────────
+            if (ii, jj) in {(1, 3), (3, 1)}:     # 🔴 R ← 가로·세로 미러된 자리
+                Pr[0, i, j] = 1
+            elif (ii, jj) in {(1, 1), (3, 3)}:   # 🔵 B ← 기존 R 자리가 B 로
                 Pb[0, i, j] = 1
-
     return Pr, Pg, Pb
-
 import os
 import random
 from PIL import Image

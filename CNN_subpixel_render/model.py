@@ -20,7 +20,7 @@ class SPRNNBlock(nn.Module):
 
         # MaxPool - stride varies based on color
         self.maxpool_g = nn.MaxPool2d(kernel_size=2, stride=2)
-        self.maxpool_rb = nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4))
+        self.maxpool_rb = nn.MaxPool2d(kernel_size=(4,2), stride=(4,2))
 
         # Low-resolution conv layers
         self.conv4 = nn.Conv2d(mid_channels, mid_channels, kernel_size, padding=padding)
