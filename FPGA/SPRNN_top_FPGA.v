@@ -10,27 +10,27 @@ module SPRNN_Top#(
 )(
     input   wire            clk,
     input   wire            rst_n,
-    input   wire            start,
-    input   wire  [15:0]    memA_addr_i,
-    input   wire  [15:0]    memB_addr_i,
-    input   wire  [9:0]     wmem_addr_i,
-    input   wire  [127:0]   memA_d_i,
-    input   wire  [127:0]   memB_d_i,
-    input   wire  [127:0]   wmem_d_i,
-    input   wire            wren_bias_i,
-    input   wire  [2:0]     write_addr_bias_i,
-    input   wire  [511:0]   write_data_bias_i,
-    input   wire            initial_SRAMw_done,
-    input   wire            initial_weight_done,
-    output  wire  [2:0]     layer_num_o,
-    output  wire            layer_done_o,   
-    output  wire            total_done_o,
+//    input   wire            start,
+//    input   wire  [15:0]    memA_addr_i,
+//    input   wire  [15:0]    memB_addr_i,
+//    input   wire  [9:0]     wmem_addr_i,
+ //   input   wire  [127:0]   memA_d_i,
+//    input   wire  [127:0]   memB_d_i,
+//    input   wire  [127:0]   wmem_d_i,
+//    input   wire            wren_bias_i,
+ //   input   wire  [2:0]     write_addr_bias_i,
+//    input   wire  [511:0]   write_data_bias_i,
+//    input   wire            initial_SRAMw_done,
+//   input   wire            initial_weight_done,
+//    output  wire  [2:0]     layer_num_o,
+//    output  wire            layer_done_o,   
+//    output  wire            total_done_o,
     output  wire            UART_TXD_IN  
 );
-
+    reg                     start, initial_SRAMw_done, initial_weight_done;
     wire    [9:0]           wmem_addr_o;
-    wire    [15:0]          memA_addr_o;
-    wire    [15:0]          memB_addr_o;
+    wire    [14:0]          memA_addr_o;
+    wire    [14:0]          memB_addr_o;
 
     wire                    wmem_wenb_o,
                             wmem_cenb_o,
@@ -69,8 +69,8 @@ module SPRNN_Top#(
     wire    [2:0]           layer_num;
 
     wire    [9:0]           wmem_addr;
-    wire    [15:0]          memA_addr;
-    wire    [15:0]          memB_addr;
+    wire    [14:0]          memA_addr;
+    wire    [14:0]          memB_addr;
     
     wire    [127:0]         wmem_din,
                             memA_din,
@@ -108,6 +108,11 @@ module SPRNN_Top#(
     reg  [2:0]                      read_addr_bias;
     reg                             rden_bias;
     wire [BIAS_WIDTH-1:0]           read_data_bias;
+    
+    reg mem_wenb_bias, mem_cenb_bias;
+    reg  [2:0]                      mem_bias_addr;
+    reg  [511:0]                    mem_bias_din;
+    wire [511:0]                    mem_bias_qout;
     
     wire [DATA_WIDTH*NUM_CHNL-1:0]  maxpool_output;
     wire [DATA_WIDTH*NUM_CHNL-1:0]  data_out;
@@ -198,38 +203,88 @@ module SPRNN_Top#(
     assign  layer_num_o = layer_num;
 
     /////////////////////// memory //////////////////////////
-
-    memory_w_v0 #(
-    .addr_width (10), 
-    .data_width (128),
-    .wr_delay (8)
-   )   u_memW(  // Data Storage weight
-        .CLK                (clk),
-        .CEB                (wmem_cenb),
-        .WEB                (wmem_wenb),
-        .A                  (wmem_addr),
-    	.D                  (wmem_din),
-    	.Q                  (wmem_qout)
+ 
+    wire ena_wmem    = ~wmem_cenb;                 // chip enable
+    wire wea_wmem = ~wmem_wenb; // active-high
+    
+    blk_mem_gen_w u_memW(  // Data Storage weight
+        .clka               (clk),
+        .ena                (ena_wmem),
+        .wea                (wea_wmem),
+        .addra              (wmem_addr),
+        .dina               (wmem_din),
+        .douta              (wmem_qout)
     );
 
-    memory_w_v0 u_memA(  // Data Storage A
-    	.CLK                (clk),
-        .CEB                (memA_cenb),
-        .WEB                (memA_wenb),
-        .A                  (memA_addr),
-    	.D                  (memA_din),
-    	.Q                  (memA_qout)
+    
+    wire ena_memA    = ~memA_cenb;                 // chip enable
+    wire wea_memA = ~memA_wenb ; // active-high
+
+    blk_mem_gen_A u_memA (
+        .clka   (clk),
+        .ena    (ena_memA),
+        .wea    (wea_memA),          
+        .addra  (memA_addr),
+        .dina   (memA_din),
+        .douta  (memA_qout)
+    );
+
+
+    wire ena_memB    = ~memB_cenb;                 // chip enable
+    wire wea_memB = ~memB_wenb; // active-high
+
+    blk_mem_gen_B u_memB (
+        .clka   (clk),
+        .ena    (ena_memB),
+        .wea    (wea_memB),          // 16-bit byte-WE
+        .addra  (memB_addr),
+        .dina   (memB_din),
+        .douta  (memB_qout)
     );
     
-    memory_w_v0 u_memB(  // Data Storage B
-        .CLK                (clk),
-        .CEB                (memB_cenb),
-        .WEB                (memB_wenb),
-        .A                  (memB_addr),
-    	.D                  (memB_din),
-    	.Q                  (memB_qout)
-    );        
+//    memory_w_v0 #(
+//    .addr_width (10), 
+//    .data_width (128),
+//    .wr_delay (8)
+//   )   u_memW(  // Data Storage weight
+//        .CLK                (clk),
+//        .CEB                (wmem_cenb),
+//        .WEB                (wmem_wenb),
+//        .A                  (wmem_addr),
+//    	.D                  (wmem_din),
+//    	.Q                  (wmem_qout)
+//    );
+
+//    memory_w_v0 u_memA(  // Data Storage A
+//    	.CLK                (clk),
+//        .CEB                (memA_cenb),
+//        .WEB                (memA_wenb),
+//        .A                  (memA_addr),
+//    	.D                  (memA_din),
+//    	.Q                  (memA_qout)
+//    );
     
+//    memory_w_v0 u_memB(  // Data Storage B
+//        .CLK                (clk),
+//        .CEB                (memB_cenb),
+//        .WEB                (memB_wenb),
+//        .A                  (memB_addr),
+//    	.D                  (memB_din),
+//    	.Q                  (memB_qout)
+//    );        
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            start <= 1'b0;
+            initial_SRAMw_done <= 1'b0;
+            initial_weight_done <= 1'b0;
+        end
+        else begin
+            start <= 1'b1;
+            initial_SRAMw_done <= 1'b1;
+            initial_weight_done <= 1'b1;
+        end
+    end
     assign wmem_cenb = (initial_weight_done & start) ? wmem_cenb_o : (start ? 0 : 1);
     assign wmem_wenb = (initial_weight_done & start) ? wmem_wenb_o : (start ? 0 : 1);
     assign memA_cenb = (send) ? mem_rd_cenb : ((initial_SRAMw_done & start) ? memA_cenb_o : (start ? 0 : 1));
@@ -237,13 +292,12 @@ module SPRNN_Top#(
     assign memB_cenb = (initial_SRAMw_done & start) ? memB_cenb_o : (start ? 0 : 1);
     assign memB_wenb = (initial_SRAMw_done & start) ? memB_wenb_o : (start ? 0 : 1);
 
-    assign wmem_addr = (initial_weight_done & start) ? wmem_addr_o : (start ? wmem_addr_i : 0);
-    assign memA_addr = (send) ? mem_rd_addr : ((initial_SRAMw_done & start) ? memA_addr_o : (start ? memA_addr_i : 0));
-    assign memB_addr = (initial_SRAMw_done & start) ? memB_addr_o : (start ? memB_addr_i : 0);       
+    assign wmem_addr = (initial_weight_done & start) ? wmem_addr_o : 0;
+    assign memA_addr = (send) ? mem_rd_addr : ((initial_SRAMw_done & start) ? memA_addr_o : 0);
+    assign memB_addr = (initial_SRAMw_done & start) ? memB_addr_o : 0;       
 
-    assign wmem_din = wmem_d_i;
-    assign memA_din = (initial_SRAMw_done & start) ? memA_d : (start ? memA_d_i : 0);
-    assign memB_din = (initial_SRAMw_done & start) ? memB_d : (start ? memB_d_i : 0);
+    assign memA_din = (initial_SRAMw_done & start) ? memA_d : 0;
+    assign memB_din = (initial_SRAMw_done & start) ? memB_d : 0;
 
     //(4) maxpool -> memory //maxpool_output
     //(1,2,3,5,6) output buffer -> memory // data_out
@@ -588,40 +642,79 @@ module SPRNN_Top#(
             for (i=0; i < NUM_COLOR; i=i+1) begin
                 stage4_input[i] <= {24{1'b0}};
             end
-            rden_bias <= 1'b0;
-        end
-        else if (addtree_done_i) begin // valid == done
-            for (i=0; i < NUM_COLOR; i=i+1) begin
-                stage4_input[i] <= stage3_output[i];
-            end
-            rden_bias <= 1'b1;
+            mem_cenb_bias <= 1'b1;
+            mem_wenb_bias <= 1'b1;
         end
         else begin
-            rden_bias <= 1'b0;
+            if (addtree_done_i) begin // valid == done
+                for (i=0; i < NUM_COLOR; i=i+1) begin
+                    stage4_input[i] <= stage3_output[i];
+                end
+                mem_cenb_bias <= 1'b0;
+                mem_wenb_bias <= 1'b1;
+            end
+            else begin
+                mem_cenb_bias <= 1'b1;
+                mem_wenb_bias <= 1'b1;
+            end
         end
+    end
+
+    always @(posedge clk) begin
         case (layer_num)
-            1: read_addr_bias <= 0;
-            2: read_addr_bias <= 1;
-            3: read_addr_bias <= 2;
-            5: read_addr_bias <= 3;
-            6: read_addr_bias <= 4;
-            default: read_addr_bias <= 0;
+            1: mem_bias_addr <= 0;
+            2: mem_bias_addr <= 1;
+            3: mem_bias_addr <= 2;
+            5: mem_bias_addr <= 3;
+            6: mem_bias_addr <= 4;
+            default: mem_bias_addr <= 0;
         endcase
     end
 
     /////////////////////// relu & bias //////////////////////////
 
-    regfile_sync u_mem_bias(
-        .clk                (clk),
-        .rst_n              (rst_n),
-        .we                 (wren_bias_i),
-        .waddr              (write_addr_bias_i),
-        .wdata              (write_data_bias_i),
-        .raddr              (read_addr_bias),
-        .rden               (rden_bias),
-        .rdata              (read_data_bias),
-        .layer_num          (layer_num)
+//    regfile_sync u_mem_bias(
+//        .clk                (clk),
+//        .rst_n              (rst_n),
+//        .we                 (wren_bias_i),
+//        .waddr              (write_addr_bias_i),
+//        .wdata              (write_data_bias_i),
+//        .raddr              (read_addr_bias),
+//        .rden               (rden_bias),
+//        .rdata              (read_data_bias),
+//        .layer_num          (layer_num)
+//    );
+    
+    wire ena_mem_bias    = ~mem_cenb_bias;                 // chip enable
+    wire wea_mem_bias = ~mem_wenb_bias; // active-high
+
+    blk_mem_gen_bias u_mem_bias (
+        .clka   (clk),
+        .ena    (ena_mem_bias),
+        .wea    (wea_mem_bias),          
+        .addra  (mem_bias_addr),
+        .dina   (mem_bias_din),
+        .douta  (mem_bias_qout)
     );
+    
+    reg [3:0] cnt;
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            cnt <= 0;
+        end 
+        else if ((!ena_mem_bias)&(wea_mem_bias)) begin
+            if (layer_num == 6) begin
+                    cnt <= 4'd0;
+            end else begin
+                if (cnt == (16*32-1))
+                    cnt <= 4'd0;
+                else
+                    cnt <= cnt + 4'd1;
+            end
+        end
+    end
+
+    assign read_data_bias = mem_bias_qout[511-cnt * 32 -: 32];
 
     bias_relu      u_bias_relu_R
     (
