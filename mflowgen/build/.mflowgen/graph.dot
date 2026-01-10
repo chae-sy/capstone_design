@@ -1,0 +1,36 @@
+digraph {
+label="";
+labelloc="t";
+fontsize=60;
+size="8.5;11";
+ratio="fill";
+margin=0;
+pad=1;
+rankdir="TB";
+concentrate=true;
+splines=polyline;
+center=true;
+nodesep=1.2;
+ranksep=0.8;
+info [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ {  } | \ninfo\n\n | {  } }", color=black ];
+orfs_design [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ {  } | \norfs-design\n\n | { <o_orfs_design> orfs-design } }", color=black ];
+orfs_docker_setup [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ {  } | \norfs-docker-setup\n\n | { <o_orfs_docker_image_tar> orfs-docker-image.tar } }", color=black ];
+orfs_openroad_cts [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ { <i_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz | <i_orfs_docker_image_tar> orfs-docker-image.tar } | \norfs-openroad-cts\n\n | { <o_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz } }", color=black ];
+orfs_openroad_finish [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ { <i_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz | <i_orfs_docker_image_tar> orfs-docker-image.tar } | \norfs-openroad-finish\n\n | { <o_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz } }", color=black ];
+orfs_openroad_floorplan [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ { <i_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz | <i_orfs_docker_image_tar> orfs-docker-image.tar } | \norfs-openroad-floorplan\n\n | { <o_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz } }", color=black ];
+orfs_openroad_place [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ { <i_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz | <i_orfs_docker_image_tar> orfs-docker-image.tar } | \norfs-openroad-place\n\n | { <o_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz } }", color=black ];
+orfs_openroad_route [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ { <i_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz | <i_orfs_docker_image_tar> orfs-docker-image.tar } | \norfs-openroad-route\n\n | { <o_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz } }", color=black ];
+orfs_yosys_synthesis [ fontsize=24, width=2, penwidth=2, shape=Mrecord, label="{ { <i_orfs_design> orfs-design | <i_orfs_docker_image_tar> orfs-docker-image.tar } | \norfs-yosys-synthesis\n\n | { <o_flow_checkpoint_tar_gz> flow-checkpoint.tar.gz } }", color=black ];
+orfs_openroad_place:o_flow_checkpoint_tar_gz:s -> orfs_openroad_cts:i_flow_checkpoint_tar_gz:n [ arrowsize=2, penwidth=2 ];
+orfs_docker_setup:o_orfs_docker_image_tar:s -> orfs_openroad_cts:i_orfs_docker_image_tar:n [ arrowsize=2, penwidth=2 ];
+orfs_openroad_route:o_flow_checkpoint_tar_gz:s -> orfs_openroad_finish:i_flow_checkpoint_tar_gz:n [ arrowsize=2, penwidth=2 ];
+orfs_docker_setup:o_orfs_docker_image_tar:s -> orfs_openroad_finish:i_orfs_docker_image_tar:n [ arrowsize=2, penwidth=2 ];
+orfs_yosys_synthesis:o_flow_checkpoint_tar_gz:s -> orfs_openroad_floorplan:i_flow_checkpoint_tar_gz:n [ arrowsize=2, penwidth=2 ];
+orfs_docker_setup:o_orfs_docker_image_tar:s -> orfs_openroad_floorplan:i_orfs_docker_image_tar:n [ arrowsize=2, penwidth=2 ];
+orfs_openroad_floorplan:o_flow_checkpoint_tar_gz:s -> orfs_openroad_place:i_flow_checkpoint_tar_gz:n [ arrowsize=2, penwidth=2 ];
+orfs_docker_setup:o_orfs_docker_image_tar:s -> orfs_openroad_place:i_orfs_docker_image_tar:n [ arrowsize=2, penwidth=2 ];
+orfs_openroad_cts:o_flow_checkpoint_tar_gz:s -> orfs_openroad_route:i_flow_checkpoint_tar_gz:n [ arrowsize=2, penwidth=2 ];
+orfs_docker_setup:o_orfs_docker_image_tar:s -> orfs_openroad_route:i_orfs_docker_image_tar:n [ arrowsize=2, penwidth=2 ];
+orfs_design:o_orfs_design:s -> orfs_yosys_synthesis:i_orfs_design:n [ arrowsize=2, penwidth=2 ];
+orfs_docker_setup:o_orfs_docker_image_tar:s -> orfs_yosys_synthesis:i_orfs_docker_image_tar:n [ arrowsize=2, penwidth=2 ];
+}

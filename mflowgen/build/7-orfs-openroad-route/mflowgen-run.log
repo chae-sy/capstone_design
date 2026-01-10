@@ -1,0 +1,1309 @@
+
+- Loading orfs docker image ...
+
+Loaded image: mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+- Creating orfs docker container ...
+
+
+- Created orfs docker container with Container ID -- f8206b8efb016a8a4547cedfae9939bba44bffb391c179bc6e7c2739d7d0c850
+
+
+- Moving flow checkpoint into orfs docker container -- f8206b8efb016a8a4547cedfae9939bba44bffb391c179bc6e7c2739d7d0c850
+
+flow/
+flow/scripts/
+flow/scripts/klayout.tcl
+flow/scripts/io_placement.tcl
+flow/scripts/final_report.tcl
+flow/scripts/pdn.tcl
+flow/scripts/read_macro_placement.tcl
+flow/scripts/fillcell.tcl
+flow/scripts/save_images.tcl
+flow/scripts/io_placement_random.tcl
+flow/scripts/write_ref_sdc.tcl
+flow/scripts/abc_speed.script
+flow/scripts/synth_metrics.tcl
+flow/scripts/global_place.tcl
+flow/scripts/resize.tcl
+flow/scripts/report_metrics.tcl
+flow/scripts/global_route.tcl
+flow/scripts/sta-synth.tcl
+flow/scripts/write_def.tcl
+flow/scripts/tdms_place.tcl
+flow/scripts/mem_dump.py
+flow/scripts/synth.tcl
+flow/scripts/detail_route.tcl
+flow/scripts/read_liberty.tcl
+flow/scripts/tapcell.tcl
+flow/scripts/deletePowerNets.tcl
+flow/scripts/util.tcl
+flow/scripts/global_place_skip_io.tcl
+flow/scripts/synth_preamble.tcl
+flow/scripts/yosys.tcl
+flow/scripts/cts.tcl
+flow/scripts/deleteNonClkNets.tcl
+flow/scripts/synth_hier_report.tcl
+flow/scripts/floorplan.tcl
+flow/scripts/deleteRoutingObstructions.tcl
+flow/scripts/cdl.tcl
+flow/scripts/abc_area.script
+flow/scripts/noop.tcl
+flow/scripts/macro_place_util.tcl
+flow/scripts/escape.sh
+flow/scripts/add_routing_blk.tcl
+flow/scripts/sc/
+flow/scripts/sc/README.md
+flow/scripts/sc/tools/
+flow/scripts/sc/tools/openroad/
+flow/scripts/sc/tools/openroad/sc_apr.tcl
+flow/scripts/sc/flows/
+flow/scripts/sc/flows/orflow.py
+flow/scripts/sc/util/
+flow/scripts/sc/util/parse_config_mk.py
+flow/scripts/sc/util/parse_target_config.py
+flow/scripts/sc/targets/
+flow/scripts/sc/targets/nangate45_orflow.py
+flow/scripts/sc/targets/asap7_orflow.py
+flow/scripts/sc/targets/sky130hd_orflow.py
+flow/scripts/sc/targets/sky130hs_orflow.py
+flow/scripts/gui.tcl
+flow/scripts/placement_blockages.tcl
+flow/scripts/load.tcl
+flow/scripts/generate_abstract.tcl
+flow/scripts/macro_place.tcl
+flow/scripts/view_cells.tcl
+flow/scripts/detail_place.tcl
+flow/scripts/io_placement_util.tcl
+flow/scripts/density_fill.tcl
+flow/scripts/write_verilog.tcl
+flow/tutorials/
+flow/tutorials/scripts/
+flow/tutorials/scripts/gui/
+flow/tutorials/scripts/gui/load_lef.tcl
+flow/tutorials/scripts/drt/
+flow/tutorials/scripts/drt/helpers.tcl
+flow/tutorials/scripts/drt/drc_fix.tcl
+flow/tutorials/scripts/drt/drc_issue.tcl
+flow/tutorials/scripts/drt/gcd/
+flow/tutorials/scripts/drt/gcd/drc_cts.def
+flow/tutorials/scripts/drt/gcd/gcd.sdc
+flow/tutorials/scripts/drt/gcd/4_cts.def
+flow/tutorials/scripts/metal_fill/
+flow/tutorials/scripts/metal_fill/5_route.odb
+flow/tutorials/scripts/metal_fill/metal_fill.tcl
+flow/tutorials/scripts/metal_fill/helpers.tcl
+flow/tutorials/README.md
+flow/Makefile.py
+flow/platforms/
+flow/platforms/nangate45/
+flow/platforms/nangate45/FreePDK45.lyt
+flow/platforms/nangate45/fakeram.tcl
+flow/platforms/nangate45/grid_strategy-M1-M4-M7.tcl
+flow/platforms/nangate45/setRC.tcl
+flow/platforms/nangate45/FreePDK45.lyp
+flow/platforms/nangate45/README.md
+flow/platforms/nangate45/work_around_yosys/
+flow/platforms/nangate45/work_around_yosys/cells.v
+flow/platforms/nangate45/rcx_patterns.rules
+flow/platforms/nangate45/tapcell.tcl
+flow/platforms/nangate45/drc/
+flow/platforms/nangate45/drc/FreePDK45.lydrc
+flow/platforms/nangate45/make_tracks.tcl
+flow/platforms/nangate45/lib/
+flow/platforms/nangate45/lib/fakeram45_64x64.lib
+flow/platforms/nangate45/lib/fakeram45_2048x39.lib
+flow/platforms/nangate45/lib/fakeram45_32x32.lib
+flow/platforms/nangate45/lib/fakeram45_256x95.lib
+flow/platforms/nangate45/lib/fakeram45_64x7.lib
+flow/platforms/nangate45/lib/fakeram45_512x64.lib
+flow/platforms/nangate45/lib/fakeram45_128x116.lib
+flow/platforms/nangate45/lib/fakeram45_256x48.lib
+flow/platforms/nangate45/lib/fakeram45_64x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x15.lib
+flow/platforms/nangate45/lib/fakeram45_64x21.lib
+flow/platforms/nangate45/lib/fakeram45_128x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x124.lib
+flow/platforms/nangate45/lib/fakeram45_128x256.lib
+flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+flow/platforms/nangate45/lib/fakeram45_1024x32.lib
+flow/platforms/nangate45/lib/fakeram45_32x64.lib
+flow/platforms/nangate45/lib/fakeram45_256x34.lib
+flow/platforms/nangate45/lib/fakeram45_256x96.lib
+flow/platforms/nangate45/lib/fakeram45_64x96.lib
+flow/platforms/nangate45/lib/fakeram45_256x16.lib
+flow/platforms/nangate45/lib/fakeram45_256x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x62.lib
+flow/platforms/nangate45/cells_latch.v
+flow/platforms/nangate45/fakeram.cfg
+flow/platforms/nangate45/magic.tech
+flow/platforms/nangate45/cells_clkgate.v
+flow/platforms/nangate45/LICENSE
+flow/platforms/nangate45/fastroute.tcl
+flow/platforms/nangate45/gds/
+flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+flow/platforms/nangate45/template_pga.cfg
+flow/platforms/nangate45/config.mk
+flow/platforms/nangate45/cdl/
+flow/platforms/nangate45/cdl/NangateOpenCellLibrary.cdl
+flow/platforms/nangate45/cells_adders.v
+flow/platforms/nangate45/lef/
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
+flow/platforms/nangate45/lef/fakeram45_512x64.lef
+flow/platforms/nangate45/lef/fakeram45_256x95.lef
+flow/platforms/nangate45/lef/fakeram45_256x96.lef
+flow/platforms/nangate45/lef/fakeram45_2048x39.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.lef
+flow/platforms/nangate45/lef/fakeram45_64x124.lef
+flow/platforms/nangate45/lef/fakeram45_256x34.lef
+flow/platforms/nangate45/lef/fakeram45_64x62.lef
+flow/platforms/nangate45/lef/fakeram45_32x64.lef
+flow/platforms/nangate45/lef/fakeram45_64x21.lef
+flow/platforms/nangate45/lef/fakeram45_1024x32.lef
+flow/platforms/nangate45/lef/fakeram45_128x116.lef
+flow/platforms/nangate45/lef/fakeram45_64x7.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.rect.lef
+flow/platforms/nangate45/lef/fakeram45_32x32.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef
+flow/platforms/nangate45/lef/fakeram45_64x96.lef
+flow/platforms/nangate45/lef/fakeram45_256x48.lef
+flow/platforms/nangate45/lef/fakeram45_64x32.lef
+flow/platforms/nangate45/lef/fakeram45_256x32.lef
+flow/platforms/nangate45/lef/fakeram45_64x64.lef
+flow/platforms/nangate45/lef/fakeram45_128x256.lef
+flow/platforms/nangate45/lef/fakeram45_256x16.lef
+flow/platforms/nangate45/lef/fakeram45_64x15.lef
+flow/platforms/nangate45/lef/fakeram45_128x32.lef
+flow/platforms/common/
+flow/platforms/common/lcu_kogge_stone.v
+flow/reports/
+flow/reports/nangate45/
+flow/reports/nangate45/gcd/
+flow/reports/nangate45/gcd/base/
+flow/reports/nangate45/gcd/base/synth_check.txt
+flow/reports/nangate45/gcd/base/2_floorplan_final.rpt
+flow/reports/nangate45/gcd/base/5_global_place.rpt
+flow/reports/nangate45/gcd/base/3_resizer.rpt
+flow/reports/nangate45/gcd/base/4_cts_final.rpt
+flow/reports/nangate45/gcd/base/synth_stat.txt
+flow/reports/nangate45/gcd/base/3_detailed_place.rpt
+flow/util/
+flow/util/gallery.json
+flow/util/plot_floorplan.py
+flow/util/correlateRC.py
+flow/util/generate-vars.sh
+flow/util/genReport.py
+flow/util/addDummyToLef.py
+flow/util/executeParallel.sh
+flow/util/genMassive.py
+flow/util/calPath.py
+flow/util/docker_shell
+flow/util/cell-veneer/
+flow/util/cell-veneer/README.md
+flow/util/cell-veneer/pkgIndex.tcl
+flow/util/cell-veneer/lefdef.tcl
+flow/util/cell-veneer/wrap_stdcells.tcl
+flow/util/cell-veneer/wrap.tcl
+flow/util/distributed.py
+flow/util/genAllRuleFiles.sh
+flow/util/genMetrics.py
+flow/util/checkMetadata.py
+flow/util/genElapsedTime.py
+flow/util/uploadMetadata.py
+flow/util/appendStatsToDb.py
+flow/util/write_net_rc.tcl
+flow/util/viewDrc.py
+flow/util/run.sh
+flow/util/def2stream.py
+flow/util/genReportTable.py
+flow/util/updateRules.py
+flow/util/write_net_rc_script.tcl
+flow/util/utils.mk
+flow/util/calBuffer.py
+flow/util/createGallery.py
+flow/util/mergeLib.pl
+flow/util/makeIssue.sh
+flow/util/convertDrc.py
+flow/util/preprocessLib.py
+flow/util/viewGuide.py
+flow/util/genRuleFile.py
+flow/logs/
+flow/logs/nangate45/
+flow/logs/nangate45/gcd/
+flow/logs/nangate45/gcd/base/
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.json
+flow/logs/nangate45/gcd/base/2_1_floorplan.json
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.json
+flow/logs/nangate45/gcd/base/1_1_yosys.log
+flow/logs/nangate45/gcd/base/3_2_place_iop.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.log
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.log
+flow/logs/nangate45/gcd/base/4_1_cts.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.json
+flow/logs/nangate45/gcd/base/3_3_place_gp.json
+flow/logs/nangate45/gcd/base/3_4_place_resized.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.json
+flow/logs/nangate45/gcd/base/3_2_place_iop.json
+flow/logs/nangate45/gcd/base/4_1_cts.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.json
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.log
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.log
+flow/logs/nangate45/gcd/base/3_4_place_resized.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.log
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.json
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.log
+flow/results/
+flow/results/nangate45/
+flow/results/nangate45/gcd/
+flow/results/nangate45/gcd/base/
+flow/results/nangate45/gcd/base/3_1_place_gp_skip_io.odb
+flow/results/nangate45/gcd/base/3_3_place_gp.odb
+flow/results/nangate45/gcd/base/4_cts.odb
+flow/results/nangate45/gcd/base/4_cts.sdc
+flow/results/nangate45/gcd/base/3_5_place_dp.odb
+flow/results/nangate45/gcd/base/mem.json
+flow/results/nangate45/gcd/base/1_synth.sdc
+flow/results/nangate45/gcd/base/2_4_floorplan_macro.odb
+flow/results/nangate45/gcd/base/2_6_floorplan_pdn.odb
+flow/results/nangate45/gcd/base/2_5_floorplan_tapcell.odb
+flow/results/nangate45/gcd/base/2_floorplan.sdc
+flow/results/nangate45/gcd/base/1_synth.v
+flow/results/nangate45/gcd/base/1_1_yosys.v
+flow/results/nangate45/gcd/base/2_3_floorplan_tdms.odb
+flow/results/nangate45/gcd/base/2_floorplan.odb
+flow/results/nangate45/gcd/base/3_2_place_iop.odb
+flow/results/nangate45/gcd/base/3_place.sdc
+flow/results/nangate45/gcd/base/4_1_cts.odb
+flow/results/nangate45/gcd/base/clock_period.txt
+flow/results/nangate45/gcd/base/2_2_floorplan_io.odb
+flow/results/nangate45/gcd/base/2_1_floorplan.odb
+flow/results/nangate45/gcd/base/3_place.odb
+flow/results/nangate45/gcd/base/3_4_place_resized.odb
+flow/.gitignore
+flow/test/
+flow/test/test_helper.sh
+flow/test/test_genElapsedTime.py
+flow/test/core_tests.sh
+flow/test/test_delta_debug.sh
+flow/test/test_make_issue.sh
+flow/test/smoke.sh
+flow/test/nodes.txt
+flow/test/.gitignore
+flow/objects/
+flow/objects/nangate45/
+flow/objects/nangate45/gcd/
+flow/objects/nangate45/gcd/base/
+flow/objects/nangate45/gcd/base/copyright.txt
+flow/objects/nangate45/gcd/base/abc.constr
+flow/objects/nangate45/gcd/base/lib/
+flow/objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+flow/Makefile
+flow/designs/
+flow/designs/nangate45/
+flow/designs/nangate45/gcd/
+flow/designs/nangate45/gcd/rules-base.json
+flow/designs/nangate45/gcd/constraint.sdc
+flow/designs/nangate45/gcd/metadata-base-ok.json
+flow/designs/nangate45/gcd/config.mk
+flow/designs/src/
+flow/designs/src/gcd/
+flow/designs/src/gcd/README.md
+flow/designs/src/gcd/gcd.v
+
+- Executing flow commands inside orfs docker container -- f8206b8efb016a8a4547cedfae9939bba44bffb391c179bc6e7c2739d7d0c850
+
+Running global_route.tcl, stage 5_1_grt
+[INFO ORD-0030] Using 16 thread(s).
+global_route -guide_file ./results/nangate45/gcd/base/route.guide -congestion_report_file ./reports/nangate45/gcd/base/congestion.rpt -congestion_iterations 30 -congestion_report_iter_step 5 -verbose
+[INFO GRT-0020] Min routing layer: metal2
+[INFO GRT-0021] Max routing layer: metal10
+[INFO GRT-0022] Global adjustment: 0%
+[INFO GRT-0023] Grid origin: (0, 0)
+[INFO GRT-0043] No OR_DEFAULT vias defined.
+[INFO GRT-0088] Layer metal1  Track-Pitch = 0.1400  line-2-Via Pitch: 0.1350
+[INFO GRT-0088] Layer metal2  Track-Pitch = 0.1900  line-2-Via Pitch: 0.1400
+[INFO GRT-0088] Layer metal3  Track-Pitch = 0.1400  line-2-Via Pitch: 0.1400
+[INFO GRT-0088] Layer metal4  Track-Pitch = 0.2800  line-2-Via Pitch: 0.2800
+[INFO GRT-0088] Layer metal5  Track-Pitch = 0.2800  line-2-Via Pitch: 0.2800
+[INFO GRT-0088] Layer metal6  Track-Pitch = 0.2800  line-2-Via Pitch: 0.2800
+[INFO GRT-0088] Layer metal7  Track-Pitch = 0.8000  line-2-Via Pitch: 0.8000
+[INFO GRT-0088] Layer metal8  Track-Pitch = 0.8000  line-2-Via Pitch: 0.8000
+[INFO GRT-0088] Layer metal9  Track-Pitch = 1.6000  line-2-Via Pitch: 1.6000
+[INFO GRT-0088] Layer metal10 Track-Pitch = 1.6000  line-2-Via Pitch: 1.6000
+[INFO GRT-0019] Found 4 clock nets.
+[INFO GRT-0001] Minimum degree: 2
+[INFO GRT-0002] Maximum degree: 19
+[INFO GRT-0003] Macros: 0
+[INFO GRT-0043] No OR_DEFAULT vias defined.
+[INFO GRT-0004] Blockages: 0
+
+[INFO GRT-0053] Routing resources analysis:
+          Routing      Original      Derated      Resource
+Layer     Direction    Resources     Resources    Reduction (%)
+---------------------------------------------------------------
+metal1     Horizontal          0             0          0.00%
+metal2     Vertical        17082          7571          55.68%
+metal3     Horizontal      23322         10640          54.38%
+metal4     Vertical        10920          7374          32.47%
+metal5     Horizontal      10920          7586          30.53%
+metal6     Vertical        10920          7524          31.10%
+metal7     Horizontal       3120          1477          52.66%
+metal8     Vertical         3120          1558          50.06%
+metal9     Horizontal       1560          1444          7.44%
+metal10    Vertical         1560          1444          7.44%
+---------------------------------------------------------------
+
+[INFO GRT-0197] Via related to pin nodes: 17424
+[INFO GRT-0198] Via related Steiner nodes: 138
+[INFO GRT-0199] Via filling finished.
+[INFO GRT-0111] Final number of vias: 21313
+[INFO GRT-0112] Final usage 3D: 72808
+
+[INFO GRT-0096] Final congestion report:
+Layer         Resource        Demand        Usage (%)    Max H / Max V / Total Overflow
+---------------------------------------------------------------------------------------
+metal1               0             0            0.00%             0 /  0 /  0
+metal2            7571          3400           44.91%             0 /  0 /  0
+metal3           10640          4104           38.57%             0 /  0 /  0
+metal4            7374           962           13.05%             0 /  0 /  0
+metal5            7586           352            4.64%             0 /  0 /  0
+metal6            7524            51            0.68%             0 /  0 /  0
+metal7            1477             0            0.00%             0 /  0 /  0
+metal8            1558             0            0.00%             0 /  0 /  0
+metal9            1444             0            0.00%             0 /  0 /  0
+metal10           1444             0            0.00%             0 /  0 /  0
+---------------------------------------------------------------------------------------
+Total            46618          8869           19.02%             0 /  0 /  0
+
+[INFO GRT-0018] Total wirelength: 31655 um
+[INFO GRT-0014] Routed nets: 3594
+Perform buffer insertion...
+[INFO RSZ-0058] Using max wire length 634um.
+Placement Analysis
+---------------------------------
+total displacement          0.0 u
+average displacement        0.0 u
+max displacement            0.0 u
+original HPWL           17812.3 u
+legalized HPWL          17812.3 u
+delta HPWL                    0 %
+
+Repair setup and hold violations...
+[INFO RSZ-0094] Found 7 endpoints with setup violations.
+Iteration | Removed | Resized | Inserted | Cloned Gates | Pin Swaps |   WNS   |   TNS   | Endpoint
+          | Buffers |         | Buffers  |              |           |         |         |
+-------------------------------------------------------------------------------------------------
+        0 |       0 |       0 |        0 |            0 |         0 |  -0.523 |  -3.625 | out_act\[2\]$_DFFE_PN0P_/D
+       10 |       0 |       8 |        2 |            0 |         0 |  -0.530 |  -3.675 | out_act\[2\]$_DFFE_PN0P_/D
+       20 |       0 |      14 |        2 |            0 |         4 |  -0.524 |  -3.631 | out_act\[2\]$_DFFE_PN0P_/D
+       30 |       0 |      22 |        2 |            0 |         6 |  -0.521 |  -3.606 | out_act\[2\]$_DFFE_PN0P_/D
+       40 |       0 |      30 |        2 |            0 |         8 |  -0.518 |  -3.593 | out_act\[2\]$_DFFE_PN0P_/D
+       50 |       0 |      38 |        2 |            0 |        10 |  -0.516 |  -3.591 | out_act\[2\]$_DFFE_PN0P_/D
+       60 |       0 |      47 |        2 |            0 |        11 |  -0.517 |  -3.596 | out_act\[2\]$_DFFE_PN0P_/D
+       70 |       0 |      53 |        2 |            0 |        15 |  -0.518 |  -3.585 | out_act\[2\]$_DFFE_PN0P_/D
+       80 |       0 |      59 |        4 |            0 |        18 |  -0.523 |  -3.625 | out_act\[2\]$_DFFE_PN0P_/D
+       90 |       0 |      69 |        4 |            0 |        18 |  -0.522 |  -3.628 | out_act\[2\]$_DFFE_PN0P_/D
+      100 |       0 |      78 |        4 |            0 |        19 |  -0.526 |  -3.651 | out_act\[2\]$_DFFE_PN0P_/D
+      110 |       0 |      87 |        4 |            0 |        20 |  -0.522 |  -3.632 | out_act\[2\]$_DFFE_PN0P_/D
+      120 |       0 |      94 |        8 |            0 |        21 |  -0.515 |  -3.588 | out_act\[3\]$_DFFE_PN0P_/D
+      130 |       0 |     103 |        8 |            0 |        22 |  -0.516 |  -3.581 | out_act\[2\]$_DFFE_PN0P_/D
+      140 |       0 |     111 |        8 |            0 |        24 |  -0.515 |  -3.576 | out_act\[2\]$_DFFE_PN0P_/D
+      150 |       0 |     119 |        8 |            0 |        26 |  -0.513 |  -3.571 | out_act\[2\]$_DFFE_PN0P_/D
+      160 |       0 |     126 |        8 |            0 |        29 |  -0.513 |  -3.570 | out_act\[2\]$_DFFE_PN0P_/D
+      170 |       0 |     134 |        8 |            0 |        31 |  -0.517 |  -3.584 | out_act\[2\]$_DFFE_PN0P_/D
+      180 |       0 |     144 |        8 |            0 |        31 |  -0.517 |  -3.602 | out_act\[2\]$_DFFE_PN0P_/D
+      190 |       0 |     153 |        8 |            0 |        32 |  -0.513 |  -3.568 | out_act\[2\]$_DFFE_PN0P_/D
+      200 |       0 |     160 |        8 |            0 |        35 |  -0.511 |  -3.565 | out_act\[2\]$_DFFE_PN0P_/D
+      210 |       0 |     169 |        8 |            0 |        36 |  -0.511 |  -3.561 | out_act\[2\]$_DFFE_PN0P_/D
+      220 |       0 |     176 |        8 |            0 |        39 |  -0.516 |  -3.600 | out_act\[3\]$_DFFE_PN0P_/D
+      230 |       0 |     183 |        8 |            0 |        42 |  -0.510 |  -3.557 | out_act\[2\]$_DFFE_PN0P_/D
+      240 |       0 |     192 |        8 |            0 |        43 |  -0.512 |  -3.569 | out_act\[3\]$_DFFE_PN0P_/D
+      250 |       0 |     199 |        8 |            0 |        46 |  -0.512 |  -3.572 | out_act\[2\]$_DFFE_PN0P_/D
+      260 |       0 |     207 |       10 |            0 |        47 |  -0.509 |  -3.549 | out_act\[2\]$_DFFE_PN0P_/D
+      270 |       0 |     216 |       10 |            0 |        48 |  -0.508 |  -3.544 | out_act\[2\]$_DFFE_PN0P_/D
+      280 |       0 |     223 |       10 |            0 |        51 |  -0.509 |  -3.547 | out_act\[2\]$_DFFE_PN0P_/D
+      290 |       0 |     233 |       10 |            0 |        51 |  -0.508 |  -3.542 | out_act\[3\]$_DFFE_PN0P_/D
+      300 |       0 |     242 |       10 |            0 |        52 |  -0.518 |  -3.612 | out_act\[3\]$_DFFE_PN0P_/D
+      310 |       0 |     250 |       12 |            0 |        53 |  -0.507 |  -3.538 | out_act\[2\]$_DFFE_PN0P_/D
+      320 |       0 |     258 |       12 |            0 |        55 |  -0.508 |  -3.542 | out_act\[3\]$_DFFE_PN0P_/D
+      330 |       0 |     265 |       12 |            0 |        58 |  -0.507 |  -3.539 | out_act\[3\]$_DFFE_PN0P_/D
+      340 |       0 |     271 |       14 |            0 |        61 |  -0.507 |  -3.534 | out_act\[2\]$_DFFE_PN0P_/D
+      350 |       0 |     280 |       14 |            0 |        62 |  -0.506 |  -3.531 | out_act\[2\]$_DFFE_PN0P_/D
+      360 |       0 |     286 |       16 |            0 |        65 |  -0.511 |  -3.561 | out_act\[2\]$_DFFE_PN0P_/D
+      370 |       0 |     294 |       16 |            0 |        67 |  -0.506 |  -3.528 | out_act\[2\]$_DFFE_PN0P_/D
+      380 |       0 |     300 |       16 |            0 |        71 |  -0.505 |  -3.522 | out_act\[2\]$_DFFE_PN0P_/D
+      390 |       0 |     307 |       16 |            0 |        74 |  -0.507 |  -3.535 | out_act\[3\]$_DFFE_PN0P_/D
+      400 |       0 |     315 |       16 |            0 |        76 |  -0.507 |  -3.526 | out_act\[2\]$_DFFE_PN0P_/D
+      410 |       0 |     320 |       16 |            0 |        81 |  -0.509 |  -3.536 | out_act\[2\]$_DFFE_PN0P_/D
+      420 |       0 |     328 |       16 |            0 |        83 |  -0.508 |  -3.528 | out_act\[2\]$_DFFE_PN0P_/D
+      430 |       0 |     336 |       16 |            0 |        85 |  -0.504 |  -3.517 | out_act\[3\]$_DFFE_PN0P_/D
+      440 |       0 |     342 |       18 |            0 |        88 |  -0.511 |  -3.554 | out_act\[3\]$_DFFE_PN0P_/D
+      450 |       0 |     349 |       18 |            0 |        91 |  -0.509 |  -3.550 | out_act\[2\]$_DFFE_PN0P_/D
+      460 |       0 |     359 |       18 |            0 |        91 |  -0.504 |  -3.516 | out_act\[2\]$_DFFE_PN0P_/D
+      470 |       0 |     365 |       18 |            0 |        95 |  -0.515 |  -3.567 | out_act\[2\]$_DFFE_PN0P_/D
+      480 |       0 |     374 |       18 |            0 |        96 |  -0.509 |  -3.522 | out_act\[2\]$_DFFE_PN0P_/D
+      490 |       0 |     382 |       18 |            0 |        98 |  -0.514 |  -3.540 | out_act\[2\]$_DFFE_PN0P_/D
+      500 |       0 |     391 |       18 |            0 |        99 |  -0.510 |  -3.527 | out_act\[2\]$_DFFE_PN0P_/D
+      510 |       0 |     400 |       18 |            0 |       100 |  -0.507 |  -3.518 | out_act\[2\]$_DFFE_PN0P_/D
+      512 |       0 |     359 |       18 |            0 |       102 |  -0.505 |  -3.519 | out_act\[2\]$_DFFE_PN0P_/D
+    final |       0 |     359 |       18 |            0 |       102 |  -0.505 |  -3.519 | out_act\[2\]$_DFFE_PN0P_/D
+-------------------------------------------------------------------------------------------------
+[INFO RSZ-0040] Inserted 9 buffers.
+[INFO RSZ-0041] Resized 359 instances.
+[INFO RSZ-0043] Swapped pins on 102 instances.
+[WARNING RSZ-0062] Unable to repair all setup violations.
+[INFO RSZ-0033] No hold violations found.
+Placement Analysis
+---------------------------------
+total displacement        995.6 u
+average displacement        0.3 u
+max displacement           13.1 u
+original HPWL           17886.4 u
+legalized HPWL          19010.4 u
+delta HPWL                    6 %
+
+Repair antennas...
+[WARNING GRT-0246] No diode with LEF class CORE ANTENNACELL found.
+[INFO ANT-0002] Found 0 net violations.
+[INFO ANT-0001] Found 0 pin violations.
+Estimate parasitics...
+Report metrics stage 5, global route...
+
+==========================================================================
+global route report_design_area
+--------------------------------------------------------------------------
+Design area 4153 u^2 63% utilization.
+[INFO FLW-0007] clock core_clock period 0.460000
+[INFO FLW-0008] Clock core_clock period 0.933
+[INFO FLW-0009] Clock core_clock slack -0.522
+[INFO FLW-0011] Path endpoint count 43
+Elapsed time: 5:03.53[h:]min:sec. CPU time: user 74.55 sys 364.47 (144%). Peak memory: 247588KB.
+Running fillcell.tcl, stage 5_2_fillcell
+[INFO DPL-0001] Placed 1989 filler instances.
+Elapsed time: 0:00.41[h:]min:sec. CPU time: user 0.37 sys 0.06 (105%). Peak memory: 101844KB.
+Running detail_route.tcl, stage 5_3_route
+[INFO ORD-0030] Using 16 thread(s).
+detailed_route -output_drc ./reports/nangate45/gcd/base/5_route_drc.rpt -output_maze ./results/nangate45/gcd/base/maze.log -bottom_routing_layer metal2 -top_routing_layer metal10 -save_guide_updates -verbose 1 -drc_report_iter_step 5
+[INFO DRT-0149] Reading tech and libs.
+
+Units:                2000
+Number of layers:     21
+Number of macros:     135
+Number of vias:       33
+Number of viarulegen: 19
+
+[INFO DRT-0150] Reading design.
+
+Design:                   gcd
+Die area:                 ( 0 0 ) ( 167530 167530 )
+Number of track patterns: 20
+Number of DEF vias:       0
+Number of components:     5626
+Number of terminals:      108
+Number of snets:          2
+Number of nets:           3630
+
+[INFO DRT-0167] List of default vias:
+  Layer via2
+    default via: via2_5
+  Layer via3
+    default via: via3_2
+  Layer via4
+    default via: via4_0
+  Layer via5
+    default via: via5_0
+  Layer via6
+    default via: via6_0
+  Layer via7
+    default via: via7_0
+  Layer via8
+    default via: via8_0
+  Layer via9
+    default via: via9_0
+[INFO DRT-0162] Library cell analysis.
+[INFO DRT-0163] Instance analysis.
+[INFO DRT-0164] Number of unique instances = 100.
+[INFO DRT-0168] Init region query.
+[INFO DRT-0024]   Complete active.
+[INFO DRT-0024]   Complete Fr_VIA.
+[INFO DRT-0024]   Complete metal1.
+[INFO DRT-0024]   Complete via1.
+[INFO DRT-0024]   Complete metal2.
+[INFO DRT-0024]   Complete via2.
+[INFO DRT-0024]   Complete metal3.
+[INFO DRT-0024]   Complete via3.
+[INFO DRT-0024]   Complete metal4.
+[INFO DRT-0024]   Complete via4.
+[INFO DRT-0024]   Complete metal5.
+[INFO DRT-0024]   Complete via5.
+[INFO DRT-0024]   Complete metal6.
+[INFO DRT-0024]   Complete via6.
+[INFO DRT-0024]   Complete metal7.
+[INFO DRT-0024]   Complete via7.
+[INFO DRT-0024]   Complete metal8.
+[INFO DRT-0024]   Complete via8.
+[INFO DRT-0024]   Complete metal9.
+[INFO DRT-0024]   Complete via9.
+[INFO DRT-0024]   Complete metal10.
+[INFO DRT-0033] active shape region query size = 0.
+[INFO DRT-0033] FR_VIA shape region query size = 0.
+[INFO DRT-0033] metal1 shape region query size = 52406.
+[INFO DRT-0033] via1 shape region query size = 267.
+[INFO DRT-0033] metal2 shape region query size = 178.
+[INFO DRT-0033] via2 shape region query size = 267.
+[INFO DRT-0033] metal3 shape region query size = 178.
+[INFO DRT-0033] via3 shape region query size = 267.
+[INFO DRT-0033] metal4 shape region query size = 98.
+[INFO DRT-0033] via4 shape region query size = 60.
+[INFO DRT-0033] metal5 shape region query size = 29.
+[INFO DRT-0033] via5 shape region query size = 60.
+[INFO DRT-0033] metal6 shape region query size = 103.
+[INFO DRT-0033] via6 shape region query size = 24.
+[INFO DRT-0033] metal7 shape region query size = 9.
+[INFO DRT-0033] via7 shape region query size = 0.
+[INFO DRT-0033] metal8 shape region query size = 0.
+[INFO DRT-0033] via8 shape region query size = 0.
+[INFO DRT-0033] metal9 shape region query size = 0.
+[INFO DRT-0033] via9 shape region query size = 0.
+[INFO DRT-0033] metal10 shape region query size = 0.
+[INFO DRT-0165] Start pin access.
+[INFO DRT-0078]   Complete 275 pins.
+[INFO DRT-0081]   Complete 84 unique inst patterns.
+[INFO DRT-0084]   Complete 1138 groups.
+#scanned instances     = 5626
+#unique  instances     = 100
+#stdCellGenAp          = 2323
+#stdCellValidPlanarAp  = 0
+#stdCellValidViaAp     = 1661
+#stdCellPinNoAp        = 0
+#stdCellPinCnt         = 10541
+#instTermValidViaApCnt = 0
+#macroGenAp            = 0
+#macroValidPlanarAp    = 0
+#macroValidViaAp       = 0
+#macroNoAp             = 0
+[INFO DRT-0166] Complete pin access.
+[INFO DRT-0267] cpu time = 00:00:33, elapsed time = 00:00:04, memory = 113.84 (MB), peak = 113.84 (MB)
+
+Number of guides:     23214
+
+[INFO DRT-0169] Post process guides.
+[INFO DRT-0176] GCELLGRID X 0 DO 39 STEP 4200 ;
+[INFO DRT-0177] GCELLGRID Y 0 DO 39 STEP 4200 ;
+[INFO DRT-0028]   Complete active.
+[INFO DRT-0028]   Complete Fr_VIA.
+[INFO DRT-0028]   Complete metal1.
+[INFO DRT-0028]   Complete via1.
+[INFO DRT-0028]   Complete metal2.
+[INFO DRT-0028]   Complete via2.
+[INFO DRT-0028]   Complete metal3.
+[INFO DRT-0028]   Complete via3.
+[INFO DRT-0028]   Complete metal4.
+[INFO DRT-0028]   Complete via4.
+[INFO DRT-0028]   Complete metal5.
+[INFO DRT-0028]   Complete via5.
+[INFO DRT-0028]   Complete metal6.
+[INFO DRT-0028]   Complete via6.
+[INFO DRT-0028]   Complete metal7.
+[INFO DRT-0028]   Complete via7.
+[INFO DRT-0028]   Complete metal8.
+[INFO DRT-0028]   Complete via8.
+[INFO DRT-0028]   Complete metal9.
+[INFO DRT-0028]   Complete via9.
+[INFO DRT-0028]   Complete metal10.
+[INFO DRT-0178] Init guide query.
+[INFO DRT-0035]   Complete active (guide).
+[INFO DRT-0035]   Complete Fr_VIA (guide).
+[INFO DRT-0035]   Complete metal1 (guide).
+[INFO DRT-0035]   Complete via1 (guide).
+[INFO DRT-0035]   Complete metal2 (guide).
+[INFO DRT-0035]   Complete via2 (guide).
+[INFO DRT-0035]   Complete metal3 (guide).
+[INFO DRT-0035]   Complete via3 (guide).
+[INFO DRT-0035]   Complete metal4 (guide).
+[INFO DRT-0035]   Complete via4 (guide).
+[INFO DRT-0035]   Complete metal5 (guide).
+[INFO DRT-0035]   Complete via5 (guide).
+[INFO DRT-0035]   Complete metal6 (guide).
+[INFO DRT-0035]   Complete via6 (guide).
+[INFO DRT-0035]   Complete metal7 (guide).
+[INFO DRT-0035]   Complete via7 (guide).
+[INFO DRT-0035]   Complete metal8 (guide).
+[INFO DRT-0035]   Complete via8 (guide).
+[INFO DRT-0035]   Complete metal9 (guide).
+[INFO DRT-0035]   Complete via9 (guide).
+[INFO DRT-0035]   Complete metal10 (guide).
+[INFO DRT-0036] active guide region query size = 0.
+[INFO DRT-0036] FR_VIA guide region query size = 0.
+[INFO DRT-0036] metal1 guide region query size = 8182.
+[INFO DRT-0036] via1 guide region query size = 0.
+[INFO DRT-0036] metal2 guide region query size = 6137.
+[INFO DRT-0036] via2 guide region query size = 0.
+[INFO DRT-0036] metal3 guide region query size = 3282.
+[INFO DRT-0036] via3 guide region query size = 0.
+[INFO DRT-0036] metal4 guide region query size = 456.
+[INFO DRT-0036] via4 guide region query size = 0.
+[INFO DRT-0036] metal5 guide region query size = 209.
+[INFO DRT-0036] via5 guide region query size = 0.
+[INFO DRT-0036] metal6 guide region query size = 89.
+[INFO DRT-0036] via6 guide region query size = 0.
+[INFO DRT-0036] metal7 guide region query size = 2.
+[INFO DRT-0036] via7 guide region query size = 0.
+[INFO DRT-0036] metal8 guide region query size = 0.
+[INFO DRT-0036] via8 guide region query size = 0.
+[INFO DRT-0036] metal9 guide region query size = 0.
+[INFO DRT-0036] via9 guide region query size = 0.
+[INFO DRT-0036] metal10 guide region query size = 0.
+[INFO DRT-0179] Init gr pin query.
+[INFO DRT-0185] Post process initialize RPin region query.
+[INFO DRT-0181] Start track assignment.
+[INFO DRT-0184] Done with 6682 vertical wires in 1 frboxes and 11675 horizontal wires in 1 frboxes.
+[INFO DRT-0186] Done with 1942 vertical wires in 1 frboxes and 2379 horizontal wires in 1 frboxes.
+[INFO DRT-0182] Complete track assignment.
+[INFO DRT-0267] cpu time = 00:00:02, elapsed time = 00:00:01, memory = 174.82 (MB), peak = 174.82 (MB)
+[INFO DRT-0187] Start routing data preparation.
+[INFO DRT-0267] cpu time = 00:00:00, elapsed time = 00:00:00, memory = 177.07 (MB), peak = 177.07 (MB)
+[INFO DRT-0194] Start detail routing.
+[INFO DRT-0195] Start 0th optimization iteration.
+    Completing 10% with 0 violations.
+    elapsed time = 00:00:00, memory = 244.43 (MB).
+    Completing 20% with 0 violations.
+    elapsed time = 00:00:01, memory = 235.17 (MB).
+    Completing 30% with 94 violations.
+    elapsed time = 00:00:01, memory = 279.75 (MB).
+    Completing 40% with 94 violations.
+    elapsed time = 00:00:02, memory = 290.71 (MB).
+    Completing 50% with 94 violations.
+    elapsed time = 00:00:02, memory = 278.04 (MB).
+    Completing 60% with 197 violations.
+    elapsed time = 00:00:03, memory = 340.16 (MB).
+    Completing 70% with 197 violations.
+    elapsed time = 00:00:03, memory = 333.73 (MB).
+    Completing 80% with 270 violations.
+    elapsed time = 00:00:03, memory = 355.69 (MB).
+    Completing 90% with 270 violations.
+    elapsed time = 00:00:04, memory = 350.56 (MB).
+    Completing 100% with 357 violations.
+    elapsed time = 00:00:04, memory = 335.05 (MB).
+[INFO DRT-0199]   Number of violations = 515.
+Viol/Layer      metal1   via1 metal2   via2 metal3 metal4
+Cut Spacing          0      0      0      3      0      0
+Metal Spacing       28      0     41      0      3      0
+Recheck              0      0     93      0     61      4
+Short                3      1    247      2     29      0
+[INFO DRT-0267] cpu time = 00:00:27, elapsed time = 00:00:05, memory = 876.17 (MB), peak = 876.17 (MB)
+Total wire length = 20205 um.
+Total wire length on LAYER metal1 = 0 um.
+Total wire length on LAYER metal2 = 8333 um.
+Total wire length on LAYER metal3 = 8868 um.
+Total wire length on LAYER metal4 = 1973 um.
+Total wire length on LAYER metal5 = 752 um.
+Total wire length on LAYER metal6 = 278 um.
+Total wire length on LAYER metal7 = 0 um.
+Total wire length on LAYER metal8 = 0 um.
+Total wire length on LAYER metal9 = 0 um.
+Total wire length on LAYER metal10 = 0 um.
+Total number of vias = 19962.
+Up-via summary (total 19962):
+
+----------------
+ active        0
+ metal1    10544
+ metal2     8484
+ metal3      586
+ metal4      257
+ metal5       91
+ metal6        0
+ metal7        0
+ metal8        0
+ metal9        0
+----------------
+           19962
+
+
+[INFO DRT-0195] Start 1st optimization iteration.
+    Completing 10% with 515 violations.
+    elapsed time = 00:00:00, memory = 903.55 (MB).
+    Completing 20% with 515 violations.
+    elapsed time = 00:00:00, memory = 903.55 (MB).
+    Completing 30% with 448 violations.
+    elapsed time = 00:00:01, memory = 912.67 (MB).
+    Completing 40% with 448 violations.
+    elapsed time = 00:00:01, memory = 915.05 (MB).
+    Completing 50% with 448 violations.
+    elapsed time = 00:00:01, memory = 915.05 (MB).
+    Completing 60% with 291 violations.
+    elapsed time = 00:00:02, memory = 931.55 (MB).
+    Completing 70% with 291 violations.
+    elapsed time = 00:00:02, memory = 933.55 (MB).
+    Completing 80% with 237 violations.
+    elapsed time = 00:00:03, memory = 951.17 (MB).
+    Completing 90% with 237 violations.
+    elapsed time = 00:00:03, memory = 951.92 (MB).
+    Completing 100% with 105 violations.
+    elapsed time = 00:00:04, memory = 954.05 (MB).
+[INFO DRT-0199]   Number of violations = 105.
+Viol/Layer      metal1 metal2 metal3
+Metal Spacing        1     25      0
+Short                0     73      6
+[INFO DRT-0267] cpu time = 00:00:22, elapsed time = 00:00:04, memory = 957.05 (MB), peak = 957.05 (MB)
+Total wire length = 19967 um.
+Total wire length on LAYER metal1 = 0 um.
+Total wire length on LAYER metal2 = 8172 um.
+Total wire length on LAYER metal3 = 8850 um.
+Total wire length on LAYER metal4 = 1941 um.
+Total wire length on LAYER metal5 = 725 um.
+Total wire length on LAYER metal6 = 276 um.
+Total wire length on LAYER metal7 = 0 um.
+Total wire length on LAYER metal8 = 0 um.
+Total wire length on LAYER metal9 = 0 um.
+Total wire length on LAYER metal10 = 0 um.
+Total number of vias = 19853.
+Up-via summary (total 19853):
+
+----------------
+ active        0
+ metal1    10530
+ metal2     8430
+ metal3      554
+ metal4      248
+ metal5       91
+ metal6        0
+ metal7        0
+ metal8        0
+ metal9        0
+----------------
+           19853
+
+
+[INFO DRT-0195] Start 2nd optimization iteration.
+    Completing 10% with 105 violations.
+    elapsed time = 00:00:00, memory = 957.05 (MB).
+    Completing 20% with 105 violations.
+    elapsed time = 00:00:00, memory = 957.05 (MB).
+    Completing 30% with 105 violations.
+    elapsed time = 00:00:00, memory = 957.05 (MB).
+    Completing 40% with 109 violations.
+    elapsed time = 00:00:00, memory = 957.05 (MB).
+    Completing 50% with 109 violations.
+    elapsed time = 00:00:01, memory = 967.30 (MB).
+    Completing 60% with 113 violations.
+    elapsed time = 00:00:01, memory = 968.67 (MB).
+    Completing 70% with 113 violations.
+    elapsed time = 00:00:02, memory = 977.17 (MB).
+    Completing 80% with 113 violations.
+    elapsed time = 00:00:02, memory = 968.72 (MB).
+    Completing 90% with 92 violations.
+    elapsed time = 00:00:03, memory = 969.09 (MB).
+    Completing 100% with 86 violations.
+    elapsed time = 00:00:04, memory = 969.09 (MB).
+[INFO DRT-0199]   Number of violations = 86.
+Viol/Layer        via1 metal2 metal3
+Cut Spacing          1      0      0
+Metal Spacing        0     22      1
+Short                0     58      4
+[INFO DRT-0267] cpu time = 00:00:19, elapsed time = 00:00:04, memory = 969.09 (MB), peak = 977.17 (MB)
+Total wire length = 19951 um.
+Total wire length on LAYER metal1 = 0 um.
+Total wire length on LAYER metal2 = 8150 um.
+Total wire length on LAYER metal3 = 8852 um.
+Total wire length on LAYER metal4 = 1945 um.
+Total wire length on LAYER metal5 = 727 um.
+Total wire length on LAYER metal6 = 276 um.
+Total wire length on LAYER metal7 = 0 um.
+Total wire length on LAYER metal8 = 0 um.
+Total wire length on LAYER metal9 = 0 um.
+Total wire length on LAYER metal10 = 0 um.
+Total number of vias = 19789.
+Up-via summary (total 19789):
+
+----------------
+ active        0
+ metal1    10530
+ metal2     8352
+ metal3      568
+ metal4      250
+ metal5       89
+ metal6        0
+ metal7        0
+ metal8        0
+ metal9        0
+----------------
+           19789
+
+
+[INFO DRT-0195] Start 3rd optimization iteration.
+    Completing 10% with 86 violations.
+    elapsed time = 00:00:00, memory = 975.09 (MB).
+    Completing 20% with 86 violations.
+    elapsed time = 00:00:00, memory = 976.59 (MB).
+    Completing 30% with 61 violations.
+    elapsed time = 00:00:00, memory = 976.59 (MB).
+    Completing 40% with 61 violations.
+    elapsed time = 00:00:00, memory = 976.59 (MB).
+    Completing 50% with 61 violations.
+    elapsed time = 00:00:01, memory = 976.59 (MB).
+    Completing 60% with 42 violations.
+    elapsed time = 00:00:01, memory = 976.59 (MB).
+    Completing 70% with 42 violations.
+    elapsed time = 00:00:01, memory = 978.47 (MB).
+    Completing 80% with 19 violations.
+    elapsed time = 00:00:02, memory = 980.72 (MB).
+    Completing 90% with 19 violations.
+    elapsed time = 00:00:02, memory = 980.72 (MB).
+    Completing 100% with 4 violations.
+    elapsed time = 00:00:03, memory = 986.59 (MB).
+[INFO DRT-0199]   Number of violations = 4.
+Viol/Layer      metal2   via2 metal3
+Short                2      1      1
+[INFO DRT-0267] cpu time = 00:00:09, elapsed time = 00:00:03, memory = 986.59 (MB), peak = 986.59 (MB)
+Total wire length = 19953 um.
+Total wire length on LAYER metal1 = 0 um.
+Total wire length on LAYER metal2 = 8077 um.
+Total wire length on LAYER metal3 = 8882 um.
+Total wire length on LAYER metal4 = 2001 um.
+Total wire length on LAYER metal5 = 715 um.
+Total wire length on LAYER metal6 = 276 um.
+Total wire length on LAYER metal7 = 0 um.
+Total wire length on LAYER metal8 = 0 um.
+Total wire length on LAYER metal9 = 0 um.
+Total wire length on LAYER metal10 = 0 um.
+Total number of vias = 19861.
+Up-via summary (total 19861):
+
+----------------
+ active        0
+ metal1    10530
+ metal2     8402
+ metal3      592
+ metal4      248
+ metal5       89
+ metal6        0
+ metal7        0
+ metal8        0
+ metal9        0
+----------------
+           19861
+
+
+[INFO DRT-0195] Start 4th optimization iteration.
+    Completing 10% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 20% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 30% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 40% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 50% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 60% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 70% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 80% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 90% with 4 violations.
+    elapsed time = 00:00:00, memory = 986.59 (MB).
+    Completing 100% with 0 violations.
+    elapsed time = 00:00:00, memory = 988.22 (MB).
+[INFO DRT-0199]   Number of violations = 0.
+[INFO DRT-0267] cpu time = 00:00:02, elapsed time = 00:00:00, memory = 988.22 (MB), peak = 988.22 (MB)
+Total wire length = 19952 um.
+Total wire length on LAYER metal1 = 0 um.
+Total wire length on LAYER metal2 = 8077 um.
+Total wire length on LAYER metal3 = 8882 um.
+Total wire length on LAYER metal4 = 2000 um.
+Total wire length on LAYER metal5 = 715 um.
+Total wire length on LAYER metal6 = 276 um.
+Total wire length on LAYER metal7 = 0 um.
+Total wire length on LAYER metal8 = 0 um.
+Total wire length on LAYER metal9 = 0 um.
+Total wire length on LAYER metal10 = 0 um.
+Total number of vias = 19860.
+Up-via summary (total 19860):
+
+----------------
+ active        0
+ metal1    10530
+ metal2     8403
+ metal3      590
+ metal4      248
+ metal5       89
+ metal6        0
+ metal7        0
+ metal8        0
+ metal9        0
+----------------
+           19860
+
+
+[INFO DRT-0198] Complete detail routing.
+Total wire length = 19952 um.
+Total wire length on LAYER metal1 = 0 um.
+Total wire length on LAYER metal2 = 8077 um.
+Total wire length on LAYER metal3 = 8882 um.
+Total wire length on LAYER metal4 = 2000 um.
+Total wire length on LAYER metal5 = 715 um.
+Total wire length on LAYER metal6 = 276 um.
+Total wire length on LAYER metal7 = 0 um.
+Total wire length on LAYER metal8 = 0 um.
+Total wire length on LAYER metal9 = 0 um.
+Total wire length on LAYER metal10 = 0 um.
+Total number of vias = 19860.
+Up-via summary (total 19860):
+
+----------------
+ active        0
+ metal1    10530
+ metal2     8403
+ metal3      590
+ metal4      248
+ metal5       89
+ metal6        0
+ metal7        0
+ metal8        0
+ metal9        0
+----------------
+           19860
+
+
+[INFO DRT-0267] cpu time = 00:01:21, elapsed time = 00:00:18, memory = 988.22 (MB), peak = 988.22 (MB)
+
+[INFO DRT-0180] Post processing.
+Elapsed time: 0:25.62[h:]min:sec. CPU time: user 115.94 sys 1.52 (458%). Peak memory: 1012192KB.
+cp ./results/nangate45/gcd/base/5_3_route.odb ./results/nangate45/gcd/base/5_route.odb
+cp ./results/nangate45/gcd/base/4_cts.sdc ./results/nangate45/gcd/base/5_route.sdc
+
+- Moving flow checkpoint out of orfs docker container -- f8206b8efb016a8a4547cedfae9939bba44bffb391c179bc6e7c2739d7d0c850
+
+
+- Cleaning up docker containers and images
+
+f8206b8efb016a8a4547cedfae9939bba44bffb391c179bc6e7c2739d7d0c850
+
+- Preparing outputs
+
+flow/
+flow/scripts/
+flow/scripts/klayout.tcl
+flow/scripts/io_placement.tcl
+flow/scripts/final_report.tcl
+flow/scripts/pdn.tcl
+flow/scripts/read_macro_placement.tcl
+flow/scripts/fillcell.tcl
+flow/scripts/save_images.tcl
+flow/scripts/io_placement_random.tcl
+flow/scripts/write_ref_sdc.tcl
+flow/scripts/abc_speed.script
+flow/scripts/synth_metrics.tcl
+flow/scripts/global_place.tcl
+flow/scripts/resize.tcl
+flow/scripts/report_metrics.tcl
+flow/scripts/global_route.tcl
+flow/scripts/sta-synth.tcl
+flow/scripts/write_def.tcl
+flow/scripts/tdms_place.tcl
+flow/scripts/mem_dump.py
+flow/scripts/synth.tcl
+flow/scripts/detail_route.tcl
+flow/scripts/read_liberty.tcl
+flow/scripts/tapcell.tcl
+flow/scripts/deletePowerNets.tcl
+flow/scripts/util.tcl
+flow/scripts/global_place_skip_io.tcl
+flow/scripts/synth_preamble.tcl
+flow/scripts/yosys.tcl
+flow/scripts/cts.tcl
+flow/scripts/deleteNonClkNets.tcl
+flow/scripts/synth_hier_report.tcl
+flow/scripts/floorplan.tcl
+flow/scripts/deleteRoutingObstructions.tcl
+flow/scripts/cdl.tcl
+flow/scripts/abc_area.script
+flow/scripts/noop.tcl
+flow/scripts/macro_place_util.tcl
+flow/scripts/escape.sh
+flow/scripts/add_routing_blk.tcl
+flow/scripts/sc/
+flow/scripts/sc/README.md
+flow/scripts/sc/tools/
+flow/scripts/sc/tools/openroad/
+flow/scripts/sc/tools/openroad/sc_apr.tcl
+flow/scripts/sc/flows/
+flow/scripts/sc/flows/orflow.py
+flow/scripts/sc/util/
+flow/scripts/sc/util/parse_config_mk.py
+flow/scripts/sc/util/parse_target_config.py
+flow/scripts/sc/targets/
+flow/scripts/sc/targets/nangate45_orflow.py
+flow/scripts/sc/targets/asap7_orflow.py
+flow/scripts/sc/targets/sky130hd_orflow.py
+flow/scripts/sc/targets/sky130hs_orflow.py
+flow/scripts/gui.tcl
+flow/scripts/placement_blockages.tcl
+flow/scripts/load.tcl
+flow/scripts/generate_abstract.tcl
+flow/scripts/macro_place.tcl
+flow/scripts/view_cells.tcl
+flow/scripts/detail_place.tcl
+flow/scripts/io_placement_util.tcl
+flow/scripts/density_fill.tcl
+flow/scripts/write_verilog.tcl
+flow/tutorials/
+flow/tutorials/scripts/
+flow/tutorials/scripts/gui/
+flow/tutorials/scripts/gui/load_lef.tcl
+flow/tutorials/scripts/drt/
+flow/tutorials/scripts/drt/helpers.tcl
+flow/tutorials/scripts/drt/drc_fix.tcl
+flow/tutorials/scripts/drt/drc_issue.tcl
+flow/tutorials/scripts/drt/gcd/
+flow/tutorials/scripts/drt/gcd/drc_cts.def
+flow/tutorials/scripts/drt/gcd/gcd.sdc
+flow/tutorials/scripts/drt/gcd/4_cts.def
+flow/tutorials/scripts/metal_fill/
+flow/tutorials/scripts/metal_fill/5_route.odb
+flow/tutorials/scripts/metal_fill/metal_fill.tcl
+flow/tutorials/scripts/metal_fill/helpers.tcl
+flow/tutorials/README.md
+flow/Makefile.py
+flow/platforms/
+flow/platforms/nangate45/
+flow/platforms/nangate45/FreePDK45.lyt
+flow/platforms/nangate45/fakeram.tcl
+flow/platforms/nangate45/grid_strategy-M1-M4-M7.tcl
+flow/platforms/nangate45/setRC.tcl
+flow/platforms/nangate45/FreePDK45.lyp
+flow/platforms/nangate45/README.md
+flow/platforms/nangate45/work_around_yosys/
+flow/platforms/nangate45/work_around_yosys/cells.v
+flow/platforms/nangate45/rcx_patterns.rules
+flow/platforms/nangate45/tapcell.tcl
+flow/platforms/nangate45/drc/
+flow/platforms/nangate45/drc/FreePDK45.lydrc
+flow/platforms/nangate45/make_tracks.tcl
+flow/platforms/nangate45/lib/
+flow/platforms/nangate45/lib/fakeram45_64x64.lib
+flow/platforms/nangate45/lib/fakeram45_2048x39.lib
+flow/platforms/nangate45/lib/fakeram45_32x32.lib
+flow/platforms/nangate45/lib/fakeram45_256x95.lib
+flow/platforms/nangate45/lib/fakeram45_64x7.lib
+flow/platforms/nangate45/lib/fakeram45_512x64.lib
+flow/platforms/nangate45/lib/fakeram45_128x116.lib
+flow/platforms/nangate45/lib/fakeram45_256x48.lib
+flow/platforms/nangate45/lib/fakeram45_64x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x15.lib
+flow/platforms/nangate45/lib/fakeram45_64x21.lib
+flow/platforms/nangate45/lib/fakeram45_128x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x124.lib
+flow/platforms/nangate45/lib/fakeram45_128x256.lib
+flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+flow/platforms/nangate45/lib/fakeram45_1024x32.lib
+flow/platforms/nangate45/lib/fakeram45_32x64.lib
+flow/platforms/nangate45/lib/fakeram45_256x34.lib
+flow/platforms/nangate45/lib/fakeram45_256x96.lib
+flow/platforms/nangate45/lib/fakeram45_64x96.lib
+flow/platforms/nangate45/lib/fakeram45_256x16.lib
+flow/platforms/nangate45/lib/fakeram45_256x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x62.lib
+flow/platforms/nangate45/cells_latch.v
+flow/platforms/nangate45/fakeram.cfg
+flow/platforms/nangate45/magic.tech
+flow/platforms/nangate45/cells_clkgate.v
+flow/platforms/nangate45/LICENSE
+flow/platforms/nangate45/fastroute.tcl
+flow/platforms/nangate45/gds/
+flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+flow/platforms/nangate45/template_pga.cfg
+flow/platforms/nangate45/config.mk
+flow/platforms/nangate45/cdl/
+flow/platforms/nangate45/cdl/NangateOpenCellLibrary.cdl
+flow/platforms/nangate45/cells_adders.v
+flow/platforms/nangate45/lef/
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
+flow/platforms/nangate45/lef/fakeram45_512x64.lef
+flow/platforms/nangate45/lef/fakeram45_256x95.lef
+flow/platforms/nangate45/lef/fakeram45_256x96.lef
+flow/platforms/nangate45/lef/fakeram45_2048x39.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.lef
+flow/platforms/nangate45/lef/fakeram45_64x124.lef
+flow/platforms/nangate45/lef/fakeram45_256x34.lef
+flow/platforms/nangate45/lef/fakeram45_64x62.lef
+flow/platforms/nangate45/lef/fakeram45_32x64.lef
+flow/platforms/nangate45/lef/fakeram45_64x21.lef
+flow/platforms/nangate45/lef/fakeram45_1024x32.lef
+flow/platforms/nangate45/lef/fakeram45_128x116.lef
+flow/platforms/nangate45/lef/fakeram45_64x7.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.rect.lef
+flow/platforms/nangate45/lef/fakeram45_32x32.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef
+flow/platforms/nangate45/lef/fakeram45_64x96.lef
+flow/platforms/nangate45/lef/fakeram45_256x48.lef
+flow/platforms/nangate45/lef/fakeram45_64x32.lef
+flow/platforms/nangate45/lef/fakeram45_256x32.lef
+flow/platforms/nangate45/lef/fakeram45_64x64.lef
+flow/platforms/nangate45/lef/fakeram45_128x256.lef
+flow/platforms/nangate45/lef/fakeram45_256x16.lef
+flow/platforms/nangate45/lef/fakeram45_64x15.lef
+flow/platforms/nangate45/lef/fakeram45_128x32.lef
+flow/platforms/common/
+flow/platforms/common/lcu_kogge_stone.v
+flow/reports/
+flow/reports/nangate45/
+flow/reports/nangate45/gcd/
+flow/reports/nangate45/gcd/base/
+flow/reports/nangate45/gcd/base/synth_check.txt
+flow/reports/nangate45/gcd/base/2_floorplan_final.rpt
+flow/reports/nangate45/gcd/base/antenna.log
+flow/reports/nangate45/gcd/base/5_route_drc.rpt
+flow/reports/nangate45/gcd/base/5_global_place.rpt
+flow/reports/nangate45/gcd/base/3_resizer.rpt
+flow/reports/nangate45/gcd/base/4_cts_final.rpt
+flow/reports/nangate45/gcd/base/synth_stat.txt
+flow/reports/nangate45/gcd/base/3_detailed_place.rpt
+flow/reports/nangate45/gcd/base/congestion.rpt
+flow/reports/nangate45/gcd/base/5_global_route.rpt
+flow/util/
+flow/util/gallery.json
+flow/util/plot_floorplan.py
+flow/util/correlateRC.py
+flow/util/generate-vars.sh
+flow/util/genReport.py
+flow/util/addDummyToLef.py
+flow/util/executeParallel.sh
+flow/util/genMassive.py
+flow/util/calPath.py
+flow/util/docker_shell
+flow/util/cell-veneer/
+flow/util/cell-veneer/README.md
+flow/util/cell-veneer/pkgIndex.tcl
+flow/util/cell-veneer/lefdef.tcl
+flow/util/cell-veneer/wrap_stdcells.tcl
+flow/util/cell-veneer/wrap.tcl
+flow/util/distributed.py
+flow/util/genAllRuleFiles.sh
+flow/util/genMetrics.py
+flow/util/checkMetadata.py
+flow/util/genElapsedTime.py
+flow/util/uploadMetadata.py
+flow/util/appendStatsToDb.py
+flow/util/write_net_rc.tcl
+flow/util/viewDrc.py
+flow/util/run.sh
+flow/util/def2stream.py
+flow/util/genReportTable.py
+flow/util/updateRules.py
+flow/util/write_net_rc_script.tcl
+flow/util/utils.mk
+flow/util/calBuffer.py
+flow/util/createGallery.py
+flow/util/mergeLib.pl
+flow/util/makeIssue.sh
+flow/util/convertDrc.py
+flow/util/preprocessLib.py
+flow/util/viewGuide.py
+flow/util/genRuleFile.py
+flow/logs/
+flow/logs/nangate45/
+flow/logs/nangate45/gcd/
+flow/logs/nangate45/gcd/base/
+flow/logs/nangate45/gcd/base/5_1_grt.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.json
+flow/logs/nangate45/gcd/base/5_1_grt.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.json
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.json
+flow/logs/nangate45/gcd/base/1_1_yosys.log
+flow/logs/nangate45/gcd/base/3_2_place_iop.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.log
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.log
+flow/logs/nangate45/gcd/base/4_1_cts.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.log
+flow/logs/nangate45/gcd/base/5_2_fillcell.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.json
+flow/logs/nangate45/gcd/base/5_3_route.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.json
+flow/logs/nangate45/gcd/base/3_4_place_resized.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.json
+flow/logs/nangate45/gcd/base/3_2_place_iop.json
+flow/logs/nangate45/gcd/base/4_1_cts.json
+flow/logs/nangate45/gcd/base/5_2_fillcell.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.json
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.log
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.log
+flow/logs/nangate45/gcd/base/3_4_place_resized.log
+flow/logs/nangate45/gcd/base/5_3_route.json
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.log
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.json
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.log
+flow/results/
+flow/results/nangate45/
+flow/results/nangate45/gcd/
+flow/results/nangate45/gcd/base/
+flow/results/nangate45/gcd/base/3_1_place_gp_skip_io.odb
+flow/results/nangate45/gcd/base/3_3_place_gp.odb
+flow/results/nangate45/gcd/base/5_route.odb
+flow/results/nangate45/gcd/base/4_cts.odb
+flow/results/nangate45/gcd/base/4_cts.sdc
+flow/results/nangate45/gcd/base/5_3_route.odb
+flow/results/nangate45/gcd/base/5_1_grt.odb
+flow/results/nangate45/gcd/base/3_5_place_dp.odb
+flow/results/nangate45/gcd/base/mem.json
+flow/results/nangate45/gcd/base/1_synth.sdc
+flow/results/nangate45/gcd/base/2_4_floorplan_macro.odb
+flow/results/nangate45/gcd/base/2_6_floorplan_pdn.odb
+flow/results/nangate45/gcd/base/updated_clks.sdc
+flow/results/nangate45/gcd/base/2_5_floorplan_tapcell.odb
+flow/results/nangate45/gcd/base/2_floorplan.sdc
+flow/results/nangate45/gcd/base/1_synth.v
+flow/results/nangate45/gcd/base/1_1_yosys.v
+flow/results/nangate45/gcd/base/2_3_floorplan_tdms.odb
+flow/results/nangate45/gcd/base/2_floorplan.odb
+flow/results/nangate45/gcd/base/5_2_fillcell.odb
+flow/results/nangate45/gcd/base/route.guide
+flow/results/nangate45/gcd/base/3_2_place_iop.odb
+flow/results/nangate45/gcd/base/5_route.sdc
+flow/results/nangate45/gcd/base/3_place.sdc
+flow/results/nangate45/gcd/base/4_1_cts.odb
+flow/results/nangate45/gcd/base/clock_period.txt
+flow/results/nangate45/gcd/base/2_2_floorplan_io.odb
+flow/results/nangate45/gcd/base/2_1_floorplan.odb
+flow/results/nangate45/gcd/base/3_place.odb
+flow/results/nangate45/gcd/base/3_4_place_resized.odb
+flow/.gitignore
+flow/test/
+flow/test/test_helper.sh
+flow/test/test_genElapsedTime.py
+flow/test/core_tests.sh
+flow/test/test_delta_debug.sh
+flow/test/test_make_issue.sh
+flow/test/smoke.sh
+flow/test/nodes.txt
+flow/test/.gitignore
+flow/objects/
+flow/objects/nangate45/
+flow/objects/nangate45/gcd/
+flow/objects/nangate45/gcd/base/
+flow/objects/nangate45/gcd/base/copyright.txt
+flow/objects/nangate45/gcd/base/abc.constr
+flow/objects/nangate45/gcd/base/lib/
+flow/objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+flow/Makefile
+flow/designs/
+flow/designs/nangate45/
+flow/designs/nangate45/gcd/
+flow/designs/nangate45/gcd/rules-base.json
+flow/designs/nangate45/gcd/constraint.sdc
+flow/designs/nangate45/gcd/metadata-base-ok.json
+flow/designs/nangate45/gcd/config.mk
+flow/designs/src/
+flow/designs/src/gcd/
+flow/designs/src/gcd/README.md
+flow/designs/src/gcd/gcd.v

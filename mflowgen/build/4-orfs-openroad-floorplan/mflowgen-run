@@ -1,0 +1,42 @@
+#! /usr/bin/env bash
+set -euo pipefail
+#=========================================================================
+# mflowgen-run
+#=========================================================================
+# Generator : /home/sychae/cuda-vscode/mflowgen/mflowgen/core/build_orchestrator.py
+
+# Pre
+
+rm -f .time_end
+date +%Y-%m%d-%H%M-%S > .time_start
+MFLOWGEN_NODE_HOME=$PWD
+export design_name=gcd
+export clock_period=2.0
+export orfs_platform=nangate45
+export orfs_image=mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+# Commands
+
+echo -e "\n- Loading orfs docker image ...\n"
+docker load -i inputs/orfs-docker-image.tar
+echo -e "\n- Creating orfs docker container ...\n"
+CONTAINER=$(docker run -it -d $orfs_image)
+echo -e "\n- Created orfs docker container with Container ID -- $CONTAINER\n"
+echo -e "\n- Moving flow checkpoint into orfs docker container -- $CONTAINER\n"
+docker cp -aL inputs/flow-checkpoint.tar.gz $CONTAINER:/OpenROAD-flow-scripts
+docker exec $CONTAINER bash -c "rm -rf flow && tar xzvf flow-checkpoint.tar.gz"
+echo -e "\n- Executing flow commands inside orfs docker container -- $CONTAINER\n"
+docker exec $CONTAINER bash -c "cd flow && make floorplan DESIGN_CONFIG=./designs/$orfs_platform/$design_name/config.mk"
+echo -e "\n- Moving flow checkpoint out of orfs docker container -- $CONTAINER\n"
+docker cp -a $CONTAINER:/OpenROAD-flow-scripts/flow .
+echo -e "\n- Cleaning up docker containers and images\n"
+docker rm -f $CONTAINER
+echo -e "\n- Preparing outputs\n"
+tar czvf flow-checkpoint.tar.gz flow/
+cd outputs && ln -sf ../flow-checkpoint.tar.gz
+
+# Post
+
+cd $MFLOWGEN_NODE_HOME
+date +%Y-%m%d-%H%M-%S > .time_end
+

@@ -1,0 +1,10 @@
+
+- Pulling orfs docker image -- mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+2024-0621-f0caba6: Pulling from mflowgen/openroad-flow-scripts-base
+Digest: sha256:84496101692eb5f660f7f5996c1b7b11cb8149850b45be1497b3341d51b062fa
+Status: Image is up to date for mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+docker.io/mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+- Saving orfs docker image as tarball for output
+

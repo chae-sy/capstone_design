@@ -1,0 +1,34 @@
+build_dir: 2-orfs-docker-setup
+build_id: '2'
+commands:
+- echo -e "\n- Pulling orfs docker image -- $orfs_image\n"
+- docker pull $orfs_image
+- echo -e "\n- Saving orfs docker image as tarball for output\n"
+- docker save -o orfs-docker-image.tar $orfs_image
+- mkdir -p outputs && cd outputs
+- ln -sf ../orfs-docker-image.tar
+edges_i: {}
+edges_o:
+  orfs-docker-image.tar:
+  - f: orfs-docker-image.tar
+    node: 3-orfs-yosys-synthesis
+  - f: orfs-docker-image.tar
+    node: 4-orfs-openroad-floorplan
+  - f: orfs-docker-image.tar
+    node: 5-orfs-openroad-place
+  - f: orfs-docker-image.tar
+    node: 6-orfs-openroad-cts
+  - f: orfs-docker-image.tar
+    node: 7-orfs-openroad-route
+  - f: orfs-docker-image.tar
+    node: 8-orfs-openroad-finish
+name: orfs-docker-setup
+outputs:
+- orfs-docker-image.tar
+parameters:
+  orfs_image: mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+postconditions:
+- assert File( 'outputs/orfs-docker-image.tar' )
+preconditions:
+- assert Tool( 'docker' )
+source: /home/sychae/cuda-vscode/mflowgen/nodes/orfs-docker-setup

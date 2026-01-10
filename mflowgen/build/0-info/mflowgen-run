@@ -1,0 +1,33 @@
+#! /usr/bin/env bash
+set -euo pipefail
+#=========================================================================
+# mflowgen-run
+#=========================================================================
+# Generator : /home/sychae/cuda-vscode/mflowgen/mflowgen/core/build_orchestrator.py
+
+# Pre
+
+rm -f .time_end
+date +%Y-%m%d-%H%M-%S > .time_start
+MFLOWGEN_NODE_HOME=$PWD
+export design_name=gcd
+export clock_period=2.0
+export construct_path=/home/sychae/cuda-vscode/mflowgen/designs/GcdUnit/construct.py
+export adk=freepdk-45nm
+export adk_view=view-tiny
+
+# Commands
+
+echo "Design name      -- $design_name"
+echo "Clock period     -- $clock_period"
+echo "ADK              -- $adk"
+echo "ADK view         -- $adk_view"
+echo
+echo "Constructed from -- $construct_path"
+echo
+
+# Post
+
+cd $MFLOWGEN_NODE_HOME
+date +%Y-%m%d-%H%M-%S > .time_end
+

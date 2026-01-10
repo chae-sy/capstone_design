@@ -1,0 +1,20 @@
+build_dir: 0-info
+build_id: '0'
+commands:
+- echo "Design name      -- $design_name"
+- echo "Clock period     -- $clock_period"
+- echo "ADK              -- $adk"
+- echo "ADK view         -- $adk_view"
+- echo
+- echo "Constructed from -- $construct_path"
+- echo
+edges_i: {}
+edges_o: {}
+name: info
+parameters:
+  adk: freepdk-45nm
+  adk_view: view-tiny
+  clock_period: 2.0
+  construct_path: /home/sychae/cuda-vscode/mflowgen/designs/GcdUnit/construct.py
+  design_name: gcd
+source: /home/sychae/cuda-vscode/mflowgen/nodes/info

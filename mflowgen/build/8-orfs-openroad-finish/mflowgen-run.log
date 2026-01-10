@@ -1,0 +1,794 @@
+
+- Loading orfs docker image ...
+
+Loaded image: mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+- Creating orfs docker container ...
+
+
+- Created orfs docker container with Container ID -- 777a071125fee5208ef024e306cd8cf2fc89eb32898db832bd344809242ff013
+
+
+- Moving flow checkpoint into orfs docker container -- 777a071125fee5208ef024e306cd8cf2fc89eb32898db832bd344809242ff013
+
+flow/
+flow/scripts/
+flow/scripts/klayout.tcl
+flow/scripts/io_placement.tcl
+flow/scripts/final_report.tcl
+flow/scripts/pdn.tcl
+flow/scripts/read_macro_placement.tcl
+flow/scripts/fillcell.tcl
+flow/scripts/save_images.tcl
+flow/scripts/io_placement_random.tcl
+flow/scripts/write_ref_sdc.tcl
+flow/scripts/abc_speed.script
+flow/scripts/synth_metrics.tcl
+flow/scripts/global_place.tcl
+flow/scripts/resize.tcl
+flow/scripts/report_metrics.tcl
+flow/scripts/global_route.tcl
+flow/scripts/sta-synth.tcl
+flow/scripts/write_def.tcl
+flow/scripts/tdms_place.tcl
+flow/scripts/mem_dump.py
+flow/scripts/synth.tcl
+flow/scripts/detail_route.tcl
+flow/scripts/read_liberty.tcl
+flow/scripts/tapcell.tcl
+flow/scripts/deletePowerNets.tcl
+flow/scripts/util.tcl
+flow/scripts/global_place_skip_io.tcl
+flow/scripts/synth_preamble.tcl
+flow/scripts/yosys.tcl
+flow/scripts/cts.tcl
+flow/scripts/deleteNonClkNets.tcl
+flow/scripts/synth_hier_report.tcl
+flow/scripts/floorplan.tcl
+flow/scripts/deleteRoutingObstructions.tcl
+flow/scripts/cdl.tcl
+flow/scripts/abc_area.script
+flow/scripts/noop.tcl
+flow/scripts/macro_place_util.tcl
+flow/scripts/escape.sh
+flow/scripts/add_routing_blk.tcl
+flow/scripts/sc/
+flow/scripts/sc/README.md
+flow/scripts/sc/tools/
+flow/scripts/sc/tools/openroad/
+flow/scripts/sc/tools/openroad/sc_apr.tcl
+flow/scripts/sc/flows/
+flow/scripts/sc/flows/orflow.py
+flow/scripts/sc/util/
+flow/scripts/sc/util/parse_config_mk.py
+flow/scripts/sc/util/parse_target_config.py
+flow/scripts/sc/targets/
+flow/scripts/sc/targets/nangate45_orflow.py
+flow/scripts/sc/targets/asap7_orflow.py
+flow/scripts/sc/targets/sky130hd_orflow.py
+flow/scripts/sc/targets/sky130hs_orflow.py
+flow/scripts/gui.tcl
+flow/scripts/placement_blockages.tcl
+flow/scripts/load.tcl
+flow/scripts/generate_abstract.tcl
+flow/scripts/macro_place.tcl
+flow/scripts/view_cells.tcl
+flow/scripts/detail_place.tcl
+flow/scripts/io_placement_util.tcl
+flow/scripts/density_fill.tcl
+flow/scripts/write_verilog.tcl
+flow/tutorials/
+flow/tutorials/scripts/
+flow/tutorials/scripts/gui/
+flow/tutorials/scripts/gui/load_lef.tcl
+flow/tutorials/scripts/drt/
+flow/tutorials/scripts/drt/helpers.tcl
+flow/tutorials/scripts/drt/drc_fix.tcl
+flow/tutorials/scripts/drt/drc_issue.tcl
+flow/tutorials/scripts/drt/gcd/
+flow/tutorials/scripts/drt/gcd/drc_cts.def
+flow/tutorials/scripts/drt/gcd/gcd.sdc
+flow/tutorials/scripts/drt/gcd/4_cts.def
+flow/tutorials/scripts/metal_fill/
+flow/tutorials/scripts/metal_fill/5_route.odb
+flow/tutorials/scripts/metal_fill/metal_fill.tcl
+flow/tutorials/scripts/metal_fill/helpers.tcl
+flow/tutorials/README.md
+flow/Makefile.py
+flow/platforms/
+flow/platforms/nangate45/
+flow/platforms/nangate45/FreePDK45.lyt
+flow/platforms/nangate45/fakeram.tcl
+flow/platforms/nangate45/grid_strategy-M1-M4-M7.tcl
+flow/platforms/nangate45/setRC.tcl
+flow/platforms/nangate45/FreePDK45.lyp
+flow/platforms/nangate45/README.md
+flow/platforms/nangate45/work_around_yosys/
+flow/platforms/nangate45/work_around_yosys/cells.v
+flow/platforms/nangate45/rcx_patterns.rules
+flow/platforms/nangate45/tapcell.tcl
+flow/platforms/nangate45/drc/
+flow/platforms/nangate45/drc/FreePDK45.lydrc
+flow/platforms/nangate45/make_tracks.tcl
+flow/platforms/nangate45/lib/
+flow/platforms/nangate45/lib/fakeram45_64x64.lib
+flow/platforms/nangate45/lib/fakeram45_2048x39.lib
+flow/platforms/nangate45/lib/fakeram45_32x32.lib
+flow/platforms/nangate45/lib/fakeram45_256x95.lib
+flow/platforms/nangate45/lib/fakeram45_64x7.lib
+flow/platforms/nangate45/lib/fakeram45_512x64.lib
+flow/platforms/nangate45/lib/fakeram45_128x116.lib
+flow/platforms/nangate45/lib/fakeram45_256x48.lib
+flow/platforms/nangate45/lib/fakeram45_64x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x15.lib
+flow/platforms/nangate45/lib/fakeram45_64x21.lib
+flow/platforms/nangate45/lib/fakeram45_128x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x124.lib
+flow/platforms/nangate45/lib/fakeram45_128x256.lib
+flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+flow/platforms/nangate45/lib/fakeram45_1024x32.lib
+flow/platforms/nangate45/lib/fakeram45_32x64.lib
+flow/platforms/nangate45/lib/fakeram45_256x34.lib
+flow/platforms/nangate45/lib/fakeram45_256x96.lib
+flow/platforms/nangate45/lib/fakeram45_64x96.lib
+flow/platforms/nangate45/lib/fakeram45_256x16.lib
+flow/platforms/nangate45/lib/fakeram45_256x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x62.lib
+flow/platforms/nangate45/cells_latch.v
+flow/platforms/nangate45/fakeram.cfg
+flow/platforms/nangate45/magic.tech
+flow/platforms/nangate45/cells_clkgate.v
+flow/platforms/nangate45/LICENSE
+flow/platforms/nangate45/fastroute.tcl
+flow/platforms/nangate45/gds/
+flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+flow/platforms/nangate45/template_pga.cfg
+flow/platforms/nangate45/config.mk
+flow/platforms/nangate45/cdl/
+flow/platforms/nangate45/cdl/NangateOpenCellLibrary.cdl
+flow/platforms/nangate45/cells_adders.v
+flow/platforms/nangate45/lef/
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
+flow/platforms/nangate45/lef/fakeram45_512x64.lef
+flow/platforms/nangate45/lef/fakeram45_256x95.lef
+flow/platforms/nangate45/lef/fakeram45_256x96.lef
+flow/platforms/nangate45/lef/fakeram45_2048x39.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.lef
+flow/platforms/nangate45/lef/fakeram45_64x124.lef
+flow/platforms/nangate45/lef/fakeram45_256x34.lef
+flow/platforms/nangate45/lef/fakeram45_64x62.lef
+flow/platforms/nangate45/lef/fakeram45_32x64.lef
+flow/platforms/nangate45/lef/fakeram45_64x21.lef
+flow/platforms/nangate45/lef/fakeram45_1024x32.lef
+flow/platforms/nangate45/lef/fakeram45_128x116.lef
+flow/platforms/nangate45/lef/fakeram45_64x7.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.rect.lef
+flow/platforms/nangate45/lef/fakeram45_32x32.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef
+flow/platforms/nangate45/lef/fakeram45_64x96.lef
+flow/platforms/nangate45/lef/fakeram45_256x48.lef
+flow/platforms/nangate45/lef/fakeram45_64x32.lef
+flow/platforms/nangate45/lef/fakeram45_256x32.lef
+flow/platforms/nangate45/lef/fakeram45_64x64.lef
+flow/platforms/nangate45/lef/fakeram45_128x256.lef
+flow/platforms/nangate45/lef/fakeram45_256x16.lef
+flow/platforms/nangate45/lef/fakeram45_64x15.lef
+flow/platforms/nangate45/lef/fakeram45_128x32.lef
+flow/platforms/common/
+flow/platforms/common/lcu_kogge_stone.v
+flow/reports/
+flow/reports/nangate45/
+flow/reports/nangate45/gcd/
+flow/reports/nangate45/gcd/base/
+flow/reports/nangate45/gcd/base/synth_check.txt
+flow/reports/nangate45/gcd/base/2_floorplan_final.rpt
+flow/reports/nangate45/gcd/base/antenna.log
+flow/reports/nangate45/gcd/base/5_route_drc.rpt
+flow/reports/nangate45/gcd/base/5_global_place.rpt
+flow/reports/nangate45/gcd/base/3_resizer.rpt
+flow/reports/nangate45/gcd/base/4_cts_final.rpt
+flow/reports/nangate45/gcd/base/synth_stat.txt
+flow/reports/nangate45/gcd/base/3_detailed_place.rpt
+flow/reports/nangate45/gcd/base/congestion.rpt
+flow/reports/nangate45/gcd/base/5_global_route.rpt
+flow/util/
+flow/util/gallery.json
+flow/util/plot_floorplan.py
+flow/util/correlateRC.py
+flow/util/generate-vars.sh
+flow/util/genReport.py
+flow/util/addDummyToLef.py
+flow/util/executeParallel.sh
+flow/util/genMassive.py
+flow/util/calPath.py
+flow/util/docker_shell
+flow/util/cell-veneer/
+flow/util/cell-veneer/README.md
+flow/util/cell-veneer/pkgIndex.tcl
+flow/util/cell-veneer/lefdef.tcl
+flow/util/cell-veneer/wrap_stdcells.tcl
+flow/util/cell-veneer/wrap.tcl
+flow/util/distributed.py
+flow/util/genAllRuleFiles.sh
+flow/util/genMetrics.py
+flow/util/checkMetadata.py
+flow/util/genElapsedTime.py
+flow/util/uploadMetadata.py
+flow/util/appendStatsToDb.py
+flow/util/write_net_rc.tcl
+flow/util/viewDrc.py
+flow/util/run.sh
+flow/util/def2stream.py
+flow/util/genReportTable.py
+flow/util/updateRules.py
+flow/util/write_net_rc_script.tcl
+flow/util/utils.mk
+flow/util/calBuffer.py
+flow/util/createGallery.py
+flow/util/mergeLib.pl
+flow/util/makeIssue.sh
+flow/util/convertDrc.py
+flow/util/preprocessLib.py
+flow/util/viewGuide.py
+flow/util/genRuleFile.py
+flow/logs/
+flow/logs/nangate45/
+flow/logs/nangate45/gcd/
+flow/logs/nangate45/gcd/base/
+flow/logs/nangate45/gcd/base/5_1_grt.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.json
+flow/logs/nangate45/gcd/base/5_1_grt.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.json
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.json
+flow/logs/nangate45/gcd/base/1_1_yosys.log
+flow/logs/nangate45/gcd/base/3_2_place_iop.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.log
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.log
+flow/logs/nangate45/gcd/base/4_1_cts.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.log
+flow/logs/nangate45/gcd/base/5_2_fillcell.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.json
+flow/logs/nangate45/gcd/base/5_3_route.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.json
+flow/logs/nangate45/gcd/base/3_4_place_resized.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.json
+flow/logs/nangate45/gcd/base/3_2_place_iop.json
+flow/logs/nangate45/gcd/base/4_1_cts.json
+flow/logs/nangate45/gcd/base/5_2_fillcell.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.json
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.log
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.log
+flow/logs/nangate45/gcd/base/3_4_place_resized.log
+flow/logs/nangate45/gcd/base/5_3_route.json
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.log
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.json
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.log
+flow/results/
+flow/results/nangate45/
+flow/results/nangate45/gcd/
+flow/results/nangate45/gcd/base/
+flow/results/nangate45/gcd/base/3_1_place_gp_skip_io.odb
+flow/results/nangate45/gcd/base/3_3_place_gp.odb
+flow/results/nangate45/gcd/base/5_route.odb
+flow/results/nangate45/gcd/base/4_cts.odb
+flow/results/nangate45/gcd/base/4_cts.sdc
+flow/results/nangate45/gcd/base/5_3_route.odb
+flow/results/nangate45/gcd/base/5_1_grt.odb
+flow/results/nangate45/gcd/base/3_5_place_dp.odb
+flow/results/nangate45/gcd/base/mem.json
+flow/results/nangate45/gcd/base/1_synth.sdc
+flow/results/nangate45/gcd/base/2_4_floorplan_macro.odb
+flow/results/nangate45/gcd/base/2_6_floorplan_pdn.odb
+flow/results/nangate45/gcd/base/updated_clks.sdc
+flow/results/nangate45/gcd/base/2_5_floorplan_tapcell.odb
+flow/results/nangate45/gcd/base/2_floorplan.sdc
+flow/results/nangate45/gcd/base/1_synth.v
+flow/results/nangate45/gcd/base/1_1_yosys.v
+flow/results/nangate45/gcd/base/2_3_floorplan_tdms.odb
+flow/results/nangate45/gcd/base/2_floorplan.odb
+flow/results/nangate45/gcd/base/5_2_fillcell.odb
+flow/results/nangate45/gcd/base/route.guide
+flow/results/nangate45/gcd/base/3_2_place_iop.odb
+flow/results/nangate45/gcd/base/5_route.sdc
+flow/results/nangate45/gcd/base/3_place.sdc
+flow/results/nangate45/gcd/base/4_1_cts.odb
+flow/results/nangate45/gcd/base/clock_period.txt
+flow/results/nangate45/gcd/base/2_2_floorplan_io.odb
+flow/results/nangate45/gcd/base/2_1_floorplan.odb
+flow/results/nangate45/gcd/base/3_place.odb
+flow/results/nangate45/gcd/base/3_4_place_resized.odb
+flow/.gitignore
+flow/test/
+flow/test/test_helper.sh
+flow/test/test_genElapsedTime.py
+flow/test/core_tests.sh
+flow/test/test_delta_debug.sh
+flow/test/test_make_issue.sh
+flow/test/smoke.sh
+flow/test/nodes.txt
+flow/test/.gitignore
+flow/objects/
+flow/objects/nangate45/
+flow/objects/nangate45/gcd/
+flow/objects/nangate45/gcd/base/
+flow/objects/nangate45/gcd/base/copyright.txt
+flow/objects/nangate45/gcd/base/abc.constr
+flow/objects/nangate45/gcd/base/lib/
+flow/objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+flow/Makefile
+flow/designs/
+flow/designs/nangate45/
+flow/designs/nangate45/gcd/
+flow/designs/nangate45/gcd/rules-base.json
+flow/designs/nangate45/gcd/constraint.sdc
+flow/designs/nangate45/gcd/metadata-base-ok.json
+flow/designs/nangate45/gcd/config.mk
+flow/designs/src/
+flow/designs/src/gcd/
+flow/designs/src/gcd/README.md
+flow/designs/src/gcd/gcd.v
+
+- Executing flow commands inside orfs docker container -- 777a071125fee5208ef024e306cd8cf2fc89eb32898db832bd344809242ff013
+
+cp ./results/nangate45/gcd/base/5_route.odb ./results/nangate45/gcd/base/6_1_fill.odb
+cp ./results/nangate45/gcd/base/5_route.sdc ./results/nangate45/gcd/base/6_1_fill.sdc
+Running final_report.tcl, stage 6_report
+Deleted 0 routing obstructions
+[INFO RCX-0431] Defined process_corner X with ext_model_index 0
+[INFO RCX-0029] Defined extraction corner X
+[INFO RCX-0008] extracting parasitics of gcd ...
+[INFO RCX-0435] Reading extraction model file /OpenROAD-flow-scripts/flow/platforms/nangate45/rcx_patterns.rules ...
+[INFO RCX-0436] RC segment generation gcd (max_merge_res 50.0) ...
+[INFO RCX-0040] Final 10644 rc segments
+[INFO RCX-0439] Coupling Cap extraction gcd ...
+[INFO RCX-0440] Coupling threshhold is 0.1000 fF, coupling capacitance less than 0.1000 fF will be grounded.
+[INFO RCX-0043] 18134 wires to be extracted
+[INFO RCX-0442] 48% completion -- 8787 wires have been extracted
+[INFO RCX-0442] 100% completion -- 18134 wires have been extracted
+[INFO RCX-0045] Extract 3630 nets, 14247 rsegs, 14247 caps, 25684 ccs
+[INFO RCX-0015] Finished extracting gcd.
+[INFO RCX-0016] Writing SPEF ...
+[INFO RCX-0443] 3630 nets finished
+[INFO RCX-0017] Finished writing SPEF ...
+[INFO PSM-0040] All shapes on net VDD are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VDD
+Corner           : default
+Supply voltage   : 1.10e+00 V
+Worstcase voltage: 8.03e-01 V
+Average voltage  : 9.23e-01 V
+Average IR drop  : 1.77e-01 V
+Worstcase IR drop: 2.97e-01 V
+Percentage drop  : 27.04 %
+######################################
+[INFO PSM-0040] All shapes on net VSS are connected.
+[INFO PSM-0073] Using bump pattern with x-pitch 140.0000um, y-pitch 140.0000um, and size 70.0000um with an reduction factor of 3x.
+########## IR report #################
+Net              : VSS
+Corner           : default
+Supply voltage   : 0.00e+00 V
+Worstcase voltage: 1.23e-01 V
+Average voltage  : 9.53e-02 V
+Average IR drop  : 9.53e-02 V
+Worstcase IR drop: 1.23e-01 V
+Percentage drop  : 11.18 %
+######################################
+Cell usage report:
+  Fill cells: 1989
+  Tap cells: 116
+  Buffer/inverters: 644
+  Clock buffer/inverters: 4
+  Timing Repair Buffer/inverters: 126
+  Sequential cells: 11
+  Multi-Input combinational cells: 2736
+  Total: 5626
+Report metrics stage 6, finish...
+
+==========================================================================
+finish report_design_area
+--------------------------------------------------------------------------
+Design area 4153 u^2 63% utilization.
+[WARNING GUI-0076] QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-root'
+Elapsed time: 0:04.63[h:]min:sec. CPU time: user 4.64 sys 0.20 (104%). Peak memory: 236292KB.
+cp ./results/nangate45/gcd/base/5_route.sdc ./results/nangate45/gcd/base/6_final.sdc
+cp /OpenROAD-flow-scripts/flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef ./objects/nangate45/gcd/base/klayout_tech.lef
+sed 's,<lef-files>.*</lef-files>,<lef-files>../../../../objects/nangate45/gcd/base/klayout_tech.lef</lef-files> <lef-files>../../../../platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef</lef-files>,g' /OpenROAD-flow-scripts/flow/platforms/nangate45/FreePDK45.lyt > ./objects/nangate45/gcd/base/klayout.lyt
+(/usr/bin/time -f 'Elapsed time: %E[h:]min:sec. CPU time: user %U sys %S (%P). Peak memory: %MKB.' stdbuf -o L /usr/bin/klayout -zz -rd design_name=gcd \
+        -rd in_def=./results/nangate45/gcd/base/6_final.def \
+        -rd in_files="/OpenROAD-flow-scripts/flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds  " \
+        -rd seal_file="" \
+        -rd out_file=./results/nangate45/gcd/base/6_1_merged.gds \
+        -rd tech_file=./objects/nangate45/gcd/base/klayout.lyt \
+        -rd layer_map= \
+        -r /OpenROAD-flow-scripts/flow/util/def2stream.py) 2>&1 | tee ./logs/nangate45/gcd/base/6_1_merge.log
+[INFO] Reporting cells prior to loading DEF ...
+[INFO] Reading DEF ...
+[INFO] Clearing cells...
+[INFO] Merging GDS/OAS files...
+	/OpenROAD-flow-scripts/flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+[INFO] Copying toplevel cell 'gcd'
+[INFO] Checking for missing cell from GDS/OAS...
+[INFO] Found GDS_ALLOW_EMPTY variable.
+[INFO] All LEF cells have matching GDS/OAS cells
+[INFO] Checking for orphan cell in the final layout...
+[INFO] No orphan cells
+[INFO] Writing out GDS/OAS './results/nangate45/gcd/base/6_1_merged.gds'
+Elapsed time: 0:02.31[h:]min:sec. CPU time: user 1.98 sys 0.24 (96%). Peak memory: 406480KB.
+cp results/nangate45/gcd/base/6_1_merged.gds results/nangate45/gcd/base/6_final.gds
+./logs/nangate45/gcd/base
+Log                            Elapsed seconds Peak Memory/MB
+1_1_yosys                                    5             42
+2_1_floorplan                                0            105
+2_2_floorplan_io                             0             97
+2_3_floorplan_tdms                           0             97
+2_4_floorplan_macro                          0             97
+2_5_floorplan_tapcell                        0             95
+2_6_floorplan_pdn                            0             99
+3_1_place_gp_skip_io                         1            101
+3_2_place_iop                                0             97
+3_3_place_gp                                58            133
+3_4_place_resized                            1            112
+3_5_place_dp                                 2            108
+4_1_cts                                     46            115
+5_1_grt                                    303            241
+5_2_fillcell                                 0             99
+5_3_route                                   25            988
+6_1_merge                                    2            396
+6_report                                     4            230
+Total                                      447            988
+
+- Moving flow checkpoint out of orfs docker container -- 777a071125fee5208ef024e306cd8cf2fc89eb32898db832bd344809242ff013
+
+
+- Cleaning up docker containers and images
+
+777a071125fee5208ef024e306cd8cf2fc89eb32898db832bd344809242ff013
+
+- Preparing outputs
+
+flow/
+flow/scripts/
+flow/scripts/klayout.tcl
+flow/scripts/io_placement.tcl
+flow/scripts/final_report.tcl
+flow/scripts/pdn.tcl
+flow/scripts/read_macro_placement.tcl
+flow/scripts/fillcell.tcl
+flow/scripts/save_images.tcl
+flow/scripts/io_placement_random.tcl
+flow/scripts/write_ref_sdc.tcl
+flow/scripts/abc_speed.script
+flow/scripts/synth_metrics.tcl
+flow/scripts/global_place.tcl
+flow/scripts/resize.tcl
+flow/scripts/report_metrics.tcl
+flow/scripts/global_route.tcl
+flow/scripts/sta-synth.tcl
+flow/scripts/write_def.tcl
+flow/scripts/tdms_place.tcl
+flow/scripts/mem_dump.py
+flow/scripts/synth.tcl
+flow/scripts/detail_route.tcl
+flow/scripts/read_liberty.tcl
+flow/scripts/tapcell.tcl
+flow/scripts/deletePowerNets.tcl
+flow/scripts/util.tcl
+flow/scripts/global_place_skip_io.tcl
+flow/scripts/synth_preamble.tcl
+flow/scripts/yosys.tcl
+flow/scripts/cts.tcl
+flow/scripts/deleteNonClkNets.tcl
+flow/scripts/synth_hier_report.tcl
+flow/scripts/floorplan.tcl
+flow/scripts/deleteRoutingObstructions.tcl
+flow/scripts/cdl.tcl
+flow/scripts/abc_area.script
+flow/scripts/noop.tcl
+flow/scripts/macro_place_util.tcl
+flow/scripts/escape.sh
+flow/scripts/add_routing_blk.tcl
+flow/scripts/sc/
+flow/scripts/sc/README.md
+flow/scripts/sc/tools/
+flow/scripts/sc/tools/openroad/
+flow/scripts/sc/tools/openroad/sc_apr.tcl
+flow/scripts/sc/flows/
+flow/scripts/sc/flows/orflow.py
+flow/scripts/sc/util/
+flow/scripts/sc/util/parse_config_mk.py
+flow/scripts/sc/util/parse_target_config.py
+flow/scripts/sc/targets/
+flow/scripts/sc/targets/nangate45_orflow.py
+flow/scripts/sc/targets/asap7_orflow.py
+flow/scripts/sc/targets/sky130hd_orflow.py
+flow/scripts/sc/targets/sky130hs_orflow.py
+flow/scripts/gui.tcl
+flow/scripts/placement_blockages.tcl
+flow/scripts/load.tcl
+flow/scripts/generate_abstract.tcl
+flow/scripts/macro_place.tcl
+flow/scripts/view_cells.tcl
+flow/scripts/detail_place.tcl
+flow/scripts/io_placement_util.tcl
+flow/scripts/density_fill.tcl
+flow/scripts/write_verilog.tcl
+flow/tutorials/
+flow/tutorials/scripts/
+flow/tutorials/scripts/gui/
+flow/tutorials/scripts/gui/load_lef.tcl
+flow/tutorials/scripts/drt/
+flow/tutorials/scripts/drt/helpers.tcl
+flow/tutorials/scripts/drt/drc_fix.tcl
+flow/tutorials/scripts/drt/drc_issue.tcl
+flow/tutorials/scripts/drt/gcd/
+flow/tutorials/scripts/drt/gcd/drc_cts.def
+flow/tutorials/scripts/drt/gcd/gcd.sdc
+flow/tutorials/scripts/drt/gcd/4_cts.def
+flow/tutorials/scripts/metal_fill/
+flow/tutorials/scripts/metal_fill/5_route.odb
+flow/tutorials/scripts/metal_fill/metal_fill.tcl
+flow/tutorials/scripts/metal_fill/helpers.tcl
+flow/tutorials/README.md
+flow/Makefile.py
+flow/platforms/
+flow/platforms/nangate45/
+flow/platforms/nangate45/FreePDK45.lyt
+flow/platforms/nangate45/fakeram.tcl
+flow/platforms/nangate45/grid_strategy-M1-M4-M7.tcl
+flow/platforms/nangate45/setRC.tcl
+flow/platforms/nangate45/FreePDK45.lyp
+flow/platforms/nangate45/README.md
+flow/platforms/nangate45/work_around_yosys/
+flow/platforms/nangate45/work_around_yosys/cells.v
+flow/platforms/nangate45/rcx_patterns.rules
+flow/platforms/nangate45/tapcell.tcl
+flow/platforms/nangate45/drc/
+flow/platforms/nangate45/drc/FreePDK45.lydrc
+flow/platforms/nangate45/make_tracks.tcl
+flow/platforms/nangate45/lib/
+flow/platforms/nangate45/lib/fakeram45_64x64.lib
+flow/platforms/nangate45/lib/fakeram45_2048x39.lib
+flow/platforms/nangate45/lib/fakeram45_32x32.lib
+flow/platforms/nangate45/lib/fakeram45_256x95.lib
+flow/platforms/nangate45/lib/fakeram45_64x7.lib
+flow/platforms/nangate45/lib/fakeram45_512x64.lib
+flow/platforms/nangate45/lib/fakeram45_128x116.lib
+flow/platforms/nangate45/lib/fakeram45_256x48.lib
+flow/platforms/nangate45/lib/fakeram45_64x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x15.lib
+flow/platforms/nangate45/lib/fakeram45_64x21.lib
+flow/platforms/nangate45/lib/fakeram45_128x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x124.lib
+flow/platforms/nangate45/lib/fakeram45_128x256.lib
+flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+flow/platforms/nangate45/lib/fakeram45_1024x32.lib
+flow/platforms/nangate45/lib/fakeram45_32x64.lib
+flow/platforms/nangate45/lib/fakeram45_256x34.lib
+flow/platforms/nangate45/lib/fakeram45_256x96.lib
+flow/platforms/nangate45/lib/fakeram45_64x96.lib
+flow/platforms/nangate45/lib/fakeram45_256x16.lib
+flow/platforms/nangate45/lib/fakeram45_256x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x62.lib
+flow/platforms/nangate45/cells_latch.v
+flow/platforms/nangate45/fakeram.cfg
+flow/platforms/nangate45/magic.tech
+flow/platforms/nangate45/cells_clkgate.v
+flow/platforms/nangate45/LICENSE
+flow/platforms/nangate45/fastroute.tcl
+flow/platforms/nangate45/gds/
+flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+flow/platforms/nangate45/template_pga.cfg
+flow/platforms/nangate45/config.mk
+flow/platforms/nangate45/cdl/
+flow/platforms/nangate45/cdl/NangateOpenCellLibrary.cdl
+flow/platforms/nangate45/cells_adders.v
+flow/platforms/nangate45/lef/
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
+flow/platforms/nangate45/lef/fakeram45_512x64.lef
+flow/platforms/nangate45/lef/fakeram45_256x95.lef
+flow/platforms/nangate45/lef/fakeram45_256x96.lef
+flow/platforms/nangate45/lef/fakeram45_2048x39.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.lef
+flow/platforms/nangate45/lef/fakeram45_64x124.lef
+flow/platforms/nangate45/lef/fakeram45_256x34.lef
+flow/platforms/nangate45/lef/fakeram45_64x62.lef
+flow/platforms/nangate45/lef/fakeram45_32x64.lef
+flow/platforms/nangate45/lef/fakeram45_64x21.lef
+flow/platforms/nangate45/lef/fakeram45_1024x32.lef
+flow/platforms/nangate45/lef/fakeram45_128x116.lef
+flow/platforms/nangate45/lef/fakeram45_64x7.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.rect.lef
+flow/platforms/nangate45/lef/fakeram45_32x32.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef
+flow/platforms/nangate45/lef/fakeram45_64x96.lef
+flow/platforms/nangate45/lef/fakeram45_256x48.lef
+flow/platforms/nangate45/lef/fakeram45_64x32.lef
+flow/platforms/nangate45/lef/fakeram45_256x32.lef
+flow/platforms/nangate45/lef/fakeram45_64x64.lef
+flow/platforms/nangate45/lef/fakeram45_128x256.lef
+flow/platforms/nangate45/lef/fakeram45_256x16.lef
+flow/platforms/nangate45/lef/fakeram45_64x15.lef
+flow/platforms/nangate45/lef/fakeram45_128x32.lef
+flow/platforms/common/
+flow/platforms/common/lcu_kogge_stone.v
+flow/reports/
+flow/reports/nangate45/
+flow/reports/nangate45/gcd/
+flow/reports/nangate45/gcd/base/
+flow/reports/nangate45/gcd/base/synth_check.txt
+flow/reports/nangate45/gcd/base/2_floorplan_final.rpt
+flow/reports/nangate45/gcd/base/final_placement.webp
+flow/reports/nangate45/gcd/base/6_finish.rpt
+flow/reports/nangate45/gcd/base/VSS.rpt
+flow/reports/nangate45/gcd/base/antenna.log
+flow/reports/nangate45/gcd/base/cts_core_clock.webp
+flow/reports/nangate45/gcd/base/final_ir_drop.webp
+flow/reports/nangate45/gcd/base/final_resizer.webp
+flow/reports/nangate45/gcd/base/5_route_drc.rpt
+flow/reports/nangate45/gcd/base/5_global_place.rpt
+flow/reports/nangate45/gcd/base/final_clocks.webp
+flow/reports/nangate45/gcd/base/3_resizer.rpt
+flow/reports/nangate45/gcd/base/4_cts_final.rpt
+flow/reports/nangate45/gcd/base/final_routing.webp
+flow/reports/nangate45/gcd/base/synth_stat.txt
+flow/reports/nangate45/gcd/base/VDD.rpt
+flow/reports/nangate45/gcd/base/3_detailed_place.rpt
+flow/reports/nangate45/gcd/base/congestion.rpt
+flow/reports/nangate45/gcd/base/5_global_route.rpt
+flow/util/
+flow/util/gallery.json
+flow/util/plot_floorplan.py
+flow/util/correlateRC.py
+flow/util/generate-vars.sh
+flow/util/genReport.py
+flow/util/addDummyToLef.py
+flow/util/executeParallel.sh
+flow/util/genMassive.py
+flow/util/calPath.py
+flow/util/docker_shell
+flow/util/cell-veneer/
+flow/util/cell-veneer/README.md
+flow/util/cell-veneer/pkgIndex.tcl
+flow/util/cell-veneer/lefdef.tcl
+flow/util/cell-veneer/wrap_stdcells.tcl
+flow/util/cell-veneer/wrap.tcl
+flow/util/distributed.py
+flow/util/genAllRuleFiles.sh
+flow/util/genMetrics.py
+flow/util/checkMetadata.py
+flow/util/genElapsedTime.py
+flow/util/uploadMetadata.py
+flow/util/appendStatsToDb.py
+flow/util/write_net_rc.tcl
+flow/util/viewDrc.py
+flow/util/run.sh
+flow/util/def2stream.py
+flow/util/genReportTable.py
+flow/util/updateRules.py
+flow/util/write_net_rc_script.tcl
+flow/util/utils.mk
+flow/util/calBuffer.py
+flow/util/createGallery.py
+flow/util/mergeLib.pl
+flow/util/makeIssue.sh
+flow/util/convertDrc.py
+flow/util/preprocessLib.py
+flow/util/viewGuide.py
+flow/util/genRuleFile.py
+flow/logs/
+flow/logs/nangate45/
+flow/logs/nangate45/gcd/
+flow/logs/nangate45/gcd/base/
+flow/logs/nangate45/gcd/base/5_1_grt.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.json
+flow/logs/nangate45/gcd/base/5_1_grt.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.json
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.json
+flow/logs/nangate45/gcd/base/6_report.json
+flow/logs/nangate45/gcd/base/1_1_yosys.log
+flow/logs/nangate45/gcd/base/3_2_place_iop.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.log
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.log
+flow/logs/nangate45/gcd/base/4_1_cts.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.log
+flow/logs/nangate45/gcd/base/5_2_fillcell.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.json
+flow/logs/nangate45/gcd/base/5_3_route.log
+flow/logs/nangate45/gcd/base/6_1_merge.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.json
+flow/logs/nangate45/gcd/base/3_4_place_resized.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.json
+flow/logs/nangate45/gcd/base/3_2_place_iop.json
+flow/logs/nangate45/gcd/base/4_1_cts.json
+flow/logs/nangate45/gcd/base/5_2_fillcell.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.json
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.log
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.log
+flow/logs/nangate45/gcd/base/6_report.log
+flow/logs/nangate45/gcd/base/3_4_place_resized.log
+flow/logs/nangate45/gcd/base/5_3_route.json
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.log
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.json
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.log
+flow/results/
+flow/results/nangate45/
+flow/results/nangate45/gcd/
+flow/results/nangate45/gcd/base/
+flow/results/nangate45/gcd/base/3_1_place_gp_skip_io.odb
+flow/results/nangate45/gcd/base/3_3_place_gp.odb
+flow/results/nangate45/gcd/base/6_final.sdc
+flow/results/nangate45/gcd/base/5_route.odb
+flow/results/nangate45/gcd/base/4_cts.odb
+flow/results/nangate45/gcd/base/4_cts.sdc
+flow/results/nangate45/gcd/base/5_3_route.odb
+flow/results/nangate45/gcd/base/5_1_grt.odb
+flow/results/nangate45/gcd/base/3_5_place_dp.odb
+flow/results/nangate45/gcd/base/6_final.v
+flow/results/nangate45/gcd/base/mem.json
+flow/results/nangate45/gcd/base/6_final.gds
+flow/results/nangate45/gcd/base/1_synth.sdc
+flow/results/nangate45/gcd/base/6_final.def
+flow/results/nangate45/gcd/base/2_4_floorplan_macro.odb
+flow/results/nangate45/gcd/base/2_6_floorplan_pdn.odb
+flow/results/nangate45/gcd/base/updated_clks.sdc
+flow/results/nangate45/gcd/base/2_5_floorplan_tapcell.odb
+flow/results/nangate45/gcd/base/2_floorplan.sdc
+flow/results/nangate45/gcd/base/1_synth.v
+flow/results/nangate45/gcd/base/1_1_yosys.v
+flow/results/nangate45/gcd/base/2_3_floorplan_tdms.odb
+flow/results/nangate45/gcd/base/6_1_merged.gds
+flow/results/nangate45/gcd/base/2_floorplan.odb
+flow/results/nangate45/gcd/base/6_1_fill.sdc
+flow/results/nangate45/gcd/base/5_2_fillcell.odb
+flow/results/nangate45/gcd/base/route.guide
+flow/results/nangate45/gcd/base/6_final.spef
+flow/results/nangate45/gcd/base/3_2_place_iop.odb
+flow/results/nangate45/gcd/base/5_route.sdc
+flow/results/nangate45/gcd/base/3_place.sdc
+flow/results/nangate45/gcd/base/4_1_cts.odb
+flow/results/nangate45/gcd/base/clock_period.txt
+flow/results/nangate45/gcd/base/2_2_floorplan_io.odb
+flow/results/nangate45/gcd/base/2_1_floorplan.odb
+flow/results/nangate45/gcd/base/3_place.odb
+flow/results/nangate45/gcd/base/3_4_place_resized.odb
+flow/results/nangate45/gcd/base/6_1_fill.odb
+flow/results/nangate45/gcd/base/6_final.odb
+flow/.gitignore
+flow/test/
+flow/test/test_helper.sh
+flow/test/test_genElapsedTime.py
+flow/test/core_tests.sh
+flow/test/test_delta_debug.sh
+flow/test/test_make_issue.sh
+flow/test/smoke.sh
+flow/test/nodes.txt
+flow/test/.gitignore
+flow/objects/
+flow/objects/nangate45/
+flow/objects/nangate45/gcd/
+flow/objects/nangate45/gcd/base/
+flow/objects/nangate45/gcd/base/copyright.txt
+flow/objects/nangate45/gcd/base/klayout_tech.lef
+flow/objects/nangate45/gcd/base/abc.constr
+flow/objects/nangate45/gcd/base/lib/
+flow/objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+flow/objects/nangate45/gcd/base/klayout.lyt
+flow/Makefile
+flow/designs/
+flow/designs/nangate45/
+flow/designs/nangate45/gcd/
+flow/designs/nangate45/gcd/rules-base.json
+flow/designs/nangate45/gcd/constraint.sdc
+flow/designs/nangate45/gcd/metadata-base-ok.json
+flow/designs/nangate45/gcd/config.mk
+flow/designs/src/
+flow/designs/src/gcd/
+flow/designs/src/gcd/README.md
+flow/designs/src/gcd/gcd.v

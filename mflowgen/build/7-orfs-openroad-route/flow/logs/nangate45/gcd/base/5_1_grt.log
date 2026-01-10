@@ -1,0 +1,169 @@
+OpenROAD v2.0-14264-g08c19394f 
+Features included (+) or not (-): +Charts +GPU +GUI +Python
+This program is licensed under the BSD-3 license. See the LICENSE file for details.
+Components of this program may be licensed under more restrictive licenses which must be honored.
+[INFO ORD-0030] Using 16 thread(s).
+global_route -guide_file ./results/nangate45/gcd/base/route.guide -congestion_report_file ./reports/nangate45/gcd/base/congestion.rpt -congestion_iterations 30 -congestion_report_iter_step 5 -verbose
+[INFO GRT-0020] Min routing layer: metal2
+[INFO GRT-0021] Max routing layer: metal10
+[INFO GRT-0022] Global adjustment: 0%
+[INFO GRT-0023] Grid origin: (0, 0)
+[INFO GRT-0043] No OR_DEFAULT vias defined.
+[INFO GRT-0088] Layer metal1  Track-Pitch = 0.1400  line-2-Via Pitch: 0.1350
+[INFO GRT-0088] Layer metal2  Track-Pitch = 0.1900  line-2-Via Pitch: 0.1400
+[INFO GRT-0088] Layer metal3  Track-Pitch = 0.1400  line-2-Via Pitch: 0.1400
+[INFO GRT-0088] Layer metal4  Track-Pitch = 0.2800  line-2-Via Pitch: 0.2800
+[INFO GRT-0088] Layer metal5  Track-Pitch = 0.2800  line-2-Via Pitch: 0.2800
+[INFO GRT-0088] Layer metal6  Track-Pitch = 0.2800  line-2-Via Pitch: 0.2800
+[INFO GRT-0088] Layer metal7  Track-Pitch = 0.8000  line-2-Via Pitch: 0.8000
+[INFO GRT-0088] Layer metal8  Track-Pitch = 0.8000  line-2-Via Pitch: 0.8000
+[INFO GRT-0088] Layer metal9  Track-Pitch = 1.6000  line-2-Via Pitch: 1.6000
+[INFO GRT-0088] Layer metal10 Track-Pitch = 1.6000  line-2-Via Pitch: 1.6000
+[INFO GRT-0019] Found 4 clock nets.
+[INFO GRT-0001] Minimum degree: 2
+[INFO GRT-0002] Maximum degree: 19
+[INFO GRT-0003] Macros: 0
+[INFO GRT-0043] No OR_DEFAULT vias defined.
+[INFO GRT-0004] Blockages: 0
+
+[INFO GRT-0053] Routing resources analysis:
+          Routing      Original      Derated      Resource
+Layer     Direction    Resources     Resources    Reduction (%)
+---------------------------------------------------------------
+metal1     Horizontal          0             0          0.00%
+metal2     Vertical        17082          7571          55.68%
+metal3     Horizontal      23322         10640          54.38%
+metal4     Vertical        10920          7374          32.47%
+metal5     Horizontal      10920          7586          30.53%
+metal6     Vertical        10920          7524          31.10%
+metal7     Horizontal       3120          1477          52.66%
+metal8     Vertical         3120          1558          50.06%
+metal9     Horizontal       1560          1444          7.44%
+metal10    Vertical         1560          1444          7.44%
+---------------------------------------------------------------
+
+[INFO GRT-0197] Via related to pin nodes: 17424
+[INFO GRT-0198] Via related Steiner nodes: 138
+[INFO GRT-0199] Via filling finished.
+[INFO GRT-0111] Final number of vias: 21313
+[INFO GRT-0112] Final usage 3D: 72808
+
+[INFO GRT-0096] Final congestion report:
+Layer         Resource        Demand        Usage (%)    Max H / Max V / Total Overflow
+---------------------------------------------------------------------------------------
+metal1               0             0            0.00%             0 /  0 /  0
+metal2            7571          3400           44.91%             0 /  0 /  0
+metal3           10640          4104           38.57%             0 /  0 /  0
+metal4            7374           962           13.05%             0 /  0 /  0
+metal5            7586           352            4.64%             0 /  0 /  0
+metal6            7524            51            0.68%             0 /  0 /  0
+metal7            1477             0            0.00%             0 /  0 /  0
+metal8            1558             0            0.00%             0 /  0 /  0
+metal9            1444             0            0.00%             0 /  0 /  0
+metal10           1444             0            0.00%             0 /  0 /  0
+---------------------------------------------------------------------------------------
+Total            46618          8869           19.02%             0 /  0 /  0
+
+[INFO GRT-0018] Total wirelength: 31655 um
+[INFO GRT-0014] Routed nets: 3594
+Perform buffer insertion...
+[INFO RSZ-0058] Using max wire length 634um.
+Placement Analysis
+---------------------------------
+total displacement          0.0 u
+average displacement        0.0 u
+max displacement            0.0 u
+original HPWL           17812.3 u
+legalized HPWL          17812.3 u
+delta HPWL                    0 %
+
+Repair setup and hold violations...
+[INFO RSZ-0094] Found 7 endpoints with setup violations.
+Iteration | Removed | Resized | Inserted | Cloned Gates | Pin Swaps |   WNS   |   TNS   | Endpoint
+          | Buffers |         | Buffers  |              |           |         |         |
+-------------------------------------------------------------------------------------------------
+        0 |       0 |       0 |        0 |            0 |         0 |  -0.523 |  -3.625 | out_act\[2\]$_DFFE_PN0P_/D
+       10 |       0 |       8 |        2 |            0 |         0 |  -0.530 |  -3.675 | out_act\[2\]$_DFFE_PN0P_/D
+       20 |       0 |      14 |        2 |            0 |         4 |  -0.524 |  -3.631 | out_act\[2\]$_DFFE_PN0P_/D
+       30 |       0 |      22 |        2 |            0 |         6 |  -0.521 |  -3.606 | out_act\[2\]$_DFFE_PN0P_/D
+       40 |       0 |      30 |        2 |            0 |         8 |  -0.518 |  -3.593 | out_act\[2\]$_DFFE_PN0P_/D
+       50 |       0 |      38 |        2 |            0 |        10 |  -0.516 |  -3.591 | out_act\[2\]$_DFFE_PN0P_/D
+       60 |       0 |      47 |        2 |            0 |        11 |  -0.517 |  -3.596 | out_act\[2\]$_DFFE_PN0P_/D
+       70 |       0 |      53 |        2 |            0 |        15 |  -0.518 |  -3.585 | out_act\[2\]$_DFFE_PN0P_/D
+       80 |       0 |      59 |        4 |            0 |        18 |  -0.523 |  -3.625 | out_act\[2\]$_DFFE_PN0P_/D
+       90 |       0 |      69 |        4 |            0 |        18 |  -0.522 |  -3.628 | out_act\[2\]$_DFFE_PN0P_/D
+      100 |       0 |      78 |        4 |            0 |        19 |  -0.526 |  -3.651 | out_act\[2\]$_DFFE_PN0P_/D
+      110 |       0 |      87 |        4 |            0 |        20 |  -0.522 |  -3.632 | out_act\[2\]$_DFFE_PN0P_/D
+      120 |       0 |      94 |        8 |            0 |        21 |  -0.515 |  -3.588 | out_act\[3\]$_DFFE_PN0P_/D
+      130 |       0 |     103 |        8 |            0 |        22 |  -0.516 |  -3.581 | out_act\[2\]$_DFFE_PN0P_/D
+      140 |       0 |     111 |        8 |            0 |        24 |  -0.515 |  -3.576 | out_act\[2\]$_DFFE_PN0P_/D
+      150 |       0 |     119 |        8 |            0 |        26 |  -0.513 |  -3.571 | out_act\[2\]$_DFFE_PN0P_/D
+      160 |       0 |     126 |        8 |            0 |        29 |  -0.513 |  -3.570 | out_act\[2\]$_DFFE_PN0P_/D
+      170 |       0 |     134 |        8 |            0 |        31 |  -0.517 |  -3.584 | out_act\[2\]$_DFFE_PN0P_/D
+      180 |       0 |     144 |        8 |            0 |        31 |  -0.517 |  -3.602 | out_act\[2\]$_DFFE_PN0P_/D
+      190 |       0 |     153 |        8 |            0 |        32 |  -0.513 |  -3.568 | out_act\[2\]$_DFFE_PN0P_/D
+      200 |       0 |     160 |        8 |            0 |        35 |  -0.511 |  -3.565 | out_act\[2\]$_DFFE_PN0P_/D
+      210 |       0 |     169 |        8 |            0 |        36 |  -0.511 |  -3.561 | out_act\[2\]$_DFFE_PN0P_/D
+      220 |       0 |     176 |        8 |            0 |        39 |  -0.516 |  -3.600 | out_act\[3\]$_DFFE_PN0P_/D
+      230 |       0 |     183 |        8 |            0 |        42 |  -0.510 |  -3.557 | out_act\[2\]$_DFFE_PN0P_/D
+      240 |       0 |     192 |        8 |            0 |        43 |  -0.512 |  -3.569 | out_act\[3\]$_DFFE_PN0P_/D
+      250 |       0 |     199 |        8 |            0 |        46 |  -0.512 |  -3.572 | out_act\[2\]$_DFFE_PN0P_/D
+      260 |       0 |     207 |       10 |            0 |        47 |  -0.509 |  -3.549 | out_act\[2\]$_DFFE_PN0P_/D
+      270 |       0 |     216 |       10 |            0 |        48 |  -0.508 |  -3.544 | out_act\[2\]$_DFFE_PN0P_/D
+      280 |       0 |     223 |       10 |            0 |        51 |  -0.509 |  -3.547 | out_act\[2\]$_DFFE_PN0P_/D
+      290 |       0 |     233 |       10 |            0 |        51 |  -0.508 |  -3.542 | out_act\[3\]$_DFFE_PN0P_/D
+      300 |       0 |     242 |       10 |            0 |        52 |  -0.518 |  -3.612 | out_act\[3\]$_DFFE_PN0P_/D
+      310 |       0 |     250 |       12 |            0 |        53 |  -0.507 |  -3.538 | out_act\[2\]$_DFFE_PN0P_/D
+      320 |       0 |     258 |       12 |            0 |        55 |  -0.508 |  -3.542 | out_act\[3\]$_DFFE_PN0P_/D
+      330 |       0 |     265 |       12 |            0 |        58 |  -0.507 |  -3.539 | out_act\[3\]$_DFFE_PN0P_/D
+      340 |       0 |     271 |       14 |            0 |        61 |  -0.507 |  -3.534 | out_act\[2\]$_DFFE_PN0P_/D
+      350 |       0 |     280 |       14 |            0 |        62 |  -0.506 |  -3.531 | out_act\[2\]$_DFFE_PN0P_/D
+      360 |       0 |     286 |       16 |            0 |        65 |  -0.511 |  -3.561 | out_act\[2\]$_DFFE_PN0P_/D
+      370 |       0 |     294 |       16 |            0 |        67 |  -0.506 |  -3.528 | out_act\[2\]$_DFFE_PN0P_/D
+      380 |       0 |     300 |       16 |            0 |        71 |  -0.505 |  -3.522 | out_act\[2\]$_DFFE_PN0P_/D
+      390 |       0 |     307 |       16 |            0 |        74 |  -0.507 |  -3.535 | out_act\[3\]$_DFFE_PN0P_/D
+      400 |       0 |     315 |       16 |            0 |        76 |  -0.507 |  -3.526 | out_act\[2\]$_DFFE_PN0P_/D
+      410 |       0 |     320 |       16 |            0 |        81 |  -0.509 |  -3.536 | out_act\[2\]$_DFFE_PN0P_/D
+      420 |       0 |     328 |       16 |            0 |        83 |  -0.508 |  -3.528 | out_act\[2\]$_DFFE_PN0P_/D
+      430 |       0 |     336 |       16 |            0 |        85 |  -0.504 |  -3.517 | out_act\[3\]$_DFFE_PN0P_/D
+      440 |       0 |     342 |       18 |            0 |        88 |  -0.511 |  -3.554 | out_act\[3\]$_DFFE_PN0P_/D
+      450 |       0 |     349 |       18 |            0 |        91 |  -0.509 |  -3.550 | out_act\[2\]$_DFFE_PN0P_/D
+      460 |       0 |     359 |       18 |            0 |        91 |  -0.504 |  -3.516 | out_act\[2\]$_DFFE_PN0P_/D
+      470 |       0 |     365 |       18 |            0 |        95 |  -0.515 |  -3.567 | out_act\[2\]$_DFFE_PN0P_/D
+      480 |       0 |     374 |       18 |            0 |        96 |  -0.509 |  -3.522 | out_act\[2\]$_DFFE_PN0P_/D
+      490 |       0 |     382 |       18 |            0 |        98 |  -0.514 |  -3.540 | out_act\[2\]$_DFFE_PN0P_/D
+      500 |       0 |     391 |       18 |            0 |        99 |  -0.510 |  -3.527 | out_act\[2\]$_DFFE_PN0P_/D
+      510 |       0 |     400 |       18 |            0 |       100 |  -0.507 |  -3.518 | out_act\[2\]$_DFFE_PN0P_/D
+      512 |       0 |     359 |       18 |            0 |       102 |  -0.505 |  -3.519 | out_act\[2\]$_DFFE_PN0P_/D
+    final |       0 |     359 |       18 |            0 |       102 |  -0.505 |  -3.519 | out_act\[2\]$_DFFE_PN0P_/D
+-------------------------------------------------------------------------------------------------
+[INFO RSZ-0040] Inserted 9 buffers.
+[INFO RSZ-0041] Resized 359 instances.
+[INFO RSZ-0043] Swapped pins on 102 instances.
+[WARNING RSZ-0062] Unable to repair all setup violations.
+[INFO RSZ-0033] No hold violations found.
+Placement Analysis
+---------------------------------
+total displacement        995.6 u
+average displacement        0.3 u
+max displacement           13.1 u
+original HPWL           17886.4 u
+legalized HPWL          19010.4 u
+delta HPWL                    6 %
+
+Repair antennas...
+[WARNING GRT-0246] No diode with LEF class CORE ANTENNACELL found.
+[INFO ANT-0002] Found 0 net violations.
+[INFO ANT-0001] Found 0 pin violations.
+Estimate parasitics...
+Report metrics stage 5, global route...
+
+==========================================================================
+global route report_design_area
+--------------------------------------------------------------------------
+Design area 4153 u^2 63% utilization.
+[INFO FLW-0007] clock core_clock period 0.460000
+[INFO FLW-0008] Clock core_clock period 0.933
+[INFO FLW-0009] Clock core_clock slack -0.522
+[INFO FLW-0011] Path endpoint count 43
+Elapsed time: 5:03.53[h:]min:sec. CPU time: user 74.55 sys 364.47 (144%). Peak memory: 247588KB.

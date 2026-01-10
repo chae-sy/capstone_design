@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+set -euo pipefail
+#=========================================================================
+# mflowgen-run
+#=========================================================================
+# Generator : /home/sychae/cuda-vscode/mflowgen/mflowgen/core/build_orchestrator.py
+
+# Pre
+
+rm -f .time_end
+date +%Y-%m%d-%H%M-%S > .time_start
+MFLOWGEN_NODE_HOME=$PWD
+
+# Commands
+
+mkdir -p outputs && cd outputs
+ln -sf ../orfs-design
+
+# Post
+
+cd $MFLOWGEN_NODE_HOME
+date +%Y-%m%d-%H%M-%S > .time_end
+

@@ -1,0 +1,63 @@
+build_dir: 4-orfs-openroad-floorplan
+build_id: '4'
+commands:
+- echo -e "\n- Loading orfs docker image ...\n"
+- docker load -i inputs/orfs-docker-image.tar
+- echo -e "\n- Creating orfs docker container ...\n"
+- CONTAINER=$(docker run -it -d $orfs_image)
+- echo -e "\n- Created orfs docker container with Container ID -- $CONTAINER\n"
+- echo -e "\n- Moving flow checkpoint into orfs docker container -- $CONTAINER\n"
+- docker cp -aL inputs/flow-checkpoint.tar.gz $CONTAINER:/OpenROAD-flow-scripts
+- docker exec $CONTAINER bash -c "rm -rf flow && tar xzvf flow-checkpoint.tar.gz"
+- echo -e "\n- Executing flow commands inside orfs docker container -- $CONTAINER\n"
+- docker exec $CONTAINER bash -c "cd flow && make floorplan DESIGN_CONFIG=./designs/$orfs_platform/$design_name/config.mk"
+- echo -e "\n- Moving flow checkpoint out of orfs docker container -- $CONTAINER\n"
+- docker cp -a $CONTAINER:/OpenROAD-flow-scripts/flow .
+- echo -e "\n- Cleaning up docker containers and images\n"
+- docker rm -f $CONTAINER
+- echo -e "\n- Preparing outputs\n"
+- tar czvf flow-checkpoint.tar.gz flow/
+- cd outputs && ln -sf ../flow-checkpoint.tar.gz
+debug:
+- echo -e "\n- Loading orfs docker image ...\n"
+- docker load -i inputs/orfs-docker-image.tar
+- echo -e "\n- Creating orfs docker container ...\n"
+- CONTAINER=$(docker run -it -d $orfs_image)
+- echo -e "\n- Created orfs docker container with Container ID -- $CONTAINER\n"
+- echo -e "\n- Moving flow checkpoint into orfs docker container -- $CONTAINER\n"
+- docker exec $CONTAINER bash -c "rm -rf flow-checkpoint.tar.gz"
+- docker cp -aL outputs/flow-checkpoint.tar.gz $CONTAINER:/OpenROAD-flow-scripts
+- docker exec $CONTAINER bash -c "rm -rf flow && tar xzvf flow-checkpoint.tar.gz"
+- echo -e "\n- Dropping user into orfs docker container -- $CONTAINER\n"
+- docker exec -it $CONTAINER bash || true
+- echo -e "\n- Cleaning up docker containers and images\n"
+- docker rm -f $CONTAINER &
+edges_i:
+  flow-checkpoint.tar.gz:
+  - f: flow-checkpoint.tar.gz
+    node: 3-orfs-yosys-synthesis
+  orfs-docker-image.tar:
+  - f: orfs-docker-image.tar
+    node: 2-orfs-docker-setup
+edges_o:
+  flow-checkpoint.tar.gz:
+  - f: flow-checkpoint.tar.gz
+    node: 5-orfs-openroad-place
+inputs:
+- orfs-docker-image.tar
+- flow-checkpoint.tar.gz
+name: orfs-openroad-floorplan
+outputs:
+- flow-checkpoint.tar.gz
+parameters:
+  clock_period: 2.0
+  design_name: gcd
+  orfs_image: mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+  orfs_platform: nangate45
+postconditions:
+- assert File( 'outputs/flow-checkpoint.tar.gz' )
+preconditions:
+- assert Tool( 'docker' )
+- assert File( 'inputs/orfs-docker-image.tar' )
+- assert File( 'inputs/flow-checkpoint.tar.gz' )
+source: /home/sychae/cuda-vscode/mflowgen/nodes/orfs-openroad-floorplan

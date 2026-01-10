@@ -1,0 +1,450 @@
+
+==========================================================================
+global place check_setup
+--------------------------------------------------------------------------
+1
+
+==========================================================================
+global place report_tns
+--------------------------------------------------------------------------
+tns -3.71
+
+==========================================================================
+global place report_wns
+--------------------------------------------------------------------------
+wns -0.53
+
+==========================================================================
+global place report_worst_slack
+--------------------------------------------------------------------------
+worst slack -0.53
+
+==========================================================================
+global place report_checks -path_delay min
+--------------------------------------------------------------------------
+Startpoint: rst_n (input port clocked by core_clock)
+Endpoint: out_act[2]$_DFFE_PN0P_
+          (removal check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: min
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.09    0.09 ^ input external delay
+    11   22.04    0.00    0.00    0.09 ^ rst_n (in)
+                                         rst_n (net)
+                  0.00    0.00    0.09 ^ out_act[2]$_DFFE_PN0P_/RN (DFFR_X1)
+                                  0.09   data arrival time
+
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.00    0.00   clock reconvergence pessimism
+                                  0.00 ^ out_act[2]$_DFFE_PN0P_/CK (DFFR_X1)
+                          0.18    0.18   library removal time
+                                  0.18   data required time
+-----------------------------------------------------------------------------
+                                  0.18   data required time
+                                 -0.09   data arrival time
+-----------------------------------------------------------------------------
+                                 -0.09   slack (VIOLATED)
+
+
+Startpoint: out_act[7]$_DFFE_PN0P_
+            (rising edge-triggered flip-flop clocked by core_clock)
+Endpoint: out_act[7]$_DFFE_PN0P_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: min
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                  0.00    0.00    0.00 ^ out_act[7]$_DFFE_PN0P_/CK (DFFR_X1)
+     2    1.98    0.01    0.08    0.08 v out_act[7]$_DFFE_PN0P_/Q (DFFR_X1)
+                                         out_act[7] (net)
+                  0.01    0.00    0.08 v _3491_/A2 (NAND2_X1)
+     1    1.75    0.01    0.02    0.10 ^ _3491_/ZN (NAND2_X1)
+                                         _2796_ (net)
+                  0.01    0.00    0.10 ^ _3492_/A (INV_X1)
+     1    1.11    0.00    0.01    0.11 v _3492_/ZN (INV_X1)
+                                         _0007_ (net)
+                  0.00    0.00    0.11 v out_act[7]$_DFFE_PN0P_/D (DFFR_X1)
+                                  0.11   data arrival time
+
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.00    0.00   clock reconvergence pessimism
+                                  0.00 ^ out_act[7]$_DFFE_PN0P_/CK (DFFR_X1)
+                          0.00    0.00   library hold time
+                                  0.00   data required time
+-----------------------------------------------------------------------------
+                                  0.00   data required time
+                                 -0.11   data arrival time
+-----------------------------------------------------------------------------
+                                  0.10   slack (MET)
+
+
+
+==========================================================================
+global place report_checks -path_delay max
+--------------------------------------------------------------------------
+Startpoint: rst_n (input port clocked by core_clock)
+Endpoint: out_act[2]$_DFFE_PN0P_
+          (recovery check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.09    0.09 ^ input external delay
+    11   22.04    0.00    0.00    0.09 ^ rst_n (in)
+                                         rst_n (net)
+                  0.00    0.00    0.09 ^ out_act[2]$_DFFE_PN0P_/RN (DFFR_X1)
+                                  0.09   data arrival time
+
+                  0.00    0.46    0.46   clock core_clock (rise edge)
+                          0.00    0.46   clock network delay (ideal)
+                          0.00    0.46   clock reconvergence pessimism
+                                  0.46 ^ out_act[2]$_DFFE_PN0P_/CK (DFFR_X1)
+                          0.05    0.51   library recovery time
+                                  0.51   data required time
+-----------------------------------------------------------------------------
+                                  0.51   data required time
+                                 -0.09   data arrival time
+-----------------------------------------------------------------------------
+                                  0.42   slack (MET)
+
+
+Startpoint: act_in[0] (input port clocked by core_clock)
+Endpoint: out_act[1]$_DFFE_PN0P_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.09    0.09 v input external delay
+     7   14.25    0.00    0.00    0.09 v act_in[0] (in)
+                                         act_in[0] (net)
+                  0.00    0.00    0.09 v _4850_/A (INV_X1)
+     3    7.93    0.02    0.02    0.12 ^ _4850_/ZN (INV_X1)
+                                         _0508_ (net)
+                  0.02    0.00    0.12 ^ _4851_/A1 (NAND2_X1)
+     3    6.07    0.01    0.03    0.14 v _4851_/ZN (NAND2_X1)
+                                         _0509_ (net)
+                  0.01    0.00    0.14 v _5155_/A (XNOR2_X1)
+     1    2.79    0.01    0.04    0.19 v _5155_/ZN (XNOR2_X1)
+                                         _0844_ (net)
+                  0.01    0.00    0.19 v _5157_/A (XNOR2_X1)
+     2    5.74    0.04    0.05    0.23 ^ _5157_/ZN (XNOR2_X1)
+                                         _0846_ (net)
+                  0.04    0.00    0.23 ^ _5158_/A3 (NAND3_X2)
+     4    9.67    0.02    0.04    0.27 v _5158_/ZN (NAND3_X2)
+                                         _0847_ (net)
+                  0.02    0.00    0.27 v _5472_/A2 (NAND2_X2)
+     2    4.74    0.01    0.02    0.29 ^ _5472_/ZN (NAND2_X2)
+                                         _1192_ (net)
+                  0.01    0.00    0.29 ^ _5501_/A1 (NAND2_X1)
+     2    3.23    0.01    0.02    0.31 v _5501_/ZN (NAND2_X1)
+                                         _1224_ (net)
+                  0.01    0.00    0.31 v _5504_/A1 (NAND3_X1)
+     1    1.71    0.01    0.02    0.33 ^ _5504_/ZN (NAND3_X1)
+                                         _1228_ (net)
+                  0.01    0.00    0.33 ^ _5505_/A2 (NAND2_X1)
+     3    6.76    0.02    0.03    0.35 v _5505_/ZN (NAND2_X1)
+                                         _1229_ (net)
+                  0.02    0.00    0.35 v _5506_/B2 (OAI21_X2)
+     2    8.06    0.03    0.05    0.40 ^ _5506_/ZN (OAI21_X2)
+                                         _1230_ (net)
+                  0.03    0.00    0.40 ^ _5507_/A (INV_X2)
+     3    6.43    0.01    0.01    0.41 v _5507_/ZN (INV_X2)
+                                         _1231_ (net)
+                  0.01    0.00    0.41 v _5716_/A1 (NAND3_X1)
+     2    5.59    0.02    0.03    0.44 ^ _5716_/ZN (NAND3_X1)
+                                         _1461_ (net)
+                  0.02    0.00    0.44 ^ _5718_/A1 (NAND2_X1)
+     1    3.05    0.01    0.02    0.46 v _5718_/ZN (NAND2_X1)
+                                         _1463_ (net)
+                  0.01    0.00    0.46 v _5719_/A1 (NAND2_X2)
+     2    6.83    0.01    0.02    0.48 ^ _5719_/ZN (NAND2_X2)
+                                         _1464_ (net)
+                  0.01    0.00    0.48 ^ _5721_/A1 (NAND2_X2)
+     3    7.39    0.01    0.02    0.50 v _5721_/ZN (NAND2_X2)
+                                         _1466_ (net)
+                  0.01    0.00    0.50 v _5991_/A1 (NAND2_X2)
+     2    3.43    0.01    0.02    0.51 ^ _5991_/ZN (NAND2_X2)
+                                         _1763_ (net)
+                  0.01    0.00    0.51 ^ _5994_/A2 (NAND3_X1)
+     2    4.87    0.02    0.03    0.54 v _5994_/ZN (NAND3_X1)
+                                         _1767_ (net)
+                  0.02    0.00    0.54 v _5995_/A2 (NAND2_X1)
+     1    3.33    0.01    0.03    0.57 ^ _5995_/ZN (NAND2_X1)
+                                         _1768_ (net)
+                  0.01    0.00    0.57 ^ _6181_/A1 (NAND2_X2)
+     3   12.43    0.01    0.02    0.59 v _6181_/ZN (NAND2_X2)
+                                         _1972_ (net)
+                  0.01    0.00    0.59 v _6198_/A1 (NAND2_X2)
+     1    3.16    0.01    0.02    0.61 ^ _6198_/ZN (NAND2_X2)
+                                         _1991_ (net)
+                  0.01    0.00    0.61 ^ _6199_/A1 (NAND2_X2)
+     2    6.15    0.01    0.02    0.62 v _6199_/ZN (NAND2_X2)
+                                         _1992_ (net)
+                  0.01    0.00    0.62 v _6362_/A1 (NAND2_X2)
+     1    3.29    0.01    0.01    0.64 ^ _6362_/ZN (NAND2_X2)
+                                         _2171_ (net)
+                  0.01    0.00    0.64 ^ _6364_/A1 (NAND2_X2)
+     3    5.25    0.01    0.01    0.65 v _6364_/ZN (NAND2_X2)
+                                         _2174_ (net)
+                  0.01    0.00    0.65 v _6410_/A2 (NAND2_X1)
+     1    1.71    0.01    0.02    0.67 ^ _6410_/ZN (NAND2_X1)
+                                         _2224_ (net)
+                  0.01    0.00    0.67 ^ _6411_/A1 (NAND2_X1)
+     2    3.19    0.01    0.02    0.69 v _6411_/ZN (NAND2_X1)
+                                         _2225_ (net)
+                  0.01    0.00    0.69 v _6769_/A2 (NAND3_X1)
+     3    8.16    0.03    0.03    0.72 ^ _6769_/ZN (NAND3_X1)
+                                         _2619_ (net)
+                  0.03    0.00    0.72 ^ _6861_/A1 (NAND2_X1)
+     2    9.00    0.02    0.03    0.75 v _6861_/ZN (NAND2_X1)
+                                         _2720_ (net)
+                  0.02    0.00    0.75 v _6875_/A2 (NOR2_X2)
+     1    3.50    0.02    0.03    0.79 ^ _6875_/ZN (NOR2_X2)
+                                         _2735_ (net)
+                  0.02    0.00    0.79 ^ _6876_/A2 (NAND2_X2)
+     2    4.67    0.01    0.02    0.80 v _6876_/ZN (NAND2_X2)
+                                         _2736_ (net)
+                  0.01    0.00    0.80 v _6883_/A1 (NAND2_X1)
+     2    3.75    0.01    0.02    0.82 ^ _6883_/ZN (NAND2_X1)
+                                         _2743_ (net)
+                  0.01    0.00    0.82 ^ _6886_/A1 (NAND2_X1)
+     1    1.60    0.01    0.01    0.84 v _6886_/ZN (NAND2_X1)
+                                         _2747_ (net)
+                  0.01    0.00    0.84 v _6887_/A1 (NAND2_X1)
+     2    3.51    0.01    0.02    0.86 ^ _6887_/ZN (NAND2_X1)
+                                         _2748_ (net)
+                  0.01    0.00    0.86 ^ _6889_/A1 (NAND2_X1)
+     1    3.25    0.01    0.02    0.87 v _6889_/ZN (NAND2_X1)
+                                         _2750_ (net)
+                  0.01    0.00    0.87 v _6890_/A2 (NOR2_X2)
+     1    3.32    0.02    0.03    0.90 ^ _6890_/ZN (NOR2_X2)
+                                         _2751_ (net)
+                  0.02    0.00    0.90 ^ _3467_/A1 (NAND3_X2)
+     3    4.98    0.01    0.02    0.92 v _3467_/ZN (NAND3_X2)
+                                         _2775_ (net)
+                  0.01    0.00    0.92 v _3469_/A1 (NAND3_X1)
+     1    1.86    0.01    0.02    0.94 ^ _3469_/ZN (NAND3_X1)
+                                         _2778_ (net)
+                  0.01    0.00    0.94 ^ _3471_/A1 (NAND2_X1)
+     1    1.16    0.01    0.01    0.95 v _3471_/ZN (NAND2_X1)
+                                         _0001_ (net)
+                  0.01    0.00    0.95 v out_act[1]$_DFFE_PN0P_/D (DFFR_X1)
+                                  0.95   data arrival time
+
+                  0.00    0.46    0.46   clock core_clock (rise edge)
+                          0.00    0.46   clock network delay (ideal)
+                          0.00    0.46   clock reconvergence pessimism
+                                  0.46 ^ out_act[1]$_DFFE_PN0P_/CK (DFFR_X1)
+                         -0.04    0.42   library setup time
+                                  0.42   data required time
+-----------------------------------------------------------------------------
+                                  0.42   data required time
+                                 -0.95   data arrival time
+-----------------------------------------------------------------------------
+                                 -0.53   slack (VIOLATED)
+
+
+
+==========================================================================
+global place report_checks -unconstrained
+--------------------------------------------------------------------------
+Startpoint: rst_n (input port clocked by core_clock)
+Endpoint: out_act[2]$_DFFE_PN0P_
+          (recovery check against rising-edge clock core_clock)
+Path Group: asynchronous
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.09    0.09 ^ input external delay
+    11   22.04    0.00    0.00    0.09 ^ rst_n (in)
+                                         rst_n (net)
+                  0.00    0.00    0.09 ^ out_act[2]$_DFFE_PN0P_/RN (DFFR_X1)
+                                  0.09   data arrival time
+
+                  0.00    0.46    0.46   clock core_clock (rise edge)
+                          0.00    0.46   clock network delay (ideal)
+                          0.00    0.46   clock reconvergence pessimism
+                                  0.46 ^ out_act[2]$_DFFE_PN0P_/CK (DFFR_X1)
+                          0.05    0.51   library recovery time
+                                  0.51   data required time
+-----------------------------------------------------------------------------
+                                  0.51   data required time
+                                 -0.09   data arrival time
+-----------------------------------------------------------------------------
+                                  0.42   slack (MET)
+
+
+Startpoint: act_in[0] (input port clocked by core_clock)
+Endpoint: out_act[1]$_DFFE_PN0P_
+          (rising edge-triggered flip-flop clocked by core_clock)
+Path Group: core_clock
+Path Type: max
+
+Fanout     Cap    Slew   Delay    Time   Description
+-----------------------------------------------------------------------------
+                  0.00    0.00    0.00   clock core_clock (rise edge)
+                          0.00    0.00   clock network delay (ideal)
+                          0.09    0.09 v input external delay
+     7   14.25    0.00    0.00    0.09 v act_in[0] (in)
+                                         act_in[0] (net)
+                  0.00    0.00    0.09 v _4850_/A (INV_X1)
+     3    7.93    0.02    0.02    0.12 ^ _4850_/ZN (INV_X1)
+                                         _0508_ (net)
+                  0.02    0.00    0.12 ^ _4851_/A1 (NAND2_X1)
+     3    6.07    0.01    0.03    0.14 v _4851_/ZN (NAND2_X1)
+                                         _0509_ (net)
+                  0.01    0.00    0.14 v _5155_/A (XNOR2_X1)
+     1    2.79    0.01    0.04    0.19 v _5155_/ZN (XNOR2_X1)
+                                         _0844_ (net)
+                  0.01    0.00    0.19 v _5157_/A (XNOR2_X1)
+     2    5.74    0.04    0.05    0.23 ^ _5157_/ZN (XNOR2_X1)
+                                         _0846_ (net)
+                  0.04    0.00    0.23 ^ _5158_/A3 (NAND3_X2)
+     4    9.67    0.02    0.04    0.27 v _5158_/ZN (NAND3_X2)
+                                         _0847_ (net)
+                  0.02    0.00    0.27 v _5472_/A2 (NAND2_X2)
+     2    4.74    0.01    0.02    0.29 ^ _5472_/ZN (NAND2_X2)
+                                         _1192_ (net)
+                  0.01    0.00    0.29 ^ _5501_/A1 (NAND2_X1)
+     2    3.23    0.01    0.02    0.31 v _5501_/ZN (NAND2_X1)
+                                         _1224_ (net)
+                  0.01    0.00    0.31 v _5504_/A1 (NAND3_X1)
+     1    1.71    0.01    0.02    0.33 ^ _5504_/ZN (NAND3_X1)
+                                         _1228_ (net)
+                  0.01    0.00    0.33 ^ _5505_/A2 (NAND2_X1)
+     3    6.76    0.02    0.03    0.35 v _5505_/ZN (NAND2_X1)
+                                         _1229_ (net)
+                  0.02    0.00    0.35 v _5506_/B2 (OAI21_X2)
+     2    8.06    0.03    0.05    0.40 ^ _5506_/ZN (OAI21_X2)
+                                         _1230_ (net)
+                  0.03    0.00    0.40 ^ _5507_/A (INV_X2)
+     3    6.43    0.01    0.01    0.41 v _5507_/ZN (INV_X2)
+                                         _1231_ (net)
+                  0.01    0.00    0.41 v _5716_/A1 (NAND3_X1)
+     2    5.59    0.02    0.03    0.44 ^ _5716_/ZN (NAND3_X1)
+                                         _1461_ (net)
+                  0.02    0.00    0.44 ^ _5718_/A1 (NAND2_X1)
+     1    3.05    0.01    0.02    0.46 v _5718_/ZN (NAND2_X1)
+                                         _1463_ (net)
+                  0.01    0.00    0.46 v _5719_/A1 (NAND2_X2)
+     2    6.83    0.01    0.02    0.48 ^ _5719_/ZN (NAND2_X2)
+                                         _1464_ (net)
+                  0.01    0.00    0.48 ^ _5721_/A1 (NAND2_X2)
+     3    7.39    0.01    0.02    0.50 v _5721_/ZN (NAND2_X2)
+                                         _1466_ (net)
+                  0.01    0.00    0.50 v _5991_/A1 (NAND2_X2)
+     2    3.43    0.01    0.02    0.51 ^ _5991_/ZN (NAND2_X2)
+                                         _1763_ (net)
+                  0.01    0.00    0.51 ^ _5994_/A2 (NAND3_X1)
+     2    4.87    0.02    0.03    0.54 v _5994_/ZN (NAND3_X1)
+                                         _1767_ (net)
+                  0.02    0.00    0.54 v _5995_/A2 (NAND2_X1)
+     1    3.33    0.01    0.03    0.57 ^ _5995_/ZN (NAND2_X1)
+                                         _1768_ (net)
+                  0.01    0.00    0.57 ^ _6181_/A1 (NAND2_X2)
+     3   12.43    0.01    0.02    0.59 v _6181_/ZN (NAND2_X2)
+                                         _1972_ (net)
+                  0.01    0.00    0.59 v _6198_/A1 (NAND2_X2)
+     1    3.16    0.01    0.02    0.61 ^ _6198_/ZN (NAND2_X2)
+                                         _1991_ (net)
+                  0.01    0.00    0.61 ^ _6199_/A1 (NAND2_X2)
+     2    6.15    0.01    0.02    0.62 v _6199_/ZN (NAND2_X2)
+                                         _1992_ (net)
+                  0.01    0.00    0.62 v _6362_/A1 (NAND2_X2)
+     1    3.29    0.01    0.01    0.64 ^ _6362_/ZN (NAND2_X2)
+                                         _2171_ (net)
+                  0.01    0.00    0.64 ^ _6364_/A1 (NAND2_X2)
+     3    5.25    0.01    0.01    0.65 v _6364_/ZN (NAND2_X2)
+                                         _2174_ (net)
+                  0.01    0.00    0.65 v _6410_/A2 (NAND2_X1)
+     1    1.71    0.01    0.02    0.67 ^ _6410_/ZN (NAND2_X1)
+                                         _2224_ (net)
+                  0.01    0.00    0.67 ^ _6411_/A1 (NAND2_X1)
+     2    3.19    0.01    0.02    0.69 v _6411_/ZN (NAND2_X1)
+                                         _2225_ (net)
+                  0.01    0.00    0.69 v _6769_/A2 (NAND3_X1)
+     3    8.16    0.03    0.03    0.72 ^ _6769_/ZN (NAND3_X1)
+                                         _2619_ (net)
+                  0.03    0.00    0.72 ^ _6861_/A1 (NAND2_X1)
+     2    9.00    0.02    0.03    0.75 v _6861_/ZN (NAND2_X1)
+                                         _2720_ (net)
+                  0.02    0.00    0.75 v _6875_/A2 (NOR2_X2)
+     1    3.50    0.02    0.03    0.79 ^ _6875_/ZN (NOR2_X2)
+                                         _2735_ (net)
+                  0.02    0.00    0.79 ^ _6876_/A2 (NAND2_X2)
+     2    4.67    0.01    0.02    0.80 v _6876_/ZN (NAND2_X2)
+                                         _2736_ (net)
+                  0.01    0.00    0.80 v _6883_/A1 (NAND2_X1)
+     2    3.75    0.01    0.02    0.82 ^ _6883_/ZN (NAND2_X1)
+                                         _2743_ (net)
+                  0.01    0.00    0.82 ^ _6886_/A1 (NAND2_X1)
+     1    1.60    0.01    0.01    0.84 v _6886_/ZN (NAND2_X1)
+                                         _2747_ (net)
+                  0.01    0.00    0.84 v _6887_/A1 (NAND2_X1)
+     2    3.51    0.01    0.02    0.86 ^ _6887_/ZN (NAND2_X1)
+                                         _2748_ (net)
+                  0.01    0.00    0.86 ^ _6889_/A1 (NAND2_X1)
+     1    3.25    0.01    0.02    0.87 v _6889_/ZN (NAND2_X1)
+                                         _2750_ (net)
+                  0.01    0.00    0.87 v _6890_/A2 (NOR2_X2)
+     1    3.32    0.02    0.03    0.90 ^ _6890_/ZN (NOR2_X2)
+                                         _2751_ (net)
+                  0.02    0.00    0.90 ^ _3467_/A1 (NAND3_X2)
+     3    4.98    0.01    0.02    0.92 v _3467_/ZN (NAND3_X2)
+                                         _2775_ (net)
+                  0.01    0.00    0.92 v _3469_/A1 (NAND3_X1)
+     1    1.86    0.01    0.02    0.94 ^ _3469_/ZN (NAND3_X1)
+                                         _2778_ (net)
+                  0.01    0.00    0.94 ^ _3471_/A1 (NAND2_X1)
+     1    1.16    0.01    0.01    0.95 v _3471_/ZN (NAND2_X1)
+                                         _0001_ (net)
+                  0.01    0.00    0.95 v out_act[1]$_DFFE_PN0P_/D (DFFR_X1)
+                                  0.95   data arrival time
+
+                  0.00    0.46    0.46   clock core_clock (rise edge)
+                          0.00    0.46   clock network delay (ideal)
+                          0.00    0.46   clock reconvergence pessimism
+                                  0.46 ^ out_act[1]$_DFFE_PN0P_/CK (DFFR_X1)
+                         -0.04    0.42   library setup time
+                                  0.42   data required time
+-----------------------------------------------------------------------------
+                                  0.42   data required time
+                                 -0.95   data arrival time
+-----------------------------------------------------------------------------
+                                 -0.53   slack (VIOLATED)
+
+
+
+==========================================================================
+global place report_power
+--------------------------------------------------------------------------
+Group                  Internal  Switching    Leakage      Total
+                          Power      Power      Power      Power (Watts)
+----------------------------------------------------------------
+Sequential             4.35e-04   3.07e-05   9.17e-07   4.67e-04   1.4%
+Combinational          1.44e-02   1.77e-02   9.66e-05   3.22e-02  98.6%
+Clock                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Macro                  0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+Pad                    0.00e+00   0.00e+00   0.00e+00   0.00e+00   0.0%
+----------------------------------------------------------------
+Total                  1.48e-02   1.78e-02   9.76e-05   3.27e-02 100.0%
+                          45.4%      54.3%       0.3%

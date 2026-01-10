@@ -1,0 +1,28 @@
+#! /usr/bin/env bash
+set -euo pipefail
+#=========================================================================
+# mflowgen-run
+#=========================================================================
+# Generator : /home/sychae/cuda-vscode/mflowgen/mflowgen/core/build_orchestrator.py
+
+# Pre
+
+rm -f .time_end
+date +%Y-%m%d-%H%M-%S > .time_start
+MFLOWGEN_NODE_HOME=$PWD
+export orfs_image=mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+# Commands
+
+echo -e "\n- Pulling orfs docker image -- $orfs_image\n"
+docker pull $orfs_image
+echo -e "\n- Saving orfs docker image as tarball for output\n"
+docker save -o orfs-docker-image.tar $orfs_image
+mkdir -p outputs && cd outputs
+ln -sf ../orfs-docker-image.tar
+
+# Post
+
+cd $MFLOWGEN_NODE_HOME
+date +%Y-%m%d-%H%M-%S > .time_end
+

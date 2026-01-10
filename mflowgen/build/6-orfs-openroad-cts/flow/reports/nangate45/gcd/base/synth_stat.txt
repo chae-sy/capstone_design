@@ -1,0 +1,59 @@
+
+17. Printing statistics.
+
+=== gcd ===
+
+   Number of wires:               3466
+   Number of wire bits:           3566
+   Number of public wires:          10
+   Number of public wire bits:     110
+   Number of ports:                  8
+   Number of port bits:            108
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:               3456
+     AND2_X1                         6
+     AND3_X1                         1
+     AND4_X1                         1
+     AOI21_X1                       46
+     AOI21_X2                       28
+     AOI21_X4                       12
+     AOI22_X1                        5
+     BUF_X1                          2
+     BUF_X16                         2
+     BUF_X2                         14
+     BUF_X4                         46
+     BUF_X8                          4
+     DFFR_X1                        11
+     INV_X1                        587
+     INV_X2                         47
+     INV_X4                          9
+     INV_X8                          1
+     MUX2_X1                         2
+     NAND2_X1                     1189
+     NAND2_X2                      385
+     NAND2_X4                       68
+     NAND3_X1                      341
+     NAND3_X2                      106
+     NAND3_X4                       13
+     NAND4_X1                        2
+     NOR2_X1                        96
+     NOR2_X2                        34
+     NOR2_X4                         5
+     NOR3_X1                         3
+     NOR3_X2                         2
+     OAI21_X1                       97
+     OAI21_X2                       55
+     OAI21_X4                        5
+     OAI22_X1                        2
+     OR2_X1                         37
+     OR2_X2                         18
+     XNOR2_X1                      134
+     XNOR2_X2                       22
+     XOR2_X1                        17
+     XOR2_X2                         1
+
+   Chip area for module '\gcd': 3677.184000
+     of which used for sequential elements: 58.520000 (1.59%)
+

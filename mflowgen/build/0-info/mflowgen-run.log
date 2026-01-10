@@ -1,0 +1,7 @@
+Design name      -- gcd
+Clock period     -- 2.0
+ADK              -- freepdk-45nm
+ADK view         -- view-tiny
+
+Constructed from -- /home/sychae/cuda-vscode/mflowgen/designs/GcdUnit/construct.py
+

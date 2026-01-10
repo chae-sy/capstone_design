@@ -1,0 +1,957 @@
+
+- Loading orfs docker image ...
+
+Loaded image: mflowgen/openroad-flow-scripts-base:2024-0621-f0caba6
+
+- Creating orfs docker container ...
+
+
+- Created orfs docker container with Container ID -- 0f7739e8a9972d9d3d8f06b1a2c80038ac3ff1a1f5530bb3bffe9d30bf4aedda
+
+
+- Moving flow checkpoint into orfs docker container -- 0f7739e8a9972d9d3d8f06b1a2c80038ac3ff1a1f5530bb3bffe9d30bf4aedda
+
+flow/
+flow/scripts/
+flow/scripts/klayout.tcl
+flow/scripts/io_placement.tcl
+flow/scripts/final_report.tcl
+flow/scripts/pdn.tcl
+flow/scripts/read_macro_placement.tcl
+flow/scripts/fillcell.tcl
+flow/scripts/save_images.tcl
+flow/scripts/io_placement_random.tcl
+flow/scripts/write_ref_sdc.tcl
+flow/scripts/abc_speed.script
+flow/scripts/synth_metrics.tcl
+flow/scripts/global_place.tcl
+flow/scripts/resize.tcl
+flow/scripts/report_metrics.tcl
+flow/scripts/global_route.tcl
+flow/scripts/sta-synth.tcl
+flow/scripts/write_def.tcl
+flow/scripts/tdms_place.tcl
+flow/scripts/mem_dump.py
+flow/scripts/synth.tcl
+flow/scripts/detail_route.tcl
+flow/scripts/read_liberty.tcl
+flow/scripts/tapcell.tcl
+flow/scripts/deletePowerNets.tcl
+flow/scripts/util.tcl
+flow/scripts/global_place_skip_io.tcl
+flow/scripts/synth_preamble.tcl
+flow/scripts/yosys.tcl
+flow/scripts/cts.tcl
+flow/scripts/deleteNonClkNets.tcl
+flow/scripts/synth_hier_report.tcl
+flow/scripts/floorplan.tcl
+flow/scripts/deleteRoutingObstructions.tcl
+flow/scripts/cdl.tcl
+flow/scripts/abc_area.script
+flow/scripts/noop.tcl
+flow/scripts/macro_place_util.tcl
+flow/scripts/escape.sh
+flow/scripts/add_routing_blk.tcl
+flow/scripts/sc/
+flow/scripts/sc/README.md
+flow/scripts/sc/tools/
+flow/scripts/sc/tools/openroad/
+flow/scripts/sc/tools/openroad/sc_apr.tcl
+flow/scripts/sc/flows/
+flow/scripts/sc/flows/orflow.py
+flow/scripts/sc/util/
+flow/scripts/sc/util/parse_config_mk.py
+flow/scripts/sc/util/parse_target_config.py
+flow/scripts/sc/targets/
+flow/scripts/sc/targets/nangate45_orflow.py
+flow/scripts/sc/targets/asap7_orflow.py
+flow/scripts/sc/targets/sky130hd_orflow.py
+flow/scripts/sc/targets/sky130hs_orflow.py
+flow/scripts/gui.tcl
+flow/scripts/placement_blockages.tcl
+flow/scripts/load.tcl
+flow/scripts/generate_abstract.tcl
+flow/scripts/macro_place.tcl
+flow/scripts/view_cells.tcl
+flow/scripts/detail_place.tcl
+flow/scripts/io_placement_util.tcl
+flow/scripts/density_fill.tcl
+flow/scripts/write_verilog.tcl
+flow/tutorials/
+flow/tutorials/scripts/
+flow/tutorials/scripts/gui/
+flow/tutorials/scripts/gui/load_lef.tcl
+flow/tutorials/scripts/drt/
+flow/tutorials/scripts/drt/helpers.tcl
+flow/tutorials/scripts/drt/drc_fix.tcl
+flow/tutorials/scripts/drt/drc_issue.tcl
+flow/tutorials/scripts/drt/gcd/
+flow/tutorials/scripts/drt/gcd/drc_cts.def
+flow/tutorials/scripts/drt/gcd/gcd.sdc
+flow/tutorials/scripts/drt/gcd/4_cts.def
+flow/tutorials/scripts/metal_fill/
+flow/tutorials/scripts/metal_fill/5_route.odb
+flow/tutorials/scripts/metal_fill/metal_fill.tcl
+flow/tutorials/scripts/metal_fill/helpers.tcl
+flow/tutorials/README.md
+flow/Makefile.py
+flow/platforms/
+flow/platforms/nangate45/
+flow/platforms/nangate45/FreePDK45.lyt
+flow/platforms/nangate45/fakeram.tcl
+flow/platforms/nangate45/grid_strategy-M1-M4-M7.tcl
+flow/platforms/nangate45/setRC.tcl
+flow/platforms/nangate45/FreePDK45.lyp
+flow/platforms/nangate45/README.md
+flow/platforms/nangate45/work_around_yosys/
+flow/platforms/nangate45/work_around_yosys/cells.v
+flow/platforms/nangate45/rcx_patterns.rules
+flow/platforms/nangate45/tapcell.tcl
+flow/platforms/nangate45/drc/
+flow/platforms/nangate45/drc/FreePDK45.lydrc
+flow/platforms/nangate45/make_tracks.tcl
+flow/platforms/nangate45/lib/
+flow/platforms/nangate45/lib/fakeram45_64x64.lib
+flow/platforms/nangate45/lib/fakeram45_2048x39.lib
+flow/platforms/nangate45/lib/fakeram45_32x32.lib
+flow/platforms/nangate45/lib/fakeram45_256x95.lib
+flow/platforms/nangate45/lib/fakeram45_64x7.lib
+flow/platforms/nangate45/lib/fakeram45_512x64.lib
+flow/platforms/nangate45/lib/fakeram45_128x116.lib
+flow/platforms/nangate45/lib/fakeram45_256x48.lib
+flow/platforms/nangate45/lib/fakeram45_64x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x15.lib
+flow/platforms/nangate45/lib/fakeram45_64x21.lib
+flow/platforms/nangate45/lib/fakeram45_128x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x124.lib
+flow/platforms/nangate45/lib/fakeram45_128x256.lib
+flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+flow/platforms/nangate45/lib/fakeram45_1024x32.lib
+flow/platforms/nangate45/lib/fakeram45_32x64.lib
+flow/platforms/nangate45/lib/fakeram45_256x34.lib
+flow/platforms/nangate45/lib/fakeram45_256x96.lib
+flow/platforms/nangate45/lib/fakeram45_64x96.lib
+flow/platforms/nangate45/lib/fakeram45_256x16.lib
+flow/platforms/nangate45/lib/fakeram45_256x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x62.lib
+flow/platforms/nangate45/cells_latch.v
+flow/platforms/nangate45/fakeram.cfg
+flow/platforms/nangate45/magic.tech
+flow/platforms/nangate45/cells_clkgate.v
+flow/platforms/nangate45/LICENSE
+flow/platforms/nangate45/fastroute.tcl
+flow/platforms/nangate45/gds/
+flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+flow/platforms/nangate45/template_pga.cfg
+flow/platforms/nangate45/config.mk
+flow/platforms/nangate45/cdl/
+flow/platforms/nangate45/cdl/NangateOpenCellLibrary.cdl
+flow/platforms/nangate45/cells_adders.v
+flow/platforms/nangate45/lef/
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
+flow/platforms/nangate45/lef/fakeram45_512x64.lef
+flow/platforms/nangate45/lef/fakeram45_256x95.lef
+flow/platforms/nangate45/lef/fakeram45_256x96.lef
+flow/platforms/nangate45/lef/fakeram45_2048x39.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.lef
+flow/platforms/nangate45/lef/fakeram45_64x124.lef
+flow/platforms/nangate45/lef/fakeram45_256x34.lef
+flow/platforms/nangate45/lef/fakeram45_64x62.lef
+flow/platforms/nangate45/lef/fakeram45_32x64.lef
+flow/platforms/nangate45/lef/fakeram45_64x21.lef
+flow/platforms/nangate45/lef/fakeram45_1024x32.lef
+flow/platforms/nangate45/lef/fakeram45_128x116.lef
+flow/platforms/nangate45/lef/fakeram45_64x7.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.rect.lef
+flow/platforms/nangate45/lef/fakeram45_32x32.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef
+flow/platforms/nangate45/lef/fakeram45_64x96.lef
+flow/platforms/nangate45/lef/fakeram45_256x48.lef
+flow/platforms/nangate45/lef/fakeram45_64x32.lef
+flow/platforms/nangate45/lef/fakeram45_256x32.lef
+flow/platforms/nangate45/lef/fakeram45_64x64.lef
+flow/platforms/nangate45/lef/fakeram45_128x256.lef
+flow/platforms/nangate45/lef/fakeram45_256x16.lef
+flow/platforms/nangate45/lef/fakeram45_64x15.lef
+flow/platforms/nangate45/lef/fakeram45_128x32.lef
+flow/platforms/common/
+flow/platforms/common/lcu_kogge_stone.v
+flow/reports/
+flow/reports/nangate45/
+flow/reports/nangate45/gcd/
+flow/reports/nangate45/gcd/base/
+flow/reports/nangate45/gcd/base/synth_check.txt
+flow/reports/nangate45/gcd/base/2_floorplan_final.rpt
+flow/reports/nangate45/gcd/base/synth_stat.txt
+flow/util/
+flow/util/gallery.json
+flow/util/plot_floorplan.py
+flow/util/correlateRC.py
+flow/util/generate-vars.sh
+flow/util/genReport.py
+flow/util/addDummyToLef.py
+flow/util/executeParallel.sh
+flow/util/genMassive.py
+flow/util/calPath.py
+flow/util/docker_shell
+flow/util/cell-veneer/
+flow/util/cell-veneer/README.md
+flow/util/cell-veneer/pkgIndex.tcl
+flow/util/cell-veneer/lefdef.tcl
+flow/util/cell-veneer/wrap_stdcells.tcl
+flow/util/cell-veneer/wrap.tcl
+flow/util/distributed.py
+flow/util/genAllRuleFiles.sh
+flow/util/genMetrics.py
+flow/util/checkMetadata.py
+flow/util/genElapsedTime.py
+flow/util/uploadMetadata.py
+flow/util/appendStatsToDb.py
+flow/util/write_net_rc.tcl
+flow/util/viewDrc.py
+flow/util/run.sh
+flow/util/def2stream.py
+flow/util/genReportTable.py
+flow/util/updateRules.py
+flow/util/write_net_rc_script.tcl
+flow/util/utils.mk
+flow/util/calBuffer.py
+flow/util/createGallery.py
+flow/util/mergeLib.pl
+flow/util/makeIssue.sh
+flow/util/convertDrc.py
+flow/util/preprocessLib.py
+flow/util/viewGuide.py
+flow/util/genRuleFile.py
+flow/logs/
+flow/logs/nangate45/
+flow/logs/nangate45/gcd/
+flow/logs/nangate45/gcd/base/
+flow/logs/nangate45/gcd/base/2_1_floorplan.json
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.json
+flow/logs/nangate45/gcd/base/1_1_yosys.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.log
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.json
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.json
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.json
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.log
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.log
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.json
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.log
+flow/results/
+flow/results/nangate45/
+flow/results/nangate45/gcd/
+flow/results/nangate45/gcd/base/
+flow/results/nangate45/gcd/base/mem.json
+flow/results/nangate45/gcd/base/1_synth.sdc
+flow/results/nangate45/gcd/base/2_4_floorplan_macro.odb
+flow/results/nangate45/gcd/base/2_6_floorplan_pdn.odb
+flow/results/nangate45/gcd/base/2_5_floorplan_tapcell.odb
+flow/results/nangate45/gcd/base/2_floorplan.sdc
+flow/results/nangate45/gcd/base/1_synth.v
+flow/results/nangate45/gcd/base/1_1_yosys.v
+flow/results/nangate45/gcd/base/2_3_floorplan_tdms.odb
+flow/results/nangate45/gcd/base/2_floorplan.odb
+flow/results/nangate45/gcd/base/clock_period.txt
+flow/results/nangate45/gcd/base/2_2_floorplan_io.odb
+flow/results/nangate45/gcd/base/2_1_floorplan.odb
+flow/.gitignore
+flow/test/
+flow/test/test_helper.sh
+flow/test/test_genElapsedTime.py
+flow/test/core_tests.sh
+flow/test/test_delta_debug.sh
+flow/test/test_make_issue.sh
+flow/test/smoke.sh
+flow/test/nodes.txt
+flow/test/.gitignore
+flow/objects/
+flow/objects/nangate45/
+flow/objects/nangate45/gcd/
+flow/objects/nangate45/gcd/base/
+flow/objects/nangate45/gcd/base/copyright.txt
+flow/objects/nangate45/gcd/base/abc.constr
+flow/objects/nangate45/gcd/base/lib/
+flow/objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+flow/Makefile
+flow/designs/
+flow/designs/nangate45/
+flow/designs/nangate45/gcd/
+flow/designs/nangate45/gcd/rules-base.json
+flow/designs/nangate45/gcd/constraint.sdc
+flow/designs/nangate45/gcd/metadata-base-ok.json
+flow/designs/nangate45/gcd/config.mk
+flow/designs/src/
+flow/designs/src/gcd/
+flow/designs/src/gcd/README.md
+flow/designs/src/gcd/gcd.v
+
+- Executing flow commands inside orfs docker container -- 0f7739e8a9972d9d3d8f06b1a2c80038ac3ff1a1f5530bb3bffe9d30bf4aedda
+
+Running global_place_skip_io.tcl, stage 3_1_place_gp_skip_io
+[INFO GPL-0002] DBU: 2000
+[INFO GPL-0003] SiteSize: (  0.190  1.400 ) um
+[INFO GPL-0004] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0006] NumInstances:              3504
+[INFO GPL-0007] NumPlaceInstances:         3388
+[INFO GPL-0008] NumFixedInstances:          116
+[INFO GPL-0009] NumDummyInstances:            0
+[INFO GPL-0010] NumNets:                   3498
+[INFO GPL-0011] NumPins:                  10381
+[INFO GPL-0012] DieBBox:  (  0.000  0.000 ) ( 83.765 83.765 ) um
+[INFO GPL-0013] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0016] CoreArea:              6618.612 um^2
+[INFO GPL-0017] NonPlaceInstsArea:       30.856 um^2
+[INFO GPL-0018] PlaceInstsArea:        3547.908 um^2
+[INFO GPL-0019] Util:                    53.856 %
+[INFO GPL-0020] StdInstsArea:          3547.908 um^2
+[INFO GPL-0021] MacroInstsArea:           0.000 um^2
+[INFO GPL-0031] FillerInit:NumGCells:      6481
+[INFO GPL-0032] FillerInit:NumGNets:       3498
+[INFO GPL-0033] FillerInit:NumGPins:      10381
+[INFO GPL-0023] TargetDensity:            1.000
+[INFO GPL-0024] AvrgPlaceInstArea:        1.047 um^2
+[INFO GPL-0025] IdealBinArea:             1.047 um^2
+[INFO GPL-0026] IdealBinCnt:               6320
+[INFO GPL-0027] TotalBinArea:          6618.612 um^2
+[INFO GPL-0028] BinCnt:        64     64
+[INFO GPL-0029] BinSize: (  1.274  1.269 )
+[INFO GPL-0030] NumBins: 4096
+[INFO GPL-0002] DBU: 2000
+[INFO GPL-0003] SiteSize: (  0.190  1.400 ) um
+[INFO GPL-0004] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0006] NumInstances:              3504
+[INFO GPL-0007] NumPlaceInstances:         3388
+[INFO GPL-0008] NumFixedInstances:          116
+[INFO GPL-0009] NumDummyInstances:            0
+[INFO GPL-0010] NumNets:                   3498
+[INFO GPL-0011] NumPins:                  10273
+[INFO GPL-0012] DieBBox:  (  0.000  0.000 ) ( 83.765 83.765 ) um
+[INFO GPL-0013] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0016] CoreArea:              6618.612 um^2
+[INFO GPL-0017] NonPlaceInstsArea:       30.856 um^2
+[INFO GPL-0018] PlaceInstsArea:        3547.908 um^2
+[INFO GPL-0019] Util:                    53.856 %
+[INFO GPL-0020] StdInstsArea:          3547.908 um^2
+[INFO GPL-0021] MacroInstsArea:           0.000 um^2
+[INFO GPL-0031] FillerInit:NumGCells:      4795
+[INFO GPL-0032] FillerInit:NumGNets:       3498
+[INFO GPL-0033] FillerInit:NumGPins:      10273
+[INFO GPL-0023] TargetDensity:            0.749
+[INFO GPL-0024] AvrgPlaceInstArea:        1.047 um^2
+[INFO GPL-0025] IdealBinArea:             1.399 um^2
+[INFO GPL-0026] IdealBinCnt:               4731
+[INFO GPL-0027] TotalBinArea:          6618.612 um^2
+[INFO GPL-0028] BinCnt:        64     64
+[INFO GPL-0029] BinSize: (  1.274  1.269 )
+[INFO GPL-0030] NumBins: 4096
+[NesterovSolve] Iter:    1 overflow: 0.995 HPWL: 4936592
+[NesterovSolve] Iter:   10 overflow: 0.997 HPWL: 1878331
+[NesterovSolve] Iter:   20 overflow: 0.996 HPWL: 1757823
+[NesterovSolve] Iter:   30 overflow: 0.995 HPWL: 1697991
+[NesterovSolve] Iter:   40 overflow: 0.994 HPWL: 1666669
+[NesterovSolve] Iter:   50 overflow: 0.994 HPWL: 1650337
+[NesterovSolve] Iter:   60 overflow: 0.994 HPWL: 1644205
+[NesterovSolve] Iter:   70 overflow: 0.994 HPWL: 1647389
+[NesterovSolve] Iter:   80 overflow: 0.993 HPWL: 1662059
+[NesterovSolve] Iter:   90 overflow: 0.992 HPWL: 1706728
+[NesterovSolve] Iter:  100 overflow: 0.992 HPWL: 1823981
+[NesterovSolve] Iter:  110 overflow: 0.989 HPWL: 2078015
+[NesterovSolve] Iter:  120 overflow: 0.986 HPWL: 2516551
+[NesterovSolve] Iter:  130 overflow: 0.981 HPWL: 3128586
+[NesterovSolve] Iter:  140 overflow: 0.973 HPWL: 3884560
+[NesterovSolve] Iter:  150 overflow: 0.964 HPWL: 4766588
+[NesterovSolve] Iter:  160 overflow: 0.951 HPWL: 5794406
+[NesterovSolve] Iter:  170 overflow: 0.934 HPWL: 6992643
+[NesterovSolve] Iter:  180 overflow: 0.911 HPWL: 8359808
+[NesterovSolve] Iter:  190 overflow: 0.880 HPWL: 9817767
+[NesterovSolve] Iter:  200 overflow: 0.843 HPWL: 11290478
+[NesterovSolve] Iter:  210 overflow: 0.805 HPWL: 12729290
+[NesterovSolve] Iter:  220 overflow: 0.758 HPWL: 14207674
+[NesterovSolve] Iter:  230 overflow: 0.706 HPWL: 15587777
+[NesterovSolve] Iter:  240 overflow: 0.662 HPWL: 16849217
+[NesterovSolve] Iter:  250 overflow: 0.616 HPWL: 18255941
+[NesterovSolve] Iter:  260 overflow: 0.570 HPWL: 19755475
+[NesterovSolve] Iter:  270 overflow: 0.525 HPWL: 20982667
+[NesterovSolve] Iter:  280 overflow: 0.484 HPWL: 21927424
+[NesterovSolve] Iter:  290 overflow: 0.446 HPWL: 22799654
+[NesterovSolve] Iter:  300 overflow: 0.411 HPWL: 23495113
+[NesterovSolve] Iter:  310 overflow: 0.381 HPWL: 23911972
+[NesterovSolve] Iter:  320 overflow: 0.357 HPWL: 24076428
+[NesterovSolve] Iter:  330 overflow: 0.329 HPWL: 24142370
+[NesterovSolve] Iter:  340 overflow: 0.314 HPWL: 24186093
+[NesterovSolve] Iter:  350 overflow: 0.297 HPWL: 24281561
+[NesterovSolve] Iter:  360 overflow: 0.277 HPWL: 24315283
+[NesterovSolve] Iter:  370 overflow: 0.256 HPWL: 24439830
+[NesterovSolve] Iter:  380 overflow: 0.236 HPWL: 24552417
+[NesterovSolve] Iter:  390 overflow: 0.217 HPWL: 24714298
+[NesterovSolve] Iter:  400 overflow: 0.195 HPWL: 24848617
+[NesterovSolve] Iter:  410 overflow: 0.176 HPWL: 25005946
+[NesterovSolve] Iter:  420 overflow: 0.155 HPWL: 25172532
+[NesterovSolve] Iter:  430 overflow: 0.133 HPWL: 25342570
+[NesterovSolve] Iter:  440 overflow: 0.115 HPWL: 25441635
+[NesterovSolve] Finished with Overflow: 0.098627
+Elapsed time: 0:01.47[h:]min:sec. CPU time: user 1.50 sys 0.05 (106%). Peak memory: 104360KB.
+Running io_placement.tcl, stage 3_2_place_iop
+place_pins -hor_layer metal5 -ver_layer metal6
+Found 0 macro blocks.
+Using 2 tracks default min distance between IO pins.
+[INFO PPL-0010] Tentative 0 to set up sections.
+[INFO PPL-0001] Number of slots           592
+[INFO PPL-0002] Number of I/O             108
+[INFO PPL-0003] Number of I/O w/sink      92
+[INFO PPL-0004] Number of I/O w/o sink    16
+[INFO PPL-0005] Slots per section         200
+[INFO PPL-0006] Slots increase factor     0.01
+[INFO PPL-0008] Successfully assigned pins to sections.
+[INFO PPL-0012] I/O nets HPWL: 3299.20 um.
+Elapsed time: 0:00.42[h:]min:sec. CPU time: user 0.39 sys 0.05 (105%). Peak memory: 100080KB.
+Running global_place.tcl, stage 3_3_place_gp
+[INFO GPL-0002] DBU: 2000
+[INFO GPL-0003] SiteSize: (  0.190  1.400 ) um
+[INFO GPL-0004] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0006] NumInstances:              3504
+[INFO GPL-0007] NumPlaceInstances:         3388
+[INFO GPL-0008] NumFixedInstances:          116
+[INFO GPL-0009] NumDummyInstances:            0
+[INFO GPL-0010] NumNets:                   3498
+[INFO GPL-0011] NumPins:                  10381
+[INFO GPL-0012] DieBBox:  (  0.000  0.000 ) ( 83.765 83.765 ) um
+[INFO GPL-0013] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0016] CoreArea:              6618.612 um^2
+[INFO GPL-0017] NonPlaceInstsArea:       30.856 um^2
+[INFO GPL-0018] PlaceInstsArea:        3547.908 um^2
+[INFO GPL-0019] Util:                    53.856 %
+[INFO GPL-0020] StdInstsArea:          3547.908 um^2
+[INFO GPL-0021] MacroInstsArea:           0.000 um^2
+[INFO GPL-0031] FillerInit:NumGCells:      6481
+[INFO GPL-0032] FillerInit:NumGNets:       3498
+[INFO GPL-0033] FillerInit:NumGPins:      10381
+[INFO GPL-0023] TargetDensity:            1.000
+[INFO GPL-0024] AvrgPlaceInstArea:        1.047 um^2
+[INFO GPL-0025] IdealBinArea:             1.047 um^2
+[INFO GPL-0026] IdealBinCnt:               6320
+[INFO GPL-0027] TotalBinArea:          6618.612 um^2
+[INFO GPL-0028] BinCnt:        64     64
+[INFO GPL-0029] BinSize: (  1.274  1.269 )
+[INFO GPL-0030] NumBins: 4096
+global_placement -density 0.6408487415313721 -pad_left 0 -pad_right 0 -routability_driven -timing_driven
+[INFO GPL-0002] DBU: 2000
+[INFO GPL-0003] SiteSize: (  0.190  1.400 ) um
+[INFO GPL-0004] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0006] NumInstances:              3504
+[INFO GPL-0007] NumPlaceInstances:         3388
+[INFO GPL-0008] NumFixedInstances:          116
+[INFO GPL-0009] NumDummyInstances:            0
+[INFO GPL-0010] NumNets:                   3498
+[INFO GPL-0011] NumPins:                  10381
+[INFO GPL-0012] DieBBox:  (  0.000  0.000 ) ( 83.765 83.765 ) um
+[INFO GPL-0013] CoreBBox: (  1.140  1.400 ) ( 82.650 82.600 ) um
+[INFO GPL-0016] CoreArea:              6618.612 um^2
+[INFO GPL-0017] NonPlaceInstsArea:       30.856 um^2
+[INFO GPL-0018] PlaceInstsArea:        3547.908 um^2
+[INFO GPL-0019] Util:                    53.856 %
+[INFO GPL-0020] StdInstsArea:          3547.908 um^2
+[INFO GPL-0021] MacroInstsArea:           0.000 um^2
+[InitialPlace]  Iter: 1 CG residual: 0.00000871 HPWL: 44539056
+[InitialPlace]  Iter: 2 CG residual: 0.00000238 HPWL: 28089233
+[InitialPlace]  Iter: 3 CG residual: 0.00000073 HPWL: 28027136
+[InitialPlace]  Iter: 4 CG residual: 0.00000473 HPWL: 28011242
+[InitialPlace]  Iter: 5 CG residual: 0.00000032 HPWL: 27947033
+[INFO GPL-0031] FillerInit:NumGCells:      4073
+[INFO GPL-0032] FillerInit:NumGNets:       3498
+[INFO GPL-0033] FillerInit:NumGPins:      10381
+[INFO GPL-0023] TargetDensity:            0.641
+[INFO GPL-0024] AvrgPlaceInstArea:        1.047 um^2
+[INFO GPL-0025] IdealBinArea:             1.634 um^2
+[INFO GPL-0026] IdealBinCnt:               4050
+[INFO GPL-0027] TotalBinArea:          6618.612 um^2
+[INFO GPL-0028] BinCnt:        32     32
+[INFO GPL-0029] BinSize: (  2.547  2.538 )
+[INFO GPL-0030] NumBins: 1024
+[NesterovSolve] Iter:    1 overflow: 0.947 HPWL: 14680923
+[NesterovSolve] Iter:   10 overflow: 0.885 HPWL: 17324216
+[NesterovSolve] Iter:   20 overflow: 0.841 HPWL: 18966217
+[NesterovSolve] Iter:   30 overflow: 0.813 HPWL: 20070479
+[NesterovSolve] Iter:   40 overflow: 0.791 HPWL: 20654923
+[INFO GPL-0100] worst slack -6.17e-10
+[INFO GPL-0103] Weighted 346 nets.
+[NesterovSolve] Iter:   50 overflow: 0.780 HPWL: 20987520
+[NesterovSolve] Iter:   60 overflow: 0.778 HPWL: 21056603
+[NesterovSolve] Iter:   70 overflow: 0.779 HPWL: 20976093
+[NesterovSolve] Iter:   80 overflow: 0.783 HPWL: 20800952
+[NesterovSolve] Iter:   90 overflow: 0.789 HPWL: 20627962
+[NesterovSolve] Iter:  100 overflow: 0.791 HPWL: 20509662
+[NesterovSolve] Iter:  110 overflow: 0.792 HPWL: 20485927
+[NesterovSolve] Iter:  120 overflow: 0.790 HPWL: 20552137
+[NesterovSolve] Iter:  130 overflow: 0.787 HPWL: 20679257
+[NesterovSolve] Iter:  140 overflow: 0.782 HPWL: 20838280
+[NesterovSolve] Iter:  150 overflow: 0.776 HPWL: 21024929
+[NesterovSolve] Iter:  160 overflow: 0.768 HPWL: 21254460
+[NesterovSolve] Iter:  170 overflow: 0.758 HPWL: 21561673
+[NesterovSolve] Iter:  180 overflow: 0.739 HPWL: 21996907
+[NesterovSolve] Iter:  190 overflow: 0.715 HPWL: 22598072
+[NesterovSolve] Iter:  200 overflow: 0.684 HPWL: 23359883
+[NesterovSolve] Iter:  210 overflow: 0.644 HPWL: 24217837
+[INFO GPL-0100] worst slack -6.16e-10
+[INFO GPL-0103] Weighted 331 nets.
+[NesterovSolve] Iter:  220 overflow: 0.603 HPWL: 25101720
+[NesterovSolve] Snapshot saved at iter = 220
+[NesterovSolve] Iter:  230 overflow: 0.560 HPWL: 25955232
+[NesterovSolve] Iter:  240 overflow: 0.517 HPWL: 26726281
+[INFO GPL-0100] worst slack -6.19e-10
+[INFO GPL-0103] Weighted 347 nets.
+[NesterovSolve] Iter:  250 overflow: 0.477 HPWL: 27399289
+[NesterovSolve] Iter:  260 overflow: 0.431 HPWL: 27938118
+[NesterovSolve] Iter:  270 overflow: 0.383 HPWL: 28261621
+[NesterovSolve] Iter:  280 overflow: 0.337 HPWL: 28416908
+[NesterovSolve] Iter:  290 overflow: 0.300 HPWL: 28282370
+[INFO GPL-0075] Routability numCall: 1 inflationIterCnt: 1 bloatIterCnt: 0
+[INFO GPL-0036] TileBBox: (    0    0 ) ( 4200 4200 ) DBU
+[INFO GPL-0038] TileCnt:      39   39
+[INFO GPL-0040] NumTiles: 1521
+[INFO GPL-0081] TotalRouteOverflow: 0.06010174751281738
+[INFO GPL-0082] OverflowTileCnt: 1
+[INFO GPL-0083] 0.5%RC: 0.9852981939911842
+[INFO GPL-0084] 1.0%RC: 0.9587416686117649
+[INFO GPL-0085] 2.0%RC: 0.9232943288741573
+[INFO GPL-0086] 5.0%RC: 0.8660891574698609
+[INFO GPL-0087] FinalRC: 0.9720199
+[INFO GPL-0077] FinalRC lower than targetRC(1.01), routability not needed.
+[NesterovSolve] Iter:  300 overflow: 0.283 HPWL: 28282624
+[INFO GPL-0100] worst slack -6.21e-10
+[INFO GPL-0103] Weighted 344 nets.
+[NesterovSolve] Iter:  310 overflow: 0.255 HPWL: 28353327
+[NesterovSolve] Iter:  320 overflow: 0.229 HPWL: 28227270
+[NesterovSolve] Iter:  330 overflow: 0.210 HPWL: 28121370
+[INFO GPL-0100] worst slack -6.22e-10
+[INFO GPL-0103] Weighted 349 nets.
+[NesterovSolve] Iter:  340 overflow: 0.191 HPWL: 28055897
+[NesterovSolve] Iter:  350 overflow: 0.173 HPWL: 27988694
+[NesterovSolve] Iter:  360 overflow: 0.154 HPWL: 28016447
+[INFO GPL-0100] worst slack -6.19e-10
+[INFO GPL-0103] Weighted 349 nets.
+[NesterovSolve] Iter:  370 overflow: 0.134 HPWL: 27949233
+[NesterovSolve] Iter:  380 overflow: 0.120 HPWL: 27948923
+[NesterovSolve] Iter:  390 overflow: 0.107 HPWL: 27938842
+[NesterovSolve] Finished with Overflow: 0.099950
+Report metrics stage 5, global place...
+
+==========================================================================
+global place report_design_area
+--------------------------------------------------------------------------
+Design area 3579 u^2 54% utilization.
+Elapsed time: 0:58.65[h:]min:sec. CPU time: user 357.97 sys 0.94 (611%). Peak memory: 136344KB.
+Running resize.tcl, stage 3_4_place_resized
+Perform port buffering...
+[INFO RSZ-0027] Inserted 82 input buffers.
+[INFO RSZ-0028] Inserted 9 output buffers.
+Perform buffer insertion...
+[INFO RSZ-0058] Using max wire length 634um.
+[INFO RSZ-0039] Resized 822 instances.
+Repair tie lo fanout...
+Repair tie hi fanout...
+Floating nets: 
+Report metrics stage 3, resizer...
+
+==========================================================================
+resizer report_design_area
+--------------------------------------------------------------------------
+Design area 3231 u^2 49% utilization.
+Instance count before 3504, after 3595
+Pin count before 10273, after 10455
+Elapsed time: 0:01.83[h:]min:sec. CPU time: user 1.87 sys 0.05 (105%). Peak memory: 114776KB.
+Running detail_place.tcl, stage 3_5_place_dp
+Placement Analysis
+---------------------------------
+total displacement       3751.1 u
+average displacement        1.0 u
+max displacement            4.0 u
+original HPWL           14232.9 u
+legalized HPWL          17933.7 u
+delta HPWL                   26 %
+
+Detailed placement improvement.
+Importing netlist into detailed improver.
+[INFO DPO-0100] Creating network with 3595 cells, 108 terminals, 3589 edges, 10563 pins, and 0 blockages.
+[INFO DPO-0109] Network stats: inst 3703, edges 3589, pins 10563
+[INFO DPO-0110] Number of regions is 1
+[INFO DPO-0401] Setting random seed to 1.
+[INFO DPO-0402] Setting maximum displacement 5 1 to 14000 2800 units.
+[INFO DPO-0320] Collected 224 fixed cells.
+[INFO DPO-0318] Collected 3479 single height cells.
+[INFO DPO-0321] Collected 0 wide cells.
+[INFO DPO-0322] Image (2280, 2800) - (165300, 165200)
+[INFO DPO-0310] Assigned 3479 cells into segments.  Movement in X-direction is 0.000000, movement in Y-direction is 0.000000.
+[INFO DPO-0313] Found 0 cells in wrong regions.
+[INFO DPO-0315] Found 0 row alignment problems.
+[INFO DPO-0314] Found 0 site alignment problems.
+[INFO DPO-0311] Found 0 overlaps between adjacent cells.
+[INFO DPO-0312] Found 0 edge spacing violations and 0 padding violations.
+[INFO DPO-0303] Running algorithm for independent set matching.
+[INFO DPO-0300] Set matching objective is wirelength.
+[INFO DPO-0301] Pass   1 of matching; objective is 3.584190e+07.
+[INFO DPO-0302] End of matching; objective is 3.554514e+07, improvement is 0.83 percent.
+[INFO DPO-0303] Running algorithm for global swaps.
+[INFO DPO-0306] Pass   1 of global swaps; hpwl is 3.415793e+07.
+[INFO DPO-0306] Pass   2 of global swaps; hpwl is 3.385460e+07.
+[INFO DPO-0307] End of global swaps; objective is 3.385460e+07, improvement is 4.76 percent.
+[INFO DPO-0303] Running algorithm for vertical swaps.
+[INFO DPO-0308] Pass   1 of vertical swaps; hpwl is 3.364770e+07.
+[INFO DPO-0309] End of vertical swaps; objective is 3.364770e+07, improvement is 0.61 percent.
+[INFO DPO-0303] Running algorithm for reordering.
+[INFO DPO-0304] Pass   1 of reordering; objective is 3.323428e+07.
+[INFO DPO-0304] Pass   2 of reordering; objective is 3.318894e+07.
+[INFO DPO-0305] End of reordering; objective is 3.318894e+07, improvement is 1.36 percent.
+[INFO DPO-0303] Running algorithm for random improvement.
+[INFO DPO-0324] Random improver is using displacement generator.
+[INFO DPO-0325] Random improver is using hpwl objective.
+[INFO DPO-0326] Random improver cost string is (a).
+[INFO DPO-0332] End of pass, Generator displacement called 69580 times.
+[INFO DPO-0335] Generator displacement, Cumulative attempts 69580, swaps 13076, moves 20335 since last reset.
+[INFO DPO-0333] End of pass, Objective hpwl, Initial cost 3.318894e+07, Scratch cost 3.257900e+07, Incremental cost 3.257900e+07, Mismatch? N
+[INFO DPO-0338] End of pass, Total cost is 3.257900e+07.
+[INFO DPO-0327] Pass   1 of random improver; improvement in cost is 1.84 percent.
+[INFO DPO-0332] End of pass, Generator displacement called 69580 times.
+[INFO DPO-0335] Generator displacement, Cumulative attempts 139160, swaps 25890, moves 40753 since last reset.
+[INFO DPO-0333] End of pass, Objective hpwl, Initial cost 3.257900e+07, Scratch cost 3.231132e+07, Incremental cost 3.231132e+07, Mismatch? N
+[INFO DPO-0338] End of pass, Total cost is 3.231132e+07.
+[INFO DPO-0327] Pass   2 of random improver; improvement in cost is 0.82 percent.
+[INFO DPO-0328] End of random improver; improvement is 2.644300 percent.
+[INFO DPO-0380] Cell flipping.
+[INFO DPO-0382] Changed 1767 cell orientations for row compatibility.
+[INFO DPO-0383] Performed 1184 cell flips.
+[INFO DPO-0384] End of flipping; objective is 3.297590e+07, improvement is -2.06 percent.
+[INFO DPO-0313] Found 0 cells in wrong regions.
+[INFO DPO-0315] Found 0 row alignment problems.
+[INFO DPO-0314] Found 0 site alignment problems.
+[INFO DPO-0311] Found 0 overlaps between adjacent cells.
+[INFO DPO-0312] Found 0 edge spacing violations and 0 padding violations.
+Detailed Improvement Results
+------------------------------------------
+Original HPWL            17933.7 u
+Final HPWL               15988.8 u
+Delta HPWL                 -10.8 %
+
+[INFO DPL-0020] Mirrored 266 instances
+[INFO DPL-0021] HPWL before           15988.8 u
+[INFO DPL-0022] HPWL after            15971.9 u
+[INFO DPL-0023] HPWL delta               -0.1 %
+[INFO FLW-0012] Placement violations .
+Report metrics stage 3, detailed place...
+
+==========================================================================
+detailed place report_design_area
+--------------------------------------------------------------------------
+Design area 3231 u^2 49% utilization.
+Elapsed time: 0:02.34[h:]min:sec. CPU time: user 2.44 sys 0.03 (105%). Peak memory: 111572KB.
+cp ./results/nangate45/gcd/base/3_5_place_dp.odb ./results/nangate45/gcd/base/3_place.odb
+cp ./results/nangate45/gcd/base/2_floorplan.sdc ./results/nangate45/gcd/base/3_place.sdc
+
+- Moving flow checkpoint out of orfs docker container -- 0f7739e8a9972d9d3d8f06b1a2c80038ac3ff1a1f5530bb3bffe9d30bf4aedda
+
+
+- Cleaning up docker containers and images
+
+0f7739e8a9972d9d3d8f06b1a2c80038ac3ff1a1f5530bb3bffe9d30bf4aedda
+
+- Preparing outputs
+
+flow/
+flow/scripts/
+flow/scripts/klayout.tcl
+flow/scripts/io_placement.tcl
+flow/scripts/final_report.tcl
+flow/scripts/pdn.tcl
+flow/scripts/read_macro_placement.tcl
+flow/scripts/fillcell.tcl
+flow/scripts/save_images.tcl
+flow/scripts/io_placement_random.tcl
+flow/scripts/write_ref_sdc.tcl
+flow/scripts/abc_speed.script
+flow/scripts/synth_metrics.tcl
+flow/scripts/global_place.tcl
+flow/scripts/resize.tcl
+flow/scripts/report_metrics.tcl
+flow/scripts/global_route.tcl
+flow/scripts/sta-synth.tcl
+flow/scripts/write_def.tcl
+flow/scripts/tdms_place.tcl
+flow/scripts/mem_dump.py
+flow/scripts/synth.tcl
+flow/scripts/detail_route.tcl
+flow/scripts/read_liberty.tcl
+flow/scripts/tapcell.tcl
+flow/scripts/deletePowerNets.tcl
+flow/scripts/util.tcl
+flow/scripts/global_place_skip_io.tcl
+flow/scripts/synth_preamble.tcl
+flow/scripts/yosys.tcl
+flow/scripts/cts.tcl
+flow/scripts/deleteNonClkNets.tcl
+flow/scripts/synth_hier_report.tcl
+flow/scripts/floorplan.tcl
+flow/scripts/deleteRoutingObstructions.tcl
+flow/scripts/cdl.tcl
+flow/scripts/abc_area.script
+flow/scripts/noop.tcl
+flow/scripts/macro_place_util.tcl
+flow/scripts/escape.sh
+flow/scripts/add_routing_blk.tcl
+flow/scripts/sc/
+flow/scripts/sc/README.md
+flow/scripts/sc/tools/
+flow/scripts/sc/tools/openroad/
+flow/scripts/sc/tools/openroad/sc_apr.tcl
+flow/scripts/sc/flows/
+flow/scripts/sc/flows/orflow.py
+flow/scripts/sc/util/
+flow/scripts/sc/util/parse_config_mk.py
+flow/scripts/sc/util/parse_target_config.py
+flow/scripts/sc/targets/
+flow/scripts/sc/targets/nangate45_orflow.py
+flow/scripts/sc/targets/asap7_orflow.py
+flow/scripts/sc/targets/sky130hd_orflow.py
+flow/scripts/sc/targets/sky130hs_orflow.py
+flow/scripts/gui.tcl
+flow/scripts/placement_blockages.tcl
+flow/scripts/load.tcl
+flow/scripts/generate_abstract.tcl
+flow/scripts/macro_place.tcl
+flow/scripts/view_cells.tcl
+flow/scripts/detail_place.tcl
+flow/scripts/io_placement_util.tcl
+flow/scripts/density_fill.tcl
+flow/scripts/write_verilog.tcl
+flow/tutorials/
+flow/tutorials/scripts/
+flow/tutorials/scripts/gui/
+flow/tutorials/scripts/gui/load_lef.tcl
+flow/tutorials/scripts/drt/
+flow/tutorials/scripts/drt/helpers.tcl
+flow/tutorials/scripts/drt/drc_fix.tcl
+flow/tutorials/scripts/drt/drc_issue.tcl
+flow/tutorials/scripts/drt/gcd/
+flow/tutorials/scripts/drt/gcd/drc_cts.def
+flow/tutorials/scripts/drt/gcd/gcd.sdc
+flow/tutorials/scripts/drt/gcd/4_cts.def
+flow/tutorials/scripts/metal_fill/
+flow/tutorials/scripts/metal_fill/5_route.odb
+flow/tutorials/scripts/metal_fill/metal_fill.tcl
+flow/tutorials/scripts/metal_fill/helpers.tcl
+flow/tutorials/README.md
+flow/Makefile.py
+flow/platforms/
+flow/platforms/nangate45/
+flow/platforms/nangate45/FreePDK45.lyt
+flow/platforms/nangate45/fakeram.tcl
+flow/platforms/nangate45/grid_strategy-M1-M4-M7.tcl
+flow/platforms/nangate45/setRC.tcl
+flow/platforms/nangate45/FreePDK45.lyp
+flow/platforms/nangate45/README.md
+flow/platforms/nangate45/work_around_yosys/
+flow/platforms/nangate45/work_around_yosys/cells.v
+flow/platforms/nangate45/rcx_patterns.rules
+flow/platforms/nangate45/tapcell.tcl
+flow/platforms/nangate45/drc/
+flow/platforms/nangate45/drc/FreePDK45.lydrc
+flow/platforms/nangate45/make_tracks.tcl
+flow/platforms/nangate45/lib/
+flow/platforms/nangate45/lib/fakeram45_64x64.lib
+flow/platforms/nangate45/lib/fakeram45_2048x39.lib
+flow/platforms/nangate45/lib/fakeram45_32x32.lib
+flow/platforms/nangate45/lib/fakeram45_256x95.lib
+flow/platforms/nangate45/lib/fakeram45_64x7.lib
+flow/platforms/nangate45/lib/fakeram45_512x64.lib
+flow/platforms/nangate45/lib/fakeram45_128x116.lib
+flow/platforms/nangate45/lib/fakeram45_256x48.lib
+flow/platforms/nangate45/lib/fakeram45_64x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x15.lib
+flow/platforms/nangate45/lib/fakeram45_64x21.lib
+flow/platforms/nangate45/lib/fakeram45_128x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x124.lib
+flow/platforms/nangate45/lib/fakeram45_128x256.lib
+flow/platforms/nangate45/lib/NangateOpenCellLibrary_typical.lib
+flow/platforms/nangate45/lib/fakeram45_1024x32.lib
+flow/platforms/nangate45/lib/fakeram45_32x64.lib
+flow/platforms/nangate45/lib/fakeram45_256x34.lib
+flow/platforms/nangate45/lib/fakeram45_256x96.lib
+flow/platforms/nangate45/lib/fakeram45_64x96.lib
+flow/platforms/nangate45/lib/fakeram45_256x16.lib
+flow/platforms/nangate45/lib/fakeram45_256x32.lib
+flow/platforms/nangate45/lib/fakeram45_64x62.lib
+flow/platforms/nangate45/cells_latch.v
+flow/platforms/nangate45/fakeram.cfg
+flow/platforms/nangate45/magic.tech
+flow/platforms/nangate45/cells_clkgate.v
+flow/platforms/nangate45/LICENSE
+flow/platforms/nangate45/fastroute.tcl
+flow/platforms/nangate45/gds/
+flow/platforms/nangate45/gds/NangateOpenCellLibrary.gds
+flow/platforms/nangate45/template_pga.cfg
+flow/platforms/nangate45/config.mk
+flow/platforms/nangate45/cdl/
+flow/platforms/nangate45/cdl/NangateOpenCellLibrary.cdl
+flow/platforms/nangate45/cells_adders.v
+flow/platforms/nangate45/lef/
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.mod.lef
+flow/platforms/nangate45/lef/fakeram45_512x64.lef
+flow/platforms/nangate45/lef/fakeram45_256x95.lef
+flow/platforms/nangate45/lef/fakeram45_256x96.lef
+flow/platforms/nangate45/lef/fakeram45_2048x39.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.lef
+flow/platforms/nangate45/lef/fakeram45_64x124.lef
+flow/platforms/nangate45/lef/fakeram45_256x34.lef
+flow/platforms/nangate45/lef/fakeram45_64x62.lef
+flow/platforms/nangate45/lef/fakeram45_32x64.lef
+flow/platforms/nangate45/lef/fakeram45_64x21.lef
+flow/platforms/nangate45/lef/fakeram45_1024x32.lef
+flow/platforms/nangate45/lef/fakeram45_128x116.lef
+flow/platforms/nangate45/lef/fakeram45_64x7.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.macro.rect.lef
+flow/platforms/nangate45/lef/fakeram45_32x32.lef
+flow/platforms/nangate45/lef/NangateOpenCellLibrary.tech.lef
+flow/platforms/nangate45/lef/fakeram45_64x96.lef
+flow/platforms/nangate45/lef/fakeram45_256x48.lef
+flow/platforms/nangate45/lef/fakeram45_64x32.lef
+flow/platforms/nangate45/lef/fakeram45_256x32.lef
+flow/platforms/nangate45/lef/fakeram45_64x64.lef
+flow/platforms/nangate45/lef/fakeram45_128x256.lef
+flow/platforms/nangate45/lef/fakeram45_256x16.lef
+flow/platforms/nangate45/lef/fakeram45_64x15.lef
+flow/platforms/nangate45/lef/fakeram45_128x32.lef
+flow/platforms/common/
+flow/platforms/common/lcu_kogge_stone.v
+flow/reports/
+flow/reports/nangate45/
+flow/reports/nangate45/gcd/
+flow/reports/nangate45/gcd/base/
+flow/reports/nangate45/gcd/base/synth_check.txt
+flow/reports/nangate45/gcd/base/2_floorplan_final.rpt
+flow/reports/nangate45/gcd/base/5_global_place.rpt
+flow/reports/nangate45/gcd/base/3_resizer.rpt
+flow/reports/nangate45/gcd/base/synth_stat.txt
+flow/reports/nangate45/gcd/base/3_detailed_place.rpt
+flow/util/
+flow/util/gallery.json
+flow/util/plot_floorplan.py
+flow/util/correlateRC.py
+flow/util/generate-vars.sh
+flow/util/genReport.py
+flow/util/addDummyToLef.py
+flow/util/executeParallel.sh
+flow/util/genMassive.py
+flow/util/calPath.py
+flow/util/docker_shell
+flow/util/cell-veneer/
+flow/util/cell-veneer/README.md
+flow/util/cell-veneer/pkgIndex.tcl
+flow/util/cell-veneer/lefdef.tcl
+flow/util/cell-veneer/wrap_stdcells.tcl
+flow/util/cell-veneer/wrap.tcl
+flow/util/distributed.py
+flow/util/genAllRuleFiles.sh
+flow/util/genMetrics.py
+flow/util/checkMetadata.py
+flow/util/genElapsedTime.py
+flow/util/uploadMetadata.py
+flow/util/appendStatsToDb.py
+flow/util/write_net_rc.tcl
+flow/util/viewDrc.py
+flow/util/run.sh
+flow/util/def2stream.py
+flow/util/genReportTable.py
+flow/util/updateRules.py
+flow/util/write_net_rc_script.tcl
+flow/util/utils.mk
+flow/util/calBuffer.py
+flow/util/createGallery.py
+flow/util/mergeLib.pl
+flow/util/makeIssue.sh
+flow/util/convertDrc.py
+flow/util/preprocessLib.py
+flow/util/viewGuide.py
+flow/util/genRuleFile.py
+flow/logs/
+flow/logs/nangate45/
+flow/logs/nangate45/gcd/
+flow/logs/nangate45/gcd/base/
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.json
+flow/logs/nangate45/gcd/base/2_1_floorplan.json
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.json
+flow/logs/nangate45/gcd/base/1_1_yosys.log
+flow/logs/nangate45/gcd/base/3_2_place_iop.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.log
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.json
+flow/logs/nangate45/gcd/base/3_1_place_gp_skip_io.log
+flow/logs/nangate45/gcd/base/3_3_place_gp.log
+flow/logs/nangate45/gcd/base/2_4_floorplan_macro.json
+flow/logs/nangate45/gcd/base/3_3_place_gp.json
+flow/logs/nangate45/gcd/base/3_4_place_resized.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.json
+flow/logs/nangate45/gcd/base/3_2_place_iop.json
+flow/logs/nangate45/gcd/base/3_5_place_dp.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.json
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.log
+flow/logs/nangate45/gcd/base/2_6_floorplan_pdn.log
+flow/logs/nangate45/gcd/base/3_4_place_resized.log
+flow/logs/nangate45/gcd/base/2_2_floorplan_io.log
+flow/logs/nangate45/gcd/base/2_5_floorplan_tapcell.json
+flow/logs/nangate45/gcd/base/2_3_floorplan_tdms.log
+flow/logs/nangate45/gcd/base/2_1_floorplan.log
+flow/results/
+flow/results/nangate45/
+flow/results/nangate45/gcd/
+flow/results/nangate45/gcd/base/
+flow/results/nangate45/gcd/base/3_1_place_gp_skip_io.odb
+flow/results/nangate45/gcd/base/3_3_place_gp.odb
+flow/results/nangate45/gcd/base/3_5_place_dp.odb
+flow/results/nangate45/gcd/base/mem.json
+flow/results/nangate45/gcd/base/1_synth.sdc
+flow/results/nangate45/gcd/base/2_4_floorplan_macro.odb
+flow/results/nangate45/gcd/base/2_6_floorplan_pdn.odb
+flow/results/nangate45/gcd/base/2_5_floorplan_tapcell.odb
+flow/results/nangate45/gcd/base/2_floorplan.sdc
+flow/results/nangate45/gcd/base/1_synth.v
+flow/results/nangate45/gcd/base/1_1_yosys.v
+flow/results/nangate45/gcd/base/2_3_floorplan_tdms.odb
+flow/results/nangate45/gcd/base/2_floorplan.odb
+flow/results/nangate45/gcd/base/3_2_place_iop.odb
+flow/results/nangate45/gcd/base/3_place.sdc
+flow/results/nangate45/gcd/base/clock_period.txt
+flow/results/nangate45/gcd/base/2_2_floorplan_io.odb
+flow/results/nangate45/gcd/base/2_1_floorplan.odb
+flow/results/nangate45/gcd/base/3_place.odb
+flow/results/nangate45/gcd/base/3_4_place_resized.odb
+flow/.gitignore
+flow/test/
+flow/test/test_helper.sh
+flow/test/test_genElapsedTime.py
+flow/test/core_tests.sh
+flow/test/test_delta_debug.sh
+flow/test/test_make_issue.sh
+flow/test/smoke.sh
+flow/test/nodes.txt
+flow/test/.gitignore
+flow/objects/
+flow/objects/nangate45/
+flow/objects/nangate45/gcd/
+flow/objects/nangate45/gcd/base/
+flow/objects/nangate45/gcd/base/copyright.txt
+flow/objects/nangate45/gcd/base/abc.constr
+flow/objects/nangate45/gcd/base/lib/
+flow/objects/nangate45/gcd/base/lib/NangateOpenCellLibrary_typical.lib
+flow/Makefile
+flow/designs/
+flow/designs/nangate45/
+flow/designs/nangate45/gcd/
+flow/designs/nangate45/gcd/rules-base.json
+flow/designs/nangate45/gcd/constraint.sdc
+flow/designs/nangate45/gcd/metadata-base-ok.json
+flow/designs/nangate45/gcd/config.mk
+flow/designs/src/
+flow/designs/src/gcd/
+flow/designs/src/gcd/README.md
+flow/designs/src/gcd/gcd.v

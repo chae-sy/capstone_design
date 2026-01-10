@@ -1,0 +1,14 @@
+build_dir: 1-orfs-design
+build_id: '1'
+commands:
+- mkdir -p outputs && cd outputs
+- ln -sf ../orfs-design
+edges_i: {}
+edges_o:
+  orfs-design:
+  - f: orfs-design
+    node: 3-orfs-yosys-synthesis
+name: orfs-design
+outputs:
+- orfs-design
+source: /home/sychae/cuda-vscode/mflowgen/designs/GcdUnit/orfs-design
